@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== AUTH: Welcome Screen ===== -->
+        <div class="screen screen-welcome active" data-screen="welcome">
+          <!-- Background video layer -->
+          <div class="welcome-bg">
+            <video src="../../assets/vid/welcome-background.mp4" class="bg-video" autoplay loop muted playsinline></video>
+            <div class="welcome-overlay"></div>
+          </div>
+
+          <!-- Status bar (white icons) -->
+          <div class="welcome-status-bar">
+            <span class="status-time">9:41</span>
+            <div class="status-icons">
+              <iconify-icon icon="solar:signal-bold-duotone" width="16" style="color:#fff"></iconify-icon>
+              <iconify-icon icon="solar:wi-fi-bold-duotone" width="16" style="color:#fff"></iconify-icon>
+              <iconify-icon icon="solar:battery-full-bold-duotone" width="16" style="color:#fff"></iconify-icon>
+            </div>
+          </div>
+
+          <!-- Logo section -->
+          <div class="welcome-logo-section">
+            <img src="../../assets/strivio_logo.svg" alt="Strivio" class="welcome-logo-img">
+          </div>
+
+          <!-- Bottom action section -->
+          <div class="welcome-actions">
+            <button class="btn-welcome-email" onclick="navigateTo('register')">
+              <iconify-icon icon="solar:letter-bold" style="color:#ffffff" width="20"></iconify-icon>
+              Sign Up with Email
+            </button>
+
+            <div class="divider-or divider-white"><span>OR</span></div>
+
+            <button class="sso-btn sso-btn-google" onclick="ssoDemo('google')">
+              <iconify-icon icon="logos:google-icon" width="20"></iconify-icon>
+              Sign up with Google
+            </button>
+
+            <button class="sso-btn sso-btn-apple" onclick="ssoDemo('apple')">
+              <iconify-icon icon="solar:apple-bold-duotone" width="20"></iconify-icon>
+              Sign up with Apple
+            </button>
+
+            <div class="welcome-login-link">
+              Already have an account? <a onclick="navigateTo('login')">Log In</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var video = document.querySelector('.bg-video');
+      if (video) video.play().catch(function () {});
+    });
+  </script>
+</body>
+
+</html>

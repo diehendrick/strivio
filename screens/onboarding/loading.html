@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- SCREEN 19: Plan Generation (Loading) -->
+        <div class="screen screen-loading active" data-screen="loading">
+          <div class="loading-content">
+            <div class="loading-logo">
+              <div class="logo-pulse"></div>
+              <svg viewBox="0 0 80 80" fill="none" width="80" height="80"><circle cx="40" cy="40" r="36" stroke="#1A2B4A" stroke-width="3" opacity="0.15"/><path d="M40 4a36 36 0 0136 36" stroke="#1A2B4A" stroke-width="3" stroke-linecap="round" class="spin-arc"/></svg>
+            </div>
+            <h2 class="loading-title">Building Your Plan...</h2>
+            <p class="loading-desc">Your coach is putting together a personalized workout and nutrition plan based on your goals.</p>
+            <div class="loading-steps" id="loadingSteps">
+              <div class="loading-step completed"><span class="step-icon">&#x2713;</span><span class="step-text">Your profile is ready</span></div>
+              <div class="loading-step completed"><span class="step-icon">&#x2713;</span><span class="step-text">Nutrition targets calculated</span></div>
+              <div class="loading-step active"><span class="step-icon spinner"></span><span class="step-text">Generating workout schedule...</span></div>
+              <div class="loading-step pending"><span class="step-icon">&#x25CB;</span><span class="step-text">Final plan review</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== WORKOUT TAB: Edit Workout ===== -->
+        <div class="screen screen-workout-build active" data-screen="workout-edit">
+          <div class="wk-nav-header">
+            <button class="wk-back-btn" onclick="goBack()"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
+            <span class="wk-nav-title">Edit Workout</span>
+          </div>
+          <div class="wk-build-added" id="wkEditAdded" style="display:block">
+            <div class="wk-build-added-header">
+              <span>Exercises (<span id="wkEditCount">0</span>)</span>
+            </div>
+            <div class="wk-build-added-list" id="wkEditAddedList">
+              <!-- Dynamically rendered -->
+            </div>
+          </div>
+          <div class="wk-build-search">
+            <div class="wk-search-wrap" style="margin:0">
+              <iconify-icon icon="solar:magnifer-bold-duotone" width="18" class="wk-search-icon"></iconify-icon>
+              <input type="text" class="wk-search-input" placeholder="Search exercises..." id="wkEditSearch">
+            </div>
+          </div>
+          <div class="wk-build-exercise-list" id="wkEditExList">
+            <!-- Dynamically rendered -->
+          </div>
+          <div class="wk-build-actions">
+            <button class="btn-primary" onclick="saveEditChanges()">Save Changes</button>
+            <button class="wk-discard-btn" onclick="goBack()">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

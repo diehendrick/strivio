@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- SCREEN 17: Cross-Question Conflict Resolution -->
+        <div class="screen active" data-screen="conflicts">
+          <div class="question-content">
+            <div class="question-icon conflict-icon">
+              <img src="../../assets/svg_icons/alert.svg" alt="" style="width:32px;height:32px">
+            </div>
+            <h2 class="question-title">Let's Review Your Answers</h2>
+            <p class="question-helper">A few of your answers seem to conflict. Let's make sure everything looks right.</p>
+            <div class="conflict-cards" id="conflictCards"></div>
+          </div>
+          <div class="cta-section">
+            <button class="btn-primary" onclick="navigateTo('coach')">All looks good, continue</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

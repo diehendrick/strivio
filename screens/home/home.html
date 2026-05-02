@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- SCREEN 21: Home Tracking Tab -->
+        <div class="screen screen-home active" data-screen="home">
+          <div class="tracking-content">
+            <!-- Status Bar -->
+            <div class="status-bar">
+              <span class="status-time">9:41</span>
+              <div class="status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" />
+                  <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z"
+                    fill="#0f172a" />
+                  <path
+                    d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z"
+                    fill="#0f172a" />
+                  <circle cx="8" cy="11" r="2" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" />
+                  <rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" />
+                  <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Header -->
+            <div class="tracking-header">
+              <div class="header-left">
+                <div class="header-avatar" id="headerAvatar">
+                  <img src="../../assets/img/profile.jpg" alt="Profile">
+                </div>
+                <div class="header-info">
+                  <h1 class="header-name" id="headerName">Mike Michel</h1>
+                  <p class="header-date" id="headerDate">Tuesday, Apr 24</p>
+                </div>
+              </div>
+              <div class="streak-badge">
+                <div class="streak-pill">
+                  <img src="../../assets/svg_icons/flame.svg" class="icon-coral" width="20" height="20" alt="">
+                  <span class="streak-number" id="streakNumber">7</span>
+                </div>
+                <span class="streak-label">Day Streak</span>
+              </div>
+            </div>
+
+            <!-- Tab Bar -->
+            <div class="tab-bar-wrap">
+              <div class="tab-bar">
+                <button class="tab-item active" data-tab="tracking">Tracking</button>
+                <button class="tab-item" data-tab="workouts" onclick="navigateTo('workout')">Workouts</button>
+              </div>
+            </div>
+
+            <!-- Tracking Cards -->
+            <div class="tracking-scroll-wrapper">
+              <!-- Daily Overview Card -->
+              <div class="overview-card">
+                <div class="calorie-ring-section">
+                  <div class="calorie-side">
+                    <span class="calorie-side-value" id="calRemaining">1160</span>
+                    <span class="calorie-side-label">Remaining</span>
+                  </div>
+                  <div class="calorie-ring">
+                    <svg viewBox="0 0 120 120" class="ring-svg">
+                      <circle cx="60" cy="60" r="52" class="ring-track" />
+                      <circle cx="60" cy="60" r="52" class="ring-progress" id="calorieRing" stroke-dasharray="326.73"
+                        stroke-dashoffset="130.69" />
+                    </svg>
+                    <div class="ring-center">
+                      <span class="ring-value" id="calConsumed">840</span>
+                      <span class="ring-label">Consume</span>
+                    </div>
+                  </div>
+                  <div class="calorie-side">
+                    <span class="calorie-side-value" id="calTarget">2000</span>
+                    <span class="calorie-side-label">Target</span>
+                  </div>
+                </div>
+                <div class="macro-bars">
+                  <div class="macro-item">
+                    <span class="macro-label">Protein</span>
+                    <div class="macro-track">
+                      <div class="macro-fill protein" id="proteinBar" style="width:47%"></div>
+                    </div>
+                    <span class="macro-value" id="proteinValue">56 / 120g</span>
+                  </div>
+                  <div class="macro-item">
+                    <span class="macro-label">Carbs</span>
+                    <div class="macro-track">
+                      <div class="macro-fill carbs" id="carbsBar" style="width:45%"></div>
+                    </div>
+                    <span class="macro-value" id="carbsValue">112 / 250g</span>
+                  </div>
+                  <div class="macro-item">
+                    <span class="macro-label">Fat</span>
+                    <div class="macro-track">
+                      <div class="macro-fill fat" id="fatBar" style="width:40%"></div>
+                    </div>
+                    <span class="macro-value" id="fatValue">28 / 70g</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Metric Cards Grid -->
+              <div class="metric-grid">
+                <div class="metric-card" data-action="weight">
+                  <div class="metric-header">
+                    <span class="metric-title">Weight</span>
+                    <img src="../../assets/svg_icons/weight.svg" width="18" height="18" alt="">
+                  </div>
+                  <div class="metric-body">
+                    <span class="metric-value" id="weightValue">78.2</span>
+                    <span class="metric-unit">Kg</span>
+                  </div>
+                </div>
+                <div class="metric-card" data-action="water">
+                  <div class="metric-header">
+                    <span class="metric-title">Water</span>
+                    <img src="../../assets/svg_icons/water.svg" class="icon-blue" width="18" height="18" alt="">
+                  </div>
+                  <div class="metric-body">
+                    <span class="metric-value" id="waterValue">1,250</span>
+                    <span class="metric-unit" id="waterUnit">/ 2,000 ml</span>
+                  </div>
+                </div>
+                <div class="metric-card" data-action="workout">
+                  <div class="metric-header">
+                    <span class="metric-title">Workout</span>
+                    <img src="../../assets/svg_icons/gym.svg" class="icon-lime" width="18" height="18" alt="">
+                  </div>
+                  <div class="metric-body">
+                    <span class="metric-value" id="workoutValue">3/6</span>
+                    <span class="metric-unit">Workouts</span>
+                  </div>
+                </div>
+                <div class="metric-card" data-action="steps">
+                  <div class="metric-header">
+                    <span class="metric-title">Steps</span>
+                    <img src="../../assets/svg_icons/shoe.svg" class="icon-aqua" width="18" height="18" alt="">
+                  </div>
+                  <div class="metric-body">
+                    <span class="metric-value" id="stepsValue">6,824</span>
+                    <span class="metric-unit" id="stepsUnit">/ 10,000 Stp</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Burn Calories Card -->
+              <div class="burn-card">
+                <div class="burn-header">
+                  <span class="burn-title">Burn Calories</span>
+                </div>
+                <div class="burn-body">
+                  <div class="burn-icon">
+                    <img src="../../assets/svg_icons/flame.svg" class="icon-coral" width="38" height="38" alt="">
+                  </div>
+                  <div class="burn-info">
+                    <div class="burn-main">
+                      <span class="burn-value" id="burnValue">2,180</span>
+                      <span class="burn-unit">kcal</span>
+                    </div>
+                    <span class="burn-detail">BMR: 1,650 &bull; Activity: 530</span>
+                  </div>
+                  <div class="burn-sparkline">
+                    <svg viewBox="0 0 93 40" class="sparkline-svg">
+                      <polyline class="sparkline-line" points="1,28 16,32 31,21 47,29 62,32 77,13 93,2" />
+                      <circle cx="1" cy="28" r="2" class="sparkline-dot" />
+                      <circle cx="16" cy="32" r="2" class="sparkline-dot" />
+                      <circle cx="31" cy="21" r="2" class="sparkline-dot" />
+                      <circle cx="47" cy="29" r="2" class="sparkline-dot" />
+                      <circle cx="62" cy="32" r="2" class="sparkline-dot" />
+                      <circle cx="77" cy="13" r="2" class="sparkline-dot" />
+                      <circle cx="93" cy="2" r="2.5" class="sparkline-dot sparkline-dot-active" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="bottom-nav">
+              <button class="nav-item active" data-nav="home" onclick="navigateTo('home')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7F7CF0" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round" class="nav-icon">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                  <polyline points="9,22 9,12 15,12 15,22" />
+                </svg>
+                <div class="nav-indicator"></div>
+              </button>
+              <button class="nav-item" data-nav="logbook" onclick="navigateTo('logbook')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round" class="nav-icon">
+                  <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
+                  <line x1="8" y1="7" x2="16" y2="7" />
+                  <line x1="8" y1="11" x2="14" y2="11" />
+                </svg>
+              </button>
+              <button class="nav-fab" id="fabButton">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"
+                  stroke-linecap="round" class="nav-fab-icon">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </button>
+              <button class="nav-item" data-nav="coach" onclick="navigateTo('workout')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round" class="nav-icon">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
+                  <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+              </button>
+              <button class="nav-item" data-nav="more">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round" class="nav-icon">
+                  <circle cx="12" cy="12" r="1" fill="#64748b" />
+                  <circle cx="19" cy="12" r="1" fill="#64748b" />
+                  <circle cx="5" cy="12" r="1" fill="#64748b" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Track Your Progress Bottom Sheet (FAB) -->
+            <div class="bottom-sheet" id="sheetTrack">
+              <div class="sheet-backdrop" data-close="sheetTrack"></div>
+              <div class="sheet-content sheet-track-content">
+                <div class="sheet-handle"></div>
+                <div class="sheet-track-header">
+                  <h3 class="sheet-track-title">Track Your Progress</h3>
+                  <button class="sheet-track-close" data-close="sheetTrack">
+                    <img src="../../assets/svg_icons/circle-x.svg" class="icon-default" width="24" height="24" alt="">
+                  </button>
+                </div>
+                <div class="sheet-track-list">
+                  <button class="track-list-card" data-action="build-workout">
+                    <img src="../../assets/svg_icons/dumbbell-ray.svg" width="22" height="22" alt=""
+                      class="track-card-icon">
+                    <div class="track-card-text">
+                      <span class="track-card-title">Build Workout</span>
+                      <span class="track-card-desc">Create a custom workout</span>
+                    </div>
+                  </button>
+                  <button class="track-list-card" data-action="log-activity">
+                    <img src="../../assets/svg_icons/journal-alt.svg" width="22" height="22" alt=""
+                      class="track-card-icon">
+                    <div class="track-card-text">
+                      <span class="track-card-title">Log Activity</span>
+                      <span class="track-card-desc">Manually log a workout</span>
+                    </div>
+                  </button>
+                  <button class="track-list-card" data-action="log-weight">
+                    <img src="../../assets/svg_icons/weight.svg" width="22" height="22" alt="" class="track-card-icon">
+                    <div class="track-card-text">
+                      <span class="track-card-title">Log Weight</span>
+                      <span class="track-card-desc">Log body mass metrics</span>
+                    </div>
+                  </button>
+                  <button class="track-list-card" data-action="water-log">
+                    <img src="../../assets/svg_icons/glass-water-droplet.svg" width="22" height="22" alt=""
+                      class="track-card-icon">
+                    <div class="track-card-text">
+                      <span class="track-card-title">Water Log</span>
+                      <span class="track-card-desc">Track your water intake</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Sheet: Weight -->
+            <div class="bottom-sheet" id="sheetWeight">
+              <div class="sheet-backdrop" data-close="sheetWeight"></div>
+              <div class="sheet-content">
+                <div class="sheet-handle"></div>
+                <div class="sheet-header">
+                  <h3 class="sheet-title">Weight</h3>
+                  <button class="sheet-close" data-close="sheetWeight">
+                    <img src="../../assets/svg_icons/circle-x.svg" class="icon icon-default" width="24" alt="">
+                  </button>
+                </div>
+                <div class="sheet-body">
+                  <div class="weight-current">
+                    <span class="weight-big">78.2</span>
+                    <span class="weight-unit">kg</span>
+                    <div class="weight-trend down">
+                      <img src="../../assets/svg_icons/arrow-small-down.svg" width="16" alt="">
+                      <span>0.3 kg</span>
+                    </div>
+                  </div>
+                  <p class="weight-logged">Logged 2 days ago</p>
+                  <div class="weight-history-chart">
+                    <svg viewBox="0 0 297 89" class="weight-chart-svg">
+                      <!-- Grid line -->
+                      <line x1="0" y1="44" x2="297" y2="44" stroke="#f1f5f9" stroke-width="1" />
+                      <!-- Sparkline area fill -->
+                      <path d="M0,60 C25,57 40,55 49,55 C70,50 90,50 99,50 C120,51 140,52 149,52 C170,48 190,45 199,45 C220,42 240,40 249,40 C270,39 290,38 297,38 L297,80 L0,80 Z" fill="url(#weightGradient)" opacity="0.15" />
+                      <!-- Sparkline -->
+                      <polyline points="0,60 49,55 99,50 149,52 199,45 249,40 297,38" stroke="#7f7cf0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                      <!-- Dots -->
+                      <circle cx="0" cy="60" r="3" fill="#7f7cf0" opacity="0.4" />
+                      <circle cx="49" cy="55" r="3" fill="#7f7cf0" opacity="0.4" />
+                      <circle cx="99" cy="50" r="3" fill="#7f7cf0" opacity="0.4" />
+                      <circle cx="149" cy="52" r="3" fill="#7f7cf0" opacity="0.4" />
+                      <circle cx="199" cy="45" r="3" fill="#7f7cf0" opacity="0.4" />
+                      <circle cx="249" cy="40" r="3" fill="#7f7cf0" opacity="0.4" />
+                      <circle cx="297" cy="38" r="3.5" fill="#7f7cf0" />
+                      <!-- Day labels -->
+                      <text x="0" y="88" class="chart-label">Mon</text>
+                      <text x="49" y="88" class="chart-label">Tue</text>
+                      <text x="99" y="88" class="chart-label">Wed</text>
+                      <text x="149" y="88" class="chart-label">Thu</text>
+                      <text x="199" y="88" class="chart-label">Fri</text>
+                      <text x="249" y="88" class="chart-label">Sat</text>
+                      <text x="281" y="88" class="chart-label chart-label-today">Today</text>
+                      <defs>
+                        <linearGradient id="weightGradient" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="#7f7cf0" />
+                          <stop offset="100%" stop-color="#7f7cf0" stop-opacity="0" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                  <div class="weight-input-section">
+                    <label class="weight-input-label">Log new weight</label>
+                    <div class="weight-input-field">
+                      <input type="number" class="weight-input" placeholder="0" step="0.1" min="30" max="300" />
+                      <span class="weight-input-unit">kg</span>
+                    </div>
+                    <button class="weight-save-btn">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Sheet: Water -->
+            <div class="bottom-sheet" id="sheetWater">
+              <div class="sheet-backdrop" data-close="sheetWater"></div>
+              <div class="sheet-content">
+                <!-- Main Water View -->
+                <div class="water-main-view" id="waterMainView">
+                  <div class="sheet-handle"></div>
+                  <div class="sheet-header">
+                    <h3 class="sheet-title">Water Intake</h3>
+                    <div class="water-header-actions">
+                      <button class="water-settings-gear" id="waterSettingsGear">
+                        <img src="../../assets/svg_icons/settings.svg" width="24" alt="">
+                      </button>
+                      <button class="sheet-close" data-close="sheetWater">
+                        <img src="../../assets/svg_icons/circle-x.svg" class="icon icon-default" width="24" alt="">
+                      </button>
+                    </div>
+                  </div>
+                  <div class="sheet-body">
+                    <div class="water-visual">
+                      <div class="water-ring">
+                        <svg viewBox="0 0 100 100" class="water-ring-svg">
+                          <circle cx="50" cy="50" r="42" class="ring-track" />
+                          <circle cx="50" cy="50" r="42" class="ring-progress water-ring-fill" stroke-dasharray="263.89"
+                            stroke-dashoffset="98.96" />
+                        </svg>
+                        <div class="water-ring-center">
+                          <span class="water-ring-value">1,250</span>
+                          <span class="water-ring-label">/ 2,000 ml</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="water-quick-actions">
+                      <button class="water-action-btn minus">
+                        <img src="../../assets/svg_icons/minus.svg" width="16" alt="">
+                        <span>-125 ml</span>
+                      </button>
+                      <button class="water-action-btn plus">
+                        <img src="../../assets/svg_icons/add.svg" width="16" alt="">
+                        <span>+250 ml</span>
+                      </button>
+                    </div>
+                    <div class="water-log-list" id="waterLogList">
+                      <div class="water-log-item">
+                        <img src="../../assets/svg_icons/glass-water-droplet.svg" class="icon-blue" width="18" alt="">
+                        <span class="water-log-amount">250 ml</span>
+                        <span class="water-log-time">8:30 AM</span>
+                      </div>
+                      <div class="water-log-item">
+                        <img src="../../assets/svg_icons/glass-water-droplet.svg" class="icon-blue" width="18" alt="">
+                        <span class="water-log-amount">500 ml</span>
+                        <span class="water-log-time">12:15 PM</span>
+                      </div>
+                      <div class="water-log-item">
+                        <img src="../../assets/svg_icons/glass-water-droplet.svg" class="icon-blue" width="18" alt="">
+                        <span class="water-log-amount">500 ml</span>
+                        <span class="water-log-time">3:45 PM</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Settings View (slides in) -->
+                <div class="water-settings-view" id="waterSettingsView">
+                  <div class="sheet-handle"></div>
+                  <div class="sheet-header">
+                    <button class="water-back-btn" id="waterSettingsBack">
+                      <img src="../../assets/svg_icons/back.svg" width="24" alt="">
+                    </button>
+                    <h3 class="sheet-title">Settings</h3>
+                    <button class="sheet-close" data-close="sheetWater">
+                      <img src="../../assets/svg_icons/circle-x.svg" class="icon icon-default" width="24" alt="">
+                    </button>
+                  </div>
+                  <div class="sheet-body">
+                    <div class="water-settings">
+                      <div class="water-settings-section">
+                        <span class="water-settings-title">Daily Goal</span>
+                        <div class="water-presets water-presets-equal" id="waterGoalPresets">
+                          <button class="water-preset-btn" data-goal="1500">1,500 ml</button>
+                          <button class="water-preset-btn active" data-goal="2000">2,000 ml</button>
+                          <button class="water-preset-btn" data-goal="2500">2,500 ml</button>
+                          <button class="water-preset-btn" data-goal="3000">3,000 ml</button>
+                        </div>
+                        <div class="water-custom-field">
+                          <input type="number" id="waterCustomGoal" placeholder="0" min="500" max="5000" step="100">
+                          <span class="water-custom-unit">ml</span>
+                        </div>
+                      </div>
+                      <div class="water-settings-section">
+                        <span class="water-settings-title">Per Tap Amount</span>
+                        <div class="water-presets water-presets-equal" id="waterStepPresets">
+                          <button class="water-preset-btn" data-step="150">150 ml</button>
+                          <button class="water-preset-btn active" data-step="250">250 ml</button>
+                          <button class="water-preset-btn" data-step="500">500 ml</button>
+                        </div>
+                      </div>
+                      <button class="water-settings-save" id="waterSettingsSave">Save Settings</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Sheet: Steps -->
+            <div class="bottom-sheet" id="sheetSteps">
+              <div class="sheet-backdrop" data-close="sheetSteps"></div>
+              <div class="sheet-content">
+                <div class="sheet-handle"></div>
+                <div class="sheet-header">
+                  <h3 class="sheet-title">Daily Steps</h3>
+                  <button class="sheet-close" data-close="sheetSteps">
+                    <img src="../../assets/svg_icons/circle-x.svg" class="icon icon-default" width="24" alt="">
+                  </button>
+                </div>
+                <div class="sheet-body">
+                  <div class="steps-summary">
+                    <div class="steps-summary-left">
+                      <span class="steps-big">6,824</span>
+                      <span class="steps-goal">/ 10,000 steps</span>
+                    </div>
+                    <span class="steps-pct">68%</span>
+                  </div>
+                  <div class="steps-chart-wrap">
+                    <div class="steps-chart-bars" id="stepsChartBars">
+                      <div class="steps-bar-col">
+                        <span class="steps-bar-val">5,243</span>
+                        <div class="steps-bar-track"><div class="steps-bar-fill" style="height:53%"></div></div>
+                        <span class="steps-bar-day">M</span>
+                      </div>
+                      <div class="steps-bar-col">
+                        <span class="steps-bar-val">7,156</span>
+                        <div class="steps-bar-track"><div class="steps-bar-fill" style="height:72%"></div></div>
+                        <span class="steps-bar-day">T</span>
+                      </div>
+                      <div class="steps-bar-col">
+                        <span class="steps-bar-val">4,089</span>
+                        <div class="steps-bar-track"><div class="steps-bar-fill" style="height:41%"></div></div>
+                        <span class="steps-bar-day">W</span>
+                      </div>
+                      <div class="steps-bar-col">
+                        <span class="steps-bar-val">6,521</span>
+                        <div class="steps-bar-track"><div class="steps-bar-fill" style="height:66%"></div></div>
+                        <span class="steps-bar-day">T</span>
+                      </div>
+                      <div class="steps-bar-col">
+                        <span class="steps-bar-val">8,432</span>
+                        <div class="steps-bar-track"><div class="steps-bar-fill" style="height:85%"></div></div>
+                        <span class="steps-bar-day">F</span>
+                      </div>
+                      <div class="steps-bar-col">
+                        <span class="steps-bar-val">9,876</span>
+                        <div class="steps-bar-track"><div class="steps-bar-fill" style="height:100%"></div></div>
+                        <span class="steps-bar-day">S</span>
+                      </div>
+                      <div class="steps-bar-col today">
+                        <span class="steps-bar-val">6,824</span>
+                        <div class="steps-bar-track"><div class="steps-bar-fill" style="height:69%"></div></div>
+                        <span class="steps-bar-day">T</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="steps-sync">
+                    <img src="../../assets/svg_icons/hearth-rate.svg" class="icon-default" width="14" alt="">
+                    <span>Synced from Apple Health</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Sheet: Burn Calories -->
+            <div class="bottom-sheet" id="sheetBurn">
+              <div class="sheet-backdrop" data-close="sheetBurn"></div>
+              <div class="sheet-content">
+                <div class="sheet-handle"></div>
+                <div class="sheet-header">
+                  <h3 class="sheet-title">Burned Calories</h3>
+                  <button class="sheet-close" data-close="sheetBurn">
+                    <img src="../../assets/svg_icons/circle-x.svg" class="icon icon-default" width="24" alt="">
+                  </button>
+                </div>
+                <div class="sheet-body">
+                  <div class="burn-total">
+                    <img src="../../assets/svg_icons/flame.svg" class="icon" width="40" alt="">
+                    <span class="burn-total-value">2,180</span>
+                    <span class="burn-total-unit">kcal burned today</span>
+                  </div>
+                  <div class="burn-breakdown">
+                    <div class="burn-breakdown-item">
+                      <div class="burn-breakdown-label">
+                        <img src="../../assets/svg_icons/hearth-rate.svg" class="icon" width="18" alt="">
+                        <span>Basal Metabolic Rate</span>
+                      </div>
+                      <span class="burn-breakdown-value">1,650 kcal</span>
+                    </div>
+                    <div class="burn-breakdown-bar bmr" style="width:76%"></div>
+                    <div class="burn-breakdown-item">
+                      <div class="burn-breakdown-label">
+                        <img src="../../assets/svg_icons/running.svg" class="icon" width="18" alt="">
+                        <span>Activity</span>
+                      </div>
+                      <span class="burn-breakdown-value">530 kcal</span>
+                    </div>
+                    <div class="burn-breakdown-bar activity" style="width:24%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Sheet: Nutrition Overview -->
+            <div class="bottom-sheet" id="sheetNutrition">
+              <div class="sheet-backdrop" data-close="sheetNutrition"></div>
+              <div class="sheet-content">
+                <div class="sheet-handle"></div>
+                <div class="sheet-header">
+                  <h3 class="sheet-title">Nutrition Overview</h3>
+                  <button class="sheet-close" data-close="sheetNutrition">
+                    <img src="../../assets/svg_icons/circle-x.svg" class="icon icon-default" width="24" alt="">
+                  </button>
+                </div>
+                <div class="sheet-body">
+                  <div class="nutrition-calorie-section">
+                    <div class="nutrition-calorie-ring">
+                      <svg viewBox="0 0 100 100" class="nut-ring-svg">
+                        <circle cx="50" cy="50" r="42" class="ring-track" />
+                        <circle cx="50" cy="50" r="42" class="ring-progress" stroke-dasharray="263.89"
+                          stroke-dashoffset="153.46" />
+                      </svg>
+                      <div class="nut-ring-center">
+                        <span class="nut-ring-value">840</span>
+                        <span class="nut-ring-label">of 2,000</span>
+                      </div>
+                    </div>
+                    <div class="nutrition-calorie-detail">
+                      <div class="nut-detail-row">
+                        <span class="nut-detail-label">Consumed</span>
+                        <span class="nut-detail-value">840 kcal</span>
+                      </div>
+                      <div class="nut-detail-row">
+                        <span class="nut-detail-label">Remaining</span>
+                        <span class="nut-detail-value" style="color:#7f7cf0">1,160 kcal</span>
+                      </div>
+                      <div class="nut-detail-row">
+                        <span class="nut-detail-label">Target</span>
+                        <span class="nut-detail-value">2,000 kcal</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="nutrition-macros">
+                    <div class="nut-macro-card">
+                      <div class="nut-macro-dot protein"></div>
+                      <div class="nut-macro-info">
+                        <span class="nut-macro-name">Protein</span>
+                        <div class="nut-macro-bar">
+                          <div class="nut-macro-fill" style="width:47%;background:#3b82f6"></div>
+                        </div>
+                        <span class="nut-macro-grams">56 / 120g</span>
+                      </div>
+                    </div>
+                    <div class="nut-macro-card">
+                      <div class="nut-macro-dot carbs"></div>
+                      <div class="nut-macro-info">
+                        <span class="nut-macro-name">Carbs</span>
+                        <div class="nut-macro-bar">
+                          <div class="nut-macro-fill" style="width:45%;background:#f97316"></div>
+                        </div>
+                        <span class="nut-macro-grams">112 / 250g</span>
+                      </div>
+                    </div>
+                    <div class="nut-macro-card">
+                      <div class="nut-macro-dot fat"></div>
+                      <div class="nut-macro-info">
+                        <span class="nut-macro-name">Fat</span>
+                        <div class="nut-macro-bar">
+                          <div class="nut-macro-fill" style="width:40%;background:#7f7cf0"></div>
+                        </div>
+                        <span class="nut-macro-grams">28 / 70g</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+
+</html>

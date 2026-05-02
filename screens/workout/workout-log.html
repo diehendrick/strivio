@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== WORKOUT TAB: Log Activity ===== -->
+        <div class="screen screen-workout-log active" data-screen="workout-log">
+          <div class="wk-nav-header">
+            <button class="wk-back-btn" onclick="goBack()"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
+            <span class="wk-nav-title">Log Activity</span>
+          </div>
+          <div class="wk-log-body">
+            <div class="wk-log-question">What did you do?</div>
+            <div class="wk-log-type-grid" id="wkLogTypeGrid">
+              <button class="wk-log-type-btn" data-type="Running" onclick="selectLogType('Running',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/running.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">Running</span></button>
+              <button class="wk-log-type-btn" data-type="Walking" onclick="selectLogType('Walking',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/walking.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">Walking</span></button>
+              <button class="wk-log-type-btn" data-type="Cycling" onclick="selectLogType('Cycling',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/shoe-prints.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">Cycling</span></button>
+              <button class="wk-log-type-btn" data-type="Swimming" onclick="selectLogType('Swimming',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/water.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">Swimming</span></button>
+              <button class="wk-log-type-btn" data-type="Yoga" onclick="selectLogType('Yoga',this)"><div class="wk-log-type-icon"><iconify-icon icon="solar:stretching-bold-duotone" width="24"></iconify-icon></div><span class="wk-log-type-label">Yoga</span></button>
+              <button class="wk-log-type-btn" data-type="HIIT" onclick="selectLogType('HIIT',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/bolt.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">HIIT</span></button>
+              <button class="wk-log-type-btn" data-type="Hiking" onclick="selectLogType('Hiking',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/endurance.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">Hiking</span></button>
+              <button class="wk-log-type-btn" data-type="Sports" onclick="selectLogType('Sports',this)"><div class="wk-log-type-icon"><iconify-icon icon="solar:football-bold-duotone" width="24"></iconify-icon></div><span class="wk-log-type-label">Sports</span></button>
+              <button class="wk-log-type-btn" data-type="Other" onclick="selectLogType('Other',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/trophy-star.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">Other</span></button>
+            </div>
+            <div class="wk-log-field">
+              <div class="wk-log-field-label">Duration</div>
+              <div class="wk-log-dual-input">
+                <input type="number" class="form-input" id="wkLogDuration" placeholder="30" min="1" max="600">
+                <span class="wk-log-unit">min</span>
+              </div>
+            </div>
+            <div class="wk-log-field">
+              <div class="wk-log-field-label">Distance (optional)</div>
+              <div class="wk-log-dual-input">
+                <input type="number" class="form-input" id="wkLogDistance" placeholder="5" min="0" step="0.1">
+                <span class="wk-log-unit">km</span>
+              </div>
+            </div>
+            <div class="wk-log-field">
+              <div class="wk-log-field-label">Calories (optional)</div>
+              <div class="wk-log-dual-input">
+                <input type="number" class="form-input" id="wkLogCalories" placeholder="250" min="0">
+                <span class="wk-log-unit">kcal</span>
+              </div>
+            </div>
+            <button class="btn-primary" id="wkLogSave" onclick="saveLoggedActivity()" style="margin-top:20px">Save Activity</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

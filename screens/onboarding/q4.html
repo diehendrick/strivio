@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- SCREEN 5: Q4 — Gender -->
+        <div class="screen active" data-screen="q4">
+          <div class="progress-section">
+            <div class="progress-bar"><div class="progress-fill" style="width:26.67%"></div></div>
+            <span class="progress-label">Question 4 of 15</span>
+          </div>
+          <div class="question-content">
+            <div class="question-icon">
+              <img src="../../assets/illustration/option=gender.svg" alt="">
+            </div>
+            <h2 class="question-title">What is your gender?</h2>
+            <p class="question-helper">This helps calculate your calorie and nutrition needs.</p>
+            <div class="option-cards single-select" data-key="gender" id="genderOptions">
+              <div class="option-card" data-value="male"><span class="option-label">Male</span><span class="option-check"></span></div>
+              <div class="option-card" data-value="female"><span class="option-label">Female</span><span class="option-check"></span></div>
+              <div class="option-card" data-value="prefer_not"><span class="option-label">Prefer not to say</span><span class="option-check"></span></div>
+            </div>
+          </div>
+          <div class="cta-section">
+            <button class="btn-primary" id="btnQ4" disabled onclick="saveAndNext('q4','gender','q5')">Continue</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

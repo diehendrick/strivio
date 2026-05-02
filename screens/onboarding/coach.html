@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- SCREEN: Coach Selection -->
+        <div class="screen screen-coach active" data-screen="coach">
+          <div class="coach-content">
+            <div class="coach-heading">
+              <h2 class="coach-title">Choose Your Coach</h2>
+              <p class="coach-subtitle">Your coach will guide your workouts, nutrition, and recovery. Pick someone you connect with.</p>
+            </div>
+            <div class="coach-cards" id="coachCards">
+              <div class="coach-card" data-coach="marcus">
+                <div class="coach-avatar coach-avatar-marcus"><img src="../../assets/img/marcus.jpg" alt="Coach Marcus"></div>
+                <div class="coach-info">
+                  <span class="coach-name">Coach Marcus</span>
+                  <span class="coach-specialty">Strength & Muscle Building</span>
+                  <span class="coach-quote">"I believe in building strong foundations."</span>
+                </div>
+                <div class="coach-radio"></div>
+              </div>
+              <div class="coach-card" data-coach="sara">
+                <div class="coach-avatar coach-avatar-sara"><img src="../../assets/img/sara.jpg" alt="Coach Sara"></div>
+                <div class="coach-info">
+                  <span class="coach-name">Coach Sara</span>
+                  <span class="coach-specialty">Weight Loss & Endurance</span>
+                  <span class="coach-quote">"Small steps lead to big results."</span>
+                </div>
+                <div class="coach-radio"></div>
+              </div>
+              <div class="coach-card" data-coach="lena">
+                <div class="coach-avatar coach-avatar-lena"><img src="../../assets/img/lena.jpg" alt="Coach Lena"></div>
+                <div class="coach-info">
+                  <span class="coach-name">Coach Lena</span>
+                  <span class="coach-specialty">HIIT & Functional Training</span>
+                  <span class="coach-quote">"Every movement counts."</span>
+                </div>
+                <div class="coach-radio"></div>
+              </div>
+              <div class="coach-card" data-coach="david">
+                <div class="coach-avatar coach-avatar-david"><img src="../../assets/img/david.jpg" alt="Coach David"></div>
+                <div class="coach-info">
+                  <span class="coach-name">Coach David</span>
+                  <span class="coach-specialty">Bodybuilding & Nutrition</span>
+                  <span class="coach-quote">"Train hard, eat right, recover smart."</span>
+                </div>
+                <div class="coach-radio"></div>
+              </div>
+            </div>
+          </div>
+          <div class="cta-section coach-cta">
+            <button class="btn-primary" id="btnCoach" disabled onclick="selectCoach()">Continue</button>
+            <span class="coach-skip" onclick="skipCoach()">Skip</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

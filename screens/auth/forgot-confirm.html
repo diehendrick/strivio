@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== AUTH: Forgot Password Confirmation ===== -->
+        <div class="screen screen-forgot active" data-screen="forgot-confirm" style="justify-content:center;align-items:center;text-align:center">
+          <div class="forgot-success-icon">
+            <iconify-icon icon="solar:check-circle-bold-duotone" width="64" style="color:#10B981"></iconify-icon>
+          </div>
+          <div class="forgot-success-heading">Check Your Email</div>
+          <div class="forgot-success-text">We've sent a password reset link to:</div>
+          <div class="forgot-email-display" id="forgotConfirmEmail">your@email.com</div>
+          <div class="resend-actions" style="align-items:center">
+            <button class="resend-btn" onclick="resendResetLink()">
+              <iconify-icon icon="solar:refresh-bold-duotone" width="16" style="color:#1A2B4A"></iconify-icon>
+              Resend Link
+            </button>
+            <button class="resend-btn muted" onclick="navigateTo('forgot-password')">Use Different Email</button>
+          </div>
+          <button class="btn-primary" onclick="navigateTo('login')">Back to Login</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

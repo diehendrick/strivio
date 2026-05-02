@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- SCREEN 16: Q15 — Preferred Training Days -->
+        <div class="screen active" data-screen="q15">
+          <div class="progress-section">
+            <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+            <span class="progress-label">Question 15 of 15</span>
+          </div>
+          <div class="question-content">
+            <div class="question-icon">
+              <img src="../../assets/illustration/option=calendar day.svg" alt="">
+            </div>
+            <h2 class="question-title">Which days do you prefer to train?</h2>
+            <p class="question-helper">Optional — we can schedule automatically if you prefer</p>
+            <div class="day-chips" id="dayChips">
+              <button class="day-chip" data-day="Mon">M</button>
+              <button class="day-chip" data-day="Tue">T</button>
+              <button class="day-chip" data-day="Wed">W</button>
+              <button class="day-chip" data-day="Thu">T</button>
+              <button class="day-chip" data-day="Fri">F</button>
+              <button class="day-chip" data-day="Sat">S</button>
+              <button class="day-chip" data-day="Sun">S</button>
+            </div>
+            <div class="validation-banner warning" id="daysWarning" style="display:none">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L1 18h18L10 2z" fill="#F59E0B" opacity="0.2"/><path d="M10 2L1 18h18L10 2z" stroke="#92400E" stroke-width="1.5"/><path d="M10 7v5M10 14.5v.5" stroke="#92400E" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="banner-text" id="daysWarningText"></div>
+              <div class="banner-actions">
+                <button class="btn-banner-primary" onclick="adjustDays()">Adjust selections</button>
+                <button class="btn-banner-secondary" onclick="useSuggestedDays()">Use suggested days</button>
+              </div>
+            </div>
+          </div>
+          <div class="cta-section">
+            <button class="btn-primary" id="btnQ15" onclick="validateDays()">Continue</button>
+            <button class="btn-skip" onclick="skipToConflict()">Skip this question</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

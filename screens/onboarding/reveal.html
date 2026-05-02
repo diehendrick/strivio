@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- SCREEN: Plan Reveal -->
+        <div class="screen screen-reveal active" data-screen="reveal">
+          <div class="reveal-content">
+            <div class="celebration-icon">
+              <svg viewBox="0 0 80 84" fill="none" width="80" height="84">
+                <circle cx="40" cy="40" r="36" fill="#22c55e" opacity="0.08" />
+                <circle cx="40" cy="40" r="24" fill="#22c55e" opacity="0.12" />
+                <path d="M28 40l8 8 16-16" stroke="#22c55e" stroke-width="4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h2 class="reveal-title">Your Plan is Ready!</h2>
+            <p class="reveal-coach-intro" id="revealCoachIntro">Coach Sara has prepared a personalized plan to help you
+              reach your goals.</p>
+
+            <div class="plan-card nutrition-card">
+              <div class="plan-card-header">Daily Nutrition Targets</div>
+              <div class="plan-card-body">
+                <div class="nutrition-main">
+                  <span class="nutrition-kcal" id="revealKcal"><img src="../../assets/svg_icons/flame.svg"
+                      class="icon-orange" width="18" alt=""> <span id="revealKcalVal">2,601 kcal</span></span>
+                  <span class="nutrition-water" id="revealWater"><img src="../../assets/svg_icons/water.svg"
+                      class="icon-blue" width="18" alt=""> <span id="revealWaterVal">2,800 ml</span></span>
+                </div>
+                <div class="nutrition-macros">
+                  <div class="macro"><span class="macro-dot protein"></span><span
+                      class="macro-label">Protein</span><span class="macro-val" id="revealProtein">160g</span></div>
+                  <div class="macro"><span class="macro-dot carbs"></span><span class="macro-label">Carbs</span><span
+                      class="macro-val" id="revealCarbs">328g</span></div>
+                  <div class="macro"><span class="macro-dot fat"></span><span class="macro-label">Fat</span><span
+                      class="macro-val" id="revealFat">72g</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-card workout-card">
+              <div class="plan-card-header">Workout Schedule</div>
+              <div class="workout-meta" id="revealWorkoutMeta">4 days/week · Gym & Home</div>
+              <div class="week-grid" id="revealWeekGrid"></div>
+            </div>
+
+            <button class="btn-primary btn-reveal" onclick="navigateTo('home')">Start My Plan</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+
+</html>

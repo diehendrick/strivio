@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== WORKOUT TAB: Execution — Countdown ===== -->
+        <div class="screen screen-exec-dark active" data-screen="workout-countdown">
+          <div class="wk-exec-countdown-wrap">
+            <div class="wk-exec-label">Getting Ready...</div>
+            <div class="wk-exec-countdown-ring">
+              <svg viewBox="0 0 140 140" class="wk-exec-ring-svg">
+                <circle cx="70" cy="70" r="60" class="wk-exec-ring-track"/>
+                <circle cx="70" cy="70" r="60" class="wk-exec-ring-fill" id="wkCountdownRing"
+                  stroke-dasharray="376.99"
+                  stroke-dashoffset="0"/>
+              </svg>
+            </div>
+            <button class="wk-exec-exit" onclick="navigateTo('workout')" style="position:absolute;top:60px;left:24px;z-index:10"><img src="../../assets/svg_icons/circle-x.svg" class="icon" width="24" alt=""></button>
+            <div class="wk-exec-countdown-num" id="wkCountdownNum">3</div>
+            <div class="wk-exec-workout-name" id="wkCountdownName">Upper Body Strength</div>
+            <div class="wk-exec-workout-meta" id="wkCountdownMeta">6 exercises &bull; 45 min</div>
+            <button class="wk-exec-skip-btn" onclick="skipCountdown()">Skip</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

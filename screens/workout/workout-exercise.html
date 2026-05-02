@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== WORKOUT TAB: Execution — Exercise ===== -->
+        <div class="screen screen-exec-dark active" data-screen="workout-exercise" style="display:flex;flex-direction:column">
+          <div class="wk-exec-top-bar">
+            <button class="wk-exec-exit" onclick="exitWorkout()"><img src="../../assets/svg_icons/back.svg" class="icon" width="20" alt=""> Exit</button>
+            <span class="wk-exec-progress-text" id="wkExecProgress">3 / 6 exercises</span>
+            <span class="wk-exec-timer" id="wkExecTimer">0:00</span>
+          </div>
+          <div class="wk-exec-progress-bar"><div class="wk-exec-progress-fill" id="wkExecProgressFill" style="width:0%"></div></div>
+          <div class="wk-exec-scroll" id="wkExecBody">
+            <!-- Dynamically rendered -->
+          </div>
+          <div class="wk-exec-bottom">
+            <button class="wk-exec-complete-btn" id="wkExecCompleteBtn" onclick="completeSet()">
+              <iconify-icon icon="solar:check-circle-bold" width="20"></iconify-icon> Complete Set
+            </button>
+            <div class="wk-exec-nav-btns" id="wkExecNavBtns" style="display:none">
+              <button class="wk-exec-nav-btn" onclick="goToPreviousExercise()">Previous</button>
+              <button class="wk-exec-nav-btn" onclick="advanceToNextExercise()">Next Exercise</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== WORKOUT TAB: Build Custom Workout ===== -->
+        <div class="screen screen-workout-build active" data-screen="workout-build">
+          <div class="wk-nav-header">
+            <button class="wk-back-btn" onclick="goBack()"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
+            <span class="wk-nav-title">Build Your Own</span>
+          </div>
+          <div class="wk-build-added" id="wkBuildAdded">
+            <div class="wk-build-added-header" id="wkBuildAddedToggle" onclick="toggleAddedExercises()">
+              <span>Added Exercises (<span id="wkBuildCount">0</span>)</span>
+              <img src="../../assets/svg_icons/arrow-small-down.svg" class="icon" width="18" alt="">
+            </div>
+            <div class="wk-build-added-list" id="wkBuildAddedList">
+              <!-- Dynamically rendered -->
+            </div>
+          </div>
+          <div class="wk-build-search">
+            <div class="wk-search-wrap" style="margin:0">
+              <iconify-icon icon="solar:magnifer-bold-duotone" width="18" class="wk-search-icon"></iconify-icon>
+              <input type="text" class="wk-search-input" placeholder="Search exercises..." id="wkBuildSearch">
+            </div>
+          </div>
+          <div class="wk-build-exercise-list" id="wkBuildExList">
+            <!-- Dynamically rendered -->
+          </div>
+          <div class="wk-build-actions">
+            <button class="btn-primary" id="wkBuildSave" onclick="saveCustomWorkout()" disabled>Save Workout</button>
+            <button class="wk-discard-btn" onclick="discardBuild()">Discard</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

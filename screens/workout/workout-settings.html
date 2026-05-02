@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== WORKOUT TAB: Settings ===== -->
+        <div class="screen screen-workout-settings active" data-screen="workout-settings">
+          <div class="wk-nav-header">
+            <button class="wk-back-btn" onclick="goBack()"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
+            <span class="wk-nav-title">Workout Settings</span>
+          </div>
+          <div class="wk-settings-body">
+            <div class="wk-settings-section">
+              <div class="wk-settings-section-title">Rest Timer</div>
+              <div class="wk-settings-row">
+                <span class="wk-settings-label">Default Rest Duration</span>
+                <div class="wk-radio-group" id="wkRestDuration">
+                  <label class="wk-radio"><input type="radio" name="restDur" value="60"><span>60s</span></label>
+                  <label class="wk-radio"><input type="radio" name="restDur" value="90" checked><span>90s</span></label>
+                  <label class="wk-radio"><input type="radio" name="restDur" value="120"><span>2m</span></label>
+                  <label class="wk-radio"><input type="radio" name="restDur" value="180"><span>3m</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="wk-settings-section">
+              <div class="wk-settings-section-title">Countdown</div>
+              <div class="wk-settings-row">
+                <span class="wk-settings-label">Pre-Workout Countdown</span>
+                <div class="wk-radio-group" id="wkCountdownDur">
+                  <label class="wk-radio"><input type="radio" name="countdownDur" value="0"><span>Off</span></label>
+                  <label class="wk-radio"><input type="radio" name="countdownDur" value="3" checked><span>3s</span></label>
+                  <label class="wk-radio"><input type="radio" name="countdownDur" value="5"><span>5s</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="wk-settings-section">
+              <div class="wk-settings-section-title">Units</div>
+              <div class="wk-settings-row">
+                <span class="wk-settings-label">Weight Units</span>
+                <div class="wk-radio-group" id="wkUnits">
+                  <label class="wk-radio"><input type="radio" name="wkUnits" value="metric" checked><span>kg</span></label>
+                  <label class="wk-radio"><input type="radio" name="wkUnits" value="imperial"><span>lbs</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="wk-settings-info">
+              <img src="../../assets/svg_icons/alert.svg" class="icon" width="16" alt="">
+              Settings apply to all workouts. Changes take effect immediately.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

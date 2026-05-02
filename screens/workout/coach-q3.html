@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== WORKOUT TAB: Coach Q3 — Muscle Groups -->
+        <div class="screen active" data-screen="coach-q3">
+          <div class="wk-nav-header">
+            <button class="wk-back-btn" onclick="navigateTo('coach-q2')"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
+            <span class="wk-nav-title">AI Coach</span>
+          </div>
+          <div class="progress-section">
+            <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+            <span class="progress-label">Step 3 of 6</span>
+          </div>
+          <div class="question-content">
+            <div class="question-icon"><iconify-icon icon="solar:body-bold-duotone" width="64" style="color:var(--navy)"></iconify-icon></div>
+            <h2 class="question-title">Which muscle groups?</h2>
+            <p class="question-helper">Select up to 3 target areas</p>
+            <div class="option-cards multi-select" data-key="coachMuscles" data-max="3" id="coachMusclesOptions">
+              <div class="option-card" data-value="chest"><iconify-icon icon="solar:body-bold-duotone" width="20" style="color:#EF4444"></iconify-icon><span class="option-label">Chest</span><span class="option-check"></span></div>
+              <div class="option-card" data-value="back"><iconify-icon icon="solar:body-bold-duotone" width="20" style="color:#3B82F6"></iconify-icon><span class="option-label">Back</span><span class="option-check"></span></div>
+              <div class="option-card" data-value="legs"><iconify-icon icon="solar:body-bold-duotone" width="20" style="color:#10B981"></iconify-icon><span class="option-label">Legs</span><span class="option-check"></span></div>
+              <div class="option-card" data-value="shoulders"><iconify-icon icon="solar:body-bold-duotone" width="20" style="color:#F59E0B"></iconify-icon><span class="option-label">Shoulders</span><span class="option-check"></span></div>
+              <div class="option-card" data-value="arms"><iconify-icon icon="solar:body-bold-duotone" width="20" style="color:#8B5CF6"></iconify-icon><span class="option-label">Arms</span><span class="option-check"></span></div>
+              <div class="option-card" data-value="core"><iconify-icon icon="solar:body-bold-duotone" width="20" style="color:#EC4899"></iconify-icon><span class="option-label">Core</span><span class="option-check"></span></div>
+            </div>
+          </div>
+          <div class="cta-section">
+            <button class="btn-primary" id="btnCoachQ3" disabled onclick="saveCoachAndNext('coach-q3','coachMuscles','coach-q4')">Continue</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

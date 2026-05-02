@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== AUTH: Register ===== -->
+        <div class="screen screen-auth active" data-screen="register">
+          <!-- Back button -->
+          <button class="auth-back-icon" onclick="navigateTo('welcome')">
+            <img src="../../assets/svg_icons/back.svg" class="icon" width="24" alt="">
+          </button>
+
+          <div class="auth-header">
+            <div class="auth-heading">Create Account</div>
+            <div class="auth-subheading">Start your fitness journey today</div>
+          </div>
+
+          <div class="auth-form">
+            <div class="form-group">
+              <label class="form-label" for="regName">Full Name</label>
+              <div class="form-input-wrap has-icon">
+                <img src="../../assets/svg_icons/user.svg" class="input-icon icon" width="20" alt="">
+                <input class="form-input" type="text" id="regName" placeholder="John Doe" autocomplete="name">
+              </div>
+              <div class="form-error" id="regNameError"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="regEmail">Email</label>
+              <div class="form-input-wrap has-icon">
+                <img src="../../assets/svg_icons/envelope.svg" class="input-icon icon" width="20" alt="">
+                <input class="form-input" type="email" id="regEmail" placeholder="your@email.com" autocomplete="email">
+              </div>
+              <div class="form-error" id="regEmailError"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="regPassword">Password</label>
+              <div class="form-input-wrap has-icon">
+                <img src="../../assets/svg_icons/lock.svg" class="input-icon icon" width="20" alt="">
+                <input class="form-input" type="password" id="regPassword" placeholder="Create a password" autocomplete="new-password">
+              </div>
+              <div class="password-strength strength-level-0" id="passwordStrength">
+                <div class="strength-bar">
+                  <div class="strength-segment"></div>
+                  <div class="strength-segment"></div>
+                  <div class="strength-segment"></div>
+                  <div class="strength-segment"></div>
+                  <div class="strength-segment"></div>
+                </div>
+                <div class="strength-label" id="strengthLabel">Too Short</div>
+              </div>
+              <div class="form-error" id="regPasswordError"></div>
+            </div>
+
+            <label class="checkbox-group auth-checkbox">
+              <div class="custom-checkbox">
+                <input type="checkbox" id="agreeTerms">
+                <div class="checkmark"><iconify-icon icon="solar:check-read-bold" style="color:#ffffff" width="14"></iconify-icon></div>
+              </div>
+              <span class="checkbox-label">I agree to the <a>Terms of Service</a> and <a>Privacy Policy</a></span>
+            </label>
+            <div class="form-error" id="termsError" style="margin-top:-12px;margin-bottom:14px"></div>
+          </div>
+
+          <div class="auth-footer-fixed">
+            <button class="btn-primary" id="btnRegister" onclick="validateRegister()">Create Account</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

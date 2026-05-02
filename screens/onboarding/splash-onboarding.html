@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Welcome</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <div class="screen screen-onboarding active" data-screen="onboarding">
+
+          <!-- Shared video background (auto-cycles independently of swipes) -->
+          <div class="onboarding-video-bg">
+            <video src="../../assets/vid/onboarding-1.mp4" class="ob-video active" muted playsinline loop></video>
+            <video src="../../assets/vid/bg-welcome.mp4" class="ob-video" muted playsinline loop></video>
+            <video src="../../assets/vid/bg-welcome-2.mp4" class="ob-video" muted playsinline loop></video>
+            <div class="onboarding-overlay-global"></div>
+          </div>
+
+          <!-- Slide 1 -->
+          <div class="onboarding-slide slide-1 active" data-slide="0">
+            <div class="onboarding-status">
+              <span class="onboarding-time">9:41</span>
+              <div class="onboarding-status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#fff" />
+                  <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#fff" />
+                  <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#fff" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M8 2.5c-1.7 0-3.3.9-4.2 2.3l1.4.8C5.8 4.4 6.8 3.8 8 3.8c1.2 0 2.2.6 2.8 1.8l1.4-.8C11.3 3.4 9.7 2.5 8 2.5zM5.2 6.8C5.9 5.8 6.9 5.1 8 5.1s2.1.7 2.8 1.7l1.4-.8C11.3 4.7 9.7 3.8 8 3.8c-1.7 0-3.3.9-4.2 2.2l1.4.8zM8 9.5a2 2 0 100-4 2 2 0 000 4z"
+                    fill="#fff" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="2" y="3" width="11" height="10" rx="2" stroke="#fff" stroke-width="1.2" />
+                  <rect x="13" y="5.5" width="1.5" height="5" rx="0.75" fill="#fff" />
+                </svg>
+              </div>
+            </div>
+            <div class="onboarding-content">
+              <div class="onboarding-text">
+                <h2 class="onboarding-headline">Plans That <span class="onboarding-accent">Adapt</span> to you</h2>
+                <p class="onboarding-body">Get personalized workout and nutrition plans that evolve with your progress,
+                  lifestyle and goals</p>
+              </div>
+              <div class="onboarding-dots">
+                <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+              </div>
+            </div>
+            <div class="onboarding-actions">
+              <button class="onboarding-btn">Next</button>
+              <span class="onboarding-skip">Skip</span>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="onboarding-slide slide-2" data-slide="1">
+            <div class="onboarding-status">
+              <span class="onboarding-time">9:41</span>
+              <div class="onboarding-status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#fff" />
+                  <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#fff" />
+                  <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#fff" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M8 2.5c-1.7 0-3.3.9-4.2 2.3l1.4.8C5.8 4.4 6.8 3.8 8 3.8c1.2 0 2.2.6 2.8 1.8l1.4-.8C11.3 3.4 9.7 2.5 8 2.5zM5.2 6.8C5.9 5.8 6.9 5.1 8 5.1s2.1.7 2.8 1.7l1.4-.8C11.3 4.7 9.7 3.8 8 3.8c-1.7 0-3.3.9-4.2 2.2l1.4.8zM8 9.5a2 2 0 100-4 2 2 0 000 4z"
+                    fill="#fff" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="2" y="3" width="11" height="10" rx="2" stroke="#fff" stroke-width="1.2" />
+                  <rect x="13" y="5.5" width="1.5" height="5" rx="0.75" fill="#fff" />
+                </svg>
+              </div>
+            </div>
+            <div class="onboarding-content">
+              <div class="onboarding-text">
+                <h2 class="onboarding-headline">Your Coach, Always <span class="onboarding-accent">Available</span></h2>
+                <p class="onboarding-body">Receive daily guidance, track your progress, and chat with your AI-powered
+                  personal coach.</p>
+              </div>
+              <div class="onboarding-dots">
+                <span class="dot"></span><span class="dot active"></span><span class="dot"></span>
+              </div>
+            </div>
+            <div class="onboarding-actions">
+              <button class="onboarding-btn">Next</button>
+              <span class="onboarding-skip">Skip</span>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="onboarding-slide slide-3" data-slide="2">
+            <div class="onboarding-status">
+              <span class="onboarding-time">9:41</span>
+              <div class="onboarding-status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#fff" />
+                  <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#fff" />
+                  <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#fff" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M8 2.5c-1.7 0-3.3.9-4.2 2.3l1.4.8C5.8 4.4 6.8 3.8 8 3.8c1.2 0 2.2.6 2.8 1.8l1.4-.8C11.3 3.4 9.7 2.5 8 2.5zM5.2 6.8C5.9 5.8 6.9 5.1 8 5.1s2.1.7 2.8 1.7l1.4-.8C11.3 4.7 9.7 3.8 8 3.8c-1.7 0-3.3.9-4.2 2.2l1.4.8zM8 9.5a2 2 0 100-4 2 2 0 000 4z"
+                    fill="#fff" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="2" y="3" width="11" height="10" rx="2" stroke="#fff" stroke-width="1.2" />
+                  <rect x="13" y="5.5" width="1.5" height="5" rx="0.75" fill="#fff" />
+                </svg>
+              </div>
+            </div>
+            <div class="onboarding-content">
+              <div class="onboarding-text">
+                <h2 class="onboarding-headline">Everything You Need in <span class="onboarding-accent">One App</span>
+                </h2>
+                <p class="onboarding-body">Track workouts, log meals, monitor progress, and stay motivated with streaks
+                  and insights.</p>
+              </div>
+              <div class="onboarding-dots">
+                <span class="dot"></span><span class="dot"></span><span class="dot active"></span>
+              </div>
+            </div>
+            <div class="onboarding-actions">
+              <button class="onboarding-btn" data-href="welcome">Get Started</button>
+              <span class="onboarding-login-link">Already have an account? <a>Log In</a></span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+  <script>
+    (function () {
+      // ===== VIDEO BACKGROUND AUTO-CYCLE (independent of swipes) =====
+      var videos = document.querySelectorAll('.ob-video');
+      var videoCount = videos.length;
+      var currentVideoIdx = 0;
+      var videoDuration = 5000; // 5 seconds per video
+      var videoTimer = null;
+
+      function crossfadeVideo(fromIdx, toIdx) {
+        videos[fromIdx].classList.remove('active');
+        videos[toIdx].classList.add('active');
+        // Reset and play the incoming video from start for a fresh loop
+        videos[toIdx].currentTime = 0;
+        videos[toIdx].play().catch(function () {});
+      }
+
+      function startVideoCycle() {
+        // Start all videos at once so they're ready (first is visible)
+        videos.forEach(function (v) {
+          v.play().catch(function () {});
+        });
+
+        videoTimer = setInterval(function () {
+          var next = (currentVideoIdx + 1) % videoCount;
+          crossfadeVideo(currentVideoIdx, next);
+          currentVideoIdx = next;
+        }, videoDuration);
+      }
+
+      // ===== SLIDE SWIPE LOGIC =====
+      var slides = document.querySelectorAll('.onboarding-slide');
+      var currentIdx = 0;
+      var count = slides.length;
+      var locked = false;
+
+      function goToSlide(idx) {
+        if (idx < 0 || idx >= count || idx === currentIdx || locked) return;
+        locked = true;
+        slides[currentIdx].classList.remove('active');
+        slides[idx].classList.add('active');
+        currentIdx = idx;
+        setTimeout(function () { locked = false; }, 420);
+      }
+
+      function nextSlide() { goToSlide(currentIdx + 1); }
+      function prevSlide() { goToSlide(currentIdx - 1); }
+
+      slides.forEach(function (slide) {
+        var btn = slide.querySelector('.onboarding-btn');
+        if (btn) {
+          btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var href = btn.getAttribute('data-href');
+            if (href) { window.navigateTo(href); }
+            else { nextSlide(); }
+          });
+        }
+        var skip = slide.querySelector('.onboarding-skip');
+        if (skip) {
+          skip.addEventListener('click', function (e) {
+            e.stopPropagation();
+            window.navigateTo('welcome');
+          });
+        }
+        var loginLink = slide.querySelector('.onboarding-login-link a');
+        if (loginLink) {
+          loginLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.navigateTo('login');
+          });
+        }
+      });
+
+      var touchStartX = 0, touchStartY = 0;
+      var container = document.querySelector('.screen-onboarding');
+      if (container) {
+        container.addEventListener('touchstart', function (e) {
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+        container.addEventListener('touchend', function (e) {
+          var dx = e.changedTouches[0].clientX - touchStartX;
+          var dy = e.changedTouches[0].clientY - touchStartY;
+          if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+            if (dx < 0) nextSlide();
+            else if (dx > 0) prevSlide();
+          }
+        });
+      }
+
+      // ===== START VIDEO CYCLE =====
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startVideoCycle);
+      } else {
+        startVideoCycle();
+      }
+    })();
+  </script>
+</body>
+
+</html>

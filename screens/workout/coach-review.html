@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== WORKOUT TAB: Coach Review ===== -->
+        <div class="screen active" data-screen="coach-review">
+          <div class="wk-nav-header">
+            <button class="wk-back-btn" onclick="goBack()"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
+            <span class="wk-nav-title">Coach's Plan</span>
+          </div>
+          <div class="wk-coach-intro">
+            <img src="../../assets/svg_icons/life.svg" class="icon" width="20" alt="">
+            <span>Your coach put this together based on your goals</span>
+          </div>
+          <div class="wk-coach-review-body" id="wkCoachReviewBody">
+            <!-- Dynamically rendered -->
+          </div>
+          <div class="wk-build-actions" style="position:absolute">
+            <button class="btn-primary" onclick="saveCoachWorkout()">Save to Library</button>
+            <button class="wk-discard-btn" onclick="navigateTo('workout')">Discard</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== WORKOUT TAB: Execution — Completion ===== -->
+        <div class="screen active" data-screen="workout-complete" style="background:#fff">
+          <div class="wk-complete-wrap">
+            <div class="wk-complete-icon">
+              <img src="../../assets/svg_icons/challlange.svg" class="icon" width="80" alt="">
+            </div>
+            <h2 class="wk-complete-title">Workout Complete!</h2>
+            <p class="wk-complete-subtitle" id="wkCompleteName">Great job!</p>
+            <div class="wk-complete-stats" id="wkCompleteStats">
+              <!-- Dynamically rendered -->
+            </div>
+            <div class="cta-section" style="width:100%;padding:0">
+              <button class="btn-primary" onclick="navigateTo('workout')">Done</button>
+              <button class="wk-discard-btn" onclick="navigateTo('workout-detail')">View Details</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

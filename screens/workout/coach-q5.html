@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== WORKOUT TAB: Coach Q5 — Equipment -->
+        <div class="screen active" data-screen="coach-q5">
+          <div class="wk-nav-header">
+            <button class="wk-back-btn" onclick="navigateTo('coach-q4')"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
+            <span class="wk-nav-title">AI Coach</span>
+          </div>
+          <div class="progress-section">
+            <div class="progress-bar"><div class="progress-fill" style="width:83.33%"></div></div>
+            <span class="progress-label">Step 5 of 6</span>
+          </div>
+          <div class="question-content">
+            <div class="question-icon"><img src="../../assets/svg_icons/dumbbell-ray.svg" class="icon" width="64" alt=""></div>
+            <h2 class="question-title">What equipment?</h2>
+            <p class="question-helper">Select your available equipment</p>
+            <div class="option-cards single-select" data-key="coachEquipment" id="coachEquipmentOptions">
+              <div class="option-card has-desc" data-value="bodyweight"><iconify-icon icon="solar:body-bold-duotone" width="22" style="color:#10B981"></iconify-icon><div class="option-text"><span class="option-label">Bodyweight Only</span><span class="option-desc">No equipment needed</span></div><span class="option-check"></span></div>
+              <div class="option-card has-desc" data-value="dumbbells"><img src="../../assets/svg_icons/dumbbell-ray.svg" class="icon" width="22" alt=""><div class="option-text"><span class="option-label">Dumbbells</span><span class="option-desc">Home or gym</span></div><span class="option-check"></span></div>
+              <div class="option-card has-desc" data-value="full-gym"><img src="../../assets/svg_icons/gym.svg" class="icon" width="22" alt=""><div class="option-text"><span class="option-label">Full Gym</span><span class="option-desc">All equipment available</span></div><span class="option-check"></span></div>
+            </div>
+          </div>
+          <div class="cta-section">
+            <button class="btn-primary" id="btnCoachQ5" disabled onclick="saveCoachAndNext('coach-q5','coachEquipment','coach-q6')">Continue</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

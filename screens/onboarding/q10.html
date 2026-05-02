@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- SCREEN 11: Q10 — Weight Pace (Slider) -->
+        <div class="screen active" data-screen="q10">
+          <div class="progress-section">
+            <div class="progress-bar"><div class="progress-fill" style="width:66.67%"></div></div>
+            <span class="progress-label">Question 10 of 15</span>
+          </div>
+          <div class="question-content">
+            <div class="question-icon">
+              <img src="../../assets/illustration/option=timer.svg" alt="">
+            </div>
+            <h2 class="question-title">How fast would you like to reach your goal weight?</h2>
+            <div class="slider-group">
+              <input type="range" class="slider" id="paceSlider" min="0" max="3" step="1" value="1">
+              <div class="slider-labels">
+                <span>0.25</span><span>0.5</span><span>1.0</span><span>1.5</span>
+              </div>
+              <div class="slider-unit">kg/week</div>
+            </div>
+            <div class="pace-value" id="paceValue">Selected: 0.5 kg/week</div>
+            <div class="pace-timeline" id="paceTimeline">At this pace, you'll reach your goal in ~13 weeks</div>
+            <div class="validation-banner warning" id="paceWarning" style="display:none">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L1 18h18L10 2z" fill="#F59E0B" opacity="0.2"/><path d="M10 2L1 18h18L10 2z" stroke="#92400E" stroke-width="1.5"/><path d="M10 7v5M10 14.5v.5" stroke="#92400E" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="banner-text">That pace may be too aggressive. We recommend 0.5 kg/week for sustainable results.</div>
+              <div class="banner-actions">
+                <button class="btn-banner-primary" onclick="adjustPace()">Adjust pace</button>
+                <button class="btn-banner-secondary" onclick="dismissPaceWarning()">Continue anyway</button>
+              </div>
+            </div>
+          </div>
+          <div class="cta-section">
+            <button class="btn-primary" id="btnQ10" onclick="validatePace()">Continue</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

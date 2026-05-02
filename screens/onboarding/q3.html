@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- SCREEN 4: Q3 — Motivations (Multi-Select) -->
+        <div class="screen active" data-screen="q3">
+          <div class="progress-section">
+            <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
+            <span class="progress-label">Question 3 of 15</span>
+          </div>
+          <div class="question-content scrollable">
+            <div class="question-icon">
+              <img src="../../assets/illustration/option=motivation.svg" alt="">
+            </div>
+            <h2 class="question-title">What motivates you the most?</h2>
+            <div class="helper-row">
+              <p class="question-helper">Select up to 2</p>
+              <span class="select-counter" id="motivCounter">0/2</span>
+            </div>
+            <div class="option-cards multi-select" data-max="2" data-key="motivations" id="motivOptions">
+              <div class="option-card" data-value="event"><img src="../../assets/svg_icons/shoe.svg" class="icon icon-red" width="22" alt=""><span class="option-label">Look better for an event</span><span class="option-check"></span></div>
+              <div class="option-card" data-value="health"><img src="../../assets/svg_icons/hearth-rate.svg" class="icon icon-green" width="22" alt=""><span class="option-label">Improve my health</span><span class="option-check"></span></div>
+              <div class="option-card" data-value="confidence"><img src="../../assets/svg_icons/life.svg" class="icon icon-blue" width="22" alt=""><span class="option-label">Feel more confident</span><span class="option-check"></span></div>
+              <div class="option-card" data-value="energy"><img src="../../assets/svg_icons/bolt.svg" class="icon icon-amber" width="22" alt=""><span class="option-label">Have more energy</span><span class="option-check"></span></div>
+              <div class="option-card" data-value="challenge"><img src="../../assets/svg_icons/challlange.svg" class="icon icon-orange" width="22" alt=""><span class="option-label">Challenge myself</span><span class="option-check"></span></div>
+              <div class="option-card" data-value="stress"><img src="../../assets/svg_icons/meditation.svg" class="icon icon-teal" width="22" alt=""><span class="option-label">Manage stress</span><span class="option-check"></span></div>
+              <div class="option-card" data-value="longevity"><img src="../../assets/svg_icons/calendar-heart 1.svg" class="icon icon-pink" width="22" alt=""><span class="option-label">Live longer</span><span class="option-check"></span></div>
+            </div>
+          </div>
+          <div class="cta-section">
+            <button class="btn-primary" id="btnQ3" disabled onclick="saveAndNext('q3','motivations','q4')">Continue</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

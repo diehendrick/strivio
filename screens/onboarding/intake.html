@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- SCREEN: Intake Welcome (Onboarding Start) -->
+        <div class="screen screen-intake active" data-screen="intake">
+          <div class="welcome-content">
+            <div class="welcome-illustration">
+              <div class="illustration-circle">
+                <img src="../../assets/illustration/option=profile.svg" alt="" style="width:100px;height:100px">
+              </div>
+            </div>
+            <div class="welcome-text">
+              <h1 class="welcome-title">Let's Build Your<br><span class="accent-word">Personalized Plan</span></h1>
+              <p class="welcome-desc">We'll ask a few questions about your goals, body, and preferences. Based on your answers, we'll create a custom workout + nutrition plan just for you.</p>
+              <div class="welcome-meta">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#1A2B4A" stroke-width="1.5"/><path d="M8 4v4l3 2" stroke="#1A2B4A" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span>About 5 minutes &middot; 15 questions</span>
+              </div>
+            </div>
+            <button class="btn-primary btn-welcome" onclick="navigateTo('q1')">
+              Get Started
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12m-4-4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

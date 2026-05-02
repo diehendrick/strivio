@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Daily Nutrients</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=4">
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper">
+
+        <!-- SCREEN: Daily Nutrients (Premium) -->
+        <div class="screen screen-nutrients active" data-screen="nutrients">
+          <div class="nutrients-content">
+            <!-- Status Bar -->
+            <div class="status-bar">
+              <span class="status-time" id="statusTime">9:41</span>
+              <div class="status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" />
+                  <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z"
+                    fill="#0f172a" />
+                  <path
+                    d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z"
+                    fill="#0f172a" />
+                  <circle cx="8" cy="11" r="2" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" />
+                  <rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" />
+                  <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Header -->
+            <div class="nutrients-header">
+              <button class="nutrients-back-btn" onclick="navigateTo('logbook')" aria-label="Go back">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15,18 9,12 15,6" />
+                </svg>
+              </button>
+              <h1 class="nutrients-title">Daily Nutrients</h1>
+              <div class="header-spacer"></div>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div class="nutrients-scroll" id="nutrientsScroll">
+              <!-- Date Display -->
+              <div class="nutrients-date-display" id="nutrientsDateDisplay">
+                <span>Tuesday, Apr 25, 2026</span>
+              </div>
+
+              <!-- Premium Content (shown for premium users) -->
+              <div id="premiumContent" style="display: none;">
+                <!-- Vitamins Section -->
+                <div class="nutrients-card">
+                  <h2 class="nutrients-section-title">Vitamins</h2>
+                  <div class="nutrient-list" id="vitaminsList">
+                    <!-- Populated by JS -->
+                  </div>
+                </div>
+
+                <!-- Minerals Section -->
+                <div class="nutrients-card">
+                  <h2 class="nutrients-section-title">Minerals</h2>
+                  <div class="nutrient-list" id="mineralsList">
+                    <!-- Populated by JS -->
+                  </div>
+                </div>
+
+                <!-- Other Section -->
+                <div class="nutrients-card">
+                  <h2 class="nutrients-section-title">Other</h2>
+                  <div class="nutrient-list" id="otherList">
+                    <!-- Populated by JS -->
+                  </div>
+                </div>
+
+                <!-- Legend -->
+                <div class="nutrients-legend">
+                  <div class="legend-item">
+                    <span class="legend-dot green"></span>
+                    <span class="legend-text">≥100% RDV (Good)</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot amber"></span>
+                    <span class="legend-text">50-99% RDV</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot muted"></span>
+                    <span class="legend-text">&lt;50% RDV (Low)</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Paywall Content (shown for free users) -->
+              <div class="nutrients-paywall" id="paywallContent">
+                <div class="paywall-icon">🔬</div>
+                <h2 class="paywall-title">Unlock Nutrient Tracking</h2>
+                <p class="paywall-desc">Get detailed micronutrient breakdown with Premium.</p>
+
+                <!-- Blurred preview -->
+                <div class="paywall-preview">
+                  <div class="preview-row blurred">
+                    <span>Vitamin A</span>
+                    <div class="preview-bar"></div>
+                    <span>90%</span>
+                  </div>
+                  <div class="preview-row blurred">
+                    <span>Vitamin C</span>
+                    <div class="preview-bar"></div>
+                    <span>85%</span>
+                  </div>
+                  <div class="preview-row blurred">
+                    <span>Iron</span>
+                    <div class="preview-bar"></div>
+                    <span>80%</span>
+                  </div>
+                </div>
+
+                <div class="paywall-features">
+                  <div class="paywall-feature">
+                    <span class="feature-check">✓</span>
+                    <span>Full Vitamin & Mineral Breakdown</span>
+                  </div>
+                  <div class="paywall-feature">
+                    <span class="feature-check">✓</span>
+                    <span>RDV Comparisons</span>
+                  </div>
+                  <div class="paywall-feature">
+                    <span class="feature-check">✓</span>
+                    <span>Nutrient Deficiency Alerts</span>
+                  </div>
+                  <div class="paywall-feature">
+                    <span class="feature-check">✓</span>
+                    <span>Weekly Nutrient Trends</span>
+                  </div>
+                </div>
+
+                <button class="paywall-cta" onclick="startFreeTrial()">Start Free Trial</button>
+                <button class="paywall-secondary" onclick="navigateTo('logbook')">Maybe Later</button>
+              </div>
+
+              <!-- Bottom spacer -->
+              <div class="nutrients-bottom-spacer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=4"></script>
+  <script>
+    // Mock nutrient data
+    const mockNutrients = {
+      vitamins: [
+        { name: 'Vitamin A', value: 810, target: 900, unit: 'µg' },
+        { name: 'Vitamin C', value: 76, target: 90, unit: 'mg' },
+        { name: 'Vitamin D', value: 8, target: 20, unit: 'µg' },
+        { name: 'Vitamin E', value: 8, target: 15, unit: 'mg' },
+        { name: 'Vitamin K', value: 96, target: 120, unit: 'µg' },
+        { name: 'Thiamin (B1)', value: 1.1, target: 1.2, unit: 'mg' },
+        { name: 'Riboflavin (B2)', value: 1.3, target: 1.3, unit: 'mg' },
+        { name: 'Niacin (B3)', value: 14, target: 16, unit: 'mg' },
+        { name: 'Vitamin B6', value: 1.2, target: 1.3, unit: 'mg' },
+        { name: 'Folate (B9)', value: 350, target: 400, unit: 'µg' },
+        { name: 'Vitamin B12', value: 2.4, target: 2.4, unit: 'µg' }
+      ],
+      minerals: [
+        { name: 'Calcium', value: 550, target: 1000, unit: 'mg' },
+        { name: 'Iron', value: 14, target: 18, unit: 'mg' },
+        { name: 'Magnesium', value: 150, target: 400, unit: 'mg' },
+        { name: 'Potassium', value: 2500, target: 3500, unit: 'mg' },
+        { name: 'Sodium', value: 2000, target: 2300, unit: 'mg' },
+        { name: 'Zinc', value: 8, target: 11, unit: 'mg' }
+      ],
+      other: [
+        { name: 'Fiber', value: 18, target: 30, unit: 'g' },
+        { name: 'Sugar', value: 45, target: 50, unit: 'g' },
+        { name: 'Saturated Fat', value: 18, target: 20, unit: 'g' },
+        { name: 'Cholesterol', value: 250, target: 300, unit: 'mg' }
+      ]
+    };
+
+    function checkPremiumStatus() {
+      let isPremium = false;
+      try {
+        const savedState = localStorage.getItem('strivio_state');
+        if (savedState) {
+          const parsed = JSON.parse(savedState);
+          isPremium = parsed.isPremium || false;
+        }
+      } catch (e) {}
+      return isPremium;
+    }
+
+    function renderNutrientRow(nutrient) {
+      const percent = Math.min(100, (nutrient.value / nutrient.target) * 100);
+      let statusClass = 'muted';
+      let statusIcon = '';
+
+      if (percent >= 100) {
+        statusClass = 'green';
+        statusIcon = '✓';
+      } else if (percent >= 50) {
+        statusClass = 'amber';
+      } else {
+        statusClass = 'amber';
+      }
+
+      return `
+        <div class="nutrient-row ${statusClass}">
+          <div class="nutrient-info">
+            <span class="nutrient-name">${nutrient.name}</span>
+            <div class="nutrient-bar-track">
+              <div class="nutrient-bar-fill ${statusClass}" style="width: ${percent}%"></div>
+            </div>
+          </div>
+          <div class="nutrient-values">
+            <span class="nutrient-percent ${statusClass}">${Math.round(percent)}%</span>
+            <span class="nutrient-amount">${nutrient.value} / ${nutrient.target}${nutrient.unit}</span>
+          </div>
+          ${statusIcon ? `<span class="nutrient-check">${statusIcon}</span>` : ''}
+        </div>
+      `;
+    }
+
+    function renderNutrients() {
+      const vitaminsList = document.getElementById('vitaminsList');
+      const mineralsList = document.getElementById('mineralsList');
+      const otherList = document.getElementById('otherList');
+
+      // Sort by % RDV ascending (lowest first - deficiencies highlighted)
+      const sortedVitamins = [...mockNutrients.vitamins].sort((a, b) =>
+        (a.value / a.target) - (b.value / b.target)
+      );
+      const sortedMinerals = [...mockNutrients.minerals].sort((a, b) =>
+        (a.value / a.target) - (b.value / b.target)
+      );
+      const sortedOther = [...mockNutrients.other].sort((a, b) =>
+        (a.value / a.target) - (b.value / b.target)
+      );
+
+      if (vitaminsList) {
+        vitaminsList.innerHTML = sortedVitamins.map(renderNutrientRow).join('');
+      }
+      if (mineralsList) {
+        mineralsList.innerHTML = sortedMinerals.map(renderNutrientRow).join('');
+      }
+      if (otherList) {
+        otherList.innerHTML = sortedOther.map(renderNutrientRow).join('');
+      }
+    }
+
+    function startFreeTrial() {
+      // Simulate starting a trial
+      try {
+        const state = JSON.parse(localStorage.getItem('strivio_state') || '{}');
+        state.isPremium = true;
+        localStorage.setItem('strivio_state', JSON.stringify(state));
+      } catch (e) {}
+
+      // Show toast and reload
+      showToast('Premium activated! 🎉');
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+    }
+
+    function showToast(message) {
+      // Simple toast implementation
+      const toast = document.createElement('div');
+      toast.className = 'nutrients-toast';
+      toast.textContent = message;
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #0f172a;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 9999px;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        z-index: 1000;
+        animation: slideUp 0.3s ease;
+      `;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      const isPremium = checkPremiumStatus();
+
+      if (isPremium) {
+        document.getElementById('premiumContent').style.display = 'block';
+        document.getElementById('paywallContent').style.display = 'none';
+        renderNutrients();
+      } else {
+        document.getElementById('premiumContent').style.display = 'none';
+        document.getElementById('paywallContent').style.display = 'flex';
+      }
+
+      // Update status time
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('statusTime').textContent = hours + ':' + minutes;
+
+      // Update date display
+      const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+      document.getElementById('nutrientsDateDisplay').textContent = now.toLocaleDateString('en-US', options);
+    });
+  </script>
+</body>
+
+</html>

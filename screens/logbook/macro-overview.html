@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Macro Overview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=4">
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper">
+
+        <!-- SCREEN: Macro Overview -->
+        <div class="screen screen-macro-overview active" data-screen="macro-overview">
+          <div class="macro-overview-content">
+            <!-- Status Bar -->
+            <div class="status-bar">
+              <span class="status-time" id="statusTime">9:41</span>
+              <div class="status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" />
+                  <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z"
+                    fill="#0f172a" />
+                  <path
+                    d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z"
+                    fill="#0f172a" />
+                  <circle cx="8" cy="11" r="2" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" />
+                  <rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" />
+                  <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Header -->
+            <div class="macro-overview-header">
+              <button class="macro-back-btn" onclick="navigateTo('logbook')" aria-label="Go back">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15,18 9,12 15,6" />
+                </svg>
+              </button>
+              <h1 class="macro-overview-title">Macro Overview</h1>
+              <div class="header-spacer"></div>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div class="macro-overview-scroll">
+              <!-- Date Display -->
+              <div class="macro-date-display" id="macroDateDisplay">
+                <span>Tuesday, Apr 25, 2026</span>
+              </div>
+
+              <!-- Calories Card -->
+              <div class="macro-card calories-card">
+                <h2 class="macro-card-title">Calories</h2>
+                <div class="calories-donut-large">
+                  <svg viewBox="0 0 140 140" class="donut-svg-large">
+                    <circle cx="70" cy="70" r="60" class="donut-track-large" />
+                    <circle cx="70" cy="70" r="60" class="donut-fill-large" id="donutFillLarge"
+                      stroke-dasharray="376.99" stroke-dashoffset="94" />
+                  </svg>
+                  <div class="donut-center-large">
+                    <span class="donut-value-large" id="calConsumedLarge">1,850</span>
+                    <span class="donut-unit-large">kcal</span>
+                  </div>
+                </div>
+                <div class="calories-meta">
+                  <span class="calories-target">of <strong id="calTargetLarge">2,200</strong></span>
+                  <span class="calories-remaining" id="calRemainingLarge">350 kcal remaining</span>
+                  <span class="calories-status" id="calStatusLarge">On track — 84% of daily goal</span>
+                </div>
+              </div>
+
+              <!-- Macronutrients Card -->
+              <div class="macro-card macros-detail-card">
+                <h2 class="macro-card-title">Macronutrients</h2>
+
+                <!-- Protein -->
+                <div class="macro-detail-row">
+                  <div class="macro-detail-header">
+                    <div class="macro-detail-left">
+                      <span class="macro-detail-name">Protein</span>
+                      <span class="macro-detail-percent" id="proteinPercent">71%</span>
+                      <span class="macro-detail-remaining" id="proteinRemaining">35g remaining</span>
+                    </div>
+                    <span class="macro-detail-value" id="proteinValue">85 / 120g</span>
+                  </div>
+                  <div class="macro-detail-track">
+                    <div class="macro-detail-fill protein-fill" id="proteinBarLarge" style="width:71%"></div>
+                  </div>
+                </div>
+
+                <!-- Carbs -->
+                <div class="macro-detail-row">
+                  <div class="macro-detail-header">
+                    <div class="macro-detail-left">
+                      <span class="macro-detail-name">Carbs</span>
+                      <span class="macro-detail-percent" id="carbsPercent">73%</span>
+                      <span class="macro-detail-remaining" id="carbsRemaining">60g remaining</span>
+                    </div>
+                    <span class="macro-detail-value" id="carbsValue">160 / 220g</span>
+                  </div>
+                  <div class="macro-detail-track">
+                    <div class="macro-detail-fill carbs-fill" id="carbsBarLarge" style="width:73%"></div>
+                  </div>
+                </div>
+
+                <!-- Fat -->
+                <div class="macro-detail-row">
+                  <div class="macro-detail-header">
+                    <div class="macro-detail-left">
+                      <span class="macro-detail-name">Fat</span>
+                      <span class="macro-detail-percent" id="fatPercent">85%</span>
+                      <span class="macro-detail-remaining" id="fatRemaining">10g remaining</span>
+                    </div>
+                    <span class="macro-detail-value" id="fatValue">55 / 65g</span>
+                  </div>
+                  <div class="macro-detail-track">
+                    <div class="macro-detail-fill fat-fill" id="fatBarLarge" style="width:85%"></div>
+                  </div>
+                </div>
+
+                <!-- Fiber -->
+                <div class="macro-detail-row">
+                  <div class="macro-detail-header">
+                    <div class="macro-detail-left">
+                      <span class="macro-detail-name">Fiber</span>
+                      <span class="macro-detail-percent" id="fiberPercent">60%</span>
+                      <span class="macro-detail-remaining" id="fiberRemaining">12g remaining</span>
+                    </div>
+                    <span class="macro-detail-value" id="fiberValue">18 / 30g</span>
+                  </div>
+                  <div class="macro-detail-track">
+                    <div class="macro-detail-fill fiber-fill" id="fiberBarLarge" style="width:60%"></div>
+                  </div>
+                </div>
+
+                <!-- Sugar -->
+                <div class="macro-detail-row">
+                  <div class="macro-detail-header">
+                    <div class="macro-detail-left">
+                      <span class="macro-detail-name">Sugar</span>
+                      <span class="macro-detail-percent warning" id="sugarPercent">90%</span>
+                      <span class="macro-detail-remaining warning" id="sugarRemaining">Nearing limit</span>
+                    </div>
+                    <span class="macro-detail-value" id="sugarValue">45 / 50g</span>
+                  </div>
+                  <div class="macro-detail-track">
+                    <div class="macro-detail-fill sugar-fill" id="sugarBarLarge" style="width:90%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Per-Meal Breakdown Card -->
+              <div class="macro-card meal-breakdown-card">
+                <h2 class="macro-card-title">Per-Meal Breakdown</h2>
+
+                <div class="meal-breakdown-list">
+                  <!-- Breakfast -->
+                  <div class="meal-breakdown-item" data-meal="breakfast">
+                    <div class="meal-breakdown-header">
+                      <div class="meal-breakdown-left">
+                        <span class="meal-emoji">☀️</span>
+                        <span class="meal-breakdown-name">Breakfast</span>
+                      </div>
+                      <span class="meal-breakdown-cal" id="breakdownBreakfastCal">420 kcal</span>
+                    </div>
+                    <div class="meal-breakdown-macros" id="breakdownBreakfastMacros">
+                      <span class="macro-pill protein-pill">P 12g</span>
+                      <span class="macro-pill carbs-pill">C 55g</span>
+                      <span class="macro-pill fat-pill">F 8g</span>
+                    </div>
+                  </div>
+
+                  <!-- Lunch -->
+                  <div class="meal-breakdown-item" data-meal="lunch">
+                    <div class="meal-breakdown-header">
+                      <div class="meal-breakdown-left">
+                        <span class="meal-emoji">🌤️</span>
+                        <span class="meal-breakdown-name">Lunch</span>
+                      </div>
+                      <span class="meal-breakdown-cal" id="breakdownLunchCal">650 kcal</span>
+                    </div>
+                    <div class="meal-breakdown-macros" id="breakdownLunchMacros">
+                      <span class="macro-pill protein-pill">P 45g</span>
+                      <span class="macro-pill carbs-pill">C 45g</span>
+                      <span class="macro-pill fat-pill">F 32g</span>
+                    </div>
+                  </div>
+
+                  <!-- Dinner -->
+                  <div class="meal-breakdown-item" data-meal="dinner">
+                    <div class="meal-breakdown-header">
+                      <div class="meal-breakdown-left">
+                        <span class="meal-emoji">🌙</span>
+                        <span class="meal-breakdown-name">Dinner</span>
+                      </div>
+                      <span class="meal-breakdown-cal" id="breakdownDinnerCal">580 kcal</span>
+                    </div>
+                    <div class="meal-breakdown-macros" id="breakdownDinnerMacros">
+                      <span class="macro-pill protein-pill">P 47g</span>
+                      <span class="macro-pill carbs-pill">C 45g</span>
+                      <span class="macro-pill fat-pill">F 24g</span>
+                    </div>
+                  </div>
+
+                  <!-- Snacks -->
+                  <div class="meal-breakdown-item" data-meal="snacks">
+                    <div class="meal-breakdown-header">
+                      <div class="meal-breakdown-left">
+                        <span class="meal-emoji">🍿</span>
+                        <span class="meal-breakdown-name">Snacks</span>
+                      </div>
+                      <span class="meal-breakdown-cal" id="breakdownSnacksCal">200 kcal</span>
+                    </div>
+                    <div class="meal-breakdown-macros" id="breakdownSnacksMacros">
+                      <span class="macro-pill protein-pill">P 20g</span>
+                      <span class="macro-pill carbs-pill">C 8g</span>
+                      <span class="macro-pill fat-pill">F 12g</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom spacer -->
+              <div class="macro-bottom-spacer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=4"></script>
+  <script>
+    // Load and display data from localStorage
+    function loadMacroData() {
+      const today = new Date().toISOString().split('T')[0];
+
+      // Try to get logs from localStorage
+      let logs = {};
+      try {
+        const savedLogs = localStorage.getItem('strivio_logs');
+        if (savedLogs) {
+          logs = JSON.parse(savedLogs);
+        }
+      } catch (e) {}
+
+      const dayLog = logs[today] || { breakfast: [], lunch: [], dinner: [], snacks: [] };
+
+      // Calculate totals
+      let totalCal = 0, totalProtein = 0, totalCarbs = 0, totalFat = 0;
+      const mealTotals = {
+        breakfast: { cal: 0, p: 0, c: 0, f: 0 },
+        lunch: { cal: 0, p: 0, c: 0, f: 0 },
+        dinner: { cal: 0, p: 0, c: 0, f: 0 },
+        snacks: { cal: 0, p: 0, c: 0, f: 0 }
+      };
+
+      Object.entries(dayLog).forEach(([meal, foods]) => {
+        foods.forEach(food => {
+          const cal = Math.round(food.cal * food.qty);
+          const p = Math.round(food.p * food.qty * 10) / 10;
+          const c = Math.round(food.c * food.qty * 10) / 10;
+          const f = Math.round(food.f * food.qty * 10) / 10;
+
+          totalCal += cal;
+          totalProtein += p;
+          totalCarbs += c;
+          totalFat += f;
+
+          mealTotals[meal].cal += cal;
+          mealTotals[meal].p += p;
+          mealTotals[meal].c += c;
+          mealTotals[meal].f += f;
+        });
+      });
+
+      // Update display
+      updateMacroDisplay(totalCal, totalProtein, totalCarbs, totalFat, mealTotals);
+    }
+
+    function updateMacroDisplay(totalCal, totalProtein, totalCarbs, totalFat, mealTotals) {
+      const targets = { cal: 2200, protein: 120, carbs: 220, fat: 65, fiber: 30, sugar: 50 };
+
+      // Large donut
+      const circumference = 2 * Math.PI * 60;
+      const offset = circumference - (totalCal / targets.cal) * circumference;
+      document.getElementById('donutFillLarge').style.strokeDashoffset = Math.max(0, offset);
+      document.getElementById('calConsumedLarge').textContent = totalCal.toLocaleString();
+
+      const remaining = targets.cal - totalCal;
+      const remainingEl = document.getElementById('calRemainingLarge');
+      const statusEl = document.getElementById('calStatusLarge');
+
+      if (remaining >= 0) {
+        remainingEl.textContent = remaining.toLocaleString() + ' kcal remaining';
+        remainingEl.style.color = '#10B981';
+        statusEl.textContent = 'On track — ' + Math.round((totalCal / targets.cal) * 100) + '% of daily goal';
+        statusEl.style.color = '#10B981';
+      } else {
+        remainingEl.textContent = Math.abs(remaining).toLocaleString() + ' kcal over';
+        remainingEl.style.color = '#EF4444';
+        statusEl.textContent = 'Over daily goal';
+        statusEl.style.color = '#EF4444';
+      }
+
+      // Update macro bars
+      const proteinPct = Math.min(100, (totalProtein / targets.protein) * 100);
+      const carbsPct = Math.min(100, (totalCarbs / targets.carbs) * 100);
+      const fatPct = Math.min(100, (totalFat / targets.fat) * 100);
+
+      document.getElementById('proteinBarLarge').style.width = proteinPct + '%';
+      document.getElementById('carbsBarLarge').style.width = carbsPct + '%';
+      document.getElementById('fatBarLarge').style.width = fatPct + '%';
+
+      document.getElementById('proteinValue').textContent = Math.round(totalProtein) + ' / ' + targets.protein + 'g';
+      document.getElementById('carbsValue').textContent = Math.round(totalCarbs) + ' / ' + targets.carbs + 'g';
+      document.getElementById('fatValue').textContent = Math.round(totalFat) + ' / ' + targets.fat + 'g';
+
+      document.getElementById('proteinPercent').textContent = Math.round(proteinPct) + '%';
+      document.getElementById('carbsPercent').textContent = Math.round(carbsPct) + '%';
+      document.getElementById('fatPercent').textContent = Math.round(fatPct) + '%';
+
+      // Update per-meal breakdown
+      Object.entries(mealTotals).forEach(([meal, totals]) => {
+        const calEl = document.getElementById('breakdown' + meal.charAt(0).toUpperCase() + meal.slice(1) + 'Cal');
+        const macrosEl = document.getElementById('breakdown' + meal.charAt(0).toUpperCase() + meal.slice(1) + 'Macros');
+
+        if (calEl) calEl.textContent = totals.cal + ' kcal';
+        if (macrosEl) {
+          macrosEl.innerHTML = `
+            <span class="macro-pill protein-pill">P ${Math.round(totals.p)}g</span>
+            <span class="macro-pill carbs-pill">C ${Math.round(totals.c)}g</span>
+            <span class="macro-pill fat-pill">F ${Math.round(totals.f)}g</span>
+          `;
+        }
+      });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadMacroData();
+
+      // Update status time
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('statusTime').textContent = hours + ':' + minutes;
+
+      // Update date display
+      const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+      document.getElementById('macroDateDisplay').textContent = now.toLocaleDateString('en-US', options);
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Your Personalized Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== WORKOUT TAB: Coach Q4 — Difficulty -->
+        <div class="screen active" data-screen="coach-q4">
+          <div class="wk-nav-header">
+            <button class="wk-back-btn" onclick="navigateTo('coach-q3')"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
+            <span class="wk-nav-title">AI Coach</span>
+          </div>
+          <div class="progress-section">
+            <div class="progress-bar"><div class="progress-fill" style="width:66.67%"></div></div>
+            <span class="progress-label">Step 4 of 6</span>
+          </div>
+          <div class="question-content">
+            <div class="question-icon"><img src="../../assets/svg_icons/chart-simple.svg" class="icon" width="64" alt=""></div>
+            <h2 class="question-title">What's your level?</h2>
+            <p class="question-helper">Be honest — we'll progress from here</p>
+            <div class="option-cards single-select" data-key="coachDifficulty" id="coachDifficultyOptions">
+              <div class="option-card has-desc" data-value="beginner"><img src="../../assets/svg_icons/avocado.svg" class="icon" width="22" alt=""><div class="option-text"><span class="option-label">Beginner</span><span class="option-desc">New to training</span></div><span class="option-check"></span></div>
+              <div class="option-card has-desc" data-value="intermediate"><img src="../../assets/svg_icons/flame.svg" class="icon" width="22" alt=""><div class="option-text"><span class="option-label">Intermediate</span><span class="option-desc">Consistent for 6+ months</span></div><span class="option-check"></span></div>
+              <div class="option-card has-desc" data-value="advanced"><img src="../../assets/svg_icons/bolt.svg" class="icon" width="22" alt=""><div class="option-text"><span class="option-label">Advanced</span><span class="option-desc">Experienced lifter</span></div><span class="option-check"></span></div>
+            </div>
+          </div>
+          <div class="cta-section">
+            <button class="btn-primary" id="btnCoachQ4" disabled onclick="saveCoachAndNext('coach-q4','coachDifficulty','coach-q5')">Continue</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>
