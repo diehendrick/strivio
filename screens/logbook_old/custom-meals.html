@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Custom Meals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=4">
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper">
+
+        <!-- SCREEN: Custom Meals -->
+        <div class="screen screen-custom-meals active" data-screen="custom-meals">
+          <div class="custom-meals-content">
+            <!-- Status Bar -->
+            <div class="status-bar">
+              <span class="status-time" id="statusTime">9:41</span>
+              <div class="status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" />
+                  <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z"
+                    fill="#0f172a" />
+                  <path
+                    d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z"
+                    fill="#0f172a" />
+                  <circle cx="8" cy="11" r="2" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" />
+                  <rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" />
+                  <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Header -->
+            <div class="custom-meals-header">
+              <button class="custom-back-btn" onclick="navigateTo('logbook')" aria-label="Go back">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15,18 9,12 15,6" />
+                </svg>
+              </button>
+              <h1 class="custom-meals-title" id="pageTitle">My Meals</h1>
+              <div class="header-spacer"></div>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div class="custom-meals-scroll" id="customMealsScroll">
+              <!-- Meals List -->
+              <div id="mealsListView">
+                <!-- Custom Meals List -->
+                <div class="custom-meals-list" id="customMealsList">
+                  <!-- Populated by JS -->
+                </div>
+
+                <!-- Create New Meal Card (Free users: 1 max) -->
+                <div class="create-meal-card" id="createMealCard">
+                  <div class="create-meal-content">
+                    <span class="create-meal-icon">+</span>
+                    <span class="create-meal-text">Create Custom Meal</span>
+                    <span class="create-meal-badge free-badge" id="freeBadge">1 free</span>
+                  </div>
+                </div>
+
+                <!-- Premium Upsell (shown after using free meal) -->
+                <div class="premium-upsell-card" id="premiumUpsell" style="display: none;">
+                  <div class="premium-upsell-icon">🔒</div>
+                  <span class="premium-upsell-text">Unlock unlimited custom meals with Premium</span>
+                  <button class="premium-upsell-btn" onclick="startPremiumTrial()">Upgrade</button>
+                </div>
+              </div>
+
+              <!-- Create/Edit Meal View -->
+              <div id="createMealView" style="display: none;">
+                <!-- Meal Name Input -->
+                <div class="meal-form-group">
+                  <label class="meal-form-label">Meal Name</label>
+                  <input type="text" class="meal-form-input" id="mealNameInput" placeholder="e.g., Morning Smoothie">
+                </div>
+
+                <!-- Foods in This Meal -->
+                <div class="meal-foods-card">
+                  <div class="meal-foods-header">
+                    <h3 class="meal-foods-title">Foods in This Meal</h3>
+                    <span class="meal-foods-count" id="foodsCount">0 foods</span>
+                  </div>
+
+                  <div class="meal-foods-list" id="mealFoodsList">
+                    <div class="meal-foods-empty" id="mealFoodsEmpty">
+                      <span>No foods added yet</span>
+                    </div>
+                  </div>
+
+                  <button class="add-food-to-meal-btn" id="addFoodToMealBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                    <span>Add Food</span>
+                  </button>
+                </div>
+
+                <!-- Meal Totals -->
+                <div class="meal-totals-card">
+                  <h3 class="meal-totals-title">Meal Totals</h3>
+                  <div class="meal-totals-grid">
+                    <div class="total-item">
+                      <span class="total-icon">🔥</span>
+                      <span class="total-value" id="mealTotalCal">0</span>
+                      <span class="total-label">kcal</span>
+                    </div>
+                    <div class="total-item">
+                      <span class="total-icon">🥩</span>
+                      <span class="total-value" id="mealTotalProtein">0</span>
+                      <span class="total-label">g protein</span>
+                    </div>
+                    <div class="total-item">
+                      <span class="total-icon">🍞</span>
+                      <span class="total-value" id="mealTotalCarbs">0</span>
+                      <span class="total-label">g carbs</span>
+                    </div>
+                    <div class="total-item">
+                      <span class="total-icon">🧈</span>
+                      <span class="total-value" id="mealTotalFat">0</span>
+                      <span class="total-label">g fat</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="meal-actions">
+                  <button class="meal-save-btn" id="saveMealBtn">💾 Save Meal</button>
+                  <button class="meal-cancel-btn" id="cancelMealBtn">Cancel</button>
+                </div>
+              </div>
+
+              <!-- Bottom spacer -->
+              <div class="custom-bottom-spacer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=4"></script>
+  <script>
+    // State
+    let customMeals = [];
+    let currentMeal = { name: '', foods: [] };
+    let isPremium = false;
+    let editingIndex = -1;
+
+    // Check premium status
+    function checkPremiumStatus() {
+      try {
+        const savedState = localStorage.getItem('strivio_state');
+        if (savedState) {
+          const parsed = JSON.parse(savedState);
+          isPremium = parsed.isPremium || false;
+        }
+      } catch (e) {}
+    }
+
+    // Load custom meals
+    function loadCustomMeals() {
+      try {
+        const saved = localStorage.getItem('strivio_custom_meals');
+        if (saved) {
+          customMeals = JSON.parse(saved);
+        }
+      } catch (e) {}
+    }
+
+    // Save custom meals
+    function saveCustomMeals() {
+      localStorage.setItem('strivio_custom_meals', JSON.stringify(customMeals));
+    }
+
+    // Render meals list
+    function renderMealsList() {
+      const container = document.getElementById('customMealsList');
+
+      if (customMeals.length === 0) {
+        container.innerHTML = `
+          <div class="no-meals-state">
+            <span class="no-meals-icon">📋</span>
+            <span class="no-meals-text">No custom meals yet</span>
+            <span class="no-meals-subtext">Create your first meal for quick logging</span>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = customMeals.map((meal, index) => {
+        const totals = calculateMealTotals(meal.foods);
+        return `
+          <div class="custom-meal-item" data-index="${index}">
+            <div class="custom-meal-info">
+              <span class="custom-meal-name">📋 ${meal.name}</span>
+              <span class="custom-meal-detail">${meal.foods.length} foods • P ${Math.round(totals.p)}g C ${Math.round(totals.c)}g F ${Math.round(totals.f)}g</span>
+            </div>
+            <div class="custom-meal-right">
+              <span class="custom-meal-cal">${totals.cal} kcal</span>
+              <button class="custom-meal-more" data-index="${index}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2">
+                  <circle cx="12" cy="5" r="1" fill="#64748b"/>
+                  <circle cx="12" cy="12" r="1" fill="#64748b"/>
+                  <circle cx="12" cy="19" r="1" fill="#64748b"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Add click handlers
+      document.querySelectorAll('.custom-meal-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          if (e.target.closest('.custom-meal-more')) return;
+          const index = parseInt(item.dataset.index);
+          showMealDetail(index);
+        });
+      });
+
+      // More button handlers
+      document.querySelectorAll('.custom-meal-more').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const index = parseInt(btn.dataset.index);
+          showMealOptions(index);
+        });
+      });
+    }
+
+    function calculateMealTotals(foods) {
+      return foods.reduce((acc, food) => ({
+        cal: acc.cal + (food.cal || 0),
+        p: acc.p + (food.p || 0),
+        c: acc.c + (food.c || 0),
+        f: acc.f + (food.f || 0)
+      }), { cal: 0, p: 0, c: 0, f: 0 });
+    }
+
+    function showCreateMealView() {
+      // Check if can create
+      if (!isPremium && customMeals.length >= 1) {
+        showPremiumUpsell();
+        return;
+      }
+
+      currentMeal = { name: '', foods: [] };
+      editingIndex = -1;
+
+      document.getElementById('mealsListView').style.display = 'none';
+      document.getElementById('createMealView').style.display = 'block';
+      document.getElementById('pageTitle').textContent = 'Create Meal';
+      document.getElementById('mealNameInput').value = '';
+
+      updateMealFoodsList();
+      updateMealTotals();
+    }
+
+    function showEditMealView(index) {
+      currentMeal = JSON.parse(JSON.stringify(customMeals[index]));
+      editingIndex = index;
+
+      document.getElementById('mealsListView').style.display = 'none';
+      document.getElementById('createMealView').style.display = 'block';
+      document.getElementById('pageTitle').textContent = 'Edit Meal';
+      document.getElementById('mealNameInput').value = currentMeal.name;
+
+      updateMealFoodsList();
+      updateMealTotals();
+    }
+
+    function showMealsListView() {
+      document.getElementById('mealsListView').style.display = 'block';
+      document.getElementById('createMealView').style.display = 'none';
+      document.getElementById('pageTitle').textContent = 'My Meals';
+      renderMealsList();
+      updateCreateButton();
+    }
+
+    function updateMealFoodsList() {
+      const container = document.getElementById('mealFoodsList');
+      const emptyState = document.getElementById('mealFoodsEmpty');
+
+      document.getElementById('foodsCount').textContent = currentMeal.foods.length + ' foods';
+
+      if (currentMeal.foods.length === 0) {
+        container.innerHTML = '';
+        container.appendChild(emptyState);
+        emptyState.style.display = 'flex';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      container.innerHTML = currentMeal.foods.map((food, index) => `
+        <div class="meal-food-item">
+          <div class="meal-food-info">
+            <span class="meal-food-name">${food.name}</span>
+            <span class="meal-food-detail">${food.qty || 1}x ${food.serving || 'serving'}</span>
+            <span class="meal-food-macros">P ${food.p || 0}g · C ${food.c || 0}g · F ${food.f || 0}g</span>
+          </div>
+          <div class="meal-food-right">
+            <span class="meal-food-cal">${food.cal || 0} kcal</span>
+            <button class="meal-food-remove" data-index="${index}">✕</button>
+          </div>
+        </div>
+      `).join('');
+
+      // Add remove handlers
+      document.querySelectorAll('.meal-food-remove').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.index);
+          currentMeal.foods.splice(index, 1);
+          updateMealFoodsList();
+          updateMealTotals();
+        });
+      });
+    }
+
+    function updateMealTotals() {
+      const totals = calculateMealTotals(currentMeal.foods);
+      document.getElementById('mealTotalCal').textContent = Math.round(totals.cal);
+      document.getElementById('mealTotalProtein').textContent = Math.round(totals.p);
+      document.getElementById('mealTotalCarbs').textContent = Math.round(totals.c);
+      document.getElementById('mealTotalFat').textContent = Math.round(totals.f);
+    }
+
+    function updateCreateButton() {
+      const createCard = document.getElementById('createMealCard');
+      const freeBadge = document.getElementById('freeBadge');
+      const upsell = document.getElementById('premiumUpsell');
+
+      if (isPremium) {
+        freeBadge.style.display = 'none';
+        upsell.style.display = 'none';
+      } else {
+        if (customMeals.length >= 1) {
+          createCard.style.display = 'none';
+          upsell.style.display = 'flex';
+        } else {
+          createCard.style.display = 'block';
+          upsell.style.display = 'none';
+          freeBadge.textContent = '1 free';
+        }
+      }
+    }
+
+    function showPremiumUpsell() {
+      document.getElementById('premiumUpsell').style.display = 'flex';
+    }
+
+    function startPremiumTrial() {
+      try {
+        const state = JSON.parse(localStorage.getItem('strivio_state') || '{}');
+        state.isPremium = true;
+        localStorage.setItem('strivio_state', JSON.stringify(state));
+      } catch (e) {}
+
+      isPremium = true;
+      showToast('Premium activated! 🎉');
+      updateCreateButton();
+    }
+
+    function saveCurrentMeal() {
+      const name = document.getElementById('mealNameInput').value.trim();
+
+      if (!name) {
+        showToast('Please enter a meal name');
+        return;
+      }
+
+      if (currentMeal.foods.length === 0) {
+        showToast('Add at least one food');
+        return;
+      }
+
+      currentMeal.name = name;
+
+      if (editingIndex >= 0) {
+        customMeals[editingIndex] = currentMeal;
+      } else {
+        customMeals.push(currentMeal);
+      }
+
+      saveCustomMeals();
+      showToast('Meal saved!');
+      showMealsListView();
+    }
+
+    function showMealDetail(index) {
+      // Show meal detail view (expand inline or navigate)
+      const meal = customMeals[index];
+      showToast(`${meal.name} - ${meal.foods.length} foods`);
+    }
+
+    function showMealOptions(index) {
+      const action = confirm('Edit this meal?\n\nCancel to delete');
+      if (action) {
+        showEditMealView(index);
+      } else {
+        if (confirm('Delete this meal?')) {
+          customMeals.splice(index, 1);
+          saveCustomMeals();
+          renderMealsList();
+          updateCreateButton();
+          showToast('Meal deleted');
+        }
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'custom-toast';
+      toast.textContent = message;
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #0f172a;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 9999px;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        z-index: 1000;
+      `;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      checkPremiumStatus();
+      loadCustomMeals();
+      renderMealsList();
+      updateCreateButton();
+
+      // Update status time
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('statusTime').textContent = hours + ':' + minutes;
+
+      // Create meal card click
+      document.getElementById('createMealCard').addEventListener('click', showCreateMealView);
+
+      // Cancel button
+      document.getElementById('cancelMealBtn').addEventListener('click', showMealsListView);
+
+      // Save meal button
+      document.getElementById('saveMealBtn').addEventListener('click', saveCurrentMeal);
+
+      // Add food button (mock - would open food search)
+      document.getElementById('addFoodToMealBtn').addEventListener('click', () => {
+        // Mock adding a food
+        const mockFoods = [
+          { name: 'Banana', cal: 70, p: 1, c: 18, f: 0, serving: '1 medium', qty: 1 },
+          { name: 'Greek Yogurt', cal: 100, p: 10, c: 4, f: 6, serving: '1/2 cup', qty: 1 },
+          { name: 'Protein Powder', cal: 120, p: 24, c: 3, f: 1, serving: '1 scoop', qty: 1 }
+        ];
+
+        const randomFood = mockFoods[Math.floor(Math.random() * mockFoods.length)];
+        currentMeal.foods.push(randomFood);
+        updateMealFoodsList();
+        updateMealTotals();
+      });
+    });
+  </script>
+</body>
+
+</html>

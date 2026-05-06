@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Edit Quantity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- Screen: Edit Quantity Bottom Sheet -->
+        <div class="screen screen-edit-qty active" data-screen="edit-quantity-sheet">
+          <div class="bottom-sheet-overlay" onclick="closeSheet()">
+            <div class="bottom-sheet" onclick="event.stopPropagation()">
+              
+              <!-- Handle Bar -->
+              <div class="sheet-handle"></div>
+              
+              <!-- Sheet Header -->
+              <div class="sheet-header">
+                <h2 class="sheet-title">Edit Quantity</h2>
+                <button class="sheet-close" onclick="closeSheet()" aria-label="Close">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Food Name -->
+              <div class="edit-food-name">Greek Yogurt</div>
+
+              <!-- Quantity Selector -->
+              <div class="quantity-section">
+                <label class="section-label">Quantity</label>
+                <div class="quantity-stepper">
+                  <button class="qty-btn" onclick="adjustQuantity(-0.5)" aria-label="Decrease quantity">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </button>
+                  <div class="qty-value" id="quantityValue">1.0</div>
+                  <button class="qty-btn" onclick="adjustQuantity(0.5)" aria-label="Increase quantity">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Serving Size Dropdown -->
+              <div class="serving-section">
+                <label class="section-label">Serving Size</label>
+                <button class="serving-dropdown" onclick="toggleServingOptions()">
+                  <span id="servingValue">1 serving</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6,9 12,15 18,9"></polyline>
+                  </svg>
+                </button>
+                <div class="serving-options" id="servingOptions">
+                  <button class="serving-option active" data-value="1 serving" onclick="selectServing(this)">1 serving</button>
+                  <button class="serving-option" data-value="100g" onclick="selectServing(this)">100g</button>
+                  <button class="serving-option" data-value="1 cup" onclick="selectServing(this)">1 cup</button>
+                  <button class="serving-option" data-value="1 oz" onclick="selectServing(this)">1 oz</button>
+                  <button class="serving-option" data-value="1 piece" onclick="selectServing(this)">1 piece</button>
+                </div>
+              </div>
+
+              <!-- Updated Nutrition Preview -->
+              <div class="nutrition-preview">
+                <label class="section-label">Updated Calories</label>
+                <div class="preview-value">
+                  <span id="updatedCalories">150</span>
+                  <span class="preview-unit">kcal</span>
+                </div>
+              </div>
+
+              <!-- Save Button -->
+              <button class="sheet-save-btn" onclick="saveChanges()">
+                Save Changes
+              </button>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=3"></script>
+  <script>
+    (function() {
+      let quantity = 1.0;
+      let servingSize = '1 serving';
+      const baseCalories = 150;
+      
+      window.adjustQuantity = function(delta) {
+        quantity = Math.max(0.5, quantity + delta);
+        document.getElementById('quantityValue').textContent = quantity.toFixed(1);
+        updateNutrition();
+      };
+      
+      window.toggleServingOptions = function() {
+        const options = document.getElementById('servingOptions');
+        options.classList.toggle('show');
+      };
+      
+      window.selectServing = function(btn) {
+        servingSize = btn.dataset.value;
+        document.getElementById('servingValue').textContent = servingSize;
+        
+        // Update active state
+        document.querySelectorAll('.serving-option').forEach(opt => {
+          opt.classList.remove('active');
+        });
+        btn.classList.add('active');
+        
+        // Hide options
+        document.getElementById('servingOptions').classList.remove('show');
+        
+        updateNutrition();
+      };
+      
+      function updateNutrition() {
+        const calories = Math.round(baseCalories * quantity);
+        document.getElementById('updatedCalories').textContent = calories;
+      }
+      
+      window.saveChanges = function() {
+        // Show success state
+        const btn = document.querySelector('.sheet-save-btn');
+        btn.textContent = 'Saved!';
+        btn.style.background = '#10B981';
+        
+        setTimeout(() => {
+          window.history.back();
+        }, 600);
+      };
+      
+      window.closeSheet = function() {
+        window.history.back();
+      };
+      
+      // Close serving options when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.serving-section')) {
+          document.getElementById('servingOptions').classList.remove('show');
+        }
+      });
+    })();
+  </script>
+
+  <style>
+    .screen-edit-qty {
+      background: transparent;
+    }
+    
+    .edit-food-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #0f172a;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    
+    .quantity-section {
+      margin-bottom: 24px;
+    }
+    
+    .section-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #64748b;
+      margin-bottom: 12px;
+      display: block;
+    }
+    
+    .quantity-stepper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      background: #F5F6FA;
+      border-radius: 16px;
+      padding: 12px 20px;
+    }
+    
+    .qty-btn {
+      width: 44px;
+      height: 44px;
+      background: white;
+      border: 2px solid #E5E7EB;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    
+    .qty-btn:active {
+      background: #F5F6FA;
+      transform: scale(0.95);
+    }
+    
+    .qty-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: #0f172a;
+      min-width: 60px;
+      text-align: center;
+    }
+    
+    .serving-section {
+      margin-bottom: 24px;
+      position: relative;
+    }
+    
+    .serving-dropdown {
+      width: 100%;
+      height: 52px;
+      background: #F5F6FA;
+      border: 1px solid #E5E7EB;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #0f172a;
+      font-weight: 500;
+    }
+    
+    .serving-options {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: white;
+      border-radius: 14px;
+      border: 1px solid #E5E7EB;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.2s;
+      z-index: 100;
+    }
+    
+    .serving-options.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .serving-option {
+      width: 100%;
+      padding: 14px 16px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #0f172a;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    
+    .serving-option:hover {
+      background: #F5F6FA;
+    }
+    
+    .serving-option.active {
+      color: #7F7CF0;
+      font-weight: 600;
+    }
+    
+    .serving-option:not(:last-child) {
+      border-bottom: 1px solid #F4F4F4;
+    }
+    
+    .nutrition-preview {
+      background: #F1F0FF;
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+    
+    .nutrition-preview .section-label {
+      margin-bottom: 8px;
+    }
+    
+    .preview-value {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    
+    #updatedCalories {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #7F7CF0;
+    }
+    
+    .preview-unit {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #64748b;
+    }
+    
+    .sheet-save-btn {
+      width: 100%;
+      height: 56px;
+      background: #7F7CF0;
+      border: none;
+      border-radius: 9999px;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .sheet-save-btn:active {
+      transform: scale(0.98);
+      background: #9794F3;
+    }
+  </style>
+</body>
+</html>

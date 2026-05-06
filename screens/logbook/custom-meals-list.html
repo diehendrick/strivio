@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — My Meals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper">
+        <div class="screen screen-custom-meals active">
+          <div class="custom-header">
+            <button class="back-btn" onclick="navigateTo('logbook')">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"><polyline points="15,18 9,12 15,6"></polyline></svg>
+            </button>
+            <span class="custom-title">My Meals</span>
+            <div style="width:40px"></div>
+          </div>
+          <div class="custom-content">
+            <div class="custom-meal-card" onclick="logCustomMeal('Morning Smoothie')">
+              <h3 class="custom-meal-name">Morning Smoothie</h3>
+              <div class="custom-meal-macros">420 kcal • P 28g • C 42g • F 10g</div>
+            </div>
+            <div class="custom-meal-card" onclick="logCustomMeal('Post-Workout Bowl')">
+              <h3 class="custom-meal-name">Post-Workout Bowl</h3>
+              <div class="custom-meal-macros">650 kcal • P 40g • C 72g • F 18g</div>
+            </div>
+          </div>
+          <button class="btn-create-meal" onclick="createCustomMeal()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Create Custom Meal
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+  <script>
+    const isPremium = window.__strivio_state?.isPremium || false;
+    let customMealCount = 2;
+    
+    function logCustomMeal(name) {
+      navigateTo('log-food');
+    }
+    
+    function createCustomMeal() {
+      if (!isPremium && customMealCount >= 1) {
+        navigateTo('custom-meal-paywall');
+      } else {
+        navigateTo('create-custom-meal');
+      }
+    }
+  </script>
+  <style>
+    .screen-custom-meals { background:#F5F6FA; display:flex; flex-direction:column; height:100%; }
+    .custom-header { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:white; border-bottom:1px solid #F4F4F4; }
+    .custom-title { font-family:'Outfit',sans-serif; font-size:18px; font-weight:600; color:#0f172a; }
+    .custom-content { flex:1; padding:20px; overflow-y:auto; }
+    .custom-meal-card { background:white; border-radius:20px; padding:20px; margin-bottom:14px; box-shadow:0 2px 12px rgba(15,23,42,0.04); cursor:pointer; transition:transform 0.2s; }
+    .custom-meal-card:active { transform:scale(0.99); }
+    .custom-meal-name { font-family:'Outfit',sans-serif; font-size:16px; font-weight:600; color:#0f172a; margin:0 0 8px; }
+    .custom-meal-macros { font-family:'Inter',sans-serif; font-size:13px; color:#64748b; }
+    .btn-create-meal { position:fixed; bottom:20px; left:20px; right:20px; height:56px; background:#7F7CF0; border:none; border-radius:9999px; color:white; font-family:'Inter',sans-serif; font-size:16px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 10px 24px rgba(127,124,240,0.28); z-index:100; }
+    .btn-create-meal:active { transform:scale(0.98); background:#9794F3; }
+  </style>
+</body>
+</html>

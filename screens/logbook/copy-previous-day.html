@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Copy Previous Day</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- Screen: Copy Previous Day Review -->
+        <div class="screen screen-copy-prev active" data-screen="copy-previous-day">
+          
+          <!-- Header -->
+          <div class="copy-header">
+            <button class="back-btn" onclick="navigateTo('logbook')" aria-label="Go back">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15,18 9,12 15,6"></polyline>
+              </svg>
+            </button>
+            <h1 class="copy-title">Copy Previous Day</h1>
+            <div class="header-spacer"></div>
+          </div>
+
+          <div class="copy-scroll">
+            <p class="copy-description">Review meals from yesterday before adding them to today.</p>
+
+            <!-- Breakfast Section -->
+            <div class="copy-meal-section">
+              <h3 class="copy-meal-title">Breakfast</h3>
+              <div class="copy-foods-card">
+                <div class="copy-food-item" data-food="greek-yogurt">
+                  <div class="copy-food-info">
+                    <span class="copy-food-name">Greek Yogurt</span>
+                    <span class="copy-food-qty">1 serving</span>
+                  </div>
+                  <button class="copy-remove-btn" onclick="removeFood(this)" aria-label="Remove food">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                  </button>
+                </div>
+                <div class="copy-food-item" data-food="banana">
+                  <div class="copy-food-info">
+                    <span class="copy-food-name">Banana</span>
+                    <span class="copy-food-qty">1 piece</span>
+                  </div>
+                  <button class="copy-remove-btn" onclick="removeFood(this)" aria-label="Remove food">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lunch Section -->
+            <div class="copy-meal-section">
+              <h3 class="copy-meal-title">Lunch</h3>
+              <div class="copy-foods-card">
+                <div class="copy-food-item" data-food="chicken-rice">
+                  <div class="copy-food-info">
+                    <span class="copy-food-name">Chicken Rice Bowl</span>
+                    <span class="copy-food-qty">1 serving</span>
+                  </div>
+                  <button class="copy-remove-btn" onclick="removeFood(this)" aria-label="Remove food">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dinner Section -->
+            <div class="copy-meal-section">
+              <h3 class="copy-meal-title">Dinner</h3>
+              <div class="copy-foods-card">
+                <div class="copy-food-item" data-food="salmon-salad">
+                  <div class="copy-food-info">
+                    <span class="copy-food-name">Salmon Salad</span>
+                    <span class="copy-food-qty">1 serving</span>
+                  </div>
+                  <button class="copy-remove-btn" onclick="removeFood(this)" aria-label="Remove food">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Spacer -->
+            <div class="bottom-spacer"></div>
+          </div>
+
+          <!-- Footer Actions -->
+          <div class="copy-footer">
+            <button class="copy-cancel-btn" onclick="navigateTo('logbook')">Cancel</button>
+            <button class="copy-apply-btn" onclick="applyCopy()">Apply to Today</button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=3"></script>
+  <script>
+    function removeFood(btn) {
+      const item = btn.closest('.copy-food-item');
+      item.style.opacity = '0';
+      item.style.transform = 'translateX(20px)';
+      setTimeout(() => {
+        item.remove();
+        checkEmptySections();
+      }, 200);
+    }
+    
+    function checkEmptySections() {
+      document.querySelectorAll('.copy-meal-section').forEach(section => {
+        const items = section.querySelectorAll('.copy-food-item');
+        if (items.length === 0) {
+          section.style.opacity = '0.5';
+        }
+      });
+    }
+    
+    function applyCopy() {
+      // Show success toast
+      showToast('Copied to today');
+      
+      // Navigate back after delay
+      setTimeout(() => {
+        navigateTo('logbook');
+      }, 1000);
+    }
+    
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification';
+      toast.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20,6 9,17 4,12"></polyline>
+        </svg>
+        ${message}
+      `;
+      document.body.appendChild(toast);
+      
+      requestAnimationFrame(() => {
+        toast.classList.add('show');
+      });
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 2500);
+    }
+  </script>
+
+  <style>
+    .screen-copy-prev {
+      background: #F5F6FA;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .copy-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: white;
+      border-bottom: 1px solid #F4F4F4;
+    }
+    
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      margin-left: -8px;
+    }
+    
+    .back-btn:active {
+      background: #F5F6FA;
+    }
+    
+    .copy-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0;
+    }
+    
+    .header-spacer {
+      width: 40px;
+    }
+    
+    .copy-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    
+    .copy-description {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #64748b;
+      margin: 0 0 24px 0;
+      line-height: 1.5;
+    }
+    
+    .copy-meal-section {
+      margin-bottom: 20px;
+      transition: opacity 0.3s;
+    }
+    
+    .copy-meal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0 0 10px 0;
+    }
+    
+    .copy-foods-card {
+      background: white;
+      border-radius: 16px;
+      padding: 8px 16px;
+      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+    }
+    
+    .copy-food-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid #F4F4F4;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    
+    .copy-food-item:last-child {
+      border-bottom: none;
+    }
+    
+    .copy-food-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    
+    .copy-food-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: #0f172a;
+    }
+    
+    .copy-food-qty {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #9CA3AF;
+    }
+    
+    .copy-remove-btn {
+      width: 36px;
+      height: 36px;
+      background: #FEE2E2;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    
+    .copy-remove-btn:active {
+      background: #FECACA;
+    }
+    
+    .copy-footer {
+      display: flex;
+      gap: 12px;
+      padding: 16px 20px 28px;
+      background: white;
+      border-top: 1px solid #F4F4F4;
+    }
+    
+    .copy-cancel-btn {
+      flex: 1;
+      height: 52px;
+      background: #F5F6FA;
+      border: none;
+      border-radius: 9999px;
+      color: #64748b;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .copy-cancel-btn:active {
+      background: #E5E7EB;
+    }
+    
+    .copy-apply-btn {
+      flex: 2;
+      height: 52px;
+      background: #7F7CF0;
+      border: none;
+      border-radius: 9999px;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .copy-apply-btn:active {
+      background: #9794F3;
+    }
+    
+    .toast-notification {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #0F172A;
+      color: white;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .toast-notification.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</body>
+</html>

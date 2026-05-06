@@ -1,0 +1,9 @@
+{
+  "mcp": {
+    "browseros": {
+      "type": "remote",
+      "url": "http://127.0.0.1:9000/mcp",
+      "enabled": true
+    }
+  }
+}

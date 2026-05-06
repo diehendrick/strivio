@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Daily Nutrients</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- Screen: Daily Nutrients Full Breakdown -->
+        <div class="screen screen-nutrients-full active" data-screen="nutrients-full">
+          
+          <!-- Header -->
+          <div class="nutrients-full-header">
+            <button class="back-btn" onclick="navigateTo('logbook')" aria-label="Go back">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15,18 9,12 15,6"></polyline>
+              </svg>
+            </button>
+            <h1 class="nutrients-full-title">Daily Nutrients</h1>
+            <div class="header-spacer"></div>
+          </div>
+
+          <div class="nutrients-full-scroll">
+            
+            <!-- Sort Dropdown -->
+            <div class="sort-section">
+              <span class="sort-label">Sort by:</span>
+              <button class="sort-dropdown" onclick="toggleSortOptions()">
+                <span>Lowest RDV first</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </button>
+              <div class="sort-options" id="sortOptions">
+                <button class="sort-option active" onclick="selectSort(this)">Lowest RDV first</button>
+                <button class="sort-option" onclick="selectSort(this)">Highest RDV first</button>
+                <button class="sort-option" onclick="selectSort(this)">Alphabetical</button>
+              </div>
+            </div>
+
+            <!-- Vitamins Section -->
+            <div class="nutrient-section">
+              <h3 class="section-category">Vitamins</h3>
+              
+              <div class="nutrient-list">
+                <div class="nutrient-item">
+                  <span class="nutrient-name">Vitamin C</span>
+                  <div class="nutrient-bar-container">
+                    <div class="nutrient-bar-bg">
+                      <div class="nutrient-bar-fill yellow" style="width: 65%"></div>
+                    </div>
+                    <span class="nutrient-percent">65%</span>
+                  </div>
+                </div>
+                
+                <div class="nutrient-item">
+                  <span class="nutrient-name">Vitamin A</span>
+                  <div class="nutrient-bar-container">
+                    <div class="nutrient-bar-bg">
+                      <div class="nutrient-bar-fill green" style="width: 80%"></div>
+                    </div>
+                    <span class="nutrient-percent">80%</span>
+                  </div>
+                </div>
+                
+                <div class="nutrient-item">
+                  <span class="nutrient-name">Vitamin D</span>
+                  <div class="nutrient-bar-container">
+                    <div class="nutrient-bar-bg">
+                      <div class="nutrient-bar-fill red" style="width: 30%"></div>
+                    </div>
+                    <span class="nutrient-percent">30%</span>
+                  </div>
+                </div>
+                
+                <div class="nutrient-item">
+                  <span class="nutrient-name">Vitamin E</span>
+                  <div class="nutrient-bar-container">
+                    <div class="nutrient-bar-bg">
+                      <div class="nutrient-bar-fill yellow" style="width: 45%"></div>
+                    </div>
+                    <span class="nutrient-percent">45%</span>
+                  </div>
+                </div>
+                
+                <div class="nutrient-item">
+                  <span class="nutrient-name">Vitamin K</span>
+                  <div class="nutrient-bar-container">
+                    <div class="nutrient-bar-bg">
+                      <div class="nutrient-bar-fill green" style="width: 85%"></div>
+                    </div>
+                    <span class="nutrient-percent">85%</span>
+                  </div>
+                </div>
+                
+                <div class="nutrient-item">
+                  <span class="nutrient-name">Vitamin B6</span>
+                  <div class="nutrient-bar-container">
+                    <div class="nutrient-bar-bg">
+                      <div class="nutrient-bar-fill green" style="width: 70%"></div>
+                    </div>
+                    <span class="nutrient-percent">70%</span>
+                  </div>
+                </div>
+                
+                <div class="nutrient-item">
+                  <span class="nutrient-name">Vitamin B12</span>
+                  <div class="nutrient-bar-container">
+                    <div class="nutrient-bar-bg">
+                      <div class="nutrient-bar-fill green" style="width: 90%"></div>
+                    </div>
+                    <span class="nutrient-percent">90%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Minerals Section -->
+            <div class="nutrient-section">
+              <h3 class="section-category">Minerals</h3>
+              
+              <div class="nutrient-list">
+                <div class="nutrient-item">
+                  <span class="nutrient-name">Iron</span>
+                  <div class="nutrient-bar-container">
+                    <div class="nutrient-bar-bg">
+                      <div class="nutrient-bar-fill yellow" style="width: 42%"></div>
+                    </div>
+                    <span class="nutrient-percent">42%</span>
+                  </div>
+                </div>
+                
+                <div class="nutrient-item">
+                  <span class="nutrient-name">Calcium</span>
+                  <div class="nutrient-bar-container">
+                    <div class="nutrient-bar-bg">
+                      <div class="nutrient-bar-fill green" style="width: 70%"></div>
+                    </div>
+                    <span class="nutrient-percent">70%</span>
+                  </div>
+                </div>
+                
+                <div class="nutrient-item">
+                  <span class="nutrient-name">Sodium</span>
+                  <div class="nutrient-bar-container">
+                    <div class="nutrient-bar-bg">
+                      <div class="nutrient-bar-fill red" style="width: 110%"></div>
+                    </div>
+                    <span class="nutrient-percent">110%</span>
+                  </div>
+                </div>
+                
+                <div class="nutrient-item">
+                  <span class="nutrient-name">Potassium</span>
+                  <div class="nutrient-bar-container">
+                    <div class="nutrient-bar-bg">
+                      <div class="nutrient-bar-fill yellow" style="width: 65%"></div>
+                    </div>
+                    <span class="nutrient-percent">65%</span>
+                  </div>
+                </div>
+                
+                <div class="nutrient-item">
+                  <span class="nutrient-name">Magnesium</span>
+                  <div class="nutrient-bar-container">
+                    <div class="nutrient-bar-bg">
+                      <div class="nutrient-bar-fill yellow" style="width: 58%"></div>
+                    </div>
+                    <span class="nutrient-percent">58%</span>
+                  </div>
+                </div>
+                
+                <div class="nutrient-item">
+                  <span class="nutrient-name">Zinc</span>
+                  <div class="nutrient-bar-container">
+                    <div class="nutrient-bar-bg">
+                      <div class="nutrient-bar-fill yellow" style="width: 52%"></div>
+                    </div>
+                    <span class="nutrient-percent">52%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Other Section -->
+            <div class="nutrient-section">
+              <h3 class="section-category">Other</h3>
+              
+              <div class="nutrient-list simple">
+                <div class="nutrient-item simple">
+                  <span class="nutrient-name">Fiber</span>
+                  <span class="nutrient-value">25g</span>
+                </div>
+                <div class="nutrient-item simple">
+                  <span class="nutrient-name">Sugar</span>
+                  <span class="nutrient-value">35g</span>
+                </div>
+                <div class="nutrient-item simple">
+                  <span class="nutrient-name">Saturated Fat</span>
+                  <span class="nutrient-value">12g</span>
+                </div>
+                <div class="nutrient-item simple">
+                  <span class="nutrient-name">Cholesterol</span>
+                  <span class="nutrient-value">180mg</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Spacer -->
+            <div class="bottom-spacer"></div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=3"></script>
+  <script>
+    function toggleSortOptions() {
+      document.getElementById('sortOptions').classList.toggle('show');
+    }
+    
+    function selectSort(btn) {
+      document.querySelectorAll('.sort-option').forEach(opt => opt.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelector('.sort-dropdown span').textContent = btn.textContent;
+      document.getElementById('sortOptions').classList.remove('show');
+    }
+    
+    // Close sort options when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.sort-section')) {
+        document.getElementById('sortOptions').classList.remove('show');
+      }
+    });
+  </script>
+
+  <style>
+    .screen-nutrients-full {
+      background: #F5F6FA;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .nutrients-full-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: white;
+      border-bottom: 1px solid #F4F4F4;
+    }
+    
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      margin-left: -8px;
+    }
+    
+    .nutrients-full-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0;
+    }
+    
+    .header-spacer {
+      width: 40px;
+    }
+    
+    .nutrients-full-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    
+    .sort-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .sort-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #64748b;
+    }
+    
+    .sort-dropdown {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: white;
+      border: 1px solid #E5E7EB;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #0f172a;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    .sort-options {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50px;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #E5E7EB;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.2s;
+      z-index: 100;
+      min-width: 160px;
+    }
+    
+    .sort-options.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .sort-option {
+      width: 100%;
+      padding: 12px 16px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #0f172a;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    
+    .sort-option:hover {
+      background: #F5F6FA;
+    }
+    
+    .sort-option.active {
+      color: #7F7CF0;
+      font-weight: 600;
+    }
+    
+    .nutrient-section {
+      margin-bottom: 24px;
+    }
+    
+    .section-category {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0 0 14px 0;
+    }
+    
+    .nutrient-list {
+      background: white;
+      border-radius: 16px;
+      padding: 8px 16px;
+      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+    }
+    
+    .nutrient-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid #F4F4F4;
+    }
+    
+    .nutrient-item:last-child {
+      border-bottom: none;
+    }
+    
+    .nutrient-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #0f172a;
+      font-weight: 500;
+    }
+    
+    .nutrient-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .nutrient-bar-bg {
+      width: 100px;
+      height: 8px;
+      background: #E5E7EB;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .nutrient-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    
+    .nutrient-bar-fill.green {
+      background: #10B981;
+    }
+    
+    .nutrient-bar-fill.yellow {
+      background: #F59E0B;
+    }
+    
+    .nutrient-bar-fill.red {
+      background: #EF4444;
+    }
+    
+    .nutrient-percent {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 500;
+      min-width: 45px;
+      text-align: right;
+    }
+    
+    .nutrient-item.simple {
+      padding: 16px 0;
+    }
+    
+    .nutrient-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #64748b;
+    }
+    
+    .bottom-spacer {
+      height: 40px;
+    }
+  </style>
+</body>
+</html>

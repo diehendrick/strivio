@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Daily Nutrients</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- Screen: Daily Nutrients Locked Preview -->
+        <div class="screen screen-nutrients-locked active" data-screen="nutrients-locked">
+          
+          <!-- Header -->
+          <div class="nutrients-header-bar">
+            <button class="back-btn" onclick="navigateTo('logbook')" aria-label="Go back">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15,18 9,12 15,6"></polyline>
+              </svg>
+            </button>
+            <h1 class="nutrients-title-header">Daily Nutrients</h1>
+            <div class="header-spacer"></div>
+          </div>
+
+          <div class="nutrients-locked-scroll">
+            
+            <!-- Premium Upsell Header -->
+            <div class="upsell-header">
+              <div class="premium-icon-large">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <h2 class="upsell-title">Unlock detailed nutrient tracking</h2>
+              <p class="upsell-desc">See vitamins, minerals, fiber, sugar, saturated fat, and RDV progress.</p>
+            </div>
+
+            <!-- Preview Card -->
+            <div class="preview-nutrients-card">
+              <div class="preview-row">
+                <span class="preview-nutrient-name">Vitamin C</span>
+                <div class="preview-progress">
+                  <div class="preview-bar">
+                    <div class="preview-fill" style="width: 65%"></div>
+                  </div>
+                  <span class="preview-percent">65% RDV</span>
+                </div>
+              </div>
+              <div class="preview-row">
+                <span class="preview-nutrient-name">Iron</span>
+                <div class="preview-progress">
+                  <div class="preview-bar">
+                    <div class="preview-fill" style="width: 42%"></div>
+                  </div>
+                  <span class="preview-percent">42% RDV</span>
+                </div>
+              </div>
+              <div class="preview-row">
+                <span class="preview-nutrient-name">Fiber</span>
+                <div class="preview-progress">
+                  <div class="preview-bar">
+                    <div class="preview-fill" style="width: 50%"></div>
+                  </div>
+                  <span class="preview-percent">50% RDV</span>
+                </div>
+              </div>
+              <div class="preview-row">
+                <span class="preview-nutrient-name">Sodium</span>
+                <div class="preview-progress">
+                  <div class="preview-bar">
+                    <div class="preview-fill" style="width: 80%"></div>
+                  </div>
+                  <span class="preview-percent">80% RDV</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Blurred Preview -->
+            <div class="blurred-preview">
+              <div class="blur-overlay">
+                <span class="blur-text">+12 more nutrients</span>
+              </div>
+              <div class="blurred-rows">
+                <div class="blurred-row"></div>
+                <div class="blurred-row"></div>
+                <div class="blurred-row"></div>
+                <div class="blurred-row"></div>
+              </div>
+            </div>
+
+            <!-- Unlock CTA -->
+            <button class="unlock-premium-btn" onclick="unlockPremium()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              Unlock Premium
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=3"></script>
+  <script>
+    function unlockPremium() {
+      navigateTo('paywall-sheet?context=nutrients&return=nutrients-full');
+    }
+  </script>
+
+  <style>
+    .screen-nutrients-locked {
+      background: #F5F6FA;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .nutrients-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: white;
+      border-bottom: 1px solid #F4F4F4;
+    }
+    
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      margin-left: -8px;
+    }
+    
+    .nutrients-title-header {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0;
+    }
+    
+    .header-spacer {
+      width: 40px;
+    }
+    
+    .nutrients-locked-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 20px;
+    }
+    
+    .upsell-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    
+    .premium-icon-large {
+      width: 72px;
+      height: 72px;
+      background: #FEF3C7;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    
+    .upsell-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0 0 8px 0;
+    }
+    
+    .upsell-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0 20px;
+    }
+    
+    .preview-nutrients-card {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+    }
+    
+    .preview-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #F4F4F4;
+    }
+    
+    .preview-row:last-child {
+      border-bottom: none;
+    }
+    
+    .preview-nutrient-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #0f172a;
+      font-weight: 500;
+    }
+    
+    .preview-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .preview-bar {
+      width: 80px;
+      height: 6px;
+      background: #E5E7EB;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .preview-fill {
+      height: 100%;
+      background: #7F7CF0;
+      border-radius: 3px;
+    }
+    
+    .preview-percent {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 500;
+      min-width: 60px;
+      text-align: right;
+    }
+    
+    .blurred-preview {
+      position: relative;
+      margin-bottom: 24px;
+    }
+    
+    .blur-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      border-radius: 12px;
+    }
+    
+    .blur-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #7F7CF0;
+      background: white;
+      padding: 10px 20px;
+      border-radius: 9999px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .blurred-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 20px;
+      background: white;
+      border-radius: 16px;
+    }
+    
+    .blurred-row {
+      height: 40px;
+      background: #F5F6FA;
+      border-radius: 8px;
+    }
+    
+    .unlock-premium-btn {
+      width: 100%;
+      height: 56px;
+      background: linear-gradient(135deg, #7F7CF0 0%, #9794F3 100%);
+      border: none;
+      border-radius: 9999px;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 20px rgba(127, 124, 240, 0.3);
+      transition: transform 0.2s;
+    }
+    
+    .unlock-premium-btn:active {
+      transform: scale(0.98);
+    }
+  </style>
+</body>
+</html>

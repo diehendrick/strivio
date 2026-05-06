@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Unlock Premium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- Screen: Paywall Bottom Sheet -->
+        <div class="screen screen-paywall-sheet active" data-screen="paywall-sheet">
+          <div class="bottom-sheet-overlay" onclick="closePaywall()">
+            <div class="bottom-sheet paywall-sheet" onclick="event.stopPropagation()">
+              
+              <!-- Handle Bar -->
+              <div class="sheet-handle"></div>
+              
+              <!-- Sheet Header -->
+              <div class="paywall-header">
+                <div class="premium-icon-large">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </div>
+                <h2 class="paywall-title">Unlock Premium</h2>
+                <p class="paywall-subtitle">Get the most out of Strivio</p>
+              </div>
+
+              <!-- Benefits List -->
+              <div class="paywall-benefits" id="paywallBenefits">
+                <!-- Benefits injected by JS based on context -->
+              </div>
+
+              <!-- Sheet Actions -->
+              <div class="sheet-actions">
+                <button class="sheet-btn-primary" onclick="unlockPremium()">
+                  Unlock Premium
+                </button>
+                <button class="sheet-btn-secondary" onclick="closePaywall()">
+                  Not Now
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=3"></script>
+  <script>
+    (function() {
+      // Benefit configurations for different contexts
+      const benefitConfigs = {
+        barcode: [
+          { icon: 'scan', text: 'Scan barcodes for instant nutrition data' },
+          { icon: 'database', text: 'Access to 3M+ food database' },
+          { icon: 'clock', text: 'Log packaged foods in seconds' }
+        ],
+        nutrients: [
+          { icon: 'chart', text: 'Track vitamins & minerals' },
+          { icon: 'target', text: 'See RDV progress for all nutrients' },
+          { icon: 'heart', text: 'Optimize your micronutrition' }
+        ],
+        favorites: [
+          { icon: 'star', text: 'Unlimited favorite foods' },
+          { icon: 'zap', text: 'Quick access to frequent foods' },
+          { icon: 'sync', text: 'Sync across all your devices' }
+        ],
+        customMeals: [
+          { icon: 'layers', text: 'Create unlimited custom meals' },
+          { icon: 'repeat', text: 'Save time with meal templates' },
+          { icon: 'share', text: 'Share meal plans with friends' }
+        ],
+        editQuantity: [
+          { icon: 'edit', text: 'Inline quantity editing' },
+          { icon: 'sliders', text: 'Adjust serving sizes on the fly' },
+          { icon: 'activity', text: 'Real-time macro updates' }
+        ],
+        default: [
+          { icon: 'star', text: 'Unlimited favorite foods' },
+          { icon: 'scan', text: 'Barcode scanner access' },
+          { icon: 'chart', text: 'Detailed nutrient tracking' },
+          { icon: 'layers', text: 'Unlimited custom meals' }
+        ]
+      };
+      
+      // Icon SVGs
+      const icons = {
+        scan: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"></path><path d="M17 3h2a2 2 0 0 1 2 2v2"></path><path d="M21 17v2a2 2 0 0 1-2 2h-2"></path><path d="M7 21H5a2 2 0 0 1-2-2v-2"></path></svg>',
+        database: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>',
+        clock: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12,6 12,12 16,14"></polyline></svg>',
+        chart: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>',
+        target: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>',
+        heart: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>',
+        star: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>',
+        zap: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
+        sync: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>',
+        layers: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>',
+        repeat: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>',
+        share: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16,6 12,2 8,6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>',
+        edit: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>',
+        sliders: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>',
+        activity: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>'
+      };
+      
+      // Get context from URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const context = urlParams.get('context') || 'default';
+      const returnScreen = urlParams.get('return') || 'logbook';
+      
+      // Render benefits
+      const benefits = benefitConfigs[context] || benefitConfigs.default;
+      const container = document.getElementById('paywallBenefits');
+      
+      benefits.forEach(benefit => {
+        const item = document.createElement('div');
+        item.className = 'paywall-benefit';
+        item.innerHTML = `
+          <div class="benefit-icon">${icons[benefit.icon]}</div>
+          <span class="benefit-text">${benefit.text}</span>
+        `;
+        container.appendChild(item);
+      });
+      
+      window.unlockPremium = function() {
+        // Simulate premium unlock
+        if (window.__strivio_state) {
+          window.__strivio_state.isPremium = true;
+        }
+        localStorage.setItem('strivio_premium', 'true');
+        
+        // Show success and redirect
+        const btn = document.querySelector('.sheet-btn-primary');
+        btn.textContent = 'Unlocked!';
+        btn.style.background = '#10B981';
+        
+        setTimeout(() => {
+          window.location.href = returnScreen + '.html';
+        }, 800);
+      };
+      
+      window.closePaywall = function() {
+        window.history.back();
+      };
+    })();
+  </script>
+
+  <style>
+    .screen-paywall-sheet {
+      background: transparent;
+    }
+    
+    .paywall-sheet {
+      padding-top: 12px;
+    }
+    
+    .sheet-handle {
+      width: 40px;
+      height: 4px;
+      background: #E5E7EB;
+      border-radius: 2px;
+      margin: 0 auto 20px;
+    }
+    
+    .paywall-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    
+    .premium-icon-large {
+      width: 56px;
+      height: 56px;
+      background: #FEF3C7;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+    }
+    
+    .paywall-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0 0 4px 0;
+    }
+    
+    .paywall-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #64748b;
+      margin: 0;
+    }
+    
+    .paywall-benefits {
+      margin-bottom: 24px;
+    }
+    
+    .paywall-benefit {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 12px;
+      background: #F9FAFB;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+    
+    .paywall-benefit:last-child {
+      margin-bottom: 0;
+    }
+    
+    .benefit-icon {
+      width: 40px;
+      height: 40px;
+      background: #FEF3C7;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    .benefit-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #0f172a;
+      font-weight: 500;
+    }
+    
+    .paywall-sheet .sheet-actions {
+      padding-top: 0;
+      border-top: none;
+    }
+    
+    .paywall-sheet .sheet-btn-primary {
+      background: linear-gradient(135deg, #7F7CF0 0%, #9794F3 100%);
+      box-shadow: 0 4px 16px rgba(127, 124, 240, 0.3);
+    }
+  </style>
+</body>
+</html>

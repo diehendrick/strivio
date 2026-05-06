@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Custom Meal Limit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper">
+        <div class="screen screen-meal-paywall active">
+          <div class="meal-paywall-content">
+            <h1 class="meal-paywall-title">Create Unlimited<br>Custom Meals</h1>
+            <div class="meal-illustration">
+              <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
+                <circle cx="70" cy="70" r="60" fill="#F1F0FF"/>
+                <rect x="35" y="45" width="70" height="50" rx="10" fill="white" stroke="#7F7CF0" stroke-width="2"/>
+                <line x1="45" y1="60" x2="95" y2="60" stroke="#E5E7EB" stroke-width="2"/>
+                <line x1="45" y1="72" x2="85" y2="72" stroke="#E5E7EB" stroke-width="2"/>
+                <line x1="45" y1="84" x2="75" y2="84" stroke="#E5E7EB" stroke-width="2"/>
+                <rect x="50" y="35" width="8" height="20" rx="4" fill="#7F7CF0"/>
+                <rect x="65" y="25" width="8" height="30" rx="4" fill="#F59E0B"/>
+                <rect x="80" y="30" width="8" height="25" rx="4" fill="#10B981"/>
+                <circle cx="110" cy="40" r="20" fill="#FEF3C7"/>
+                <text x="110" y="48" text-anchor="middle" fill="#92400E" font-size="20" font-family="Inter" font-weight="700">!</text>
+              </svg>
+            </div>
+            <p class="meal-paywall-desc">You've used your free custom meal. Upgrade to create unlimited reusable meals and log faster every day.</p>
+            <button class="btn-unlock-meals" onclick="navigateTo('paywall-sheet?context=customMeals&return=create-custom-meal')">Unlock Premium</button>
+            <button class="btn-not-now" onclick="navigateTo('custom-meals-list')">Not Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+  <style>
+    .screen-meal-paywall { background:#F5F6FA; display:flex; flex-direction:column; height:100%; }
+    .meal-paywall-content { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 24px; text-align:center; }
+    .meal-paywall-title { font-family:'Outfit',sans-serif; font-size:26px; font-weight:700; color:#0f172a; margin:0 0 32px; line-height:1.3; }
+    .meal-illustration { margin-bottom:32px; }
+    .meal-paywall-desc { font-family:'Inter',sans-serif; font-size:15px; color:#64748b; line-height:1.6; margin:0 0 40px; max-width:300px; }
+    .btn-unlock-meals { width:100%; max-width:300px; height:56px; background:linear-gradient(135deg,#7F7CF0 0%,#9794F3 100%); border:none; border-radius:9999px; color:white; font-family:'Inter',sans-serif; font-size:16px; font-weight:600; cursor:pointer; margin-bottom:12px; box-shadow:0 4px 16px rgba(127,124,240,0.3); }
+    .btn-unlock-meals:active { transform:scale(0.98); }
+    .btn-not-now { width:100%; max-width:300px; height:52px; background:none; border:none; color:#64748b; font-family:'Inter',sans-serif; font-size:16px; font-weight:500; cursor:pointer; }
+  </style>
+</body>
+</html>

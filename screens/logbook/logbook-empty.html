@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Log Book</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- Screen: Logbook Empty State -->
+        <div class="screen screen-logbook active" data-screen="logbook-empty">
+          <div class="logbook-scroll">
+            
+            <!-- Status Bar -->
+            <div class="status-bar">
+              <span class="status-time">9:41</span>
+              <div class="status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" />
+                  <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="#0f172a" />
+                  <path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="#0f172a" />
+                  <circle cx="8" cy="11" r="2" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" />
+                  <rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" />
+                  <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Header -->
+            <div class="logbook-header">
+              <h1 class="logbook-title">Log Book</h1>
+              <div class="date-selector">
+                <button class="date-nav-btn" aria-label="Previous day">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15,18 9,12 15,6"></polyline>
+                  </svg>
+                </button>
+                <div class="date-display">
+                  <span class="date-text">Today, May 5</span>
+                  <button class="calendar-btn" aria-label="Open calendar" onclick="navigateTo('calendar-sheet')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7F7CF0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                  </button>
+                </div>
+                <button class="date-nav-btn" aria-label="Next day">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9,18 15,12 9,6"></polyline>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Empty State Content -->
+            <div class="empty-state-container">
+              <div class="empty-illustration">
+                <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+                  <circle cx="60" cy="60" r="50" fill="#F1F0FF"/>
+                  <rect x="35" y="40" width="50" height="40" rx="8" fill="#7F7CF0" opacity="0.2"/>
+                  <rect x="40" y="45" width="40" height="4" rx="2" fill="#7F7CF0" opacity="0.4"/>
+                  <rect x="40" y="52" width="30" height="4" rx="2" fill="#7F7CF0" opacity="0.3"/>
+                  <rect x="40" y="59" width="35" height="4" rx="2" fill="#7F7CF0" opacity="0.4"/>
+                  <rect x="40" y="66" width="25" height="4" rx="2" fill="#7F7CF0" opacity="0.3"/>
+                  <circle cx="85" cy="35" r="12" fill="#FEF3C7"/>
+                  <text x="85" y="39" text-anchor="middle" fill="#92400E" font-size="12" font-family="Inter" font-weight="600">?</text>
+                </svg>
+              </div>
+              
+              <h2 class="empty-title">No foods logged yet</h2>
+              <p class="empty-description">Start tracking your meals to see your calories and macros for today.</p>
+              
+              <button class="add-food-cta-empty" onclick="navigateTo('add-food-home')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Add Food
+              </button>
+              
+              <button class="text-btn copy-prev-btn-empty" onclick="navigateTo('copy-previous-day')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7F7CF0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                Copy Previous Day
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Bottom Navigation -->
+          <nav class="bottom-nav">
+            <button class="nav-item" data-nav="home" onclick="navigateTo('home')">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9,22 9,12 15,12 15,22"></polyline>
+              </svg>
+              <span>Home</span>
+            </button>
+            <button class="nav-item active" data-nav="logbook">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14,2 14,8 20,8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10,9 9,9 8,9"></polyline>
+              </svg>
+              <span>Logbook</span>
+            </button>
+            <button class="nav-item" data-nav="coach" onclick="navigateTo('coach-main')">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Coach</span>
+            </button>
+            <button class="nav-item" data-nav="more" onclick="navigateTo('more')">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="1"></circle>
+                <circle cx="19" cy="12" r="1"></circle>
+                <circle cx="5" cy="12" r="1"></circle>
+              </svg>
+              <span>More</span>
+            </button>
+          </nav>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=3"></script>
+</body>
+</html>

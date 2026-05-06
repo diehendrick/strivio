@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Breakfast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- Screen: Meal Detail -->
+        <div class="screen screen-meal-detail active" data-screen="meal-detail">
+          
+          <!-- Header -->
+          <div class="meal-header">
+            <button class="back-btn" onclick="navigateTo('logbook')" aria-label="Go back">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15,18 9,12 15,6"></polyline>
+              </svg>
+            </button>
+            <h1 class="meal-header-title">Breakfast</h1>
+            <div class="header-spacer"></div>
+          </div>
+
+          <div class="meal-detail-scroll">
+            <!-- Meal Summary -->
+            <div class="meal-summary">
+              <div class="meal-total-calories">420 kcal</div>
+              <div class="meal-total-macros">
+                <span>Protein 28g</span>
+                <span>•</span>
+                <span>Carbs 42g</span>
+                <span>•</span>
+                <span>Fat 12g</span>
+              </div>
+            </div>
+
+            <!-- Food Items List -->
+            <div class="food-items-list">
+              
+              <!-- Food Item 1 -->
+              <div class="food-item-card" onclick="editFood('greek-yogurt')">
+                <div class="food-item-info">
+                  <div class="food-item-main">
+                    <span class="food-item-name">Greek Yogurt</span>
+                    <div class="premium-edit-badge" id="editBadge1">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="food-item-meta">
+                    <span>1 serving</span>
+                    <span>•</span>
+                    <span>150 kcal</span>
+                  </div>
+                  <div class="food-item-macros-mini">
+                    <span>P 12g</span>
+                    <span>C 8g</span>
+                    <span>F 4g</span>
+                  </div>
+                </div>
+                <button class="food-item-more" onclick="event.stopPropagation(); showOptions('greek-yogurt')" aria-label="More options">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="5" r="1"></circle>
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="12" cy="19" r="1"></circle>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Food Item 2 -->
+              <div class="food-item-card" onclick="editFood('banana')">
+                <div class="food-item-info">
+                  <div class="food-item-main">
+                    <span class="food-item-name">Banana</span>
+                    <div class="premium-edit-badge" id="editBadge2">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="food-item-meta">
+                    <span>1 piece</span>
+                    <span>•</span>
+                    <span>105 kcal</span>
+                  </div>
+                  <div class="food-item-macros-mini">
+                    <span>P 1g</span>
+                    <span>C 27g</span>
+                    <span>F 0g</span>
+                  </div>
+                </div>
+                <button class="food-item-more" onclick="event.stopPropagation(); showOptions('banana')" aria-label="More options">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="5" r="1"></circle>
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="12" cy="19" r="1"></circle>
+                  </svg>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Spacer -->
+            <div class="bottom-spacer"></div>
+          </div>
+
+          <!-- Add Food Button -->
+          <button class="add-food-to-meal-btn" onclick="navigateTo('add-food-home')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Add Food to Breakfast
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=3"></script>
+  <script>
+    (function() {
+      // Check if user is premium
+      const isPremium = window.__strivio_state?.isPremium || false;
+      
+      // Show/hide premium edit badges based on status
+      const badges = document.querySelectorAll('.premium-edit-badge');
+      badges.forEach(badge => {
+        badge.style.display = isPremium ? 'none' : 'flex';
+      });
+      
+      window.editFood = function(foodId) {
+        if (isPremium) {
+          navigateTo('edit-quantity-sheet');
+        } else {
+          // Show paywall bottom sheet
+          navigateTo('paywall-sheet?context=editQuantity&return=meal-detail');
+        }
+      };
+      
+      window.showOptions = function(foodId) {
+        // Simple alert for now - could be a bottom sheet with options
+        if (confirm('Remove this food from your log?')) {
+          // Remove animation
+          event.target.closest('.food-item-card').style.opacity = '0';
+          setTimeout(() => {
+            location.reload(); // Refresh to show updated list
+          }, 200);
+        }
+      };
+    })();
+  </script>
+
+  <style>
+    .screen-meal-detail {
+      background: #F5F6FA;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .meal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: white;
+      border-bottom: 1px solid #F4F4F4;
+    }
+    
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      margin-left: -8px;
+    }
+    
+    .back-btn:active {
+      background: #F5F6FA;
+    }
+    
+    .meal-header-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0;
+    }
+    
+    .header-spacer {
+      width: 40px;
+    }
+    
+    .meal-detail-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    
+    .meal-summary {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    
+    .meal-total-calories {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+    
+    .meal-total-macros {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #64748b;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .food-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .food-item-card {
+      background: white;
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .food-item-card:active {
+      transform: scale(0.99);
+      box-shadow: 0 1px 6px rgba(15, 23, 42, 0.06);
+    }
+    
+    .food-item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .food-item-main {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .food-item-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    
+    .premium-edit-badge {
+      width: 18px;
+      height: 18px;
+      background: #FEF3C7;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .food-item-meta {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #64748b;
+      display: flex;
+      gap: 6px;
+    }
+    
+    .food-item-macros-mini {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #9CA3AF;
+      display: flex;
+      gap: 12px;
+    }
+    
+    .food-item-more {
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      margin-left: 8px;
+    }
+    
+    .food-item-more:active {
+      background: #F5F6FA;
+    }
+    
+    .add-food-to-meal-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      height: 52px;
+      background: white;
+      border: 2px solid #7F7CF0;
+      border-radius: 9999px;
+      color: #7F7CF0;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+      z-index: 100;
+    }
+    
+    .add-food-to-meal-btn:active {
+      background: #F1F0FF;
+      transform: scale(0.98);
+    }
+    
+    .bottom-spacer {
+      height: 80px;
+    }
+  </style>
+</body>
+</html>

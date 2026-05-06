@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Add Foods to Meal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper">
+        <div class="screen screen-add-foods active">
+          <div class="add-foods-header">
+            <button class="back-btn" onclick="navigateTo('create-custom-meal')">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"><polyline points="15,18 9,12 15,6"></polyline></svg>
+            </button>
+            <span class="add-foods-title">Add Foods</span>
+            <div style="width:40px"></div>
+          </div>
+          <div class="add-foods-content">
+            <div class="search-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" class="search-input-sm" placeholder="Search food..." onfocus="navigateTo('add-food-home')">
+            </div>
+            <div class="added-section">
+              <h3 class="section-label-sm">Added Foods</h3>
+              <div class="added-list">
+                <div class="added-item">
+                  <span class="added-name">Banana</span>
+                  <button class="remove-added" onclick="this.parentElement.remove()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+                <div class="added-item">
+                  <span class="added-name">Greek Yogurt</span>
+                  <button class="remove-added" onclick="this.parentElement.remove()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+                <div class="added-item">
+                  <span class="added-name">Protein Powder</span>
+                  <button class="remove-added" onclick="this.parentElement.remove()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="running-total">
+              <h3 class="section-label-sm">Running Total</h3>
+              <div class="total-card">
+                <div class="total-calories">420 kcal</div>
+                <div class="total-macros">P 28g • C 42g • F 10g</div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-review" onclick="navigateTo('custom-meal-review')">Review Meal</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+  <style>
+    .screen-add-foods { background:#F5F6FA; display:flex; flex-direction:column; height:100%; }
+    .add-foods-header { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:white; border-bottom:1px solid #F4F4F4; }
+    .add-foods-title { font-family:'Outfit',sans-serif; font-size:18px; font-weight:600; color:#0f172a; }
+    .add-foods-content { flex:1; padding:24px 20px; overflow-y:auto; }
+    .search-box { display:flex; align-items:center; gap:12px; background:white; border-radius:14px; padding:14px 16px; margin-bottom:24px; }
+    .search-input-sm { flex:1; border:none; background:none; font-family:'Inter',sans-serif; font-size:15px; color:#0f172a; outline:none; }
+    .added-section { margin-bottom:24px; }
+    .section-label-sm { font-family:'Outfit',sans-serif; font-size:15px; font-weight:600; color:#0f172a; margin:0 0 14px; }
+    .added-list { display:flex; flex-direction:column; gap:10px; }
+    .added-item { display:flex; align-items:center; justify-content:space-between; background:white; border-radius:14px; padding:14px 16px; }
+    .added-name { font-family:'Inter',sans-serif; font-size:15px; color:#0f172a; font-weight:500; }
+    .remove-added { width:32px; height:32px; background:#FEE2E2; border:none; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+    .total-card { background:white; border-radius:16px; padding:20px; text-align:center; }
+    .total-calories { font-family:'Outfit',sans-serif; font-size:28px; font-weight:700; color:#0f172a; margin-bottom:6px; }
+    .total-macros { font-family:'Inter',sans-serif; font-size:14px; color:#64748b; }
+    .btn-review { position:fixed; bottom:20px; left:20px; right:20px; height:56px; background:#7F7CF0; border:none; border-radius:9999px; color:white; font-family:'Inter',sans-serif; font-size:16px; font-weight:600; cursor:pointer; z-index:100; }
+    .btn-review:active { transform:scale(0.98); background:#9794F3; }
+  </style>
+</body>
+</html>

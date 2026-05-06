@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Review Meal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper">
+        <div class="screen screen-review-meal active">
+          <div class="review-header">
+            <button class="back-btn" onclick="navigateTo('add-foods-custom')">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"><polyline points="15,18 9,12 15,6"></polyline></svg>
+            </button>
+            <span class="review-title">Review Meal</span>
+            <div style="width:40px"></div>
+          </div>
+          <div class="review-content">
+            <div class="meal-name-review">
+              <h2>Morning Smoothie</h2>
+            </div>
+            <div class="total-nutrition">
+              <h3 class="section-label-review">Total Nutrition</h3>
+              <div class="total-card-review">
+                <div class="total-calories-review">420 kcal</div>
+                <div class="total-macros-review">P 28g • C 42g • F 10g</div>
+              </div>
+            </div>
+            <div class="components-section">
+              <h3 class="section-label-review">Components</h3>
+              <div class="components-list">
+                <div class="component-item">
+                  <span class="comp-name">Banana</span>
+                  <span class="comp-qty">1 piece</span>
+                  <button class="comp-more">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
+                      <circle cx="12" cy="5" r="1"></circle>
+                      <circle cx="12" cy="12" r="1"></circle>
+                      <circle cx="12" cy="19" r="1"></circle>
+                    </svg>
+                  </button>
+                </div>
+                <div class="component-item">
+                  <span class="comp-name">Greek Yogurt</span>
+                  <span class="comp-qty">1 serving</span>
+                  <button class="comp-more">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
+                      <circle cx="12" cy="5" r="1"></circle>
+                      <circle cx="12" cy="12" r="1"></circle>
+                      <circle cx="12" cy="19" r="1"></circle>
+                    </svg>
+                  </button>
+                </div>
+                <div class="component-item">
+                  <span class="comp-name">Protein Powder</span>
+                  <span class="comp-qty">1 scoop</span>
+                  <button class="comp-more">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
+                      <circle cx="12" cy="5" r="1"></circle>
+                      <circle cx="12" cy="12" r="1"></circle>
+                      <circle cx="12" cy="19" r="1"></circle>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="review-actions">
+            <button class="btn-add-more" onclick="navigateTo('add-foods-custom')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Add More Food
+            </button>
+            <button class="btn-save-meal" onclick="saveCustomMeal()">Save Custom Meal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=3"></script>
+  <script>
+    function saveCustomMeal() {
+      navigateTo('custom-meals-list');
+    }
+  </script>
+  <style>
+    .screen-review-meal { background:#F5F6FA; display:flex; flex-direction:column; height:100%; }
+    .review-header { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:white; border-bottom:1px solid #F4F4F4; }
+    .review-title { font-family:'Outfit',sans-serif; font-size:18px; font-weight:600; color:#0f172a; }
+    .review-content { flex:1; padding:24px 20px; overflow-y:auto; }
+    .meal-name-review { margin-bottom:20px; }
+    .meal-name-review h2 { font-family:'Outfit',sans-serif; font-size:22px; font-weight:600; color:#0f172a; margin:0; }
+    .section-label-review { font-family:'Outfit',sans-serif; font-size:15px; font-weight:600; color:#0f172a; margin:0 0 14px; }
+    .total-card-review { background:white; border-radius:16px; padding:20px; text-align:center; margin-bottom:24px; }
+    .total-calories-review { font-family:'Outfit',sans-serif; font-size:32px; font-weight:700; color:#0f172a; margin-bottom:6px; }
+    .total-macros-review { font-family:'Inter',sans-serif; font-size:14px; color:#64748b; }
+    .components-list { display:flex; flex-direction:column; gap:10px; }
+    .component-item { display:flex; align-items:center; gap:12px; background:white; border-radius:14px; padding:16px; }
+    .comp-name { flex:1; font-family:'Inter',sans-serif; font-size:15px; font-weight:500; color:#0f172a; }
+    .comp-qty { font-family:'Inter',sans-serif; font-size:13px; color:#9CA3AF; }
+    .comp-more { width:32px; height:32px; background:none; border:none; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+    .review-actions { display:flex; flex-direction:column; gap:12px; padding:16px 20px 24px; background:white; border-top:1px solid #F4F4F4; }
+    .btn-add-more { height:52px; background:white; border:2px solid #E5E7EB; border-radius:9999px; color:#0f172a; font-family:'Inter',sans-serif; font-size:16px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; }
+    .btn-save-meal { height:56px; background:#7F7CF0; border:none; border-radius:9999px; color:white; font-family:'Inter',sans-serif; font-size:16px; font-weight:600; cursor:pointer; }
+    .btn-save-meal:active { transform:scale(0.98); background:#9794F3; }
+  </style>
+</body>
+</html>

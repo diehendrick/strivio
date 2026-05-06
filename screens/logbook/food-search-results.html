@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Search Results</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- Screen: Food Search Results -->
+        <div class="screen screen-search-results active" data-screen="food-search-results">
+          
+          <!-- Header -->
+          <div class="search-header">
+            <button class="back-btn" onclick="navigateTo('add-food-home')" aria-label="Go back">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15,18 9,12 15,6"></polyline>
+              </svg>
+            </button>
+            <div class="search-bar-compact">
+              <input type="text" class="search-input-compact" id="searchInput" value="chicken rice">
+              <button class="barcode-btn-small" onclick="openBarcode()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7F7CF0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+                  <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+                  <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+                  <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="search-results-scroll">
+            <!-- Results Header -->
+            <h2 class="results-header">Results</h2>
+
+            <!-- Loading State (shown briefly) -->
+            <div class="loading-state" id="loadingState">
+              <div class="skeleton-row"></div>
+              <div class="skeleton-row"></div>
+              <div class="skeleton-row"></div>
+            </div>
+
+            <!-- Results List -->
+            <div class="results-list" id="resultsList">
+              
+              <!-- Result 1 -->
+              <div class="result-item">
+                <div class="result-info" onclick="viewFoodDetail('Chicken Rice Bowl')">
+                  <div class="result-name-row">
+                    <span class="result-name">Chicken Rice Bowl</span>
+                  </div>
+                  <span class="result-brand">Asian Kitchen</span>
+                  <span class="result-serving">420 kcal • 1 serving</span>
+                </div>
+                <button class="fav-btn" onclick="event.stopPropagation(); toggleFavourite(this)" aria-label="Add to favorites">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Result 2 -->
+              <div class="result-item">
+                <div class="result-info" onclick="viewFoodDetail('Grilled Chicken Breast')">
+                  <div class="result-name-row">
+                    <span class="result-name">Grilled Chicken Breast</span>
+                  </div>
+                  <span class="result-brand">Tyson</span>
+                  <span class="result-serving">165 kcal • 100g</span>
+                </div>
+                <button class="fav-btn active" onclick="event.stopPropagation(); toggleFavourite(this)" aria-label="Remove from favorites">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Result 3 -->
+              <div class="result-item">
+                <div class="result-info" onclick="viewFoodDetail('Brown Rice')">
+                  <div class="result-name-row">
+                    <span class="result-name">Brown Rice</span>
+                  </div>
+                  <span class="result-brand">Uncle Ben's</span>
+                  <span class="result-serving">216 kcal • 1 cup</span>
+                </div>
+                <button class="fav-btn" onclick="event.stopPropagation(); toggleFavourite(this)" aria-label="Add to favorites">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Result 4 -->
+              <div class="result-item">
+                <div class="result-info" onclick="viewFoodDetail('Chicken Teriyaki Bowl')">
+                  <div class="result-name-row">
+                    <span class="result-name">Chicken Teriyaki Bowl</span>
+                  </div>
+                  <span class="result-brand">Yoshinoya</span>
+                  <span class="result-serving">540 kcal • 1 bowl</span>
+                </div>
+                <button class="fav-btn" onclick="event.stopPropagation(); toggleFavourite(this)" aria-label="Add to favorites">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Result 5 -->
+              <div class="result-item">
+                <div class="result-info" onclick="viewFoodDetail('Jasmine Rice')">
+                  <div class="result-name-row">
+                    <span class="result-name">Jasmine Rice</span>
+                  </div>
+                  <span class="result-brand">Dynasty</span>
+                  <span class="result-serving">205 kcal • 1 cup cooked</span>
+                </div>
+                <button class="fav-btn" onclick="event.stopPropagation(); toggleFavourite(this)" aria-label="Add to favorites">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Create Custom Option -->
+            <button class="create-custom-btn" onclick="navigateTo('manual-entry')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7F7CF0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Create custom food
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=3"></script>
+  <script>
+    (function() {
+      const isPremium = window.__strivio_state?.isPremium || false;
+      let favouriteCount = 3; // Starting count
+      
+      // Show loading state briefly then show results
+      setTimeout(() => {
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('resultsList').style.display = 'flex';
+      }, 500);
+      
+      window.openBarcode = function() {
+        if (isPremium) {
+          navigateTo('barcode-scanner');
+        } else {
+          navigateTo('paywall-sheet?context=barcode&return=food-search-results');
+        }
+      };
+      
+      window.viewFoodDetail = function(foodName) {
+        navigateTo('food-detail-preview?food=' + encodeURIComponent(foodName));
+      };
+      
+      window.toggleFavourite = function(btn) {
+        const isFavourite = btn.classList.contains('active');
+        const svg = btn.querySelector('svg');
+        
+        if (isFavourite) {
+          // Remove from favourites
+          btn.classList.remove('active');
+          svg.setAttribute('fill', 'none');
+          svg.setAttribute('stroke', '#9CA3AF');
+          favouriteCount--;
+        } else {
+          // Check limit for free users
+          if (!isPremium && favouriteCount >= 3) {
+            // Show paywall
+            navigateTo('paywall-sheet?context=favorites&return=food-search-results');
+            return;
+          }
+          
+          // Add to favourites
+          btn.classList.add('active');
+          svg.setAttribute('fill', '#F59E0B');
+          svg.setAttribute('stroke', '#F59E0B');
+          favouriteCount++;
+          
+          // Show success feedback
+          showToast('Added to favourites');
+        }
+      };
+      
+      function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'search-toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        requestAnimationFrame(() => {
+          toast.classList.add('show');
+        });
+        
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 300);
+        }, 2000);
+      }
+    })();
+  </script>
+
+  <style>
+    .screen-search-results {
+      background: #F5F6FA;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .search-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      background: white;
+      border-bottom: 1px solid #F4F4F4;
+    }
+    
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      margin-left: -8px;
+    }
+    
+    .back-btn:active {
+      background: #F5F6FA;
+    }
+    
+    .search-bar-compact {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: #F5F6FA;
+      border-radius: 12px;
+      padding: 10px 14px;
+    }
+    
+    .search-input-compact {
+      flex: 1;
+      border: none;
+      background: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #0f172a;
+      outline: none;
+    }
+    
+    .barcode-btn-small {
+      width: 32px;
+      height: 32px;
+      background: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .search-results-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    
+    .results-header {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0 0 16px 0;
+    }
+    
+    .loading-state {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .skeleton-row {
+      height: 80px;
+      background: linear-gradient(90deg, #E5E7EB 25%, #F0F0F0 50%, #E5E7EB 75%);
+      background-size: 200% 100%;
+      border-radius: 16px;
+      animation: shimmer 1.5s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    
+    .results-list {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .result-item {
+      display: flex;
+      align-items: flex-start;
+      background: white;
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+      transition: transform 0.2s;
+    }
+    
+    .result-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+    
+    .result-info:active {
+      transform: scale(0.99);
+    }
+    
+    .result-name-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .result-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    
+    .fav-btn {
+      width: 32px;
+      height: 32px;
+      background: #F5F6FA;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-left: 12px;
+    }
+    
+    .fav-btn:active {
+      background: #E5E7EB;
+      transform: scale(0.95);
+    }
+    
+    .result-brand {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #64748b;
+    }
+    
+    .result-serving {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #9CA3AF;
+      margin-top: 2px;
+    }
+    
+    .create-custom-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      height: 52px;
+      background: white;
+      border: 2px dashed #E5E7EB;
+      border-radius: 16px;
+      color: #7F7CF0;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.2s;
+    }
+    
+    .create-custom-btn:active {
+      background: #F5F6FA;
+    }
+    
+    .search-toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #0F172A;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 1000;
+    }
+    
+    .search-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</body>
+</html>

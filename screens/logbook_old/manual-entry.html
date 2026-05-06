@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Add Food Manually</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=4">
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper">
+
+        <!-- SCREEN: Manual Food Entry -->
+        <div class="screen screen-manual-entry active" data-screen="manual-entry">
+          <div class="manual-entry-content">
+            <!-- Status Bar -->
+            <div class="status-bar">
+              <span class="status-time" id="statusTime">9:41</span>
+              <div class="status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" />
+                  <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z"
+                    fill="#0f172a" />
+                  <path
+                    d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z"
+                    fill="#0f172a" />
+                  <circle cx="8" cy="11" r="2" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" />
+                  <rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" />
+                  <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Header -->
+            <div class="manual-entry-header">
+              <button class="manual-back-btn" onclick="navigateTo('logbook')" aria-label="Go back">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15,18 9,12 15,6" />
+                </svg>
+              </button>
+              <h1 class="manual-entry-title">Add Food Manually</h1>
+              <div class="header-spacer"></div>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div class="manual-entry-scroll">
+              <!-- AI Photo Option -->
+              <div class="ai-photo-card" id="aiPhotoCard">
+                <div class="ai-photo-icon">📸</div>
+                <div class="ai-photo-text">
+                  <span class="ai-photo-title">Upload a photo</span>
+                  <span class="ai-photo-subtitle">Let AI estimate the calories</span>
+                </div>
+                <span class="ai-photo-badge">AI</span>
+              </div>
+
+              <div class="manual-divider">
+                <span>OR</span>
+              </div>
+
+              <!-- Food Name -->
+              <div class="manual-form-group">
+                <label class="manual-label">Name</label>
+                <input type="text" class="manual-input" id="foodName" placeholder="Enter food name...">
+              </div>
+
+              <!-- Serving Size -->
+              <div class="manual-form-group">
+                <label class="manual-label">Serving Size</label>
+                <div class="serving-size-row">
+                  <input type="number" class="manual-input quantity-input" id="servingQty" value="1" min="0.25" step="0.25">
+                  <select class="manual-input unit-select" id="servingUnit">
+                    <option value="serving">serving</option>
+                    <option value="g">g</option>
+                    <option value="oz">oz</option>
+                    <option value="cup">cup</option>
+                    <option value="tbsp">tbsp</option>
+                    <option value="tsp">tsp</option>
+                    <option value="piece">piece</option>
+                  </select>
+                </div>
+                <input type="text" class="manual-input" id="servingWeight" placeholder="e.g., 100g (optional)">
+              </div>
+
+              <!-- Macros Card -->
+              <div class="manual-card macros-input-card">
+                <h3 class="manual-card-title">Macros</h3>
+
+                <!-- Calories -->
+                <div class="macro-input-row">
+                  <label class="macro-input-label">Calories</label>
+                  <div class="macro-input-wrap">
+                    <input type="number" class="macro-input" id="caloriesInput" placeholder="0">
+                    <span class="macro-input-unit">kcal</span>
+                  </div>
+                </div>
+
+                <!-- Protein -->
+                <div class="macro-input-row">
+                  <label class="macro-input-label protein-label">Protein</label>
+                  <div class="macro-input-wrap">
+                    <input type="number" class="macro-input" id="proteinInput" placeholder="0">
+                    <span class="macro-input-unit">g</span>
+                  </div>
+                </div>
+
+                <!-- Carbs -->
+                <div class="macro-input-row">
+                  <label class="macro-input-label carbs-label">Carbs</label>
+                  <div class="macro-input-wrap">
+                    <input type="number" class="macro-input" id="carbsInput" placeholder="0">
+                    <span class="macro-input-unit">g</span>
+                  </div>
+                </div>
+
+                <!-- Fat -->
+                <div class="macro-input-row">
+                  <label class="macro-input-label fat-label">Fat</label>
+                  <div class="macro-input-wrap">
+                    <input type="number" class="macro-input" id="fatInput" placeholder="0">
+                    <span class="macro-input-unit">g</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Micronutrients (Collapsible) -->
+              <div class="manual-card micronutrients-card">
+                <button class="micronutrients-toggle" id="microToggle">
+                  <span>Micronutrients (Optional)</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"
+                    class="toggle-chevron">
+                    <polyline points="6,9 12,15 18,9" />
+                  </svg>
+                </button>
+                <div class="micronutrients-content" id="microContent" style="display: none;">
+                  <div class="micro-grid">
+                    <div class="micro-input">
+                      <label>Fiber</label>
+                      <input type="number" id="fiberInput" placeholder="0">
+                      <span>g</span>
+                    </div>
+                    <div class="micro-input">
+                      <label>Sugar</label>
+                      <input type="number" id="sugarInput" placeholder="0">
+                      <span>g</span>
+                    </div>
+                    <div class="micro-input">
+                      <label>Sodium</label>
+                      <input type="number" id="sodiumInput" placeholder="0">
+                      <span>mg</span>
+                    </div>
+                    <div class="micro-input">
+                      <label>Cholesterol</label>
+                      <input type="number" id="cholesterolInput" placeholder="0">
+                      <span>mg</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom Actions -->
+              <div class="manual-actions">
+                <button class="manual-primary-btn" id="saveLogBtn">
+                  💾 Save & Log
+                </button>
+                <button class="manual-secondary-btn" id="saveToFoodsBtn">
+                  Save to My Foods
+                </button>
+              </div>
+
+              <!-- Bottom spacer -->
+              <div class="manual-bottom-spacer"></div>
+            </div>
+          </div>
+
+          <!-- AI Analysis Overlay -->
+          <div class="ai-analysis-overlay" id="aiAnalysisOverlay" style="display: none;">
+            <div class="ai-analysis-content">
+              <div class="ai-photo-preview" id="aiPhotoPreview">
+                <div class="ai-photo-placeholder">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(127,124,240,0.5)" stroke-width="1.5">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="ai-analyzing">
+                <div class="ai-shimmer"></div>
+                <span>Analyzing your food...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=4"></script>
+  <script>
+    // Form state
+    const formState = {
+      name: '',
+      servingQty: 1,
+      servingUnit: 'serving',
+      servingWeight: '',
+      calories: 0,
+      protein: 0,
+      carbs: 0,
+      fat: 0,
+      fiber: 0,
+      sugar: 0,
+      sodium: 0,
+      cholesterol: 0
+    };
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      // Update status time
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('statusTime').textContent = hours + ':' + minutes;
+
+      // Setup toggle for micronutrients
+      document.getElementById('microToggle').addEventListener('click', () => {
+        const content = document.getElementById('microContent');
+        const chevron = document.querySelector('.toggle-chevron');
+        const isOpen = content.style.display !== 'none';
+        content.style.display = isOpen ? 'none' : 'block';
+        chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+      });
+
+      // AI Photo card click
+      document.getElementById('aiPhotoCard').addEventListener('click', () => {
+        // Show analysis overlay
+        document.getElementById('aiAnalysisOverlay').style.display = 'flex';
+
+        // Simulate AI analysis
+        setTimeout(() => {
+          // Mock AI result
+          const aiResult = {
+            name: 'Grilled Chicken Salad',
+            calories: 380,
+            protein: 42,
+            carbs: 12,
+            fat: 18,
+            serving: '1 bowl (350g)'
+          };
+
+          // Fill form with AI data
+          document.getElementById('foodName').value = aiResult.name;
+          document.getElementById('caloriesInput').value = aiResult.calories;
+          document.getElementById('proteinInput').value = aiResult.protein;
+          document.getElementById('carbsInput').value = aiResult.carbs;
+          document.getElementById('fatInput').value = aiResult.fat;
+          document.getElementById('servingWeight').value = aiResult.serving;
+
+          // Hide overlay
+          document.getElementById('aiAnalysisOverlay').style.display = 'none';
+
+          showToast('AI estimated with 85% confidence');
+        }, 2500);
+      });
+
+      // Save & Log button
+      document.getElementById('saveLogBtn').addEventListener('click', () => {
+        if (validateForm()) {
+          saveFoodAndLog();
+        }
+      });
+
+      // Save to My Foods button
+      document.getElementById('saveToFoodsBtn').addEventListener('click', () => {
+        if (validateForm()) {
+          saveToMyFoods();
+          showToast('Saved to My Foods');
+          setTimeout(() => navigateTo('logbook'), 500);
+        }
+      });
+    });
+
+    function validateForm() {
+      const name = document.getElementById('foodName').value.trim();
+      const calories = parseFloat(document.getElementById('caloriesInput').value) || 0;
+
+      if (!name) {
+        showToast('Please enter a food name');
+        document.getElementById('foodName').focus();
+        return false;
+      }
+
+      if (calories <= 0) {
+        showToast('Please enter calories');
+        document.getElementById('caloriesInput').focus();
+        return false;
+      }
+
+      return true;
+    }
+
+    function saveFoodAndLog() {
+      const food = {
+        name: document.getElementById('foodName').value.trim(),
+        brand: 'Custom',
+        serving: document.getElementById('servingQty').value + ' ' + document.getElementById('servingUnit').value,
+        cal: parseFloat(document.getElementById('caloriesInput').value) || 0,
+        p: parseFloat(document.getElementById('proteinInput').value) || 0,
+        c: parseFloat(document.getElementById('carbsInput').value) || 0,
+        f: parseFloat(document.getElementById('fatInput').value) || 0,
+        qty: 1
+      };
+
+      // Get current date
+      const today = new Date().toISOString().split('T')[0];
+
+      // Load existing logs
+      let logs = {};
+      try {
+        const savedLogs = localStorage.getItem('strivio_logs');
+        if (savedLogs) {
+          logs = JSON.parse(savedLogs);
+        }
+      } catch (e) {}
+
+      // Initialize today's log
+      if (!logs[today]) {
+        logs[today] = { breakfast: [], lunch: [], dinner: [], snacks: [] };
+      }
+
+      // Add to appropriate meal (smart default based on time)
+      const hour = new Date().getHours();
+      let meal = 'snacks';
+      if (hour < 11) meal = 'breakfast';
+      else if (hour < 15) meal = 'lunch';
+      else if (hour < 20) meal = 'dinner';
+
+      logs[today][meal].push({
+        ...food,
+        loggedAt: Date.now()
+      });
+
+      // Save logs
+      localStorage.setItem('strivio_logs', JSON.stringify(logs));
+
+      showToast(food.name + ' logged to ' + meal.charAt(0).toUpperCase() + meal.slice(1) + ' ✓');
+
+      setTimeout(() => {
+        navigateTo('logbook');
+      }, 1000);
+    }
+
+    function saveToMyFoods() {
+      const food = {
+        name: document.getElementById('foodName').value.trim(),
+        brand: 'Custom',
+        serving: document.getElementById('servingQty').value + ' ' + document.getElementById('servingUnit').value,
+        cal: parseFloat(document.getElementById('caloriesInput').value) || 0,
+        p: parseFloat(document.getElementById('proteinInput').value) || 0,
+        c: parseFloat(document.getElementById('carbsInput').value) || 0,
+        f: parseFloat(document.getElementById('fatInput').value) || 0
+      };
+
+      // Save to custom foods
+      let customFoods = [];
+      try {
+        const saved = localStorage.getItem('strivio_custom_foods');
+        if (saved) {
+          customFoods = JSON.parse(saved);
+        }
+      } catch (e) {}
+
+      customFoods.push(food);
+      localStorage.setItem('strivio_custom_foods', JSON.stringify(customFoods));
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'manual-toast';
+      toast.textContent = message;
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #0f172a;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 9999px;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        z-index: 1000;
+        animation: slideUp 0.3s ease;
+      `;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Food Detail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- Screen: Food Detail Preview -->
+        <div class="screen screen-food-detail active" data-screen="food-detail-preview">
+          
+          <!-- Header -->
+          <div class="food-detail-header">
+            <button class="back-btn" onclick="navigateTo('food-search-results')" aria-label="Go back">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15,18 9,12 15,6"></polyline>
+              </svg>
+            </button>
+            <div class="header-spacer"></div>
+          </div>
+
+          <div class="food-detail-scroll">
+            <!-- Food Info -->
+            <div class="food-info-section">
+              <h1 class="food-detail-name">Chicken Rice Bowl</h1>
+              <span class="food-detail-brand">Asian Kitchen</span>
+              
+              <div class="food-calories-main">
+                <span class="calories-number">420</span>
+                <span class="calories-unit">kcal</span>
+              </div>
+              <span class="per-serving">Per 1 serving</span>
+            </div>
+
+            <!-- Nutrition Card -->
+            <div class="nutrition-detail-card">
+              <div class="nutrition-row">
+                <span class="nutrition-label">Protein</span>
+                <span class="nutrition-value">32g</span>
+              </div>
+              <div class="nutrition-row">
+                <span class="nutrition-label">Carbs</span>
+                <span class="nutrition-value">48g</span>
+              </div>
+              <div class="nutrition-row">
+                <span class="nutrition-label">Fat</span>
+                <span class="nutrition-value">12g</span>
+              </div>
+            </div>
+
+            <!-- Serving Size Selector -->
+            <div class="serving-selector-section">
+              <label class="serving-label">Serving Size</label>
+              <button class="serving-selector-btn" onclick="toggleServingOptions()">
+                <span id="selectedServing">1 serving</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </button>
+              <div class="serving-options-dropdown" id="servingOptions">
+                <button class="serving-option-item active" data-value="1 serving" onclick="selectServingOption(this)">1 serving</button>
+                <button class="serving-option-item" data-value="100g" onclick="selectServingOption(this)">100g</button>
+                <button class="serving-option-item" data-value="1 cup" onclick="selectServingOption(this)">1 cup</button>
+                <button class="serving-option-item" data-value="1 bowl" onclick="selectServingOption(this)">1 bowl</button>
+              </div>
+            </div>
+
+            <!-- Spacer -->
+            <div class="bottom-spacer"></div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="food-detail-actions">
+            <button class="btn-favourite" onclick="toggleFavourite()" id="favBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              <span id="favText">Save to Favourites</span>
+            </button>
+            <button class="btn-log-food" onclick="logFood()">
+              Log This Food
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=3"></script>
+  <script>
+    (function() {
+      const isPremium = window.__strivio_state?.isPremium || false;
+      let isFavourite = false;
+      let favouriteCount = 3;
+      
+      window.toggleServingOptions = function() {
+        document.getElementById('servingOptions').classList.toggle('show');
+      };
+      
+      window.selectServingOption = function(btn) {
+        document.getElementById('selectedServing').textContent = btn.dataset.value;
+        document.querySelectorAll('.serving-option-item').forEach(opt => opt.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('servingOptions').classList.remove('show');
+      };
+      
+      window.toggleFavourite = function() {
+        if (!isFavourite && !isPremium && favouriteCount >= 3) {
+          // Show paywall
+          navigateTo('paywall-sheet?context=favorites&return=food-detail-preview');
+          return;
+        }
+        
+        isFavourite = !isFavourite;
+        const btn = document.getElementById('favBtn');
+        const text = document.getElementById('favText');
+        const svg = btn.querySelector('svg');
+        
+        if (isFavourite) {
+          btn.classList.add('active');
+          text.textContent = 'Saved to Favourites';
+          svg.setAttribute('fill', '#F59E0B');
+          svg.setAttribute('stroke', '#F59E0B');
+          favouriteCount++;
+          showToast('Added to favourites');
+        } else {
+          btn.classList.remove('active');
+          text.textContent = 'Save to Favourites';
+          svg.setAttribute('fill', 'none');
+          svg.setAttribute('stroke', 'currentColor');
+          favouriteCount--;
+        }
+      };
+      
+      window.logFood = function() {
+        navigateTo('log-food');
+      };
+      
+      function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'detail-toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        requestAnimationFrame(() => {
+          toast.classList.add('show');
+        });
+        
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 300);
+        }, 2000);
+      }
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.serving-selector-section')) {
+          document.getElementById('servingOptions').classList.remove('show');
+        }
+      });
+    })();
+  </script>
+
+  <style>
+    .screen-food-detail {
+      background: #F5F6FA;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .food-detail-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: white;
+      border-bottom: 1px solid #F4F4F4;
+    }
+    
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      margin-left: -8px;
+    }
+    
+    .back-btn:active {
+      background: #F5F6FA;
+    }
+    
+    .header-spacer {
+      width: 40px;
+    }
+    
+    .food-detail-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    
+    .food-info-section {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    
+    .food-detail-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0 0 6px 0;
+    }
+    
+    .food-detail-brand {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #64748b;
+      display: block;
+      margin-bottom: 20px;
+    }
+    
+    .food-calories-main {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    
+    .calories-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    
+    .calories-unit {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #64748b;
+    }
+    
+    .per-serving {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #9CA3AF;
+    }
+    
+    .nutrition-detail-card {
+      background: white;
+      border-radius: 16px;
+      padding: 8px 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+    }
+    
+    .nutrition-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid #F4F4F4;
+    }
+    
+    .nutrition-row:last-child {
+      border-bottom: none;
+    }
+    
+    .nutrition-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #64748b;
+    }
+    
+    .nutrition-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    
+    .serving-selector-section {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    
+    .serving-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #64748b;
+      margin-bottom: 10px;
+      display: block;
+    }
+    
+    .serving-selector-btn {
+      width: 100%;
+      height: 52px;
+      background: white;
+      border: 1px solid #E5E7EB;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #0f172a;
+      font-weight: 500;
+    }
+    
+    .serving-selector-btn:active {
+      background: #F9FAFB;
+    }
+    
+    .serving-options-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: white;
+      border-radius: 14px;
+      border: 1px solid #E5E7EB;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.2s;
+      z-index: 100;
+    }
+    
+    .serving-options-dropdown.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .serving-option-item {
+      width: 100%;
+      padding: 14px 16px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #0f172a;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    
+    .serving-option-item:hover {
+      background: #F5F6FA;
+    }
+    
+    .serving-option-item.active {
+      color: #7F7CF0;
+      font-weight: 600;
+    }
+    
+    .food-detail-actions {
+      padding: 16px 20px 28px;
+      background: white;
+      border-top: 1px solid #F4F4F4;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .btn-favourite {
+      height: 52px;
+      background: white;
+      border: 2px solid #E5E7EB;
+      border-radius: 9999px;
+      color: #64748b;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    
+    .btn-favourite.active {
+      background: #FFFBEB;
+      border-color: #FEF3C7;
+      color: #92400E;
+    }
+    
+    .btn-favourite:active {
+      transform: scale(0.98);
+    }
+    
+    .btn-log-food {
+      height: 52px;
+      background: #7F7CF0;
+      border: none;
+      border-radius: 9999px;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-log-food:active {
+      transform: scale(0.98);
+      background: #9794F3;
+    }
+    
+    .bottom-spacer {
+      height: 40px;
+    }
+    
+    .detail-toast {
+      position: fixed;
+      bottom: 180px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #0F172A;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 1000;
+    }
+    
+    .detail-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</body>
+</html>

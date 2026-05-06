@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Log Food</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=3">
+</head>
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- Screen: Log Food to Meal -->
+        <div class="screen screen-log-food active" data-screen="log-food">
+          
+          <!-- Header -->
+          <div class="log-food-header">
+            <button class="back-btn" onclick="navigateTo('food-detail-preview')" aria-label="Go back">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15,18 9,12 15,6"></polyline>
+              </svg>
+            </button>
+            <h1 class="log-food-title">Log Food</h1>
+            <div class="header-spacer"></div>
+          </div>
+
+          <div class="log-food-scroll">
+            <!-- Food Name -->
+            <div class="food-name-section">
+              <h2 class="food-log-name">Chicken Rice Bowl</h2>
+            </div>
+
+            <!-- Choose Meal -->
+            <div class="meal-selection">
+              <label class="section-label">Choose Meal</label>
+              <div class="meal-chips" id="mealChips">
+                <button class="meal-chip" data-meal="breakfast" onclick="selectMeal(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                    <line x1="6" y1="1" x2="6" y2="4"></line>
+                    <line x1="10" y1="1" x2="10" y2="4"></line>
+                    <line x1="14" y1="1" x2="14" y2="4"></line>
+                  </svg>
+                  Breakfast
+                </button>
+                <button class="meal-chip active" data-meal="lunch" onclick="selectMeal(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path>
+                    <path d="M7 2v20"></path>
+                    <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path>
+                  </svg>
+                  Lunch
+                </button>
+                <button class="meal-chip" data-meal="dinner" onclick="selectMeal(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                  </svg>
+                  Dinner
+                </button>
+                <button class="meal-chip" data-meal="snacks" onclick="selectMeal(this)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 21h8a2 2 0 0 0 2-2v-10a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"></path>
+                    <path d="M6 9h12"></path>
+                    <path d="M6 13h12"></path>
+                    <path d="M6 17h12"></path>
+                  </svg>
+                  Snacks
+                </button>
+              </div>
+            </div>
+
+            <!-- Quantity Selector -->
+            <div class="quantity-section-log">
+              <label class="section-label">Quantity</label>
+              <div class="quantity-stepper-large">
+                <button class="qty-btn-large" onclick="adjustQty(-0.5)">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+                <div class="qty-display" id="qtyDisplay">1.0</div>
+                <button class="qty-btn-large" onclick="adjustQty(0.5)">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Serving Size -->
+            <div class="serving-section-log">
+              <label class="section-label">Serving Size</label>
+              <select class="serving-select" id="servingSelect">
+                <option value="1 serving">1 serving</option>
+                <option value="100g">100g</option>
+                <option value="1 cup">1 cup</option>
+                <option value="1 bowl">1 bowl</option>
+              </select>
+            </div>
+
+            <!-- Nutrition Preview -->
+            <div class="nutrition-preview-card">
+              <label class="section-label">Nutrition Preview</label>
+              <div class="preview-calories" id="previewCalories">420 kcal</div>
+              <div class="preview-macros" id="previewMacros">
+                <span>P 32g</span>
+                <span>•</span>
+                <span>C 48g</span>
+                <span>•</span>
+                <span>F 12g</span>
+              </div>
+            </div>
+
+            <!-- Spacer -->
+            <div class="bottom-spacer"></div>
+          </div>
+
+          <!-- Add to Log Button -->
+          <button class="add-to-log-btn" onclick="addToLog()">
+            Add to Log
+          </button>
+
+          <!-- Toast Container -->
+          <div class="toast-container" id="toastContainer"></div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=3"></script>
+  <script>
+    (function() {
+      let quantity = 1.0;
+      let selectedMeal = 'lunch';
+      const baseCalories = 420;
+      const baseProtein = 32;
+      const baseCarbs = 48;
+      const baseFat = 12;
+      
+      // Set default meal based on time (simulated as lunch)
+      function setDefaultMeal() {
+        const hour = new Date().getHours();
+        let defaultMeal = 'lunch';
+        
+        if (hour >= 6 && hour < 11) defaultMeal = 'breakfast';
+        else if (hour >= 11 && hour < 15) defaultMeal = 'lunch';
+        else if (hour >= 15 && hour < 20) defaultMeal = 'dinner';
+        else defaultMeal = 'snacks';
+        
+        document.querySelectorAll('.meal-chip').forEach(chip => {
+          chip.classList.toggle('active', chip.dataset.meal === defaultMeal);
+        });
+        selectedMeal = defaultMeal;
+      }
+      
+      window.selectMeal = function(btn) {
+        document.querySelectorAll('.meal-chip').forEach(chip => chip.classList.remove('active'));
+        btn.classList.add('active');
+        selectedMeal = btn.dataset.meal;
+      };
+      
+      window.adjustQty = function(delta) {
+        quantity = Math.max(0.5, quantity + delta);
+        document.getElementById('qtyDisplay').textContent = quantity.toFixed(1);
+        updatePreview();
+      };
+      
+      function updatePreview() {
+        const calories = Math.round(baseCalories * quantity);
+        const protein = Math.round(baseProtein * quantity);
+        const carbs = Math.round(baseCarbs * quantity);
+        const fat = Math.round(baseFat * quantity);
+        
+        document.getElementById('previewCalories').textContent = calories + ' kcal';
+        document.getElementById('previewMacros').innerHTML = `
+          <span>P ${protein}g</span>
+          <span>•</span>
+          <span>C ${carbs}g</span>
+          <span>•</span>
+          <span>F ${fat}g</span>
+        `;
+      }
+      
+      window.addToLog = function() {
+        // Show success toast with undo
+        showToastWithUndo(`Added to ${selectedMeal.charAt(0).toUpperCase() + selectedMeal.slice(1)}`);
+        
+        // Navigate back after delay
+        setTimeout(() => {
+          navigateTo('logbook');
+        }, 1500);
+      };
+      
+      function showToastWithUndo(message) {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = 'log-toast';
+        toast.innerHTML = `
+          <span>${message}</span>
+          <button class="toast-undo" onclick="undoLog()">Undo</button>
+        `;
+        container.appendChild(toast);
+        
+        requestAnimationFrame(() => {
+          toast.classList.add('show');
+        });
+        
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 300);
+        }, 4000);
+      }
+      
+      window.undoLog = function() {
+        // Remove the toast
+        const toast = document.querySelector('.log-toast');
+        if (toast) {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 300);
+        }
+        
+        // Show undo confirmation
+        showToastWithUndo('Removed from log');
+      };
+      
+      // Serving size change
+      document.getElementById('servingSelect').addEventListener('change', updatePreview);
+      
+      // Initialize
+      setDefaultMeal();
+    })();
+  </script>
+
+  <style>
+    .screen-log-food {
+      background: #F5F6FA;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .log-food-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: white;
+      border-bottom: 1px solid #F4F4F4;
+    }
+    
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      margin-left: -8px;
+    }
+    
+    .back-btn:active {
+      background: #F5F6FA;
+    }
+    
+    .log-food-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0;
+    }
+    
+    .header-spacer {
+      width: 40px;
+    }
+    
+    .log-food-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    
+    .food-name-section {
+      margin-bottom: 24px;
+    }
+    
+    .food-log-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0;
+    }
+    
+    .section-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #64748b;
+      margin-bottom: 12px;
+      display: block;
+    }
+    
+    .meal-selection {
+      margin-bottom: 24px;
+    }
+    
+    .meal-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .meal-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: white;
+      border: 1px solid #E5E7EB;
+      border-radius: 9999px;
+      padding: 10px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .meal-chip.active {
+      background: #7F7CF0;
+      border-color: #7F7CF0;
+      color: white;
+    }
+    
+    .meal-chip:active:not(.active) {
+      background: #F5F6FA;
+    }
+    
+    .quantity-section-log {
+      margin-bottom: 24px;
+    }
+    
+    .quantity-stepper-large {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+    }
+    
+    .qty-btn-large {
+      width: 48px;
+      height: 48px;
+      background: #F5F6FA;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    
+    .qty-btn-large:active {
+      background: #E5E7EB;
+      transform: scale(0.95);
+    }
+    
+    .qty-display {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: #0f172a;
+      min-width: 60px;
+      text-align: center;
+    }
+    
+    .serving-section-log {
+      margin-bottom: 24px;
+    }
+    
+    .serving-select {
+      width: 100%;
+      height: 52px;
+      background: white;
+      border: 1px solid #E5E7EB;
+      border-radius: 14px;
+      padding: 0 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #0f172a;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6,9 12,15 18,9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+    }
+    
+    .nutrition-preview-card {
+      background: #F1F0FF;
+      border-radius: 16px;
+      padding: 20px;
+    }
+    
+    .nutrition-preview-card .section-label {
+      margin-bottom: 12px;
+    }
+    
+    .preview-calories {
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #7F7CF0;
+      margin-bottom: 8px;
+    }
+    
+    .preview-macros {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #64748b;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .add-to-log-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      height: 56px;
+      background: #7F7CF0;
+      border: none;
+      border-radius: 9999px;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      z-index: 100;
+    }
+    
+    .add-to-log-btn:active {
+      transform: scale(0.98);
+      background: #9794F3;
+    }
+    
+    .toast-container {
+      position: fixed;
+      bottom: 90px;
+      left: 20px;
+      right: 20px;
+      z-index: 200;
+    }
+    
+    .log-toast {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0F172A;
+      color: white;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .log-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .toast-undo {
+      background: none;
+      border: none;
+      color: #7F7CF0;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+    
+    .bottom-spacer {
+      height: 80px;
+    }
+  </style>
+</body>
+</html>
