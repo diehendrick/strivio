@@ -6,9 +6,9 @@
   <title>Strivio — Your Personalized Plan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
-  <link rel="stylesheet" href="../../styles.css?v=3">
+  <link rel="stylesheet" href="../../styles.css?v=5">
 </head>
 <body>
   <div class="app-container">
@@ -18,14 +18,14 @@
 
         <!-- ===== WORKOUT TAB: Coach Generating ===== -->
         <div class="screen screen-loading screen-coach-generating active" data-screen="coach-generating">
-          <div class="loading-content">
-            <div class="loading-logo"><div class="logo-pulse"></div><img src="../../assets/svg_icons/life.svg" class="icon" width="48" alt=""></div>
+          <div class="loading-content coach-generating-content">
+            <div class="loading-logo coach-generating-logo"><div class="logo-pulse"></div><img src="../../assets/svg_icons/life.svg" class="icon" width="48" alt=""></div>
             <h2 class="loading-title">Building Your Workout...</h2>
             <p class="loading-desc">Your coach is creating a personalized plan based on your preferences.</p>
             <div class="loading-steps" id="coachLoadingSteps">
-              <div class="loading-step completed"><span class="step-icon">&#x2713;</span><span class="step-text" style="color:#10B981">Analyzing your preferences</span></div>
-              <div class="loading-step active"><span class="step-icon"><span class="spinner"></span></span><span class="step-text">Selecting exercises</span></div>
-              <div class="loading-step pending"><span class="step-icon">&#x25CB;</span><span class="step-text">Structuring sets & reps</span></div>
+              <div class="loading-step pending"><span class="step-icon">&#x25CB;</span><span class="step-text">Analyzing your preferences</span></div>
+              <div class="loading-step pending"><span class="step-icon">&#x25CB;</span><span class="step-text">Selecting exercises</span></div>
+              <div class="loading-step pending"><span class="step-icon">&#x25CB;</span><span class="step-text">Structuring sets and reps</span></div>
               <div class="loading-step pending"><span class="step-icon">&#x25CB;</span><span class="step-text">Finalizing your plan</span></div>
             </div>
           </div>
@@ -34,6 +34,6 @@
       </div>
     </div>
   </div>
-  <script src="../../app.js?v=3"></script>
+  <script src="../../app.js?v=5"></script>
 </body>
 </html>

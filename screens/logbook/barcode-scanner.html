@@ -6,7 +6,7 @@
   <title>Strivio — Scan Barcode</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../styles.css?v=3">
 </head>
 <body>
@@ -52,18 +52,18 @@
     .scanner-header { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; }
     .back-btn { width:40px; height:40px; background:rgba(255,255,255,0.1); border:none; border-radius:10px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
     .back-btn svg { stroke:white; }
-    .scanner-title { font-family:'Outfit',sans-serif; font-size:18px; font-weight:600; color:white; }
+    .scanner-title { font-family:'Nunito',sans-serif; font-size:18px; font-weight:600; color:white; }
     .camera-view { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; }
-    .scan-frame { width:240px; height:160px; border:2px solid rgba(127,124,240,0.5); position:relative; }
-    .corner { position:absolute; width:30px; height:30px; border:3px solid #7F7CF0; }
+    .scan-frame { width:240px; height:160px; border:2px solid rgba(0,86,216,0.5); position:relative; }
+    .corner { position:absolute; width:30px; height:30px; border:3px solid #0056D8; }
     .corner.tl { top:-3px; left:-3px; border-right:none; border-bottom:none; }
     .corner.tr { top:-3px; right:-3px; border-left:none; border-bottom:none; }
     .corner.bl { bottom:-3px; left:-3px; border-right:none; border-top:none; }
     .corner.br { bottom:-3px; right:-3px; border-left:none; border-top:none; }
-    .scan-line { position:absolute; top:0; left:0; right:0; height:2px; background:#7F7CF0; animation:scan 2s ease-in-out infinite; }
+    .scan-line { position:absolute; top:0; left:0; right:0; height:2px; background:#0056D8; animation:scan 2s ease-in-out infinite; }
     @keyframes scan { 0%,100% { top:0; } 50% { top:100%; } }
     .scan-instruction { font-family:'Inter',sans-serif; font-size:14px; color:rgba(255,255,255,0.7); margin-top:24px; }
-    .manual-entry-link { padding:20px; font-family:'Inter',sans-serif; font-size:15px; color:#7F7CF0; background:none; border:none; cursor:pointer; }
+    .manual-entry-link { padding:20px; font-family:'Inter',sans-serif; font-size:15px; color:#0056D8; background:none; border:none; cursor:pointer; }
   </style>
 </body>
 </html>

@@ -124,19 +124,20 @@ const screenPaths = {
   // Shared components
   'paywall-sheet': BASE_PATH + '/screens/logbook/paywall-sheet.html',
   // Workout screens
-  'workout': BASE_PATH + '/screens/workout/workout.html',
+  'workout': BASE_PATH + '/screens/workout/workout.html?v=8',
   'workout-library': BASE_PATH + '/screens/workout/workout-library.html',
   'exercise-library': BASE_PATH + '/screens/workout/exercise-library.html',
   'exercise-detail': BASE_PATH + '/screens/workout/exercise-detail.html',
   'workout-build': BASE_PATH + '/screens/workout/workout-build.html',
-  'coach-q1': BASE_PATH + '/screens/workout/coach-q1.html',
-  'coach-q2': BASE_PATH + '/screens/workout/coach-q2.html',
-  'coach-q3': BASE_PATH + '/screens/workout/coach-q3.html',
-  'coach-q4': BASE_PATH + '/screens/workout/coach-q4.html',
-  'coach-q5': BASE_PATH + '/screens/workout/coach-q5.html',
-  'coach-q6': BASE_PATH + '/screens/workout/coach-q6.html',
-  'coach-generating': BASE_PATH + '/screens/workout/coach-generating.html',
-  'coach-review': BASE_PATH + '/screens/workout/coach-review.html',
+  'custom-workouts': BASE_PATH + '/screens/workout/custom-workouts.html?v=1',
+  'coach-q1': BASE_PATH + '/screens/workout/coach-q1.html?v=5',
+  'coach-q2': BASE_PATH + '/screens/workout/coach-q2.html?v=5',
+  'coach-q3': BASE_PATH + '/screens/workout/coach-q3.html?v=5',
+  'coach-q4': BASE_PATH + '/screens/workout/coach-q4.html?v=5',
+  'coach-q5': BASE_PATH + '/screens/workout/coach-q5.html?v=5',
+  'coach-q6': BASE_PATH + '/screens/workout/coach-q6.html?v=5',
+  'coach-generating': BASE_PATH + '/screens/workout/coach-generating.html?v=5',
+  'coach-review': BASE_PATH + '/screens/workout/coach-review.html?v=5',
   'workout-edit': BASE_PATH + '/screens/workout/workout-edit.html',
   'workout-detail': BASE_PATH + '/screens/workout/workout-detail.html',
   'workout-countdown': BASE_PATH + '/screens/workout/workout-countdown.html',
@@ -723,6 +724,8 @@ function openSheet(sheetId) {
   const sheet = document.getElementById(sheetId);
   if (!sheet) return;
   sheet.classList.add('open');
+  const screen = sheet.closest('.screen');
+  if (screen) screen.classList.add('sheet-open');
 }
 
 function closeSheet(sheetId) {
@@ -730,6 +733,88 @@ function closeSheet(sheetId) {
   if (!sheet) return;
   sheet.classList.remove('open');
   sheet.classList.remove('show-settings');
+  const screen = sheet.closest('.screen');
+  if (screen && !screen.querySelector('.bottom-sheet.open')) {
+    screen.classList.remove('sheet-open');
+  }
+}
+
+function getIconPath(iconName) {
+  return `${BASE_PATH}/assets/svg_icons/${iconName}`;
+}
+
+function ensureTrackSheet() {
+  if (document.getElementById('sheetTrack') || !document.querySelector('.nav-fab')) return;
+
+  const host = document.querySelector('.screen.active') || document.querySelector('.screen') || document.body;
+  host.insertAdjacentHTML('beforeend', `
+    <div class="bottom-sheet" id="sheetTrack">
+      <div class="sheet-backdrop" data-close="sheetTrack"></div>
+      <div class="sheet-content sheet-track-content">
+        <div class="sheet-handle"></div>
+        <div class="sheet-track-header">
+          <h3 class="sheet-track-title">Track Your Progress</h3>
+          <button class="sheet-track-close" type="button" data-close="sheetTrack" aria-label="Close">
+            <img src="${getIconPath('circle-x.svg')}" class="icon-default" width="24" height="24" alt="">
+          </button>
+        </div>
+        <div class="sheet-track-list">
+          <button class="track-list-card" type="button" data-action="build-workout">
+            <img src="${getIconPath('dumbbell-ray.svg')}" width="22" height="22" alt="" class="track-card-icon">
+            <div class="track-card-text">
+              <span class="track-card-title">Build Workout</span>
+              <span class="track-card-desc">Create a custom workout</span>
+            </div>
+          </button>
+          <button class="track-list-card" type="button" data-action="log-activity">
+            <img src="${getIconPath('journal-alt.svg')}" width="22" height="22" alt="" class="track-card-icon">
+            <div class="track-card-text">
+              <span class="track-card-title">Log Activity</span>
+              <span class="track-card-desc">Manually log a workout</span>
+            </div>
+          </button>
+          <button class="track-list-card" type="button" data-action="log-weight">
+            <img src="${getIconPath('weight.svg')}" width="22" height="22" alt="" class="track-card-icon">
+            <div class="track-card-text">
+              <span class="track-card-title">Log Weight</span>
+              <span class="track-card-desc">Log body mass metrics</span>
+            </div>
+          </button>
+          <button class="track-list-card" type="button" data-action="water-log">
+            <img src="${getIconPath('glass-water-droplet.svg')}" width="22" height="22" alt="" class="track-card-icon">
+            <div class="track-card-text">
+              <span class="track-card-title">Water Log</span>
+              <span class="track-card-desc">Track your water intake</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function openHomeSheetOrNavigate(sheetId) {
+  if (document.getElementById(sheetId)) {
+    openSheet(sheetId);
+    return;
+  }
+
+  try {
+    localStorage.setItem('strivio_pending_sheet', sheetId);
+  } catch (e) {}
+  navigateTo('home');
+}
+
+function openPendingSheet() {
+  let pendingSheet = null;
+  try {
+    pendingSheet = localStorage.getItem('strivio_pending_sheet');
+    if (pendingSheet) localStorage.removeItem('strivio_pending_sheet');
+  } catch (e) {}
+
+  if (pendingSheet) {
+    setTimeout(() => openSheet(pendingSheet), 50);
+  }
 }
 
 // Card tap → sheet mapping
@@ -741,6 +826,8 @@ const cardSheetMap = {
 };
 
 function initBottomSheets() {
+  ensureTrackSheet();
+
   // Metric card taps
   document.querySelectorAll('.metric-card[data-action]').forEach(card => {
     card.addEventListener('click', () => {
@@ -777,12 +864,21 @@ function initBottomSheets() {
 
 // ===== FAB MENU =====
 function initFabMenu() {
-  const fabBtn = document.getElementById('fabButton');
-  if (!fabBtn) return;
+  ensureTrackSheet();
+  const fabButtons = document.querySelectorAll('.nav-fab');
+  if (!fabButtons.length || !document.getElementById('sheetTrack')) return;
 
-  fabBtn.addEventListener('click', () => {
-    openSheet('sheetTrack');
+  fabButtons.forEach(fabBtn => {
+    fabBtn.removeAttribute('onclick');
   });
+
+  document.addEventListener('click', (e) => {
+    const fabBtn = e.target.closest('.nav-fab');
+    if (!fabBtn) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    openSheet('sheetTrack');
+  }, true);
 
   // Track sheet option actions
   document.querySelectorAll('#sheetTrack .track-list-card').forEach(card => {
@@ -791,9 +887,9 @@ function initFabMenu() {
       closeSheet('sheetTrack');
 
       if (action === 'water-log') {
-        openSheet('sheetWater');
+        openHomeSheetOrNavigate('sheetWater');
       } else if (action === 'log-weight') {
-        openSheet('sheetWeight');
+        openHomeSheetOrNavigate('sheetWeight');
       } else if (action === 'build-workout') {
         navigateTo('workout-build');
       } else if (action === 'log-activity') {
@@ -1091,37 +1187,97 @@ window.skipCountdown = function skipCountdown() {
     clearInterval(workoutCountdownTimer);
     workoutCountdownTimer = null;
   }
+  if (!state.currentExecution) createWorkoutExecution(0);
+  state.currentExecution.warmedUp = true;
+  state.currentExecution.warmupPhase = false;
+  state.currentExecution.includeWarmupProgress = false;
+  state.currentExecution.warmupIndex = 0;
+  state.currentExecution.currentSet = 1;
+  state.currentExecution.exerciseStartTime = Date.now();
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
   navigateTo('workout-exercise');
 };
 
+function normalizeWarmupTiming(exec) {
+  if (!exec) return exec;
+  exec.preparationDuration = exec.preparationDuration || 20;
+  exec.warmupDuration = 30;
+  (exec.warmupExercises || []).forEach(function(item) {
+    item.reps = '30 sec';
+  });
+  return exec;
+}
+
 function initWorkoutCountdown() {
   var numEl = document.getElementById('wkCountdownNum');
-  var ringEl = document.getElementById('wkCountdownRing');
-  if (!numEl || !ringEl) return;
+  var progressEl = document.getElementById('wkCountdownProgress');
+  var segmentsEl = document.getElementById('wkCountdownSegments');
+  if (!numEl || !progressEl) return;
 
-  var duration = state.workoutCountdownDuration || 3;
+  var exec = normalizeWarmupTiming(state.currentExecution || createWorkoutExecution(0));
+  var duration = exec.preparationDuration || 20;
+  var startedAt = Date.now();
   workoutCountdownValue = duration;
-  var circumference = 376.99; // 2 * PI * 60
+  renderLiveSegments(segmentsEl, 0, 3);
 
-  // Set initial state
-  numEl.textContent = duration;
-  ringEl.setAttribute('stroke-dashoffset', '0');
+  function renderWarmupTick() {
+    var elapsed = Math.min(duration, Math.floor((Date.now() - startedAt) / 1000));
+    var remaining = Math.max(0, duration - elapsed);
+    numEl.textContent = formatWorkoutTime(remaining);
+    progressEl.innerHTML = '0:00 &bull; 0%';
+    renderLiveSegments(segmentsEl, 0, 3);
 
-  workoutCountdownTimer = setInterval(function() {
-    workoutCountdownValue--;
-    numEl.textContent = workoutCountdownValue;
-
-    // Animate ring
-    var progress = (duration - workoutCountdownValue) / duration;
-    var offset = circumference * progress;
-    ringEl.setAttribute('stroke-dashoffset', offset);
-
-    if (workoutCountdownValue <= 0) {
+    if (remaining <= 0) {
       clearInterval(workoutCountdownTimer);
       workoutCountdownTimer = null;
+      exec.warmedUp = true;
+      exec.warmupPhase = true;
+      exec.includeWarmupProgress = true;
+      exec.warmupIndex = 0;
+      exec.currentSet = 1;
+      exec.exerciseStartTime = Date.now();
+      try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
       navigateTo('workout-exercise');
     }
-  }, 1000);
+  }
+
+  renderWarmupTick();
+  workoutCountdownTimer = setInterval(renderWarmupTick, 1000);
+}
+
+function formatWorkoutTime(totalSeconds) {
+  var safeSeconds = Math.max(0, Math.floor(totalSeconds || 0));
+  var minutes = Math.floor(safeSeconds / 60);
+  var seconds = safeSeconds % 60;
+  return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+}
+
+function renderLiveSegments(container, percent, segmentCount) {
+  if (!container) return;
+  var segments = Math.max(1, segmentCount || 5);
+  var activePercent = Math.max(0, Math.min(100, percent || 0));
+  var html = '';
+  container.style.setProperty('--wk-segment-count', segments);
+  container.setAttribute('data-count', String(segments));
+  for (var i = 0; i < segments; i++) {
+    var segmentStart = i * (100 / segments);
+    var local = Math.max(0, Math.min(100, ((activePercent - segmentStart) / (100 / segments)) * 100));
+    html += '<span><i style="width:' + local + '%"></i></span>';
+  }
+  html += '<b style="left:' + activePercent + '%"></b>';
+  container.innerHTML = html;
+}
+
+function renderGaugeBars(container, percent) {
+  if (!container) return;
+  var total = 44;
+  var active = Math.round((Math.max(0, Math.min(100, percent || 0)) / 100) * total);
+  var html = '';
+  for (var i = 0; i < total; i++) {
+    var angle = -90 + (180 / (total - 1)) * i;
+    html += '<span class="' + (i < active ? 'active' : '') + '" style="transform: rotate(' + angle + 'deg) translateY(-96px);"></span>';
+  }
+  container.innerHTML = html;
 }
 
 // ===== WORKOUT MAIN: MARK COMPLETE / REST DAY =====
@@ -1489,6 +1645,8 @@ window.saveCoachAndNext = function saveCoachAndNext(screenId, key, nextScreen) {
   var val;
   if (screenId === 'coach-q6') {
     val = document.getElementById('coachWorkoutName') ? document.getElementById('coachWorkoutName').value.trim() : '';
+  } else if (screenId === 'coach-q3') {
+    val = getSelectedValues(key + 'Options');
   } else {
     val = getSelectedValue(key + 'Options');
   }
@@ -1538,6 +1696,8 @@ function initCoachGenerating() {
       if (stepIndex < steps.length) {
         steps[stepIndex].classList.remove('pending');
         steps[stepIndex].classList.add('active');
+        var activeIcon = steps[stepIndex].querySelector('.step-icon');
+        if (activeIcon) { activeIcon.innerHTML = '<span class="spinner"></span>'; }
       }
       stepIndex++;
       setTimeout(advanceStep, 800 + Math.random() * 600);
@@ -1580,6 +1740,7 @@ function generateCoachPlan() {
   var duration = timeMap[params.coachTime] || 45;
 
   state.coachWorkout = {
+    id: 'coach_' + Date.now(),
     name: params.coachWorkoutName || 'Coach Workout',
     muscle: targetMuscles[0],
     muscles: targetMuscles.map(function(m) { return m.charAt(0).toUpperCase() + m.slice(1); }),
@@ -1605,10 +1766,9 @@ function initCoachReview() {
   var diffLabel = w.difficulty.charAt(0).toUpperCase() + w.difficulty.slice(1);
   var diffClass = 'cr-diff--' + w.difficulty;
 
-  // Build exercise list HTML
   var exHTML = exList.map(function(ex, i) {
-    return '<div class="cr-exercise" style="animation-delay:' + (i * 0.06) + 's">' +
-      '<div class="cr-ex-num"><span>' + (i + 1) + '</span></div>' +
+    return '<div class="cr-exercise">' +
+      '<div class="cr-ex-num">' + (i + 1) + '</div>' +
       '<div class="cr-ex-body">' +
         '<span class="cr-ex-name">' + ex.name + '</span>' +
         '<span class="cr-ex-spec">' + ex.sets + ' sets <span class="cr-ex-dot">&middot;</span> ' + ex.reps + '</span>' +
@@ -1618,31 +1778,143 @@ function initCoachReview() {
   }).join('');
 
   body.innerHTML =
-    '<div class="cr-workout-header">' +
-      '<h2 class="cr-workout-name">' + w.name + '</h2>' +
-      '<p class="cr-workout-origin">Generated from your intake preferences</p>' +
-    '</div>' +
-    '<div class="cr-badges">' +
-      '<div class="cr-badge"><iconify-icon icon="solar:clock-circle-bold-duotone" width="16"></iconify-icon><span>' + w.duration + ' min</span></div>' +
-      '<div class="cr-badge ' + diffClass + '"><iconify-icon icon="solar:chart-bold-duotone" width="16"></iconify-icon><span>' + diffLabel + '</span></div>' +
-      '<div class="cr-badge"><iconify-icon icon="solar:fire-bold-duotone" width="16"></iconify-icon><span>' + (w.calories || (w.duration * 5)) + ' cal</span></div>' +
-    '</div>' +
-    '<div class="cr-divider"></div>' +
-    '<div class="cr-exercises-head">' +
-      '<h3 class="cr-exercises-title">Exercises</h3>' +
-      '<span class="cr-exercises-count">' + exList.length + '</span>' +
-    '</div>' +
-    '<div class="cr-exercises-list">' + exHTML + '</div>';
+    '<section class="cr-plan-card">' +
+      '<div class="cr-plan-pattern"></div>' +
+      '<div class="cr-workout-header">' +
+        '<h2 class="cr-workout-name">' + w.name + '</h2>' +
+        '<p class="cr-workout-origin">Generated from your intake preferences</p>' +
+      '</div>' +
+      '<div class="cr-badges">' +
+        '<div class="cr-badge"><img src="../../assets/svg_icons/clock-five.svg" width="16" alt=""><span>' + w.duration + ' min</span></div>' +
+        '<div class="cr-badge ' + diffClass + '"><img src="../../assets/svg_icons/chart-simple.svg" width="16" alt=""><span>' + diffLabel + '</span></div>' +
+        '<div class="cr-badge"><img src="../../assets/svg_icons/flame.svg" width="16" alt=""><span>' + (w.calories || (w.duration * 5)) + ' cal</span></div>' +
+      '</div>' +
+    '</section>' +
+    '<section class="cr-ex-section">' +
+      '<div class="cr-exercises-head">' +
+        '<h3 class="cr-exercises-title">Exercises</h3>' +
+        '<span class="cr-exercises-count">' + exList.length + '</span>' +
+      '</div>' +
+      '<div class="cr-exercises-list">' + exHTML + '</div>' +
+    '</section>';
 }
 
 window.saveCoachWorkout = function saveCoachWorkout() {
   if (!state.coachWorkout) return;
+  if (!state.coachWorkout.id) state.coachWorkout.id = 'coach_' + Date.now();
+  state.customWorkouts = state.customWorkouts || [];
   state.customWorkouts.push(state.coachWorkout);
+  state.pendingWorkoutSaveToast = true;
   state.coachWorkout = null;
   state.coachParams = {};
   try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
   navigateTo('workout');
 };
+
+function dismissWorkoutSavedToast() {
+  var toast = document.getElementById('wkSaveSnackbar');
+  if (!toast) return;
+  toast.classList.remove('show');
+  window.setTimeout(function() { toast.hidden = true; }, 180);
+}
+
+function initWorkoutHome() {
+  updateHomeGreeting();
+  if (!state.pendingWorkoutSaveToast) return;
+
+  state.pendingWorkoutSaveToast = false;
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+
+  var toast = document.getElementById('wkSaveSnackbar');
+  if (!toast) return;
+  toast.hidden = false;
+  window.requestAnimationFrame(function() { toast.classList.add('show'); });
+
+  var ok = toast.querySelector('[data-toast-ok]');
+  if (ok) ok.addEventListener('click', dismissWorkoutSavedToast, { once: true });
+
+  window.setTimeout(dismissWorkoutSavedToast, 3600);
+}
+
+function renderCustomWorkouts(search) {
+  var list = document.getElementById('customWorkoutList');
+  if (!list) return;
+
+  var workouts = (state.customWorkouts || []).slice();
+  if (search) {
+    var query = search.toLowerCase();
+    workouts = workouts.filter(function(w) {
+      return [
+        w.name,
+        w.desc,
+        w.muscle,
+        (w.muscles || []).join(' '),
+        w.difficulty,
+        (w.equipment || []).join(' ')
+      ].join(' ').toLowerCase().indexOf(query) >= 0;
+    });
+  }
+
+  if (!workouts.length) {
+    list.innerHTML =
+      '<section class="custom-workouts-empty">' +
+        '<img src="../../assets/svg_icons/not-found-alt.svg" width="48" height="48" alt="">' +
+        '<h2>No custom workouts yet</h2>' +
+        '<p>Create a coach-built workout and it will appear here.</p>' +
+        '<button type="button" onclick="navigateTo(\'coach-q1\')">Create Workout</button>' +
+      '</section>';
+    return;
+  }
+
+  list.innerHTML = workouts.map(function(w) {
+    var tags = (w.muscles && w.muscles.length ? w.muscles : [w.muscle || 'General']).slice(0, 3);
+    var difficulty = String(w.difficulty || 'intermediate');
+    var difficultyLabel = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+    var equipment = Array.isArray(w.equipment) ? w.equipment.join(', ') : (w.equipment || 'Mixed');
+    return '<article class="custom-workout-card" onclick="openWorkoutDetail(\'' + escapeHtml(w.id) + '\')">' +
+      '<div class="custom-workout-thumb"><img src="' + getWorkoutLibraryImage(w) + '" alt=""></div>' +
+      '<div class="custom-workout-info">' +
+        '<h2>' + escapeHtml(w.name || 'Custom Workout') + '</h2>' +
+        '<p>' + escapeHtml(w.desc || 'Coach-generated workout based on your preferences.') + '</p>' +
+        '<div class="custom-workout-meta">' +
+          '<span><img src="../../assets/svg_icons/clock-five.svg" width="12" height="12" alt=""> ' + escapeHtml(w.duration || 45) + ' min</span>' +
+          '<span><img src="../../assets/svg_icons/chart-simple.svg" width="12" height="12" alt=""> ' + escapeHtml(difficultyLabel) + '</span>' +
+        '</div>' +
+        '<div class="custom-workout-tags">' +
+          tags.map(function(tag) { return '<span>' + escapeHtml(tag) + '</span>'; }).join('') +
+          '<span>' + escapeHtml(equipment) + '</span>' +
+        '</div>' +
+      '</div>' +
+    '</article>';
+  }).join('');
+}
+
+function initCustomWorkouts() {
+  renderCustomWorkouts();
+
+  var search = document.getElementById('customWorkoutSearch');
+  if (search) {
+    search.addEventListener('input', function() {
+      renderCustomWorkouts(search.value.trim());
+    });
+  }
+}
+
+function initNutrientsLocked() {
+  var screen = document.querySelector('.screen-nutrients-locked');
+  var scroller = document.getElementById('nlLockedContent');
+  if (!screen || !scroller) return;
+
+  function syncLockedScreenShadow() {
+    var scrollable = scroller.scrollHeight - scroller.clientHeight > 4;
+    var atEnd = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 4;
+    screen.classList.toggle('nl-at-end', !scrollable || atEnd);
+  }
+
+  scroller.addEventListener('scroll', syncLockedScreenShadow, { passive: true });
+  window.addEventListener('resize', syncLockedScreenShadow);
+  window.requestAnimationFrame(syncLockedScreenShadow);
+}
 
 // ======================================================================
 // WORKOUT LIBRARY SCREEN
@@ -1883,6 +2155,65 @@ function findWorkout() {
   return workoutLibrary[0];
 }
 
+function getWorkoutExerciseList(workout) {
+  var exercises = ((workout && workout.exercises) || []).map(function(item) {
+    return typeof item === 'string' ? getEx(item) : item;
+  }).filter(Boolean);
+  if (exercises.length) return exercises;
+  return ['e1', 'e8', 'e12', 'e3', 'e7'].map(function(id) { return getEx(id); }).filter(Boolean);
+}
+
+function createWorkoutExecution(startIndex) {
+  var workout = findWorkout();
+  var exercises = getWorkoutExerciseList(workout);
+  var safeIndex = Math.max(0, Math.min(startIndex || 0, exercises.length - 1));
+  state.currentWorkout = workout;
+  state.currentExecution = {
+    workoutId: workout ? workout.id : 'workout',
+    workoutName: workout ? workout.name : 'Workout',
+    exercises: exercises,
+    currentExIndex: safeIndex,
+    currentSet: 1,
+    startTime: Date.now(),
+    exerciseStartTime: Date.now(),
+    exerciseDuration: 20,
+    preparationDuration: 20,
+    isPaused: false,
+    pausedAt: null,
+    warmupDuration: 30,
+    warmupExercises: [
+      { id: 'warmup-knee-hug', name: 'Knee Hug', sets: 1, reps: '30 sec', equipment: 'Bodyweight' },
+      { id: 'warmup-squat', name: 'Squat', sets: 1, reps: '30 sec', equipment: 'Bodyweight' },
+      { id: 'warmup-butt-kick', name: 'Butt Kick', sets: 1, reps: '30 sec', equipment: 'Bodyweight' }
+    ],
+    warmupIndex: 0,
+    warmupPhase: false,
+    warmupComplete: false,
+    includeWarmupProgress: safeIndex === 0,
+    setLogs: [],
+    warmedUp: safeIndex > 0
+  };
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  return state.currentExecution;
+}
+
+window.startWorkoutExerciseFromDetail = function startWorkoutExerciseFromDetail(id, index) {
+  var workout = findWorkout();
+  var exercises = getWorkoutExerciseList(workout);
+  var foundIndex = exercises.findIndex(function(ex) { return ex && ex.id === id; });
+  var startIndex = foundIndex >= 0 ? foundIndex : (index || 0);
+  var exec = createWorkoutExecution(startIndex);
+  if (exec.currentExIndex === 0) {
+    exec.warmedUp = false;
+    try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+    navigateTo('workout-countdown');
+  } else {
+    exec.warmedUp = true;
+    try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+    navigateTo('workout-exercise');
+  }
+};
+
 window.openWorkoutDetail = function openWorkoutDetail(id) {
   var found = workoutLibrary.find(function(w) { return w.id === id; });
   if (!found) {
@@ -1933,7 +2264,7 @@ function initWorkoutDetail() {
     '<h3 class="wk-detail-exercises-title">Exercises</h3>' +
     '<section class="wk-detail-exercises-card">' +
       exList.map(function(ex, i) {
-        return '<button class="wk-detail-ex-row" onclick="openExerciseDetail(\'' + ex.id + '\')">' +
+        return '<button class="wk-detail-ex-row" onclick="startWorkoutExerciseFromDetail(\'' + ex.id + '\',' + i + ')">' +
           '<span class="wk-detail-ex-num">' + (i + 1) + '</span>' +
           '<span class="wk-detail-ex-info">' +
             '<span class="wk-detail-ex-name">' + escapeHtml(ex.name) + '</span>' +
@@ -2248,18 +2579,12 @@ window.saveEditChanges = function saveEditChanges() {
 // WORKOUT EXECUTION FLOW
 // ======================================================================
 function initWorkoutExec() {
-  var w = findWorkout();
-  if (!w) return;
-
-  state.currentExecution = {
-    workoutId: w.id,
-    workoutName: w.name,
-    exercises: (w.exercises || []).map(function(eid) { return getEx(eid); }).filter(Boolean),
-    currentExIndex: 0,
-    currentSet: 1,
-    startTime: Date.now(),
-    setLogs: []
-  };
+  var exec = normalizeWarmupTiming(state.currentExecution || createWorkoutExecution(0));
+  if (!exec.warmupComplete) {
+    exec.exerciseStartTime = Date.now();
+  }
+  exec.exerciseDuration = exec.exerciseDuration || 20;
+  exec.setLogs = exec.setLogs || [];
   try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
 
   renderExecExercise();
@@ -2269,52 +2594,244 @@ function renderExecExercise() {
   var exec = state.currentExecution;
   if (!exec || !exec.exercises || !exec.exercises.length) return;
 
-  var ex = exec.exercises[exec.currentExIndex];
-  var progress = document.getElementById('wkExecProgress');
-  var progressFill = document.getElementById('wkExecProgressFill');
-  var body = document.getElementById('wkExecBody');
-  var completeBtn = document.getElementById('wkExecCompleteBtn');
-  var navBtns = document.getElementById('wkExecNavBtns');
-
-  if (progress) progress.textContent = (exec.currentExIndex + 1) + ' / ' + exec.exercises.length + ' exercises';
-  if (progressFill) progressFill.style.width = ((exec.currentExIndex) / exec.exercises.length * 100) + '%';
-  if (completeBtn) completeBtn.style.display = '';
-  if (navBtns) navBtns.style.display = 'none';
-
-  if (body) {
-    body.innerHTML =
-      '<div class="wk-exec-exercise-card">' +
-        '<div class="wk-exec-ex-name">' + ex.name + '</div>' +
-        '<div class="wk-exec-set-indicator">Set <strong>' + exec.currentSet + '</strong> of ' + ex.sets + '</div>' +
-        '<div class="wk-exec-rep-target">Target: ' + ex.reps + ' &bull; ' + ex.equipment + '</div>' +
-        '<div class="wk-exec-input-row">' +
-          '<div class="wk-exec-input-group"><label>Weight (' + (state.workoutSettings.units === 'imperial' ? 'lbs' : 'kg') + ')</label><input type="number" class="form-input" id="execWeight" placeholder="40" min="0"></div>' +
-          '<div class="wk-exec-input-group"><label>Reps</label><input type="number" class="form-input" id="execReps" placeholder="' + ex.reps + '" min="0"></div>' +
-        '</div>' +
-        '<div class="wk-exec-next-preview"><span class="wk-exec-next-label">Next: </span>' + (exec.exercises[exec.currentExIndex + 1] ? exec.exercises[exec.currentExIndex + 1].name + ' &bull; ' + exec.exercises[exec.currentExIndex + 1].sets + '×' + exec.exercises[exec.currentExIndex + 1].reps : 'Last exercise!') + '</div>' +
-      '</div>';
+  var ex = getCurrentLiveExercise(exec);
+  if (exec.warmupComplete) {
+    renderWarmupSuccess();
+    return;
   }
 
+  var progress = document.getElementById('wkExecProgress');
+  var segments = document.getElementById('wkExecProgressSegments');
+  var body = document.getElementById('wkExecBody');
+  var nameEl = document.getElementById('wkExecExerciseName');
+  var setLabel = document.getElementById('wkExecSetLabel');
+
+  exec.isPaused = false;
+  exec.pausedAt = null;
+  var screen = document.querySelector('.screen-exec-counter');
+  if (screen) screen.classList.remove('show-warmup-success');
+  if (nameEl) nameEl.textContent = ex.name || 'Exercise';
+  if (setLabel) setLabel.textContent = 'Set ' + (exec.currentSet || 1) + ' of ' + (ex.sets || 1);
+  if (progress) progress.innerHTML = '0:00 &bull; ' + getExecBasePercent(exec) + '%';
+  renderLiveSegments(segments, getExecBasePercent(exec), exec.warmupPhase ? 3 : 5);
+
+  if (body) {
+    body.innerHTML = '';
+  }
+
+  renderWorkoutPauseState();
   updateExecTimer();
-  if (!exec._timerInterval) {
-    exec._timerInterval = setInterval(updateExecTimer, 1000);
+  if (window._execInterval) clearInterval(window._execInterval);
+  window._execInterval = setInterval(updateExecTimer, 1000);
+  exec._timerInterval = window._execInterval;
+}
+
+function getCurrentLiveExercise(exec) {
+  if (exec && exec.warmupPhase) {
+    var warmups = exec.warmupExercises || [];
+    return warmups[exec.warmupIndex || 0] || warmups[0] || { name: 'Warmup', sets: 1, reps: '20 sec' };
+  }
+  return exec.exercises[exec.currentExIndex] || exec.exercises[0];
+}
+
+function getExecBasePercent(exec) {
+  if (!exec || !exec.exercises || !exec.exercises.length) return 0;
+  if (exec.warmupPhase) {
+    var warmups = exec.warmupExercises || [];
+    return warmups.length ? Math.round(((exec.warmupIndex || 0) / warmups.length) * 100) : 0;
+  }
+  var warmupCount = exec.includeWarmupProgress ? (exec.warmupExercises || []).length : 0;
+  var total = warmupCount + exec.exercises.length;
+  var index = exec.warmupPhase ? (exec.warmupIndex || 0) : warmupCount + (exec.currentExIndex || 0);
+  return total ? Math.round((index / total) * 100) : 0;
+}
+
+function getExecOverallProgress(exec) {
+  if (!exec || !exec.exercises || !exec.exercises.length) return { elapsed: 0, percent: 0, remaining: 0, exercisePercent: 0, segmentCount: 5 };
+  var duration = exec.warmupPhase ? (exec.warmupDuration || 30) : (exec.exerciseDuration || 20);
+  var elapsedExercise = Math.min(duration, Math.floor((Date.now() - (exec.exerciseStartTime || Date.now())) / 1000));
+  var warmupCount = exec.includeWarmupProgress ? (exec.warmupExercises || []).length : 0;
+  var segmentCount = exec.warmupPhase ? Math.max(1, (exec.warmupExercises || []).length) : 5;
+  var totalSteps = exec.warmupPhase ? segmentCount : warmupCount + exec.exercises.length;
+  var currentStep = exec.warmupPhase ? (exec.warmupIndex || 0) : warmupCount + (exec.currentExIndex || 0);
+  var totalDuration = totalSteps * duration;
+  var overallElapsed = (currentStep * duration) + elapsedExercise;
+  var percent = totalDuration ? Math.min(100, Math.round((overallElapsed / totalDuration) * 100)) : 0;
+  return {
+    elapsed: overallElapsed,
+    percent: percent,
+    remaining: Math.max(0, duration - elapsedExercise),
+    exercisePercent: Math.min(100, Math.round((elapsedExercise / duration) * 100)),
+    segmentCount: segmentCount
+  };
+}
+
+function syncExecProgressUI() {
+  var exec = state.currentExecution;
+  if (!exec) return;
+  if (exec.isPaused) {
+    renderWorkoutPauseState();
+    return;
+  }
+  var live = getExecOverallProgress(exec);
+  var progress = document.getElementById('wkExecProgress');
+  var segments = document.getElementById('wkExecProgressSegments');
+  var gaugeTime = document.getElementById('wkExecGaugeTime');
+  var gaugeBars = document.getElementById('wkExecGaugeBars');
+  var timerEl = document.getElementById('wkExecTimer');
+  var progressFill = document.getElementById('wkExecProgressFill');
+
+  if (progress) progress.innerHTML = formatWorkoutTime(live.elapsed) + ' &bull; ' + live.percent + '%';
+  if (timerEl) timerEl.textContent = formatWorkoutTime(live.elapsed);
+  if (progressFill) progressFill.style.width = live.percent + '%';
+  if (gaugeTime) gaugeTime.textContent = formatWorkoutTime(live.remaining);
+  renderLiveSegments(segments, live.percent, live.segmentCount);
+  renderGaugeBars(gaugeBars, live.exercisePercent);
+
+  if (live.remaining <= 0 && window._execInterval) {
+    clearInterval(window._execInterval);
+    window._execInterval = null;
+    exec._timerInterval = null;
+    setTimeout(function() {
+      if (state.currentExecution && !state.currentExecution.isPaused) completeSet();
+    }, 250);
   }
 }
 
 function updateExecTimer() {
-  var timerEl = document.getElementById('wkExecTimer');
-  if (!timerEl || !state.currentExecution) return;
-  var elapsed = Math.floor((Date.now() - state.currentExecution.startTime) / 1000);
-  var m = Math.floor(elapsed / 60);
-  var s = elapsed % 60;
-  timerEl.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  syncExecProgressUI();
+}
+
+function renderWorkoutPauseState() {
+  var exec = state.currentExecution;
+  var screen = document.querySelector('.screen-exec-counter');
+  var title = document.getElementById('wkPauseTitle');
+  var label = document.getElementById('wkPauseLabel');
+  var button = document.getElementById('wkPauseButton');
+  if (!exec || !screen || !title || !label || !button) return;
+
+  screen.classList.toggle('is-paused', !!exec.isPaused);
+  title.textContent = exec.isPaused ? 'Pause' : '';
+  label.textContent = exec.isPaused ? 'Play' : 'Pause';
+  button.classList.toggle('is-play', !!exec.isPaused);
+}
+
+function renderWarmupSuccess() {
+  var exec = state.currentExecution;
+  var screen = document.querySelector('.screen-exec-counter');
+  var copy = document.getElementById('wkWarmupSuccessCopy');
+  var next = exec && exec.exercises ? exec.exercises[exec.currentExIndex || 0] : null;
+  if (window._execInterval) {
+    clearInterval(window._execInterval);
+    window._execInterval = null;
+  }
+  if (exec) {
+    exec.isPaused = false;
+    exec.pausedAt = null;
+    exec._timerInterval = null;
+  }
+  if (screen) {
+    screen.classList.remove('is-paused');
+    screen.classList.add('show-warmup-success');
+  }
+  if (copy) copy.textContent = 'You are ready for ' + ((next && next.name) || 'your first exercise') + '.';
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+}
+
+window.continueAfterWarmup = function continueAfterWarmup(event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  var exec = state.currentExecution || createWorkoutExecution(0);
+  exec.warmupComplete = false;
+  exec.warmupPhase = false;
+  exec.warmupIndex = 0;
+  exec.includeWarmupProgress = false;
+  exec.warmedUp = true;
+  exec.currentSet = 1;
+  exec.exerciseStartTime = Date.now();
+  exec.isPaused = false;
+  exec.pausedAt = null;
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  renderExecExercise();
+};
+
+window.toggleWorkoutPause = function toggleWorkoutPause(event) {
+  if (event && event.target && event.target.closest('.wk-live-back')) return;
+  if (event && event.target && event.target.closest('.wk-warmup-success')) return;
+  var exec = state.currentExecution;
+  if (!exec || exec.warmupComplete) return;
+  if (exec.isPaused) {
+    resumeWorkoutTimer();
+  } else {
+    pauseWorkoutTimer();
+  }
+};
+
+function pauseWorkoutTimer() {
+  var exec = state.currentExecution;
+  if (!exec || exec.isPaused) return;
+  exec.isPaused = true;
+  exec.pausedAt = Date.now();
+  if (window._execInterval) {
+    clearInterval(window._execInterval);
+    window._execInterval = null;
+  }
+  exec._timerInterval = null;
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  renderWorkoutPauseState();
+}
+
+function resumeWorkoutTimer() {
+  var exec = state.currentExecution;
+  if (!exec || !exec.isPaused) return;
+  var pausedFor = Date.now() - (exec.pausedAt || Date.now());
+  exec.exerciseStartTime = (exec.exerciseStartTime || Date.now()) + pausedFor;
+  exec.isPaused = false;
+  exec.pausedAt = null;
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  renderWorkoutPauseState();
+  updateExecTimer();
+  if (window._execInterval) clearInterval(window._execInterval);
+  window._execInterval = setInterval(updateExecTimer, 1000);
+  exec._timerInterval = window._execInterval;
 }
 
 // Complete a set
 window.completeSet = function completeSet() {
   var exec = state.currentExecution;
   if (!exec) return;
-  var ex = exec.exercises[exec.currentExIndex];
+  var ex = getCurrentLiveExercise(exec);
+
+  if (exec.warmupPhase) {
+    exec.setLogs.push({
+      exercise: ex.name,
+      set: 1,
+      weight: 0,
+      reps: parseInt(ex.reps) || 20
+    });
+
+    if ((exec.warmupIndex || 0) < (exec.warmupExercises || []).length - 1) {
+      exec.warmupIndex = (exec.warmupIndex || 0) + 1;
+      exec.exerciseStartTime = Date.now();
+      exec.isPaused = false;
+      exec.pausedAt = null;
+      try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+      renderExecExercise();
+    } else {
+      exec.warmupComplete = true;
+      exec.warmupPhase = false;
+      exec.warmupIndex = 0;
+      exec.currentSet = 1;
+      exec.exerciseStartTime = null;
+      exec.isPaused = false;
+      exec.pausedAt = null;
+      try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+      renderWarmupSuccess();
+    }
+    return;
+  }
 
   var weightEl = document.getElementById('execWeight');
   var repsEl = document.getElementById('execReps');
@@ -2328,6 +2845,9 @@ window.completeSet = function completeSet() {
   if (exec.currentSet < ex.sets) {
     // Move to next set → show rest timer
     exec.currentSet++;
+    exec.exerciseStartTime = Date.now();
+    exec.isPaused = false;
+    exec.pausedAt = null;
     try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
     navigateTo('workout-rest');
   } else {
@@ -2382,6 +2902,9 @@ window.advanceToNextExercise = function advanceToNextExercise() {
   exec.currentSet = 1;
   if (exec.currentExIndex < exec.exercises.length - 1) {
     exec.currentExIndex++;
+    exec.exerciseStartTime = Date.now();
+    exec.isPaused = false;
+    exec.pausedAt = null;
     try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
     renderExecExercise();
   } else {
@@ -2395,12 +2918,19 @@ window.goToPreviousExercise = function goToPreviousExercise() {
   if (!exec || exec.currentExIndex === 0) return;
   exec.currentExIndex--;
   exec.currentSet = 1;
+  exec.exerciseStartTime = Date.now();
+  exec.isPaused = false;
+  exec.pausedAt = null;
   try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
   renderExecExercise();
 };
 
 window.exitWorkout = function exitWorkout() {
   var exec = state.currentExecution;
+  if (window._execInterval) {
+    clearInterval(window._execInterval);
+    window._execInterval = null;
+  }
   if (exec && exec._timerInterval) {
     clearInterval(exec._timerInterval);
     exec._timerInterval = null;
@@ -2845,6 +3375,7 @@ if (typeof document !== 'undefined') {
     initWaterActions();
     initWaterSettings();
     initWeightSave();
+    openPendingSheet();
 
     // Screen-specific initialization based on current page
     const currentPath = window.location.pathname;
@@ -2853,7 +3384,7 @@ if (typeof document !== 'undefined') {
     } else if (currentPath.includes('/coach/coach')) {
       initCoachMain();
     } else if (currentPath.endsWith('/workout/workout.html')) {
-      updateHomeGreeting();
+      initWorkoutHome();
     } else if (currentPath.includes('reveal')) {
       populateReveal();
     } else if (currentPath.includes('loading')) {
@@ -2866,6 +3397,8 @@ if (typeof document !== 'undefined') {
     // WORKOUT SCREEN INITIALIZERS
     } else if (currentPath.includes('workout-library')) {
       initWorkoutLibrary();
+    } else if (currentPath.includes('custom-workouts')) {
+      initCustomWorkouts();
     } else if (currentPath.includes('workout-detail')) {
       initWorkoutDetail();
     } else if (currentPath.includes('exercise-library')) {
@@ -2894,6 +3427,8 @@ if (typeof document !== 'undefined') {
       initCoachGenerating();
     } else if (currentPath.includes('coach-review')) {
       initCoachReview();
+    } else if (currentPath.includes('nutrients-locked')) {
+      initNutrientsLocked();
     }
   });
 }

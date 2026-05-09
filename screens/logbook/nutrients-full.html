@@ -1,466 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Strivio — Daily Nutrients</title>
+  <title>Strivio - Daily Nutrients</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=3">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=8">
 </head>
+
 <body>
   <div class="app-container">
     <div class="phone-frame">
       <div class="phone-notch"></div>
       <div class="screens-wrapper" id="screensWrapper">
 
-        <!-- Screen: Daily Nutrients Full Breakdown -->
         <div class="screen screen-nutrients-full active" data-screen="nutrients-full">
-          
-          <!-- Header -->
-          <div class="nutrients-full-header">
-            <button class="back-btn" onclick="navigateTo('logbook')" aria-label="Go back">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15,18 9,12 15,6"></polyline>
+          <div class="status-bar nutrients-status-bar">
+            <span class="status-time">9:41</span>
+            <div class="status-icons">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" />
+                <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" />
+                <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
               </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z"
+                  fill="#0f172a" />
+                <path
+                  d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z"
+                  fill="#0f172a" />
+                <circle cx="8" cy="11" r="2" fill="#0f172a" />
+              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" />
+                <rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" />
+                <rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" />
+                <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" />
+              </svg>
+            </div>
+          </div>
+
+          <header class="nl-header nf-header">
+            <button class="nl-back" type="button" onclick="navigateTo('logbook')" aria-label="Go back">
+              <img src="../../assets/svg_icons/back.svg" width="24" height="24" alt="">
             </button>
-            <h1 class="nutrients-full-title">Daily Nutrients</h1>
-            <div class="header-spacer"></div>
-          </div>
+            <h1>Daily Nutrients</h1>
+          </header>
 
-          <div class="nutrients-full-scroll">
-            
-            <!-- Sort Dropdown -->
-            <div class="sort-section">
-              <span class="sort-label">Sort by:</span>
-              <button class="sort-dropdown" onclick="toggleSortOptions()">
-                <span>Lowest RDV first</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="6,9 12,15 18,9"></polyline>
-                </svg>
-              </button>
-              <div class="sort-options" id="sortOptions">
-                <button class="sort-option active" onclick="selectSort(this)">Lowest RDV first</button>
-                <button class="sort-option" onclick="selectSort(this)">Highest RDV first</button>
-                <button class="sort-option" onclick="selectSort(this)">Alphabetical</button>
+          <main class="nf-content">
+            <section class="nf-summary-card" aria-labelledby="nfSummaryTitle">
+              <div class="nf-summary-copy">
+                <p class="nf-summary-label">Premium Breakdown</p>
+                <h2 id="nfSummaryTitle">Micronutrients vs RDV</h2>
+                <p class="nf-summary-desc">Grouped by category and sorted to surface the lowest coverage first.</p>
               </div>
-            </div>
-
-            <!-- Vitamins Section -->
-            <div class="nutrient-section">
-              <h3 class="section-category">Vitamins</h3>
-              
-              <div class="nutrient-list">
-                <div class="nutrient-item">
-                  <span class="nutrient-name">Vitamin C</span>
-                  <div class="nutrient-bar-container">
-                    <div class="nutrient-bar-bg">
-                      <div class="nutrient-bar-fill yellow" style="width: 65%"></div>
-                    </div>
-                    <span class="nutrient-percent">65%</span>
-                  </div>
-                </div>
-                
-                <div class="nutrient-item">
-                  <span class="nutrient-name">Vitamin A</span>
-                  <div class="nutrient-bar-container">
-                    <div class="nutrient-bar-bg">
-                      <div class="nutrient-bar-fill green" style="width: 80%"></div>
-                    </div>
-                    <span class="nutrient-percent">80%</span>
-                  </div>
-                </div>
-                
-                <div class="nutrient-item">
-                  <span class="nutrient-name">Vitamin D</span>
-                  <div class="nutrient-bar-container">
-                    <div class="nutrient-bar-bg">
-                      <div class="nutrient-bar-fill red" style="width: 30%"></div>
-                    </div>
-                    <span class="nutrient-percent">30%</span>
-                  </div>
-                </div>
-                
-                <div class="nutrient-item">
-                  <span class="nutrient-name">Vitamin E</span>
-                  <div class="nutrient-bar-container">
-                    <div class="nutrient-bar-bg">
-                      <div class="nutrient-bar-fill yellow" style="width: 45%"></div>
-                    </div>
-                    <span class="nutrient-percent">45%</span>
-                  </div>
-                </div>
-                
-                <div class="nutrient-item">
-                  <span class="nutrient-name">Vitamin K</span>
-                  <div class="nutrient-bar-container">
-                    <div class="nutrient-bar-bg">
-                      <div class="nutrient-bar-fill green" style="width: 85%"></div>
-                    </div>
-                    <span class="nutrient-percent">85%</span>
-                  </div>
-                </div>
-                
-                <div class="nutrient-item">
-                  <span class="nutrient-name">Vitamin B6</span>
-                  <div class="nutrient-bar-container">
-                    <div class="nutrient-bar-bg">
-                      <div class="nutrient-bar-fill green" style="width: 70%"></div>
-                    </div>
-                    <span class="nutrient-percent">70%</span>
-                  </div>
-                </div>
-                
-                <div class="nutrient-item">
-                  <span class="nutrient-name">Vitamin B12</span>
-                  <div class="nutrient-bar-container">
-                    <div class="nutrient-bar-bg">
-                      <div class="nutrient-bar-fill green" style="width: 90%"></div>
-                    </div>
-                    <span class="nutrient-percent">90%</span>
-                  </div>
-                </div>
+              <div class="nf-summary-stats" aria-label="Nutrient summary">
+                <article>
+                  <strong>13</strong>
+                  <span>Tracked</span>
+                </article>
+                <article>
+                  <strong>4</strong>
+                  <span>Low</span>
+                </article>
+                <article>
+                  <strong>1</strong>
+                  <span>High</span>
+                </article>
               </div>
-            </div>
+            </section>
 
-            <!-- Minerals Section -->
-            <div class="nutrient-section">
-              <h3 class="section-category">Minerals</h3>
-              
-              <div class="nutrient-list">
-                <div class="nutrient-item">
-                  <span class="nutrient-name">Iron</span>
-                  <div class="nutrient-bar-container">
-                    <div class="nutrient-bar-bg">
-                      <div class="nutrient-bar-fill yellow" style="width: 42%"></div>
-                    </div>
-                    <span class="nutrient-percent">42%</span>
-                  </div>
-                </div>
-                
-                <div class="nutrient-item">
-                  <span class="nutrient-name">Calcium</span>
-                  <div class="nutrient-bar-container">
-                    <div class="nutrient-bar-bg">
-                      <div class="nutrient-bar-fill green" style="width: 70%"></div>
-                    </div>
-                    <span class="nutrient-percent">70%</span>
-                  </div>
-                </div>
-                
-                <div class="nutrient-item">
-                  <span class="nutrient-name">Sodium</span>
-                  <div class="nutrient-bar-container">
-                    <div class="nutrient-bar-bg">
-                      <div class="nutrient-bar-fill red" style="width: 110%"></div>
-                    </div>
-                    <span class="nutrient-percent">110%</span>
-                  </div>
-                </div>
-                
-                <div class="nutrient-item">
-                  <span class="nutrient-name">Potassium</span>
-                  <div class="nutrient-bar-container">
-                    <div class="nutrient-bar-bg">
-                      <div class="nutrient-bar-fill yellow" style="width: 65%"></div>
-                    </div>
-                    <span class="nutrient-percent">65%</span>
-                  </div>
-                </div>
-                
-                <div class="nutrient-item">
-                  <span class="nutrient-name">Magnesium</span>
-                  <div class="nutrient-bar-container">
-                    <div class="nutrient-bar-bg">
-                      <div class="nutrient-bar-fill yellow" style="width: 58%"></div>
-                    </div>
-                    <span class="nutrient-percent">58%</span>
-                  </div>
-                </div>
-                
-                <div class="nutrient-item">
-                  <span class="nutrient-name">Zinc</span>
-                  <div class="nutrient-bar-container">
-                    <div class="nutrient-bar-bg">
-                      <div class="nutrient-bar-fill yellow" style="width: 52%"></div>
-                    </div>
-                    <span class="nutrient-percent">52%</span>
-                  </div>
-                </div>
+            <section class="nf-toolbar" aria-label="Sort nutrients">
+              <div class="nf-sort-pills" id="nfSortPills">
+                <button class="nf-sort-pill active" type="button" data-sort="low">Lowest RDV</button>
+                <button class="nf-sort-pill" type="button" data-sort="high">Highest RDV</button>
+                <button class="nf-sort-pill" type="button" data-sort="alpha">A-Z</button>
               </div>
-            </div>
-
-            <!-- Other Section -->
-            <div class="nutrient-section">
-              <h3 class="section-category">Other</h3>
-              
-              <div class="nutrient-list simple">
-                <div class="nutrient-item simple">
-                  <span class="nutrient-name">Fiber</span>
-                  <span class="nutrient-value">25g</span>
-                </div>
-                <div class="nutrient-item simple">
-                  <span class="nutrient-name">Sugar</span>
-                  <span class="nutrient-value">35g</span>
-                </div>
-                <div class="nutrient-item simple">
-                  <span class="nutrient-name">Saturated Fat</span>
-                  <span class="nutrient-value">12g</span>
-                </div>
-                <div class="nutrient-item simple">
-                  <span class="nutrient-name">Cholesterol</span>
-                  <span class="nutrient-value">180mg</span>
-                </div>
+              <div class="nf-legend" aria-label="Coverage legend">
+                <span><i class="is-low"></i>Low</span>
+                <span><i class="is-mid"></i>Partial</span>
+                <span><i class="is-good"></i>Met</span>
+                <span><i class="is-high"></i>High</span>
               </div>
-            </div>
+            </section>
 
-            <!-- Spacer -->
-            <div class="bottom-spacer"></div>
-          </div>
-
+            <section class="nf-sections" id="nfSections"></section>
+            <div class="nf-bottom-spacer" aria-hidden="true"></div>
+          </main>
         </div>
 
       </div>
     </div>
   </div>
 
-  <script src="../../app.js?v=3"></script>
   <script>
-    function toggleSortOptions() {
-      document.getElementById('sortOptions').classList.toggle('show');
-    }
-    
-    function selectSort(btn) {
-      document.querySelectorAll('.sort-option').forEach(opt => opt.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelector('.sort-dropdown span').textContent = btn.textContent;
-      document.getElementById('sortOptions').classList.remove('show');
-    }
-    
-    // Close sort options when clicking outside
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.sort-section')) {
-        document.getElementById('sortOptions').classList.remove('show');
-      }
-    });
-  </script>
+    (function() {
+      const nutrients = [
+        { name: 'Vitamin D', category: 'Vitamins', intake: 6, target: 15, unit: 'mcg', percent: 40 },
+        { name: 'Vitamin E', category: 'Vitamins', intake: 6.8, target: 15, unit: 'mg', percent: 45 },
+        { name: 'Folate', category: 'Vitamins', intake: 180, target: 400, unit: 'mcg', percent: 45 },
+        { name: 'Vitamin C', category: 'Vitamins', intake: 58, target: 90, unit: 'mg', percent: 64 },
+        { name: 'Vitamin A', category: 'Vitamins', intake: 680, target: 900, unit: 'mcg', percent: 76 },
+        { name: 'Vitamin B12', category: 'Vitamins', intake: 2.5, target: 2.4, unit: 'mcg', percent: 104 },
+        { name: 'Iron', category: 'Minerals', intake: 7.6, target: 18, unit: 'mg', percent: 42 },
+        { name: 'Magnesium', category: 'Minerals', intake: 230, target: 400, unit: 'mg', percent: 58 },
+        { name: 'Potassium', category: 'Minerals', intake: 2300, target: 3400, unit: 'mg', percent: 68 },
+        { name: 'Calcium', category: 'Minerals', intake: 740, target: 1000, unit: 'mg', percent: 74 },
+        { name: 'Zinc', category: 'Minerals', intake: 8.4, target: 11, unit: 'mg', percent: 76 },
+        { name: 'Fiber', category: 'Other', intake: 18, target: 28, unit: 'g', percent: 64 },
+        { name: 'Saturated Fat', category: 'Other', intake: 12, target: 20, unit: 'g', percent: 60 },
+        { name: 'Sugar', category: 'Other', intake: 35, target: 50, unit: 'g', percent: 70 },
+        { name: 'Sodium', category: 'Other', intake: 1840, target: 2300, unit: 'mg', percent: 80 }
+      ];
 
-  <style>
-    .screen-nutrients-full {
-      background: #F5F6FA;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-    
-    .nutrients-full-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      background: white;
-      border-bottom: 1px solid #F4F4F4;
-    }
-    
-    .back-btn {
-      width: 40px;
-      height: 40px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      margin-left: -8px;
-    }
-    
-    .nutrients-full-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      color: #0f172a;
-      margin: 0;
-    }
-    
-    .header-spacer {
-      width: 40px;
-    }
-    
-    .nutrients-full-scroll {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
-    }
-    
-    .sort-section {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 20px;
-      position: relative;
-    }
-    
-    .sort-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #64748b;
-    }
-    
-    .sort-dropdown {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: white;
-      border: 1px solid #E5E7EB;
-      border-radius: 10px;
-      padding: 8px 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #0f172a;
-      font-weight: 500;
-      cursor: pointer;
-    }
-    
-    .sort-options {
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 50px;
-      background: white;
-      border-radius: 12px;
-      border: 1px solid #E5E7EB;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
-      overflow: hidden;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.2s;
-      z-index: 100;
-      min-width: 160px;
-    }
-    
-    .sort-options.show {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-    
-    .sort-option {
-      width: 100%;
-      padding: 12px 16px;
-      background: none;
-      border: none;
-      text-align: left;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #0f172a;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    
-    .sort-option:hover {
-      background: #F5F6FA;
-    }
-    
-    .sort-option.active {
-      color: #7F7CF0;
-      font-weight: 600;
-    }
-    
-    .nutrient-section {
-      margin-bottom: 24px;
-    }
-    
-    .section-category {
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-      color: #0f172a;
-      margin: 0 0 14px 0;
-    }
-    
-    .nutrient-list {
-      background: white;
-      border-radius: 16px;
-      padding: 8px 16px;
-      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
-    }
-    
-    .nutrient-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 0;
-      border-bottom: 1px solid #F4F4F4;
-    }
-    
-    .nutrient-item:last-child {
-      border-bottom: none;
-    }
-    
-    .nutrient-name {
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #0f172a;
-      font-weight: 500;
-    }
-    
-    .nutrient-bar-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    
-    .nutrient-bar-bg {
-      width: 100px;
-      height: 8px;
-      background: #E5E7EB;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    
-    .nutrient-bar-fill {
-      height: 100%;
-      border-radius: 4px;
-      transition: width 0.3s ease;
-    }
-    
-    .nutrient-bar-fill.green {
-      background: #10B981;
-    }
-    
-    .nutrient-bar-fill.yellow {
-      background: #F59E0B;
-    }
-    
-    .nutrient-bar-fill.red {
-      background: #EF4444;
-    }
-    
-    .nutrient-percent {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      color: #64748b;
-      font-weight: 500;
-      min-width: 45px;
-      text-align: right;
-    }
-    
-    .nutrient-item.simple {
-      padding: 16px 0;
-    }
-    
-    .nutrient-value {
-      font-family: 'Outfit', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      color: #64748b;
-    }
-    
-    .bottom-spacer {
-      height: 40px;
-    }
-  </style>
+      const categories = ['Vitamins', 'Minerals', 'Other'];
+      const labels = {
+        low: 'Lowest RDV',
+        high: 'Highest RDV',
+        alpha: 'A-Z'
+      };
+
+      function getStatus(percent) {
+        if (percent > 100) return 'high';
+        if (percent >= 80) return 'good';
+        if (percent >= 50) return 'mid';
+        return 'low';
+      }
+
+      function formatValue(value, unit) {
+        return Number.isInteger(value) ? value + unit : value.toFixed(1).replace(/\\.0$/, '') + unit;
+      }
+
+      function sortItems(items, sortKey) {
+        const copy = items.slice();
+        if (sortKey === 'high') {
+          copy.sort((a, b) => b.percent - a.percent || a.name.localeCompare(b.name));
+        } else if (sortKey === 'alpha') {
+          copy.sort((a, b) => a.name.localeCompare(b.name));
+        } else {
+          copy.sort((a, b) => a.percent - b.percent || a.name.localeCompare(b.name));
+        }
+        return copy;
+      }
+
+      function renderSections(sortKey) {
+        const root = document.getElementById('nfSections');
+        if (!root) return;
+
+        root.innerHTML = categories.map(category => {
+          const items = sortItems(nutrients.filter(item => item.category === category), sortKey);
+          return `
+            <section class="nf-section-card" aria-labelledby="section-${category}">
+              <div class="nf-section-head">
+                <h3 id="section-${category}">${category}</h3>
+                <span>${labels[sortKey]}</span>
+              </div>
+              <div class="nf-list">
+                ${items.map(item => {
+                  const status = getStatus(item.percent);
+                  return `
+                    <article class="nf-item">
+                      <div class="nf-item-main">
+                        <div class="nf-item-copy">
+                          <strong>${item.name}</strong>
+                          <span>${formatValue(item.intake, item.unit)} / ${formatValue(item.target, item.unit)} RDV</span>
+                        </div>
+                        <b class="nf-percent is-${status}">${item.percent}%</b>
+                      </div>
+                      <div class="nf-bar-track" aria-hidden="true">
+                        <i class="is-${status}" style="width:${Math.min(item.percent, 100)}%"></i>
+                      </div>
+                    </article>
+                  `;
+                }).join('')}
+              </div>
+            </section>
+          `;
+        }).join('');
+      }
+
+      function setActiveSort(sortKey) {
+        document.querySelectorAll('.nf-sort-pill').forEach(button => {
+          button.classList.toggle('active', button.dataset.sort === sortKey);
+        });
+        renderSections(sortKey);
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const scroller = document.querySelector('.nf-content');
+        if (scroller) scroller.scrollTop = 0;
+        renderSections('low');
+        document.querySelectorAll('.nf-sort-pill').forEach(button => {
+          button.addEventListener('click', function() {
+            setActiveSort(button.dataset.sort);
+          });
+        });
+      });
+    })();
+  </script>
+  <script src="../../app.js?v=8"></script>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </body>
+
 </html>

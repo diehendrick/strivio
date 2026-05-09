@@ -56,7 +56,7 @@ const Capture = window.__strivio_capture = {
           transform: scale(0.95);
         }
         .capture-btn-main {
-          background: linear-gradient(135deg, #7F7CF0, #5B58E0);
+          background: linear-gradient(135deg, #0056D8, #5B58E0);
         }
         .capture-btn-main iconify-icon {
           color: white;
@@ -129,7 +129,7 @@ const Capture = window.__strivio_capture = {
       </style>
       <div class="capture-menu" id="captureMenu">
         <button class="capture-menu-btn" onclick="Capture.captureCurrentScreen()">
-          <iconify-icon icon="solar:camera-bold-duotone" style="color:#7F7CF0"></iconify-icon>
+          <iconify-icon icon="solar:camera-bold-duotone" style="color:#0056D8"></iconify-icon>
           Capture Screen
         </button>
         <button class="capture-menu-btn" onclick="Capture.captureAllScreens()">

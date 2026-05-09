@@ -6,9 +6,9 @@
   <title>Strivio — Your Personalized Plan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
-  <link rel="stylesheet" href="../../styles.css?v=3">
+  <link rel="stylesheet" href="../../styles.css?v=5">
 </head>
 <body>
   <div class="app-container">
@@ -17,17 +17,13 @@
       <div class="screens-wrapper" id="screensWrapper">
 
         <!-- ===== WORKOUT TAB: Coach Q1 — Time -->
-        <div class="screen active" data-screen="coach-q1">
-          <div class="wk-nav-header">
-            <button class="wk-back-btn" onclick="navigateTo('workout')"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
-            <span class="wk-nav-title">AI Coach</span>
-          </div>
+        <div class="screen screen-coach-question active" data-screen="coach-q1">
           <div class="progress-section">
             <div class="progress-bar"><div class="progress-fill" style="width:16.67%"></div></div>
-            <span class="progress-label">Step 1 of 6</span>
+            <span class="progress-label">Question 1 of 6</span>
           </div>
           <div class="question-content">
-            <div class="question-icon"><img src="../../assets/svg_icons/clock-five.svg" class="icon" width="64" alt=""></div>
+            <div class="coach-illustration"><img src="../../assets/illustration/option=timer.svg" alt=""></div>
             <h2 class="question-title">How much time do you have?</h2>
             <p class="question-helper">Build a workout that fits your schedule</p>
             <div class="option-cards single-select" data-key="coachTime" id="coachTimeOptions">
@@ -46,6 +42,6 @@
     </div>
   </div>
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
-  <script src="../../app.js?v=3"></script>
+  <script src="../../app.js?v=5"></script>
 </body>
 </html>

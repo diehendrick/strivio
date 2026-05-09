@@ -3,428 +3,426 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Strivio — Add Food</title>
+  <title>Strivio - Food Library</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=16">
 </head>
 <body>
   <div class="app-container">
     <div class="phone-frame">
       <div class="phone-notch"></div>
       <div class="screens-wrapper" id="screensWrapper">
-
-        <!-- Screen: Add Food Home -->
-        <div class="screen screen-add-food active" data-screen="add-food-home">
-          
-          <!-- Header -->
-          <div class="add-food-header">
-            <button class="back-btn" onclick="navigateTo('logbook')" aria-label="Go back">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15,18 9,12 15,6"></polyline>
-              </svg>
-            </button>
-            <h1 class="add-food-title">Add Food</h1>
-            <div class="header-spacer"></div>
-          </div>
-
-          <div class="add-food-scroll">
-            <!-- Search Bar -->
-            <div class="search-container">
-              <div class="search-bar">
-                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input type="text" class="search-input" id="foodSearch" placeholder="Search food..." onkeyup="handleSearch(event)">
-                <button class="barcode-btn" onclick="openBarcode()" aria-label="Scan barcode">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7F7CF0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
-                    <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
-                    <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
-                    <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
-                  </svg>
-                </button>
+        <div class="screen screen-meal-list active" data-screen="add-food-home">
+          <section class="meal-food-library meal-food-page" id="mealFoodLibrary" data-view="list" data-tab="library" aria-label="Food Library">
+            <div class="status-bar meal-library-status">
+              <div class="time">9:41</div>
+              <div class="status-icons">
+                <span class="signal"></span>
+                <span class="wifi"></span>
+                <span class="battery"></span>
               </div>
             </div>
 
-            <!-- Quick Actions Grid -->
-            <div class="quick-actions">
-              <button class="action-card" onclick="openBarcode()">
-                <div class="action-icon barcode-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7F7CF0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
-                    <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
-                    <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
-                    <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
-                  </svg>
+            <div class="meal-library-list-view" id="mealLibraryListView">
+              <header class="meal-library-head">
+                <button class="meal-library-icon-btn" type="button" onclick="navigateTo('meal-detail')" aria-label="Close food library">
+                  <img src="../../assets/svg_icons/cross-x.svg" alt="">
+                </button>
+                <h2>Food Library</h2>
+              </header>
+
+              <div class="meal-library-controls">
+                <label class="meal-library-search">
+                  <img src="../../assets/svg_icons/search.svg" alt="">
+                  <input id="mealLibrarySearch" type="search" placeholder="Search food..." autocomplete="off" aria-label="Search food">
+                  <button class="meal-library-search-clear" id="mealLibrarySearchClear" type="button" aria-label="Clear search" hidden>
+                    <img src="../../assets/svg_icons/cross-x.svg" alt="">
+                  </button>
+                </label>
+
+                <div class="meal-library-tabs" role="tablist" aria-label="Food source">
+                  <button type="button" class="active" data-library-tab="library">Library</button>
+                  <button type="button" data-library-tab="favorites">Favorites</button>
+                  <button type="button" data-library-tab="meals">My Meals</button>
                 </div>
-                <div class="action-content">
-                  <div class="action-title">
-                    Scan Barcode
-                    <span class="action-badge" id="barcodeBadge">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                      </svg>
-                    </span>
+
+                <div class="meal-library-chips" id="mealLibraryChips" aria-label="Food categories"></div>
+              </div>
+
+              <div class="meal-library-results" id="mealLibraryResults"></div>
+              <div class="meal-library-empty" id="mealLibraryEmpty" hidden>
+                <img src="../../assets/svg_icons/not-found-alt.svg" alt="">
+                <h3 id="mealLibraryEmptyTitle">No foods found.</h3>
+                <p id="mealLibraryEmptyText">Try checking your spelling or using broader keywords like Chicken or Salad.</p>
+              </div>
+            </div>
+
+            <div class="meal-library-detail-view" id="mealLibraryDetailView" hidden>
+              <main class="meal-library-detail-scroll">
+                <header class="meal-library-detail-head">
+                  <button class="meal-library-icon-btn" type="button" id="mealLibraryDetailBack" aria-label="Back to food library">
+                    <img src="../../assets/svg_icons/back.svg" alt="">
+                  </button>
+                  <h2>Meal Details</h2>
+                  <button class="meal-library-heart" type="button" id="mealLibraryDetailFavorite" aria-label="Favorite food">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </header>
+
+                <img class="meal-library-detail-hero" id="mealLibraryDetailHero" src="../../assets/img/meal-banana.svg" alt="">
+
+                <section class="meal-library-detail-info">
+                  <div>
+                    <h3 id="mealLibraryDetailName">Banana</h3>
+                    <p id="mealLibraryDetailMeta">Generic &middot; 70 kcal/serving</p>
                   </div>
-                  <span class="action-desc">Instant nutrition data</span>
-                </div>
-              </button>
 
-              <button class="action-card" onclick="navigateTo('manual-entry')">
-                <div class="action-icon manual-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7F7CF0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                  </svg>
-                </div>
-                <div class="action-content">
-                  <span class="action-title">Manual Entry</span>
-                  <span class="action-desc">Add custom food manually</span>
-                </div>
-              </button>
+                  <div class="meal-library-macros">
+                    <strong id="mealLibraryDetailCalories">70 kcal</strong>
+                    <div class="meal-library-macro-row">
+                      <span>Protein</span>
+                      <i><b id="mealLibraryProteinBar"></b></i>
+                      <em id="mealLibraryProtein">1g</em>
+                    </div>
+                    <div class="meal-library-macro-row">
+                      <span>Carbs</span>
+                      <i><b id="mealLibraryCarbsBar"></b></i>
+                      <em id="mealLibraryCarbs">18g</em>
+                    </div>
+                    <div class="meal-library-macro-row">
+                      <span>Fat</span>
+                      <i><b id="mealLibraryFatBar"></b></i>
+                      <em id="mealLibraryFat">0g</em>
+                    </div>
+                  </div>
 
-              <button class="action-card" onclick="navigateTo('ai-photo-upload')">
-                <div class="action-icon ai-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7F7CF0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                    <polyline points="21 15 16 10 5 21"></polyline>
-                  </svg>
+                  <div class="meal-library-chip-group">
+                    <h4>Assign to Meal</h4>
+                    <div class="meal-library-meal-chips" id="mealLibraryMealChips">
+                      <button type="button" class="active" data-assign-meal="Snacks"><span class="meal-chip-icon" style="--meal-chip-icon: url('../../assets/svg_icons/snack.svg')" aria-hidden="true"></span>Snacks</button>
+                      <button type="button" data-assign-meal="Breakfast"><span class="meal-chip-icon" style="--meal-chip-icon: url('../../assets/svg_icons/morning.svg')" aria-hidden="true"></span>Breakfast</button>
+                      <button type="button" data-assign-meal="Lunch"><span class="meal-chip-icon" style="--meal-chip-icon: url('../../assets/svg_icons/day.svg')" aria-hidden="true"></span>Lunch</button>
+                      <button type="button" data-assign-meal="Dinner"><span class="meal-chip-icon" style="--meal-chip-icon: url('../../assets/svg_icons/night.svg')" aria-hidden="true"></span>Dinner</button>
+                    </div>
+                  </div>
+
+                  <div class="meal-library-chip-group">
+                    <h4>Serving Size</h4>
+                    <div class="meal-library-serving-chips" id="mealLibraryServingChips">
+                      <button type="button" class="active" data-serving="1 serving">1 serving</button>
+                      <button type="button" data-serving="100g">100g</button>
+                      <button type="button" data-serving="1 Bowl">1 Bowl</button>
+                      <button type="button" data-serving="Custom">Custom</button>
+                    </div>
+                    <div class="meal-library-custom-serving" id="mealLibraryCustomServing" hidden>
+                      <label>
+                        <span>Amount</span>
+                        <input id="mealLibraryCustomAmount" type="number" min="1" step="1" value="150" inputmode="decimal">
+                      </label>
+                      <div class="meal-library-custom-units" id="mealLibraryCustomUnits" aria-label="Custom serving unit">
+                        <button type="button" class="active" data-custom-unit="g">g</button>
+                        <button type="button" data-custom-unit="oz">oz</button>
+                        <button type="button" data-custom-unit="cup">cup</button>
+                        <button type="button" data-custom-unit="serving">serving</button>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </main>
+
+              <footer class="meal-library-logbar">
+                <div class="meal-library-stepper">
+                  <button type="button" id="mealLibraryMinus" aria-label="Decrease quantity">-</button>
+                  <strong id="mealLibraryQty">1</strong>
+                  <button type="button" id="mealLibraryPlus" aria-label="Increase quantity">+</button>
                 </div>
-                <div class="action-content">
-                  <span class="action-title">AI Photo Estimate</span>
-                  <span class="action-desc">Upload a photo to estimate calories</span>
-                </div>
-              </button>
+                <button type="button" id="mealLibraryLogBtn">Log to Snacks</button>
+              </footer>
             </div>
 
-            <!-- Recent Foods Section -->
-            <div class="foods-section">
-              <div class="section-header">
-                <h3 class="section-title">Recent Foods</h3>
-              </div>
-              <div class="food-chips">
-                <button class="food-chip" onclick="selectRecentFood('Chicken Rice')">Chicken Rice</button>
-                <button class="food-chip" onclick="selectRecentFood('Banana')">Banana</button>
-                <button class="food-chip" onclick="selectRecentFood('Greek Yogurt')">Greek Yogurt</button>
-                <button class="food-chip" onclick="selectRecentFood('Protein Shake')">Protein Shake</button>
-              </div>
+            <div class="meal-library-snackbar" id="mealLibrarySnackbar" role="status" aria-live="polite" hidden>
+              <span id="mealLibrarySnackbarText">Added to Snacks</span>
             </div>
-
-            <!-- Favourites Section -->
-            <div class="foods-section">
-              <div class="section-header">
-                <h3 class="section-title">Favourites</h3>
-                <span class="section-count" id="favCount">3/3</span>
-              </div>
-              <div class="food-chips">
-                <button class="food-chip favourite" onclick="selectRecentFood('Oatmeal')">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#F59E0B" stroke="none">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>
-                  Oatmeal
-                </button>
-                <button class="food-chip favourite" onclick="selectRecentFood('Protein Shake')">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#F59E0B" stroke="none">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>
-                  Protein Shake
-                </button>
-                <button class="food-chip favourite" onclick="selectRecentFood('Eggs')">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#F59E0B" stroke="none">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>
-                  Eggs
-                </button>
-              </div>
-            </div>
-
-            <!-- Spacer -->
-            <div class="bottom-spacer"></div>
-          </div>
-
+          </section>
         </div>
-
       </div>
     </div>
   </div>
 
-  <script src="../../app.js?v=3"></script>
+  <script src="../../app.js?v=16"></script>
   <script>
     (function() {
-      const isPremium = window.__strivio_state?.isPremium || false;
-      
-      // Show/hide premium badge on barcode option
-      document.getElementById('barcodeBadge').style.display = isPremium ? 'none' : 'flex';
-      
-      window.handleSearch = function(e) {
-        if (e.key === 'Enter') {
-          const query = e.target.value.trim();
-          if (query) {
-            navigateTo('food-search-results?q=' + encodeURIComponent(query));
-          }
+      const healthIcon = '<svg viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      const foods = [
+        { id: 'oatmeal', name: 'Oatmeal (1 bowl)', meta: 'P 12g · C 55g · F 8g', kcal: 350, category: 'Oatmeal', image: 'https://www.figma.com/api/mcp/asset/46fc18f3-a9ce-4a28-b18d-6a98185e5cf1', fallback: '../../assets/img/meal-oatmeal.svg' },
+        { id: 'greek-yogurt', name: 'Greek Yogurt (1 cup)', meta: 'P 20g · C 10g · F 0g', kcal: 120, category: 'Yogurt', favorite: true, image: 'https://www.figma.com/api/mcp/asset/1c36588a-9268-480f-badc-d8d4e5b3461f', fallback: '../../assets/img/meal-greek-yogurt.svg' },
+        { id: 'avocado-toast', name: 'Avocado Toast (1 slice)', meta: 'P 5g · C 20g · F 15g', kcal: 250, category: 'Salad', image: 'https://www.figma.com/api/mcp/asset/3dd4fd1c-3d6d-4d81-a092-384b4ad654f5', fallback: '../../assets/img/meal-avocado-toast.svg' },
+        { id: 'berry-smoothie', name: 'Berry Smoothie (12 oz)', meta: 'P 8g · C 35g · F 2g', kcal: 180, category: 'Banana', image: 'https://www.figma.com/api/mcp/asset/0e9eac79-14c9-4ca1-a207-fa63c46177dd', fallback: '../../assets/img/meal-banana.svg' },
+        { id: 'greek-parfait', name: 'Greek Yogurt Parfait', meta: 'P 12g · C 25g · F 5g', kcal: 210, category: 'Yogurt', tab: 'meals', favorite: true, image: 'https://www.figma.com/api/mcp/asset/c0fa4bbc-dc61-4ade-bdd3-f075f9eaeef3', fallback: '../../assets/img/meal-greek-yogurt.svg' },
+        { id: 'almond-banana-wrap', name: 'Almond Butter Banana Wrap', meta: 'P 6g · C 30g · F 14g', kcal: 290, category: 'Banana', tab: 'meals', image: 'https://www.figma.com/api/mcp/asset/d247c878-1cb2-4e2f-b983-4b3a3b32d0df', fallback: '../../assets/img/meal-banana.svg' },
+        { id: 'chia-pudding', name: 'Chia Seed Pudding', meta: 'P 7g · C 18g · F 12g', kcal: 220, category: 'Core', tab: 'meals', image: 'https://www.figma.com/api/mcp/asset/3dd4fd1c-3d6d-4d81-a092-384b4ad654f5', fallback: '../../assets/img/meal-oatmeal.svg' }
+      ];
+      const favorites = new Set(foods.filter(function(food) { return food.favorite; }).map(function(food) { return food.id; }));
+      const library = document.getElementById('mealFoodLibrary');
+      const input = document.getElementById('mealLibrarySearch');
+      const clearButton = document.getElementById('mealLibrarySearchClear');
+      const chipsEl = document.getElementById('mealLibraryChips');
+      const resultsEl = document.getElementById('mealLibraryResults');
+      const emptyEl = document.getElementById('mealLibraryEmpty');
+      const listView = document.getElementById('mealLibraryListView');
+      const detailView = document.getElementById('mealLibraryDetailView');
+      const customServing = document.getElementById('mealLibraryCustomServing');
+      const snackbar = document.getElementById('mealLibrarySnackbar');
+      const snackbarText = document.getElementById('mealLibrarySnackbarText');
+      let activeTab = 'library';
+      let activeChip = 'All';
+      let query = '';
+      let selectedFood = foods[0];
+      let assignedMeal = 'Snacks';
+      let servingSize = '1 serving';
+      let customUnit = 'g';
+      let quantity = 1;
+      let snackbarTimer = null;
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function(char) {
+          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char];
+        });
+      }
+
+      function imageErrorAttr(fallback) {
+        return "this.onerror=null;this.src='" + fallback + "';";
+      }
+
+      function plainName(food) {
+        return food.name.replace(/\s*\([^)]*\)/g, '');
+      }
+
+      function parseMacro(food, label) {
+        const match = food.meta.match(new RegExp(label + '\\s+(\\d+)g', 'i'));
+        return match ? Number(match[1]) : 0;
+      }
+
+      function macroWidth(value, multiplier) {
+        if (!value) return '0';
+        return Math.min(100, Math.max(6, value * multiplier)) + '%';
+      }
+
+      function showListView() {
+        library.dataset.view = 'list';
+        listView.hidden = false;
+        detailView.hidden = true;
+      }
+
+      function showDetailView(food) {
+        selectedFood = food;
+        assignedMeal = 'Snacks';
+        servingSize = '1 serving';
+        customUnit = 'g';
+        quantity = 1;
+        library.dataset.view = 'detail';
+        listView.hidden = true;
+        detailView.hidden = false;
+        renderDetail();
+      }
+
+      function renderDetail() {
+        const protein = parseMacro(selectedFood, 'P');
+        const carbs = parseMacro(selectedFood, 'C');
+        const fat = parseMacro(selectedFood, 'F');
+        document.getElementById('mealLibraryDetailHero').src = selectedFood.image;
+        document.getElementById('mealLibraryDetailHero').onerror = function() {
+          this.onerror = null;
+          this.src = selectedFood.fallback;
+        };
+        document.getElementById('mealLibraryDetailHero').alt = plainName(selectedFood);
+        document.getElementById('mealLibraryDetailName').textContent = plainName(selectedFood);
+        document.getElementById('mealLibraryDetailMeta').innerHTML = 'Generic &middot; ' + selectedFood.kcal + ' kcal/serving';
+        document.getElementById('mealLibraryDetailCalories').textContent = (selectedFood.kcal * quantity) + ' kcal';
+        document.getElementById('mealLibraryProtein').textContent = (protein * quantity) + 'g';
+        document.getElementById('mealLibraryCarbs').textContent = (carbs * quantity) + 'g';
+        document.getElementById('mealLibraryFat').textContent = (fat * quantity) + 'g';
+        document.getElementById('mealLibraryProteinBar').style.width = macroWidth(protein, 4);
+        document.getElementById('mealLibraryCarbsBar').style.width = macroWidth(carbs, 3.5);
+        document.getElementById('mealLibraryFatBar').style.width = macroWidth(fat, 4);
+        document.getElementById('mealLibraryDetailFavorite').classList.toggle('active', favorites.has(selectedFood.id));
+        document.getElementById('mealLibraryQty').textContent = quantity;
+        document.getElementById('mealLibraryMinus').disabled = quantity <= 1;
+        document.getElementById('mealLibraryLogBtn').textContent = 'Log to ' + assignedMeal;
+        customServing.hidden = servingSize !== 'Custom';
+        document.querySelectorAll('[data-assign-meal]').forEach(function(chip) {
+          chip.classList.toggle('active', chip.dataset.assignMeal === assignedMeal);
+        });
+        document.querySelectorAll('[data-serving]').forEach(function(chip) {
+          chip.classList.toggle('active', chip.dataset.serving === servingSize);
+        });
+        document.querySelectorAll('[data-custom-unit]').forEach(function(unit) {
+          unit.classList.toggle('active', unit.dataset.customUnit === customUnit);
+        });
+      }
+
+      function showSnackbar(message, callback) {
+        clearTimeout(snackbarTimer);
+        snackbarText.textContent = message;
+        snackbar.hidden = false;
+        requestAnimationFrame(function() {
+          snackbar.classList.add('show');
+        });
+        snackbarTimer = setTimeout(function() {
+          snackbar.classList.remove('show');
+          setTimeout(function() {
+            snackbar.hidden = true;
+            if (callback) callback();
+          }, 180);
+        }, 900);
+      }
+
+      function logSelectedFood() {
+        const customAmount = document.getElementById('mealLibraryCustomAmount').value || '1';
+        const displayServing = servingSize === 'Custom' ? customAmount + customUnit : servingSize;
+        sessionStorage.setItem('strivio_logged_food', JSON.stringify({
+          id: selectedFood.id + '-' + Date.now(),
+          name: selectedFood.name,
+          detailName: plainName(selectedFood),
+          brand: 'Generic',
+          meta: selectedFood.meta,
+          kcal: selectedFood.kcal * quantity,
+          protein: parseMacro(selectedFood, 'P') * quantity,
+          carbs: parseMacro(selectedFood, 'C') * quantity,
+          fat: parseMacro(selectedFood, 'F') * quantity,
+          image: selectedFood.image,
+          fallback: selectedFood.fallback,
+          assignedMeal: assignedMeal,
+          quantity: quantity,
+          servingSize: displayServing
+        }));
+        showSnackbar(plainName(selectedFood) + ' added to ' + assignedMeal, function() {
+          navigateTo('meal-detail');
+        });
+      }
+
+      function matches() {
+        return foods.filter(function(food) {
+          const tabMatch = activeTab === 'library' || (activeTab === 'favorites' && favorites.has(food.id)) || (activeTab === 'meals' && food.tab === 'meals');
+          const chipMatch = activeChip === 'All' || food.category === activeChip || food.name.indexOf(activeChip) >= 0;
+          const searchMatch = !query || (food.name + ' ' + food.meta).toLowerCase().indexOf(query.toLowerCase()) >= 0;
+          return tabMatch && chipMatch && searchMatch;
+        });
+      }
+
+      function renderChips() {
+        const chips = ['All', 'Oatmeal', 'Banana', 'Chicken', 'Salad', 'Salmon', 'Arms', 'Core'];
+        chipsEl.innerHTML = chips.map(function(chip) {
+          return '<button type="button" class="' + (chip === activeChip ? 'active' : '') + '" data-library-filter="' + escapeHtml(chip) + '">' + escapeHtml(chip) + '</button>';
+        }).join('');
+      }
+
+      function render() {
+        library.dataset.tab = activeTab;
+        document.querySelectorAll('[data-library-tab]').forEach(function(tab) {
+          tab.classList.toggle('active', tab.dataset.libraryTab === activeTab);
+        });
+        renderChips();
+        const rows = matches();
+        input.closest('.meal-library-search').classList.toggle('has-query', Boolean(query));
+        clearButton.hidden = !query;
+        resultsEl.hidden = rows.length === 0;
+        emptyEl.hidden = rows.length !== 0;
+        document.getElementById('mealLibraryEmptyTitle').textContent = activeTab === 'favorites' && !query ? 'You do not have any favorite meals' : (activeTab === 'meals' && !query ? 'You do not have any custom meals' : 'No foods found for "' + (query || activeChip).toLowerCase() + '"');
+        resultsEl.innerHTML = rows.map(function(food) {
+          return '<article class="meal-library-card">' +
+            '<button class="meal-library-card-main" type="button" data-open-food="' + escapeHtml(food.id) + '">' +
+              '<img src="' + food.image + '" alt="' + escapeHtml(food.name) + '" onerror="' + imageErrorAttr(food.fallback) + '">' +
+              '<span><strong>' + escapeHtml(food.name) + '</strong><em>' + escapeHtml(food.meta) + '</em><b>' + food.kcal + ' kcal</b></span>' +
+            '</button>' +
+            '<button class="meal-library-favorite ' + (favorites.has(food.id) ? 'active' : '') + '" type="button" data-favorite="' + escapeHtml(food.id) + '" aria-label="Toggle favorite">' + healthIcon + '</button>' +
+          '</article>';
+        }).join('');
+      }
+
+      input.addEventListener('input', function() {
+        query = input.value.trim();
+        render();
+      });
+      clearButton.addEventListener('click', function() {
+        input.value = '';
+        query = '';
+        input.focus();
+        render();
+      });
+      document.querySelectorAll('[data-library-tab]').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          activeTab = tab.dataset.libraryTab;
+          activeChip = 'All';
+          render();
+        });
+      });
+      chipsEl.addEventListener('click', function(event) {
+        const chip = event.target.closest('[data-library-filter]');
+        if (!chip) return;
+        activeChip = chip.dataset.libraryFilter;
+        render();
+      });
+      resultsEl.addEventListener('click', function(event) {
+        const fav = event.target.closest('[data-favorite]');
+        if (fav) {
+          if (favorites.has(fav.dataset.favorite)) favorites.delete(fav.dataset.favorite);
+          else favorites.add(fav.dataset.favorite);
+          render();
+          return;
         }
-      };
-      
-      window.openBarcode = function() {
-        if (isPremium) {
-          navigateTo('barcode-scanner');
-        } else {
-          navigateTo('paywall-sheet?context=barcode&return=add-food-home');
+        if (event.target.closest('[data-open-food]')) {
+          const openButton = event.target.closest('[data-open-food]');
+          const food = foods.find(function(item) {
+            return item.id === openButton.dataset.openFood;
+          });
+          if (food) showDetailView(food);
         }
-      };
-      
-      window.selectRecentFood = function(foodName) {
-        // Navigate to food detail with the selected food
-        navigateTo('food-detail-preview?food=' + encodeURIComponent(foodName));
-      };
+      });
+      document.getElementById('mealLibraryDetailBack').addEventListener('click', function() {
+        showListView();
+        render();
+      });
+      document.getElementById('mealLibraryDetailFavorite').addEventListener('click', function() {
+        if (favorites.has(selectedFood.id)) favorites.delete(selectedFood.id);
+        else favorites.add(selectedFood.id);
+        renderDetail();
+      });
+      document.getElementById('mealLibraryMealChips').addEventListener('click', function(event) {
+        const chip = event.target.closest('[data-assign-meal]');
+        if (!chip) return;
+        assignedMeal = chip.dataset.assignMeal;
+        renderDetail();
+      });
+      document.getElementById('mealLibraryServingChips').addEventListener('click', function(event) {
+        const chip = event.target.closest('[data-serving]');
+        if (!chip) return;
+        servingSize = chip.dataset.serving;
+        renderDetail();
+      });
+      document.getElementById('mealLibraryCustomUnits').addEventListener('click', function(event) {
+        const unit = event.target.closest('[data-custom-unit]');
+        if (!unit) return;
+        customUnit = unit.dataset.customUnit;
+        renderDetail();
+      });
+      document.getElementById('mealLibraryCustomAmount').addEventListener('input', renderDetail);
+      document.getElementById('mealLibraryMinus').addEventListener('click', function() {
+        quantity = Math.max(1, quantity - 1);
+        renderDetail();
+      });
+      document.getElementById('mealLibraryPlus').addEventListener('click', function() {
+        quantity = Math.min(99, quantity + 1);
+        renderDetail();
+      });
+      document.getElementById('mealLibraryLogBtn').addEventListener('click', logSelectedFood);
+
+      render();
     })();
   </script>
-
-  <style>
-    .screen-add-food {
-      background: #F5F6FA;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-    
-    .add-food-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      background: white;
-      border-bottom: 1px solid #F4F4F4;
-    }
-    
-    .back-btn {
-      width: 40px;
-      height: 40px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      margin-left: -8px;
-    }
-    
-    .back-btn:active {
-      background: #F5F6FA;
-    }
-    
-    .add-food-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      color: #0f172a;
-      margin: 0;
-    }
-    
-    .header-spacer {
-      width: 40px;
-    }
-    
-    .add-food-scroll {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
-    }
-    
-    .search-container {
-      margin-bottom: 20px;
-    }
-    
-    .search-bar {
-      display: flex;
-      align-items: center;
-      background: white;
-      border-radius: 14px;
-      padding: 12px 16px;
-      gap: 12px;
-      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
-    }
-    
-    .search-icon {
-      flex-shrink: 0;
-    }
-    
-    .search-input {
-      flex: 1;
-      border: none;
-      background: none;
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      color: #0f172a;
-      outline: none;
-    }
-    
-    .search-input::placeholder {
-      color: #9CA3AF;
-    }
-    
-    .barcode-btn {
-      width: 36px;
-      height: 36px;
-      background: #F1F0FF;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    
-    .barcode-btn:active {
-      background: #E5E1FE;
-    }
-    
-    .quick-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 28px;
-    }
-    
-    .action-card {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      background: white;
-      border: none;
-      border-radius: 16px;
-      padding: 16px;
-      cursor: pointer;
-      text-align: left;
-      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
-      transition: transform 0.2s;
-    }
-    
-    .action-card:active {
-      transform: scale(0.99);
-    }
-    
-    .action-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    
-    .barcode-icon {
-      background: #F1F0FF;
-    }
-    
-    .manual-icon {
-      background: #F1F0FF;
-    }
-    
-    .ai-icon {
-      background: #F1F0FF;
-    }
-    
-    .action-content {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    
-    .action-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      color: #0f172a;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .action-badge {
-      width: 18px;
-      height: 18px;
-      background: #FEF3C7;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .action-desc {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      color: #64748b;
-    }
-    
-    .foods-section {
-      margin-bottom: 24px;
-    }
-    
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    
-    .section-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-      color: #0f172a;
-      margin: 0;
-    }
-    
-    .section-count {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      color: #9CA3AF;
-      font-weight: 500;
-    }
-    
-    .food-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    
-    .food-chip {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: white;
-      border: 1px solid #E5E7EB;
-      border-radius: 9999px;
-      padding: 10px 16px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      color: #0f172a;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .food-chip:active {
-      background: #F5F6FA;
-    }
-    
-    .food-chip.favourite {
-      background: #FFFBEB;
-      border-color: #FEF3C7;
-    }
-    
-    .bottom-spacer {
-      height: 40px;
-    }
-  </style>
 </body>
 </html>

@@ -6,9 +6,9 @@
   <title>Strivio — Coach's Plan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
-  <link rel="stylesheet" href="../../styles.css?v=4">
+  <link rel="stylesheet" href="../../styles.css?v=5">
 </head>
 <body>
   <div class="app-container">
@@ -19,16 +19,16 @@
         <div class="screen screen-coach-review active" data-screen="coach-review">
           <div class="cr-header">
             <button class="cr-back" onclick="goBack()">
-              <iconify-icon icon="solar:arrow-left-bold" width="20"></iconify-icon>
+              <img src="../../assets/svg_icons/back.svg" width="32" alt="">
             </button>
-            <span class="cr-header-title">Coach's Plan</span>
+            <span class="cr-header-title">Builder Plan</span>
             <div class="cr-header-spacer"></div>
           </div>
 
           <div class="cr-scroll">
             <div class="cr-banner">
               <div class="cr-banner-icon">
-                <iconify-icon icon="solar:stars-bold-duotone" width="22"></iconify-icon>
+                <img src="../../assets/svg_icons/life.svg" width="28" alt="">
               </div>
               <span>Your coach built this based on your preferences</span>
             </div>
@@ -40,8 +40,7 @@
 
           <div class="cr-actions">
             <button class="cr-btn-save" onclick="saveCoachWorkout()">
-              <iconify-icon icon="solar:bookmark-bold" width="18"></iconify-icon>
-              <span>Save to Library</span>
+              <span>Save Library</span>
             </button>
             <button class="cr-btn-discard" onclick="navigateTo('workout')">Discard</button>
           </div>
@@ -51,6 +50,6 @@
     </div>
   </div>
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
-  <script src="../../app.js?v=4"></script>
+  <script src="../../app.js?v=5"></script>
 </body>
 </html>

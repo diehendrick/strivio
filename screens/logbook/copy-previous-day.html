@@ -1,373 +1,609 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Strivio — Copy Previous Day</title>
+  <title>Strivio - Copy Previous Day</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=3">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=7">
 </head>
+
 <body>
   <div class="app-container">
     <div class="phone-frame">
       <div class="phone-notch"></div>
       <div class="screens-wrapper" id="screensWrapper">
 
-        <!-- Screen: Copy Previous Day Review -->
         <div class="screen screen-copy-prev active" data-screen="copy-previous-day">
-          
-          <!-- Header -->
-          <div class="copy-header">
-            <button class="back-btn" onclick="navigateTo('logbook')" aria-label="Go back">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15,18 9,12 15,6"></polyline>
+          <div class="copy-status-bar" aria-hidden="true">
+            <span>9:41</span>
+            <div class="copy-status-icons">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" />
+                <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" />
+                <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
               </svg>
-            </button>
-            <h1 class="copy-title">Copy Previous Day</h1>
-            <div class="header-spacer"></div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z"
+                  fill="#0f172a" />
+                <path
+                  d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z"
+                  fill="#0f172a" />
+                <circle cx="8" cy="11" r="2" fill="#0f172a" />
+              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" />
+                <rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" />
+                <rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" />
+                <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" />
+              </svg>
+            </div>
           </div>
 
-          <div class="copy-scroll">
+          <main class="copy-page">
+            <header class="copy-header">
+              <button class="copy-back-btn" onclick="navigateTo('logbook')" aria-label="Go back">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                  <path d="M19.7 8.5 12.2 16l7.5 7.5" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </button>
+              <h1>Copy Previous Day</h1>
+            </header>
+
             <p class="copy-description">Review meals from yesterday before adding them to today.</p>
+            <button class="copy-sample-toggle" type="button" onclick="toggleCopySample()">
+              View empty sample
+            </button>
 
-            <!-- Breakfast Section -->
-            <div class="copy-meal-section">
-              <h3 class="copy-meal-title">Breakfast</h3>
-              <div class="copy-foods-card">
-                <div class="copy-food-item" data-food="greek-yogurt">
-                  <div class="copy-food-info">
-                    <span class="copy-food-name">Greek Yogurt</span>
-                    <span class="copy-food-qty">1 serving</span>
-                  </div>
-                  <button class="copy-remove-btn" onclick="removeFood(this)" aria-label="Remove food">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <line x1="8" y1="12" x2="16" y2="12"></line>
-                    </svg>
-                  </button>
-                </div>
-                <div class="copy-food-item" data-food="banana">
-                  <div class="copy-food-info">
-                    <span class="copy-food-name">Banana</span>
-                    <span class="copy-food-qty">1 piece</span>
-                  </div>
-                  <button class="copy-remove-btn" onclick="removeFood(this)" aria-label="Remove food">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <line x1="8" y1="12" x2="16" y2="12"></line>
-                    </svg>
-                  </button>
-                </div>
+            <section class="copy-empty-state" aria-labelledby="copyEmptyTitle">
+              <div class="copy-empty-icon" aria-hidden="true">
+                <img src="../../assets/svg_icons/journal-alt.svg" alt="">
               </div>
-            </div>
+              <div class="copy-empty-copy">
+                <h2 id="copyEmptyTitle">No Meals History</h2>
+                <p>You do not have any meals from yesterday</p>
+              </div>
+              <button class="copy-empty-add-btn" type="button" onclick="navigateTo('add-food-home')">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <path d="M9 3.75v10.5M3.75 9h10.5" stroke="#0056D8" stroke-width="1.8" stroke-linecap="round" />
+                </svg>
+                <span>Add Food</span>
+              </button>
+            </section>
 
-            <!-- Lunch Section -->
-            <div class="copy-meal-section">
-              <h3 class="copy-meal-title">Lunch</h3>
+            <section class="copy-meal-section" aria-labelledby="copyBreakfastTitle">
+              <h2 id="copyBreakfastTitle">Breakfast</h2>
               <div class="copy-foods-card">
-                <div class="copy-food-item" data-food="chicken-rice">
-                  <div class="copy-food-info">
-                    <span class="copy-food-name">Chicken Rice Bowl</span>
-                    <span class="copy-food-qty">1 serving</span>
-                  </div>
-                  <button class="copy-remove-btn" onclick="removeFood(this)" aria-label="Remove food">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <line x1="8" y1="12" x2="16" y2="12"></line>
+                <article class="copy-food-item" data-food="greek-yogurt">
+                  <span class="copy-food-info">
+                    <strong>Greek Yogurt</strong>
+                    <em>1 serving</em>
+                  </span>
+                  <button class="copy-remove-btn" onclick="removeFood(this)" aria-label="Remove Greek Yogurt">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <circle cx="9" cy="9" r="7" stroke="#EF4444" stroke-width="1.6" />
+                      <path d="M5.7 9h6.6" stroke="#EF4444" stroke-width="1.6" stroke-linecap="round" />
                     </svg>
                   </button>
-                </div>
-              </div>
-            </div>
+                </article>
 
-            <!-- Dinner Section -->
-            <div class="copy-meal-section">
-              <h3 class="copy-meal-title">Dinner</h3>
-              <div class="copy-foods-card">
-                <div class="copy-food-item" data-food="salmon-salad">
-                  <div class="copy-food-info">
-                    <span class="copy-food-name">Salmon Salad</span>
-                    <span class="copy-food-qty">1 serving</span>
-                  </div>
-                  <button class="copy-remove-btn" onclick="removeFood(this)" aria-label="Remove food">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <line x1="8" y1="12" x2="16" y2="12"></line>
+                <article class="copy-food-item" data-food="greek-yogurt-cup">
+                  <span class="copy-food-info">
+                    <strong>Greek Yogurt (1 cup)</strong>
+                    <em>1 serving</em>
+                  </span>
+                  <button class="copy-remove-btn" onclick="removeFood(this)" aria-label="Remove Greek Yogurt 1 cup">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <circle cx="9" cy="9" r="7" stroke="#EF4444" stroke-width="1.6" />
+                      <path d="M5.7 9h6.6" stroke="#EF4444" stroke-width="1.6" stroke-linecap="round" />
                     </svg>
                   </button>
-                </div>
+                </article>
               </div>
-            </div>
+            </section>
 
-            <!-- Spacer -->
-            <div class="bottom-spacer"></div>
-          </div>
+            <section class="copy-meal-section" aria-labelledby="copyLunchTitle">
+              <h2 id="copyLunchTitle">Lunch</h2>
+              <div class="copy-foods-card">
+                <article class="copy-food-item" data-food="chicken-rice">
+                  <span class="copy-food-info">
+                    <strong>Chicken Rice Bowl</strong>
+                    <em>1 serving</em>
+                  </span>
+                  <button class="copy-remove-btn" onclick="removeFood(this)" aria-label="Remove Chicken Rice Bowl">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <circle cx="9" cy="9" r="7" stroke="#EF4444" stroke-width="1.6" />
+                      <path d="M5.7 9h6.6" stroke="#EF4444" stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                  </button>
+                </article>
+              </div>
+            </section>
 
-          <!-- Footer Actions -->
-          <div class="copy-footer">
-            <button class="copy-cancel-btn" onclick="navigateTo('logbook')">Cancel</button>
+            <section class="copy-meal-section" aria-labelledby="copyDinnerTitle">
+              <h2 id="copyDinnerTitle">Dinner</h2>
+              <div class="copy-foods-card">
+                <article class="copy-food-item" data-food="salmon-salad">
+                  <span class="copy-food-info">
+                    <strong>Salmon Salad</strong>
+                    <em>1 serving</em>
+                  </span>
+                  <button class="copy-remove-btn" onclick="removeFood(this)" aria-label="Remove Salmon Salad">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <circle cx="9" cy="9" r="7" stroke="#EF4444" stroke-width="1.6" />
+                      <path d="M5.7 9h6.6" stroke="#EF4444" stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                  </button>
+                </article>
+              </div>
+            </section>
+          </main>
+
+          <footer class="copy-footer">
             <button class="copy-apply-btn" onclick="applyCopy()">Apply to Today</button>
-          </div>
-
+          </footer>
         </div>
 
       </div>
     </div>
   </div>
 
-  <script src="../../app.js?v=3"></script>
+  <script src="../../app.js?v=7"></script>
   <script>
     function removeFood(btn) {
       const item = btn.closest('.copy-food-item');
       item.style.opacity = '0';
-      item.style.transform = 'translateX(20px)';
+      item.style.transform = 'translateX(16px)';
       setTimeout(() => {
         item.remove();
         checkEmptySections();
-      }, 200);
+      }, 180);
     }
-    
+
     function checkEmptySections() {
       document.querySelectorAll('.copy-meal-section').forEach(section => {
         const items = section.querySelectorAll('.copy-food-item');
-        if (items.length === 0) {
-          section.style.opacity = '0.5';
-        }
+        section.classList.toggle('is-empty', items.length === 0);
       });
     }
-    
+
     function applyCopy() {
-      // Show success toast
       showToast('Copied to today');
-      
-      // Navigate back after delay
       setTimeout(() => {
         navigateTo('logbook');
       }, 1000);
     }
-    
+
     function showToast(message) {
       const toast = document.createElement('div');
       toast.className = 'toast-notification';
       toast.innerHTML = `
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20,6 9,17 4,12"></polyline>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <polyline points="20,6 9,17 4,12" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
         </svg>
-        ${message}
+        <span>${message}</span>
       `;
-      document.body.appendChild(toast);
-      
+      document.querySelector('.screen-copy-prev').appendChild(toast);
+
       requestAnimationFrame(() => {
         toast.classList.add('show');
       });
-      
+
       setTimeout(() => {
         toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
+        setTimeout(() => toast.remove(), 240);
       }, 2500);
     }
+
+    function setCopySampleMode(isEmpty) {
+      const screen = document.querySelector('.screen-copy-prev');
+      const toggle = document.querySelector('.copy-sample-toggle');
+      screen.classList.toggle('show-empty-sample', isEmpty);
+      toggle.textContent = isEmpty ? 'View filled sample' : 'View empty sample';
+
+      const url = new URL(window.location.href);
+      if (isEmpty) {
+        url.searchParams.set('empty', '1');
+      } else {
+        url.searchParams.delete('empty');
+      }
+      window.history.replaceState({}, '', url);
+    }
+
+    function toggleCopySample() {
+      setCopySampleMode(!document.querySelector('.screen-copy-prev').classList.contains('show-empty-sample'));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setCopySampleMode(new URLSearchParams(window.location.search).get('empty') === '1');
+    });
   </script>
 
   <style>
     .screen-copy-prev {
-      background: #F5F6FA;
+      position: relative;
       display: flex;
       flex-direction: column;
       height: 100%;
+      padding: 0 !important;
+      overflow: hidden;
+      background: #fff;
     }
-    
+
+    .copy-status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 44px;
+      padding: 0 30px;
+      flex-shrink: 0;
+      color: #0f172a;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: normal;
+    }
+
+    .copy-status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .copy-page {
+      flex: 1;
+      width: 100%;
+      overflow-y: auto;
+      padding: 8px 24px 120px;
+      scrollbar-width: none;
+    }
+
+    .copy-page::-webkit-scrollbar {
+      display: none;
+    }
+
     .copy-header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      background: white;
-      border-bottom: 1px solid #F4F4F4;
+      gap: 12px;
+      width: 100%;
+      min-height: 48px;
+      padding: 0 0 16px;
     }
-    
-    .back-btn {
-      width: 40px;
-      height: 40px;
-      background: none;
-      border: none;
-      cursor: pointer;
+
+    .copy-back-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 10px;
-      margin-left: -8px;
+      width: 32px;
+      height: 32px;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
-    
-    .back-btn:active {
-      background: #F5F6FA;
+
+    .copy-back-btn:active {
+      background: #f5f6fa;
     }
-    
-    .copy-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 18px;
-      font-weight: 600;
+
+    .copy-header h1 {
+      margin: 0;
       color: #0f172a;
+      font-family: 'Nunito', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 32px;
+      letter-spacing: 0;
+    }
+
+    .copy-description {
+      width: 335px;
+      max-width: 100%;
+      margin: 0 0 8px;
+      color: #64748b;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      letter-spacing: 0.15px;
+    }
+
+    .copy-sample-toggle {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      margin: 0 0 18px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #0056D8;
+      font-family: 'Nunito', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 18px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .copy-empty-state {
+      display: none;
+      width: 100%;
+      min-height: 664px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px 14px;
+      text-align: center;
+    }
+
+    .copy-empty-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      color: #0056D8;
+    }
+
+    .copy-empty-icon img {
+      width: 36px;
+      height: 36px;
+      display: block;
+    }
+
+    .copy-empty-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      width: 100%;
+    }
+
+    .copy-empty-copy h2 {
+      width: 280px;
+      margin: 0;
+      color: #0f172a;
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 24px;
+      letter-spacing: 0.15px;
+    }
+
+    .copy-empty-copy p {
+      width: max-content;
+      max-width: 100%;
+      margin: 0;
+      color: #64748b;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      letter-spacing: 0.15px;
+    }
+
+    .copy-empty-add-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 9px 17px;
+      border: 1px solid #0056D8;
+      border-radius: 9999px;
+      background: #fff;
+      color: #0056D8;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .copy-empty-add-btn:active {
+      background: #EAF2FF;
+      transform: scale(0.98);
+    }
+
+    .screen-copy-prev.show-empty-sample .copy-page {
+      padding-bottom: 24px;
+    }
+
+    .screen-copy-prev.show-empty-sample .copy-description,
+    .screen-copy-prev.show-empty-sample .copy-meal-section,
+    .screen-copy-prev.show-empty-sample .copy-footer {
+      display: none;
+    }
+
+    .screen-copy-prev.show-empty-sample .copy-sample-toggle {
+      position: absolute;
+      right: 24px;
+      bottom: 18px;
+      z-index: 2;
       margin: 0;
     }
-    
-    .header-spacer {
-      width: 40px;
+
+    .screen-copy-prev.show-empty-sample .copy-empty-state {
+      display: flex;
     }
-    
-    .copy-scroll {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
-    }
-    
-    .copy-description {
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #64748b;
-      margin: 0 0 24px 0;
-      line-height: 1.5;
-    }
-    
+
     .copy-meal-section {
-      margin-bottom: 20px;
-      transition: opacity 0.3s;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      margin: 0 0 18px;
+      transition: opacity 180ms ease;
     }
-    
-    .copy-meal-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      color: #0f172a;
-      margin: 0 0 10px 0;
+
+    .copy-meal-section.is-empty {
+      opacity: 0.48;
     }
-    
+
+    .copy-meal-section h2 {
+      margin: 0;
+      color: #1a1d26;
+      font-family: 'Nunito', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 28px;
+      letter-spacing: 0;
+    }
+
     .copy-foods-card {
-      background: white;
-      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
       padding: 8px 16px;
-      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
     }
-    
+
     .copy-food-item {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 14px;
+      min-height: 65px;
+      width: 100%;
       padding: 14px 0;
-      border-bottom: 1px solid #F4F4F4;
-      transition: opacity 0.2s, transform 0.2s;
+      border-bottom: 1px solid #e4e4e4;
+      transition: opacity 180ms ease, transform 180ms ease;
     }
-    
+
     .copy-food-item:last-child {
-      border-bottom: none;
+      border-bottom: 0;
     }
-    
+
     .copy-food-info {
       display: flex;
+      flex: 1 1 0;
+      min-width: 0;
       flex-direction: column;
       gap: 2px;
     }
-    
-    .copy-food-name {
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      font-weight: 500;
+
+    .copy-food-info strong {
+      overflow: hidden;
       color: #0f172a;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-    
-    .copy-food-qty {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      color: #9CA3AF;
+
+    .copy-food-info em {
+      color: #64748b;
+      font-family: 'Nunito', sans-serif;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 16px;
     }
-    
+
     .copy-remove-btn {
-      width: 36px;
-      height: 36px;
-      background: #FEE2E2;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.2s;
+      width: 36px;
+      height: 36px;
+      padding: 8px;
+      border: 0;
+      border-radius: 10px;
+      background: #feeded;
+      cursor: pointer;
+      transition: background 150ms ease, transform 150ms ease;
+      -webkit-tap-highlight-color: transparent;
     }
-    
+
     .copy-remove-btn:active {
-      background: #FECACA;
+      background: #fee2e2;
+      transform: scale(0.96);
     }
-    
+
     .copy-footer {
-      display: flex;
-      gap: 12px;
-      padding: 16px 20px 28px;
-      background: white;
-      border-top: 1px solid #F4F4F4;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 12px 24px 16px;
+      background: #fff;
+      flex-shrink: 0;
     }
-    
-    .copy-cancel-btn {
-      flex: 1;
-      height: 52px;
-      background: #F5F6FA;
-      border: none;
-      border-radius: 9999px;
-      color: #64748b;
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    
-    .copy-cancel-btn:active {
-      background: #E5E7EB;
-    }
-    
+
     .copy-apply-btn {
-      flex: 2;
-      height: 52px;
-      background: #7F7CF0;
-      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 56px;
+      padding: 16px;
+      border: 0;
       border-radius: 9999px;
-      color: white;
-      font-family: 'Inter', sans-serif;
+      background: #0056D8;
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 800;
+      line-height: 24px;
+      letter-spacing: 0.15px;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 150ms ease, transform 150ms ease;
+      -webkit-tap-highlight-color: transparent;
     }
-    
+
     .copy-apply-btn:active {
-      background: #9794F3;
+      background: #0047b5;
+      transform: scale(0.98);
     }
-    
+
     .toast-notification {
-      position: fixed;
-      bottom: 100px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: #0F172A;
-      color: white;
-      padding: 14px 20px;
-      border-radius: 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      top: 52px;
+      z-index: 20;
       display: flex;
       align-items: center;
       gap: 10px;
+      min-height: 44px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: #0f172a;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.24);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 18px;
       opacity: 0;
-      transition: opacity 0.3s, transform 0.3s;
-      z-index: 1000;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      transform: translateY(-8px);
+      transition: opacity 180ms ease, transform 180ms ease;
     }
-    
+
     .toast-notification.show {
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
+      transform: translateY(0);
     }
   </style>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </body>
+
 </html>

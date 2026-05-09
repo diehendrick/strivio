@@ -7,8 +7,8 @@
   <title>Strivio - Log Book</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=9">
 </head>
 
 <body>
@@ -93,7 +93,7 @@
                 </div>
                 <div class="lb-macro-mini">
                   <span>Fat</span>
-                  <div><i style="width:74%; background:#7f7cf0"></i></div>
+                  <div><i style="width:74%; background:#0056D8"></i></div>
                   <strong>28 / 70g</strong>
                 </div>
               </div>
@@ -179,6 +179,45 @@
             </button>
           </nav>
 
+          <div class="bottom-sheet calendar-sheet lb-calendar-sheet" id="logbookCalendarSheet">
+            <div class="sheet-backdrop" data-close-calendar></div>
+            <div class="sheet-content">
+              <div class="sheet-handle"></div>
+              <div class="calendar-header">
+                <button class="calendar-nav-btn" type="button" data-calendar-prev aria-label="Previous month">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15,18 9,12 15,6"></polyline>
+                  </svg>
+                </button>
+                <div>
+                  <h2 class="calendar-title">Select Date</h2>
+                  <span class="calendar-month-label" id="logbookCalendarMonth">May 2026</span>
+                </div>
+                <button class="calendar-nav-btn" type="button" data-calendar-next aria-label="Next month">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9,18 15,12 9,6"></polyline>
+                  </svg>
+                </button>
+              </div>
+              <div class="calendar-body">
+                <div class="calendar-weekdays">
+                  <span class="calendar-weekday">Mon</span>
+                  <span class="calendar-weekday">Tue</span>
+                  <span class="calendar-weekday">Wed</span>
+                  <span class="calendar-weekday">Thu</span>
+                  <span class="calendar-weekday">Fri</span>
+                  <span class="calendar-weekday">Sat</span>
+                  <span class="calendar-weekday">Sun</span>
+                </div>
+                <div class="calendar-days" id="logbookCalendarDays"></div>
+              </div>
+              <div class="sheet-actions lb-calendar-actions">
+                <button class="sheet-btn-text" type="button" data-calendar-today>Today</button>
+                <button class="sheet-btn-primary" type="button" data-calendar-apply>Apply</button>
+              </div>
+            </div>
+          </div>
+
           <div class="toast-container" id="toastContainer"></div>
         </div>
 
@@ -186,7 +225,7 @@
     </div>
   </div>
 
-  <script src="../../app.js?v=3"></script>
+  <script src="../../app.js?v=9"></script>
   <script>
     (function() {
       const content = document.getElementById('logbookContent');
@@ -218,6 +257,174 @@
         }, 200);
       }
 
+      const calendarSheet = document.getElementById('logbookCalendarSheet');
+      const calendarMonthEl = document.getElementById('logbookCalendarMonth');
+      const calendarDaysEl = document.getElementById('logbookCalendarDays');
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
+      const logbookData = {
+        '2026-05-06': {
+          consumed: 1045,
+          target: 2000,
+          macros: {
+            protein: { value: 68, target: 120, color: '#3b82f6' },
+            carbs: { value: 138, target: 250, color: '#f97316' },
+            fat: { value: 34, target: 70, color: '#0056D8' }
+          },
+          meals: {
+            breakfast: '390 kcal · P 24g · C 40g · F 11g',
+            lunch: '520 kcal · P 31g · C 62g · F 14g',
+            dinner: '0 kcal · P 0g · C 0g · F 0g',
+            snacks: '135 kcal · P 13g · C 12g · F 9g'
+          }
+        },
+        '2026-05-07': {
+          consumed: 840,
+          target: 2000,
+          macros: {
+            protein: { value: 56, target: 120, color: '#3b82f6' },
+            carbs: { value: 112, target: 250, color: '#f97316' },
+            fat: { value: 28, target: 70, color: '#0056D8' }
+          },
+          meals: {
+            breakfast: '420 kcal · P 28g · C 42g · F 12g',
+            lunch: '650 kcal · P 35g · C 70g · F 18g',
+            dinner: '580 kcal · P 22g · C 38g · F 20g',
+            snacks: '580 kcal · P 8g · C 10g · F 5g'
+          }
+        },
+        '2026-05-08': {
+          consumed: 1320,
+          target: 2100,
+          macros: {
+            protein: { value: 82, target: 130, color: '#3b82f6' },
+            carbs: { value: 172, target: 260, color: '#f97316' },
+            fat: { value: 46, target: 75, color: '#0056D8' }
+          },
+          meals: {
+            breakfast: '510 kcal · P 32g · C 55g · F 16g',
+            lunch: '610 kcal · P 38g · C 68g · F 19g',
+            dinner: '200 kcal · P 12g · C 30g · F 6g',
+            snacks: '0 kcal · P 0g · C 0g · F 0g'
+          }
+        }
+      };
+      let calendarDate = new Date(2026, 4, 7);
+      let selectedDate = new Date(calendarDate);
+
+      function dateKey(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
+      function getDayInitial(date) {
+        return ['S', 'M', 'T', 'W', 'T', 'F', 'S'][date.getDay()];
+      }
+
+      function updateMeal(meal, text) {
+        const row = document.querySelector(`.lb-meal-row[data-meal="${meal}"] .lb-meal-copy em`);
+        if (row) row.textContent = text;
+      }
+
+      function updateMacro(index, label, macro) {
+        const item = document.querySelectorAll('.lb-macro-mini')[index];
+        if (!item || !macro) return;
+        const fill = item.querySelector('i');
+        const value = item.querySelector('strong');
+        const percent = Math.min(100, Math.round((macro.value / macro.target) * 100));
+        if (fill) {
+          fill.style.width = `${percent}%`;
+          fill.style.background = macro.color;
+        }
+        if (value) value.textContent = `${macro.value} / ${macro.target}g`;
+      }
+
+      function applyLogbookDate(date, quiet) {
+        selectedDate = new Date(date);
+        calendarDate = new Date(selectedDate);
+        const key = dateKey(selectedDate);
+        const dayData = logbookData[key] || logbookData['2026-05-07'];
+        const consumed = dayData.consumed;
+        const target = dayData.target;
+        const remaining = Math.max(0, target - consumed);
+        const ring = document.getElementById('calorieRing');
+        const ringLength = 326.73;
+        const consumedRatio = Math.min(1, consumed / target);
+
+        document.getElementById('calRemaining').textContent = remaining;
+        document.getElementById('calConsumed').textContent = consumed;
+        document.getElementById('calTarget').textContent = target;
+        if (ring) ring.setAttribute('stroke-dashoffset', (ringLength * (1 - consumedRatio)).toFixed(2));
+        updateMacro(0, 'Protein', dayData.macros.protein);
+        updateMacro(1, 'Carbs', dayData.macros.carbs);
+        updateMacro(2, 'Fat', dayData.macros.fat);
+        Object.keys(dayData.meals).forEach(meal => updateMeal(meal, dayData.meals[meal]));
+
+        const weekStart = new Date(selectedDate);
+        weekStart.setDate(selectedDate.getDate() - 3);
+        document.querySelectorAll('.lb-day').forEach((dayButton, index) => {
+          const date = new Date(weekStart);
+          date.setDate(weekStart.getDate() + index);
+          dayButton.dataset.date = dateKey(date);
+          dayButton.querySelector('span').textContent = getDayInitial(date);
+          dayButton.querySelector('strong').textContent = String(date.getDate()).padStart(2, '0');
+          dayButton.classList.toggle('active', isSameDate(date, selectedDate));
+        });
+
+        if (!quiet) showToast(`May ${selectedDate.getDate()} selected`);
+      }
+
+      function isSameDate(dateA, dateB) {
+        return dateA.getDate() === dateB.getDate() &&
+          dateA.getMonth() === dateB.getMonth() &&
+          dateA.getFullYear() === dateB.getFullYear();
+      }
+
+      function renderLogbookCalendar() {
+        if (!calendarMonthEl || !calendarDaysEl) return;
+        const year = calendarDate.getFullYear();
+        const month = calendarDate.getMonth();
+        const today = new Date(2026, 4, 7);
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const startOffset = firstDay.getDay() || 7;
+
+        calendarMonthEl.textContent = `${monthNames[month]} ${year}`;
+        calendarDaysEl.innerHTML = '';
+
+        for (let i = 1; i < startOffset; i++) {
+          const emptyDay = document.createElement('span');
+          emptyDay.className = 'calendar-day other-month';
+          calendarDaysEl.appendChild(emptyDay);
+        }
+
+        for (let day = 1; day <= lastDay.getDate(); day++) {
+          const date = new Date(year, month, day);
+          const dayBtn = document.createElement('button');
+          dayBtn.type = 'button';
+          dayBtn.className = 'calendar-day';
+          dayBtn.textContent = day;
+          if (isSameDate(date, selectedDate)) dayBtn.classList.add('selected');
+          if (isSameDate(date, today)) dayBtn.classList.add('today');
+          dayBtn.addEventListener('click', () => {
+            selectedDate = date;
+            renderLogbookCalendar();
+          });
+          calendarDaysEl.appendChild(dayBtn);
+        }
+      }
+
+      function openLogbookCalendar() {
+        renderLogbookCalendar();
+        calendarSheet?.classList.add('open');
+      }
+
+      function closeLogbookCalendar() {
+        calendarSheet?.classList.remove('open');
+      }
+
       if (content) {
         content.addEventListener('touchstart', e => {
           touchStartX = e.changedTouches[0].screenX;
@@ -230,15 +437,38 @@
         }, { passive: true });
       }
 
+      applyLogbookDate(selectedDate, true);
+
       document.querySelectorAll('.lb-day').forEach(day => {
         day.addEventListener('click', () => {
-          document.querySelectorAll('.lb-day').forEach(item => item.classList.remove('active'));
-          day.classList.add('active');
-          showToast('Date selected');
+          const parsed = new Date(`${day.dataset.date}T00:00:00`);
+          if (!Number.isNaN(parsed.getTime())) applyLogbookDate(parsed);
         });
       });
 
-      document.getElementById('calendarBtn')?.addEventListener('click', () => navigateTo('calendar-sheet'));
+      document.getElementById('calendarBtn')?.addEventListener('click', openLogbookCalendar);
+      document.querySelectorAll('[data-close-calendar]').forEach(item => {
+        item.addEventListener('click', closeLogbookCalendar);
+      });
+      document.querySelector('[data-calendar-prev]')?.addEventListener('click', () => {
+        calendarDate.setMonth(calendarDate.getMonth() - 1);
+        renderLogbookCalendar();
+      });
+      document.querySelector('[data-calendar-next]')?.addEventListener('click', () => {
+        calendarDate.setMonth(calendarDate.getMonth() + 1);
+        renderLogbookCalendar();
+      });
+      document.querySelector('[data-calendar-today]')?.addEventListener('click', () => {
+        selectedDate = new Date(2026, 4, 7);
+        calendarDate = new Date(selectedDate);
+        renderLogbookCalendar();
+      });
+      document.querySelector('[data-calendar-apply]')?.addEventListener('click', () => {
+        try { localStorage.setItem('strivio_selected_date', selectedDate.toISOString()); } catch(e) {}
+        applyLogbookDate(selectedDate, true);
+        closeLogbookCalendar();
+        showToast(`May ${selectedDate.getDate()} selected`);
+      });
       document.querySelectorAll('[data-meal]').forEach(row => {
         row.addEventListener('click', () => navigateTo('meal-detail'));
       });

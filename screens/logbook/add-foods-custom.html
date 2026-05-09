@@ -3,97 +3,364 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Strivio — Add Foods to Meal</title>
+  <title>Strivio - Manual Food Entry</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=18">
 </head>
 <body>
   <div class="app-container">
     <div class="phone-frame">
       <div class="phone-notch"></div>
-      <div class="screens-wrapper">
-        <div class="screen screen-add-foods active">
-          <div class="add-foods-header">
-            <button class="back-btn" onclick="navigateTo('create-custom-meal')">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"><polyline points="15,18 9,12 15,6"></polyline></svg>
-            </button>
-            <span class="add-foods-title">Add Foods</span>
-            <div style="width:40px"></div>
-          </div>
-          <div class="add-foods-content">
-            <div class="search-box">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-              <input type="text" class="search-input-sm" placeholder="Search food..." onfocus="navigateTo('add-food-home')">
-            </div>
-            <div class="added-section">
-              <h3 class="section-label-sm">Added Foods</h3>
-              <div class="added-list">
-                <div class="added-item">
-                  <span class="added-name">Banana</span>
-                  <button class="remove-added" onclick="this.parentElement.remove()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2">
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                  </button>
-                </div>
-                <div class="added-item">
-                  <span class="added-name">Greek Yogurt</span>
-                  <button class="remove-added" onclick="this.parentElement.remove()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2">
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                  </button>
-                </div>
-                <div class="added-item">
-                  <span class="added-name">Protein Powder</span>
-                  <button class="remove-added" onclick="this.parentElement.remove()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2">
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                  </button>
-                </div>
+      <div class="screens-wrapper" id="screensWrapper">
+        <div class="screen-manual-food active" data-screen="add-foods-custom">
+          <section class="manual-food-panel is-active" id="manualEntryPanel" style="opacity: 1; visibility: visible; z-index: 2;" aria-label="Manual food entry">
+            <div class="status-bar manual-status">
+              <div class="time">9:41</div>
+              <div class="status-icons">
+                <span class="signal"></span>
+                <span class="wifi"></span>
+                <span class="battery"></span>
               </div>
             </div>
-            <div class="running-total">
-              <h3 class="section-label-sm">Running Total</h3>
-              <div class="total-card">
-                <div class="total-calories">420 kcal</div>
-                <div class="total-macros">P 28g • C 42g • F 10g</div>
+
+            <main class="manual-food-scroll">
+              <header class="manual-food-head">
+                <button type="button" class="manual-close" onclick="navigateTo('meal-detail')" aria-label="Close manual entry">
+                  <img src="../../assets/svg_icons/cross-x.svg" alt="">
+                </button>
+                <h1>Manual Food Entry</h1>
+              </header>
+
+              <button class="manual-photo" type="button" id="manualPhotoBtn" onclick="window.openManualFoodCamera && window.openManualFoodCamera()" aria-label="Open camera">
+                <img id="manualPhotoPreview" src="" alt="" hidden>
+                <span id="manualPhotoPlaceholder">
+                  <img src="../../assets/svg_icons/camera.svg" alt="">
+                </span>
+              </button>
+
+              <form class="manual-form" id="manualFoodForm">
+                <label class="manual-field manual-field-full">
+                  <span>Food Name</span>
+                  <input id="manualFoodName" type="text" placeholder="Enter food name..." autocomplete="off">
+                </label>
+
+                <div class="manual-serving-row">
+                  <label class="manual-field">
+                    <span>Serving Size</span>
+                    <input id="manualServingSize" type="number" min="0" step="0.1" value="1">
+                  </label>
+                  <button class="manual-unit-trigger" type="button" id="manualUnitTrigger" onclick="window.openManualUnitSheet && window.openManualUnitSheet()">
+                    <span id="manualUnitLabel">Serving</span>
+                    <img src="../../assets/svg_icons/arrow-small-down.svg" alt="">
+                  </button>
+                </div>
+
+                <section class="manual-section">
+                  <h2>Macros</h2>
+                  <div class="manual-nutrition-card">
+                    <label>
+                      <span>Calories</span>
+                      <em><input id="manualCalories" type="number" min="0" step="1" placeholder="0"><b>kcal</b></em>
+                    </label>
+                    <label>
+                      <span>Protein</span>
+                      <em><input id="manualProtein" type="number" min="0" step="0.1" placeholder="0"><b>g protein</b></em>
+                    </label>
+                    <label>
+                      <span>Carbs</span>
+                      <em><input id="manualCarbs" type="number" min="0" step="0.1" placeholder="0"><b>g carbs</b></em>
+                    </label>
+                    <label>
+                      <span>Fat</span>
+                      <em><input id="manualFat" type="number" min="0" step="0.1" placeholder="0"><b>g fat</b></em>
+                    </label>
+                  </div>
+                </section>
+
+                <section class="manual-section manual-micros" id="manualMicros">
+                  <button class="manual-micro-toggle" type="button" id="manualMicroToggle" onclick="window.toggleManualMicros && window.toggleManualMicros(this)" aria-expanded="false">
+                    <span>Micronutrients (Optional)</span>
+                    <img src="../../assets/svg_icons/arrow-small-down.svg" alt="">
+                  </button>
+                  <div class="manual-nutrition-card manual-micro-card" id="manualMicroCard" hidden>
+                    <label>
+                      <span>Fiber</span>
+                      <em><input id="manualFiber" type="number" min="0" step="0.1" placeholder="0"><b>g</b></em>
+                    </label>
+                    <label>
+                      <span>Sugar</span>
+                      <em><input id="manualSugar" type="number" min="0" step="0.1" placeholder="0"><b>g</b></em>
+                    </label>
+                    <label>
+                      <span>Sodium</span>
+                      <em><input id="manualSodium" type="number" min="0" step="1" placeholder="0"><b>mg</b></em>
+                    </label>
+                    <label>
+                      <span>Cholesterol</span>
+                      <em><input id="manualCholesterol" type="number" min="0" step="1" placeholder="0"><b>mg</b></em>
+                    </label>
+                  </div>
+                </section>
+              </form>
+            </main>
+
+            <footer class="manual-save-bar">
+              <button class="manual-save-btn" type="button" id="manualSaveBtn" onclick="window.showManualFoodSuccess && window.showManualFoodSuccess()" disabled>Save &amp; Log</button>
+            </footer>
+          </section>
+
+          <section class="manual-success-panel" id="manualSuccessPanel" hidden aria-label="Food added">
+            <div class="status-bar manual-status">
+              <div class="time">9:41</div>
+              <div class="status-icons">
+                <span class="signal"></span>
+                <span class="wifi"></span>
+                <span class="battery"></span>
               </div>
             </div>
+
+            <div class="manual-success-toast" id="manualSuccessToast">
+              <span>New Food Added</span>
+              <button type="button" id="manualSuccessOk">OK</button>
+            </div>
+
+            <main class="manual-library">
+              <header class="manual-food-head">
+                <button type="button" class="manual-close" onclick="navigateTo('meal-detail')" aria-label="Close food library">
+                  <img src="../../assets/svg_icons/cross-x.svg" alt="">
+                </button>
+                <h1>Food Library</h1>
+              </header>
+
+              <div class="manual-library-search">
+                <img src="../../assets/svg_icons/search.svg" alt="">
+                <span>Search food...</span>
+              </div>
+
+              <div class="manual-library-tabs">
+                <button type="button">Library</button>
+                <button type="button">Favorites</button>
+                <button type="button" class="active">My Meals</button>
+              </div>
+
+              <section class="manual-library-list" id="manualLibraryList"></section>
+            </main>
+          </section>
+
+          <div class="manual-unit-sheet" id="manualUnitSheet" hidden>
+            <button class="manual-sheet-overlay" type="button" id="manualUnitOverlay" aria-label="Close unit options"></button>
+            <section class="manual-sheet-panel" role="dialog" aria-modal="true" aria-labelledby="manualUnitTitle">
+              <div class="manual-sheet-handle"></div>
+              <h2 id="manualUnitTitle">Serving Unit</h2>
+              <div class="manual-unit-options" id="manualUnitOptions"></div>
+            </section>
           </div>
-          <button class="btn-review" onclick="navigateTo('custom-meal-review')">Review Meal</button>
+
+          <section class="manual-camera" id="manualCamera" hidden aria-label="Food camera">
+            <header class="manual-camera-head">
+              <button type="button" id="manualCameraClose" aria-label="Close camera">
+                <img src="../../assets/svg_icons/cross-x.svg" alt="">
+              </button>
+              <button type="button" class="manual-camera-flash" aria-label="Flash off">
+                <span></span>
+              </button>
+            </header>
+            <div class="manual-viewfinder">
+              <video id="manualCameraVideo" autoplay muted playsinline></video>
+              <canvas id="manualCameraCanvas" hidden></canvas>
+            </div>
+            <footer class="manual-camera-controls">
+              <button type="button" class="manual-gallery-btn">
+                <span></span>
+                <em>Gallery</em>
+              </button>
+              <button type="button" class="manual-capture-btn" id="manualCaptureBtn" onclick="window.captureManualFoodPhoto && window.captureManualFoodPhoto()" aria-label="Capture photo"></button>
+              <div class="manual-type-spacer"></div>
+            </footer>
+          </section>
         </div>
       </div>
     </div>
   </div>
-  <script src="../../app.js?v=3"></script>
-  <style>
-    .screen-add-foods { background:#F5F6FA; display:flex; flex-direction:column; height:100%; }
-    .add-foods-header { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:white; border-bottom:1px solid #F4F4F4; }
-    .add-foods-title { font-family:'Outfit',sans-serif; font-size:18px; font-weight:600; color:#0f172a; }
-    .add-foods-content { flex:1; padding:24px 20px; overflow-y:auto; }
-    .search-box { display:flex; align-items:center; gap:12px; background:white; border-radius:14px; padding:14px 16px; margin-bottom:24px; }
-    .search-input-sm { flex:1; border:none; background:none; font-family:'Inter',sans-serif; font-size:15px; color:#0f172a; outline:none; }
-    .added-section { margin-bottom:24px; }
-    .section-label-sm { font-family:'Outfit',sans-serif; font-size:15px; font-weight:600; color:#0f172a; margin:0 0 14px; }
-    .added-list { display:flex; flex-direction:column; gap:10px; }
-    .added-item { display:flex; align-items:center; justify-content:space-between; background:white; border-radius:14px; padding:14px 16px; }
-    .added-name { font-family:'Inter',sans-serif; font-size:15px; color:#0f172a; font-weight:500; }
-    .remove-added { width:32px; height:32px; background:#FEE2E2; border:none; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-    .total-card { background:white; border-radius:16px; padding:20px; text-align:center; }
-    .total-calories { font-family:'Outfit',sans-serif; font-size:28px; font-weight:700; color:#0f172a; margin-bottom:6px; }
-    .total-macros { font-family:'Inter',sans-serif; font-size:14px; color:#64748b; }
-    .btn-review { position:fixed; bottom:20px; left:20px; right:20px; height:56px; background:#7F7CF0; border:none; border-radius:9999px; color:white; font-family:'Inter',sans-serif; font-size:16px; font-weight:600; cursor:pointer; z-index:100; }
-    .btn-review:active { transform:scale(0.98); background:#9794F3; }
-  </style>
+
+  <script src="../../app.js?v=18"></script>
+  <script>
+    (function() {
+      const avocadoImage = 'https://www.figma.com/api/mcp/asset/508aa3e1-15a2-4894-aebe-8b14661f84df';
+      const unitOptions = [
+        { label: 'Serving', value: 'Serving' },
+        { label: 'Gram (g)', value: 'Gram' },
+        { label: 'Ounce (oz)', value: 'Ounce' },
+        { label: 'Cup', value: 'Cup' },
+        { label: 'Tablespoon (tbsp)', value: 'Tablespoon' },
+        { label: 'Teaspoon (tsp)', value: 'Teaspoon' },
+        { label: 'Piece', value: 'Piece' }
+      ];
+      const libraryItems = [
+        ['Quinoa Bowl with Veggies', 'P 12g &middot; C 55g &middot; F 8g', '350 kcal', '../../assets/img/meal-oatmeal.svg'],
+        ['Chicken Salad Sandwich', 'P 20g &middot; C 10g &middot; F 0g', '120 kcal', '../../assets/img/meal-greek-yogurt.svg'],
+        ['Avocado Toast (1 slice)', 'P 5g &middot; C 20g &middot; F 15g', '250 kcal', '../../assets/img/meal-avocado-toast.svg'],
+        ['Berry Smoothie (12 oz)', 'P 8g &middot; C 35g &middot; F 2g', '180 kcal', '../../assets/img/meal-greek-yogurt.svg'],
+        ['Egg and Spinach Omelette', 'P 12g &middot; C 3g &middot; F 10g', '160 kcal', '../../assets/img/meal-avocado-toast.svg']
+      ];
+      let stream = null;
+
+      const entryPanel = document.getElementById('manualEntryPanel');
+      const successPanel = document.getElementById('manualSuccessPanel');
+      const unitSheet = document.getElementById('manualUnitSheet');
+      const unitLabel = document.getElementById('manualUnitLabel');
+      const unitOptionsWrap = document.getElementById('manualUnitOptions');
+      const saveBtn = document.getElementById('manualSaveBtn');
+      const photoPreview = document.getElementById('manualPhotoPreview');
+      const photoPlaceholder = document.getElementById('manualPhotoPlaceholder');
+      const camera = document.getElementById('manualCamera');
+      const video = document.getElementById('manualCameraVideo');
+      const canvas = document.getElementById('manualCameraCanvas');
+
+      function renderUnits() {
+        unitOptionsWrap.innerHTML = unitOptions.map(function(option) {
+          return '<button type="button" data-unit="' + option.value + '" onclick="window.selectManualUnit && window.selectManualUnit(\'' + option.value + '\')">' +
+            '<span>' + option.label + '</span>' +
+            (option.value === unitLabel.textContent ? '<b></b>' : '') +
+          '</button>';
+        }).join('');
+      }
+
+      function openUnitSheet() {
+        renderUnits();
+        unitSheet.hidden = false;
+        requestAnimationFrame(function() {
+          unitSheet.classList.add('open');
+        });
+      }
+
+      function closeUnitSheet() {
+        unitSheet.classList.remove('open');
+        setTimeout(function() {
+          unitSheet.hidden = true;
+        }, 220);
+      }
+
+      function fillAvocadoSample(imageSrc) {
+        document.getElementById('manualFoodName').value = 'Avocado Toast';
+        document.getElementById('manualServingSize').value = '1';
+        unitLabel.textContent = 'Serving';
+        document.getElementById('manualCalories').value = '215';
+        document.getElementById('manualProtein').value = '5';
+        document.getElementById('manualCarbs').value = '45';
+        document.getElementById('manualFat').value = '2';
+        document.getElementById('manualFiber').value = '3.5';
+        document.getElementById('manualSugar').value = '0.5';
+        document.getElementById('manualSodium').value = '10';
+        document.getElementById('manualCholesterol').value = '0';
+        photoPreview.src = imageSrc || avocadoImage;
+        photoPreview.onerror = function() {
+          this.onerror = null;
+          this.src = '../../assets/img/meal-avocado-toast.svg';
+        };
+        photoPreview.hidden = false;
+        photoPlaceholder.hidden = true;
+        document.getElementById('manualMicroCard').hidden = false;
+        document.getElementById('manualMicroToggle').setAttribute('aria-expanded', 'true');
+        document.getElementById('manualMicroToggle').classList.add('open');
+        updateSaveState();
+      }
+
+      function updateSaveState() {
+        const hasName = document.getElementById('manualFoodName').value.trim().length > 0;
+        const hasCalories = Number(document.getElementById('manualCalories').value) > 0;
+        saveBtn.disabled = !(hasName && hasCalories);
+      }
+
+      async function openCamera() {
+        camera.hidden = false;
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+          video.srcObject = stream;
+        } catch (error) {
+          stream = null;
+          video.removeAttribute('srcObject');
+        }
+      }
+
+      function closeCamera() {
+        if (stream) {
+          stream.getTracks().forEach(function(track) { track.stop(); });
+          stream = null;
+        }
+        video.srcObject = null;
+        camera.hidden = true;
+      }
+
+      function capturePhoto() {
+        let captured = '';
+        if (stream && video.videoWidth && video.videoHeight) {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+          captured = canvas.toDataURL('image/png');
+        }
+        closeCamera();
+        fillAvocadoSample(captured || avocadoImage);
+      }
+
+      function showSuccess() {
+        entryPanel.hidden = true;
+        entryPanel.classList.remove('is-active');
+        successPanel.hidden = false;
+        renderLibrary();
+        setTimeout(function() {
+          document.getElementById('manualSuccessToast').classList.add('show');
+        }, 60);
+      }
+
+      function renderLibrary() {
+        document.getElementById('manualLibraryList').innerHTML = libraryItems.map(function(item) {
+          return '<article class="manual-library-card">' +
+            '<img src="' + item[3] + '" alt="">' +
+            '<span><strong>' + item[0] + '</strong><em>' + item[1] + '</em><b>' + item[2] + '</b></span>' +
+          '</article>';
+        }).join('');
+      }
+
+      window.openManualUnitSheet = openUnitSheet;
+      window.openManualFoodCamera = openCamera;
+      window.captureManualFoodPhoto = capturePhoto;
+      window.showManualFoodSuccess = showSuccess;
+      window.selectManualUnit = function(value) {
+        unitLabel.textContent = value;
+        closeUnitSheet();
+      };
+      window.toggleManualMicros = function(button) {
+        const microCard = document.getElementById('manualMicroCard');
+        const isOpen = microCard.hidden;
+        microCard.hidden = !isOpen;
+        button.classList.toggle('open', isOpen);
+        button.setAttribute('aria-expanded', String(isOpen));
+      };
+
+      document.getElementById('manualUnitOverlay').addEventListener('click', closeUnitSheet);
+      document.getElementById('manualCameraClose').addEventListener('click', closeCamera);
+      document.getElementById('manualSuccessOk').addEventListener('click', function() {
+        document.getElementById('manualSuccessToast').classList.remove('show');
+      });
+      document.querySelectorAll('#manualFoodForm input').forEach(function(input) {
+        input.addEventListener('input', updateSaveState);
+      });
+
+      const entryMode = sessionStorage.getItem('strivio_manual_entry_mode');
+      sessionStorage.removeItem('strivio_manual_entry_mode');
+      localStorage.removeItem('strivio_open_food_camera');
+
+      if (entryMode === 'camera') {
+        setTimeout(openCamera, 150);
+      }
+
+      document.body.setAttribute('data-manual-food-ready', 'true');
+    })();
+  </script>
 </body>
 </html>
+
