@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Help & Support</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=5">
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <div class="screen screen-more-help active" data-screen="more-help">
+          <div class="more-content">
+            <div class="status-bar">
+              <span class="status-time">9:41</span>
+              <div class="status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" /><rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" /><rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" /></svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="#0f172a" /><path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="#0f172a" /><circle cx="8" cy="11" r="2" fill="#0f172a" /></svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" /><rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" /><rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" /><rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" /></svg>
+              </div>
+            </div>
+
+            <div class="more-header more-header-back">
+              <button class="more-back-btn" onclick="navigateTo('more')">
+                <img src="../../assets/svg_icons/back.svg" width="24" alt="">
+              </button>
+              <h1 class="more-title">Help & Support</h1>
+            </div>
+
+            <div class="more-scroll-wrapper">
+              <!-- Search -->
+              <div class="more-search-wrap">
+                <img src="../../assets/svg_icons/search.svg" width="20" class="more-search-icon" alt="">
+                <input type="text" class="more-search-input" placeholder="Search FAQ..." id="faqSearch">
+              </div>
+
+              <!-- FAQ Categories -->
+              <div class="more-faq-category">
+                <h3 class="more-faq-category-title">Getting Started</h3>
+                <div class="more-faq-list">
+                  <div class="more-faq-item" onclick="toggleFaq(this)">
+                    <div class="more-faq-head">
+                      <span class="more-faq-question">How does plan generation work?</span>
+                      <img src="../../assets/svg_icons/add.svg" width="20" class="more-faq-chevron" alt="">
+                    </div>
+                    <div class="more-faq-answer">Strivio generates a personalized plan based on your onboarding answers, including goals, preferences, and fitness level. The plan includes workout schedules and nutrition targets tailored to you.</div>
+                  </div>
+                  <div class="more-faq-item" onclick="toggleFaq(this)">
+                    <div class="more-faq-head">
+                      <span class="more-faq-question">How do I log food?</span>
+                      <img src="../../assets/svg_icons/add.svg" width="20" class="more-faq-chevron" alt="">
+                    </div>
+                    <div class="more-faq-answer">Go to the Logbook tab and tap the + button. You can search for foods, scan barcodes (Premium), or manually enter nutrition data.</div>
+                  </div>
+                  <div class="more-faq-item" onclick="toggleFaq(this)">
+                    <div class="more-faq-head">
+                      <span class="more-faq-question">What is the workout schedule?</span>
+                      <img src="../../assets/svg_icons/add.svg" width="20" class="more-faq-chevron" alt="">
+                    </div>
+                    <div class="more-faq-answer">Your workout schedule is generated based on your preferred training days and frequency. You can view it in the Workouts tab on the Home screen.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="more-faq-category">
+                <h3 class="more-faq-category-title">Premium</h3>
+                <div class="more-faq-list">
+                  <div class="more-faq-item" onclick="toggleFaq(this)">
+                    <div class="more-faq-head">
+                      <span class="more-faq-question">What features are Premium?</span>
+                      <img src="../../assets/svg_icons/add.svg" width="20" class="more-faq-chevron" alt="">
+                    </div>
+                    <div class="more-faq-answer">Premium features include barcode scanning, AI photo estimation, custom meals, data export, and advanced analytics.</div>
+                  </div>
+                  <div class="more-faq-item" onclick="toggleFaq(this)">
+                    <div class="more-faq-head">
+                      <span class="more-faq-question">How do I upgrade or cancel?</span>
+                      <img src="../../assets/svg_icons/add.svg" width="20" class="more-faq-chevron" alt="">
+                    </div>
+                    <div class="more-faq-answer">Tap your membership status in More to manage your subscription. You can upgrade anytime or cancel before the next billing cycle.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="more-faq-category">
+                <h3 class="more-faq-category-title">Troubleshooting</h3>
+                <div class="more-faq-list">
+                  <div class="more-faq-item" onclick="toggleFaq(this)">
+                    <div class="more-faq-head">
+                      <span class="more-faq-question">Notifications not working?</span>
+                      <img src="../../assets/svg_icons/add.svg" width="20" class="more-faq-chevron" alt="">
+                    </div>
+                    <div class="more-faq-answer">Check that notification permissions are enabled in your device settings. Go to Settings > Strivio > Notifications and ensure they are allowed.</div>
+                  </div>
+                  <div class="more-faq-item" onclick="toggleFaq(this)">
+                    <div class="more-faq-head">
+                      <span class="more-faq-question">Health sync issues?</span>
+                      <img src="../../assets/svg_icons/add.svg" width="20" class="more-faq-chevron" alt="">
+                    </div>
+                    <div class="more-faq-answer">Ensure Apple Health or Google Fit has granted Strivio permission to read your data. Try a manual sync from More > Sync Data.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Contact Support -->
+              <div class="more-contact-support">
+                <h3 class="more-contact-title">Still need help?</h3>
+                <button class="more-contact-btn" onclick="window.location.href='mailto:support@strivio.app'">
+                  <img src="../../assets/svg_icons/envelope.svg" width="20" alt="">
+                  Email Support
+                </button>
+                <p class="more-contact-meta">App v1.0.0 • User ID: <span id="supportUserId">guest-12345</span></p>
+              </div>
+
+              <div class="more-bottom-spacer"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=5"></script>
+  <script>
+    function toggleFaq(item) {
+      const chevron = item.querySelector('.more-faq-chevron');
+      const isOpen = item.classList.contains('open');
+      
+      // Close all
+      document.querySelectorAll('.more-faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.more-faq-chevron').src = '../../assets/svg_icons/add.svg';
+      });
+
+      if (!isOpen) {
+        item.classList.add('open');
+        chevron.src = '../../assets/svg_icons/minus.svg';
+      }
+    }
+
+    // Search FAQ
+    document.getElementById('faqSearch').addEventListener('input', function() {
+      const query = this.value.toLowerCase();
+      document.querySelectorAll('.more-faq-item').forEach(item => {
+        const question = item.querySelector('.more-faq-question').textContent.toLowerCase();
+        const answer = item.querySelector('.more-faq-answer').textContent.toLowerCase();
+        item.style.display = (question.includes(query) || answer.includes(query)) ? 'block' : 'none';
+      });
+    });
+  </script>
+</body>
+
+</html>

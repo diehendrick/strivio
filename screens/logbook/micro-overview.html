@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio - Macro Overview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=9">
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <div class="screen screen-micro-overview active" data-screen="micro-overview">
+          <div class="mo-scroll" id="moContent">
+            <div class="status-bar mo-status-bar">
+              <span class="status-time">9:41</span>
+              <div class="status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" />
+                  <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="#0f172a" />
+                  <path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="#0f172a" />
+                  <circle cx="8" cy="11" r="2" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" />
+                  <rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" />
+                  <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" />
+                </svg>
+              </div>
+            </div>
+
+            <header class="mo-header">
+              <button class="mo-back-btn" type="button" onclick="navigateTo('logbook')" aria-label="Go back">
+                <img src="../../assets/svg_icons/back.svg" width="24" height="24" alt="">
+              </button>
+              <h1>Macro Overview</h1>
+            </header>
+
+            <div class="mo-date-row" id="moDateRow">
+              <span class="mo-date-label">Wednesday, May 07</span>
+            </div>
+
+            <section class="mo-card mo-calorie-card" id="moCalorieCard">
+              <div class="mo-calorie-ring-section">
+                <div class="mo-calorie-side">
+                  <span class="mo-calorie-side-value" id="moCalRemaining">960</span>
+                  <span class="mo-calorie-side-label">Remaining</span>
+                </div>
+                <div class="mo-calorie-ring">
+                  <svg viewBox="0 0 120 120" class="mo-ring-svg" aria-hidden="true">
+                    <circle cx="60" cy="60" r="52" class="mo-ring-track" />
+                    <circle cx="60" cy="60" r="52" class="mo-ring-progress" id="moCalorieRing" stroke-dasharray="326.73" stroke-dashoffset="130.69" />
+                  </svg>
+                  <div class="mo-ring-center">
+                    <span class="mo-ring-value" id="moCalConsumed">1240</span>
+                    <span class="mo-ring-label">Consumed</span>
+                  </div>
+                </div>
+                <div class="mo-calorie-side">
+                  <span class="mo-calorie-side-value" id="moCalTarget">2200</span>
+                  <span class="mo-calorie-side-label">Target</span>
+                </div>
+              </div>
+              <div class="mo-pace-message" id="moPaceMessage">
+                <span class="mo-pace-icon">📊</span>
+                <span class="mo-pace-text">Half your calories left for dinner and snacks</span>
+              </div>
+              <div class="mo-tap-hint" id="moTapHint">Tap for details</div>
+            </section>
+
+            <h2 class="mo-section-title">Macronutrients</h2>
+            <section class="mo-card mo-macros-card">
+              <button class="mo-macro-card" type="button" data-macro="protein" id="moProteinCard">
+                <div class="mo-macro-header">
+                  <span class="mo-macro-icon mo-macro-protein">
+                    <img src="../../assets/svg_icons/salad.svg" alt="">
+                  </span>
+                  <div class="mo-macro-title">
+                    <strong>Protein</strong>
+                    <span>328 cal from protein</span>
+                  </div>
+                  <span class="mo-macro-percent" id="moProteinPercent">55%</span>
+                </div>
+                <div class="mo-macro-bar">
+                  <div class="mo-macro-fill mo-macro-fill-protein" id="moProteinFill" style="width: 55%"></div>
+                </div>
+                <div class="mo-macro-footer">
+                  <span class="mo-macro-value"><strong id="moProteinValue">82</strong> / 150g</span>
+                  <span class="mo-macro-remaining" id="moProteinRemaining">68g left</span>
+                </div>
+              </button>
+
+              <button class="mo-macro-card" type="button" data-macro="carbs" id="moCarbsCard">
+                <div class="mo-macro-header">
+                  <span class="mo-macro-icon mo-macro-carbs">
+                    <img src="../../assets/svg_icons/salad.svg" alt="">
+                  </span>
+                  <div class="mo-macro-title">
+                    <strong>Carbs</strong>
+                    <span>580 cal from carbs</span>
+                  </div>
+                  <span class="mo-macro-percent" id="moCarbsPercent">58%</span>
+                </div>
+                <div class="mo-macro-bar">
+                  <div class="mo-macro-fill mo-macro-fill-carbs" id="moCarbsFill" style="width: 58%"></div>
+                </div>
+                <div class="mo-macro-footer">
+                  <span class="mo-macro-value"><strong id="moCarbsValue">145</strong> / 250g</span>
+                  <span class="mo-macro-remaining" id="moCarbsRemaining">105g left</span>
+                </div>
+              </button>
+
+              <button class="mo-macro-card" type="button" data-macro="fats" id="moFatsCard">
+                <div class="mo-macro-header">
+                  <span class="mo-macro-icon mo-macro-fats">
+                    <img src="../../assets/svg_icons/salad.svg" alt="">
+                  </span>
+                  <div class="mo-macro-title">
+                    <strong>Fats</strong>
+                    <span>342 cal from fats</span>
+                  </div>
+                  <span class="mo-macro-percent" id="moFatsPercent">54%</span>
+                </div>
+                <div class="mo-macro-bar">
+                  <div class="mo-macro-fill mo-macro-fill-fats" id="moFatsFill" style="width: 54%"></div>
+                </div>
+                <div class="mo-macro-footer">
+                  <span class="mo-macro-value"><strong id="moFatsValue">38</strong> / 70g</span>
+                  <span class="mo-macro-remaining" id="moFatsRemaining">32g left</span>
+                </div>
+              </button>
+            </section>
+
+            <h2 class="mo-section-title">Meal Breakdown</h2>
+            <section class="mo-card mo-meals-card">
+              <div class="mo-meal-item">
+                <span class="mo-meal-icon mo-meal-breakfast">
+                  <img src="../../assets/svg_icons/morning.svg" alt="">
+                </span>
+                <div class="mo-meal-info">
+                  <strong>Breakfast</strong>
+                  <span>380 cal</span>
+                </div>
+                <div class="mo-meal-percent">31%</div>
+                <div class="mo-meal-bar"><div class="mo-meal-fill" style="width: 31%"></div></div>
+              </div>
+              <div class="mo-meal-item">
+                <span class="mo-meal-icon mo-meal-lunch">
+                  <img src="../../assets/svg_icons/day.svg" alt="">
+                </span>
+                <div class="mo-meal-info">
+                  <strong>Lunch</strong>
+                  <span>520 cal</span>
+                </div>
+                <div class="mo-meal-percent">42%</div>
+                <div class="mo-meal-bar"><div class="mo-meal-fill" style="width: 42%"></div></div>
+              </div>
+              <div class="mo-meal-item">
+                <span class="mo-meal-icon mo-meal-dinner">
+                  <img src="../../assets/svg_icons/night.svg" alt="">
+                </span>
+                <div class="mo-meal-info">
+                  <strong>Dinner</strong>
+                  <span>240 cal</span>
+                </div>
+                <div class="mo-meal-percent">19%</div>
+                <div class="mo-meal-bar"><div class="mo-meal-fill" style="width: 19%"></div></div>
+              </div>
+              <div class="mo-meal-item">
+                <span class="mo-meal-icon mo-meal-snacks">
+                  <img src="../../assets/svg_icons/snack.svg" alt="">
+                </span>
+                <div class="mo-meal-info">
+                  <strong>Snacks</strong>
+                  <span>100 cal</span>
+                </div>
+                <div class="mo-meal-percent">8%</div>
+                <div class="mo-meal-bar"><div class="mo-meal-fill" style="width: 8%"></div></div>
+              </div>
+            </section>
+
+            <h2 class="mo-section-title">Meal Budget</h2>
+            <section class="mo-card mo-budget-card">
+              <p class="mo-budget-label">Remaining meal budget</p>
+              <div class="mo-budget-items">
+                <div class="mo-budget-item">
+                  <span class="mo-budget-meal">Dinner</span>
+                  <span class="mo-budget-cal" id="moDinnerBudget">~450 cal</span>
+                </div>
+                <div class="mo-budget-item">
+                  <span class="mo-budget-meal">Snacks</span>
+                  <span class="mo-budget-cal" id="moSnacksBudget">~200 cal</span>
+                </div>
+              </div>
+              <p class="mo-budget-note">Based on your typical patterns</p>
+            </section>
+
+            <div class="mo-bottom-spacer"></div>
+
+            <section class="mo-empty-state" id="moEmptyState" style="display: none;">
+              <div class="mo-empty-icon">
+                <img src="../../assets/svg_icons/journal-alt.svg" alt="">
+              </div>
+              <div class="mo-empty-copy">
+                <h2>Start tracking your nutrition</h2>
+                <p>Log your first meal to see your daily macro progress</p>
+              </div>
+              <button class="mo-empty-add-btn" type="button" onclick="navigateTo('add-food-home')">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <path d="M9 3.75v10.5M3.75 9h10.5" stroke="#0056D8" stroke-width="1.8" stroke-linecap="round" />
+                </svg>
+                <span>Add Food</span>
+              </button>
+              <div class="mo-empty-targets">
+                <span class="mo-empty-target">2,200 cal</span>
+                <span class="mo-empty-target-divider"></span>
+                <span class="mo-empty-target">150g protein</span>
+              </div>
+            </section>
+          </div>
+
+          <nav class="bottom-nav app-bottom-nav mo-bottom-nav">
+            <button class="nav-item" data-nav="home" onclick="navigateTo('home')" aria-label="Home">
+              <img src="../../assets/svg_icons/house.svg" alt="">
+            </button>
+            <button class="nav-item active" data-nav="logbook" aria-label="Logbook">
+              <img src="../../assets/svg_icons/book-open.svg" alt="">
+              <div class="nav-indicator"></div>
+            </button>
+            <button class="nav-fab" id="moAddFoodBtn" aria-label="Add food">
+              <img src="../../assets/svg_icons/plus.svg" alt="">
+            </button>
+            <button class="nav-item" data-nav="coach" onclick="navigateTo('coach-main')" aria-label="Coach">
+              <img src="../../assets/svg_icons/coach.svg" alt="">
+            </button>
+            <button class="nav-item" data-nav="more" aria-label="More">
+              <img src="../../assets/svg_icons/more.svg" alt="">
+            </button>
+          </nav>
+
+          <div class="toast-container" id="moToastContainer"></div>
+
+          <div class="mo-detail-sheet" id="moDetailSheet">
+            <div class="mo-sheet-backdrop" id="moSheetBackdrop"></div>
+            <div class="mo-sheet-content">
+              <div class="mo-sheet-handle"></div>
+              <div class="mo-sheet-header">
+                <h3>Today's Nutrition Details</h3>
+                <button class="mo-sheet-close" id="moSheetClose" aria-label="Close">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <div class="mo-sheet-body" id="moSheetBody">
+                <div class="mo-sheet-section">
+                  <h4>Calories</h4>
+                  <div class="mo-sheet-row">
+                    <span>Consumed</span>
+                    <strong id="moSheetConsumed">1,240 cal</strong>
+                  </div>
+                  <div class="mo-sheet-row">
+                    <span>Target</span>
+                    <strong id="moSheetTarget">2,200 cal</strong>
+                  </div>
+                  <div class="mo-sheet-row">
+                    <span>Remaining</span>
+                    <strong class="mo-sheet-remaining" id="moSheetRemaining">960 cal</strong>
+                  </div>
+                  <div class="mo-sheet-row">
+                    <span>Burned</span>
+                    <strong id="moSheetBurned">320 cal</strong>
+                  </div>
+                  <div class="mo-sheet-row">
+                    <span>Net</span>
+                    <strong id="moSheetNet">920 cal</strong>
+                  </div>
+                </div>
+                <div class="mo-sheet-section">
+                  <h4>Macros</h4>
+                  <div class="mo-sheet-row">
+                    <span>Protein</span>
+                    <strong id="moSheetProtein">82g / 150g (55%)</strong>
+                  </div>
+                  <div class="mo-sheet-row mo-sheet-sub">
+                    <span>From protein</span>
+                    <span id="moSheetProteinCal">328 cal</span>
+                  </div>
+                  <div class="mo-sheet-row">
+                    <span>Carbs</span>
+                    <strong id="moSheetCarbs">145g / 250g (58%)</strong>
+                  </div>
+                  <div class="mo-sheet-row mo-sheet-sub">
+                    <span>From carbs</span>
+                    <span id="moSheetCarbsCal">580 cal</span>
+                  </div>
+                  <div class="mo-sheet-row">
+                    <span>Fats</span>
+                    <strong id="moSheetFats">38g / 70g (54%)</strong>
+                  </div>
+                  <div class="mo-sheet-row mo-sheet-sub">
+                    <span>From fats</span>
+                    <span id="moSheetFatsCal">342 cal</span>
+                  </div>
+                </div>
+                <div class="mo-sheet-section">
+                  <h4>Meal Breakdown</h4>
+                  <div class="mo-sheet-row">
+                    <span>Breakfast</span>
+                    <strong id="moSheetBreakfast">380 cal (31%)</strong>
+                  </div>
+                  <div class="mo-sheet-row">
+                    <span>Lunch</span>
+                    <strong id="moSheetLunch">520 cal (42%)</strong>
+                  </div>
+                  <div class="mo-sheet-row">
+                    <span>Dinner</span>
+                    <strong id="moSheetDinner">240 cal (19%)</strong>
+                  </div>
+                  <div class="mo-sheet-row">
+                    <span>Snacks</span>
+                    <strong id="moSheetSnacks">100 cal (8%)</strong>
+                  </div>
+                </div>
+                <div class="mo-sheet-section">
+                  <h4>Pace</h4>
+                  <p class="mo-sheet-pace-text" id="moSheetPaceText">You're on track! Typical at this time: 1,180 cal consumed</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mo-macro-detail-sheet" id="moMacroDetailSheet">
+            <div class="mo-sheet-backdrop" id="moMacroBackdrop"></div>
+            <div class="mo-sheet-content">
+              <div class="mo-sheet-handle"></div>
+              <div class="mo-sheet-header">
+                <h3 id="moMacroSheetTitle">Protein Details</h3>
+                <button class="mo-sheet-close" id="moMacroSheetClose" aria-label="Close">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <div class="mo-sheet-body" id="moMacroSheetBody"></div>
+              <div class="mo-sheet-actions">
+                <button class="mo-sheet-action-btn" id="moMacroQuickAction" type="button">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <path d="M9 3.75v10.5M3.75 9h10.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                  </svg>
+                  <span id="moMacroQuickActionText">Log protein-rich snack</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <script src="../../app.js?v=9"></script>
+  <script>
+    (function() {
+      const isPremium = window.__strivio_state?.isPremium || false;
+      const content = document.getElementById('moContent');
+      const emptyState = document.getElementById('moEmptyState');
+      const detailSheet = document.getElementById('moDetailSheet');
+      const macroDetailSheet = document.getElementById('moMacroDetailSheet');
+      let isEmpty = false;
+
+      const mockData = {
+        consumed: 1240,
+        target: 2200,
+        burned: 320,
+        macros: {
+          protein: { value: 82, target: 150, calPerGram: 4, color: '#3b82f6', zoneColor: '#3b82f6' },
+          carbs: { value: 145, target: 250, calPerGram: 4, color: '#22c55e', zoneColor: '#22c55e' },
+          fats: { value: 38, target: 70, calPerGram: 9, color: '#f97316', zoneColor: '#f97316' }
+        },
+        meals: {
+          breakfast: { cal: 380, percent: 31 },
+          lunch: { cal: 520, percent: 42 },
+          dinner: { cal: 240, percent: 19 },
+          snacks: { cal: 100, percent: 8 }
+        },
+        proteinSources: [
+          { name: 'Chicken breast', amount: '150g', protein: 30 },
+          { name: 'Greek yogurt', amount: '1 cup', protein: 15 },
+          { name: 'Eggs', amount: '2 large', protein: 12 },
+          { name: 'Whey protein', amount: '1 scoop', protein: 25 }
+        ],
+        carbTiming: [
+          { meal: 'Breakfast', carbs: 45 },
+          { meal: 'Lunch', carbs: 60 },
+          { meal: 'Dinner', carbs: 30 },
+          { meal: 'Snacks', carbs: 10 }
+        ],
+        fatTypes: {
+          saturated: 12,
+          unsaturated: 26
+        }
+      };
+
+      function getCalorieZone(percent) {
+        if (percent < 50) return { name: 'Under', color: '#3B82F6', label: 'Plenty of room left' };
+        if (percent < 90) return { name: 'On Track', color: '#10B981', label: 'Progressing well' };
+        if (percent < 100) return { name: 'Near Limit', color: '#F59E0B', label: 'Approaching daily goal' };
+        if (percent === 100) return { name: 'At Target', color: '#7F7CF0', label: 'Goal reached' };
+        return { name: 'Over', color: '#EF4444', label: 'Exceeded daily target' };
+      }
+
+      function getMacroZoneColor(macro, percent) {
+        if (macro === 'protein') return '#3B82F6';
+        if (macro === 'carbs') return '#10B981';
+        return '#F59E0B';
+      }
+
+      function getPaceMessage(hour, percent) {
+        if (hour < 12) {
+          if (percent < 50) return { icon: '\u2600\uFE0F', text: 'Good pace for morning' };
+          if (percent < 75) return { icon: '\u26A1', text: 'Ahead of typical pace \u2014 light lunch ahead?' };
+          return { icon: '\u26A0\uFE0F', text: 'Most of your budget used \u2014 consider a light lunch' };
+        }
+        if (hour < 17) {
+          if (percent < 55) return { icon: '\u{1F4AA}', text: 'Half your calories left for dinner and snacks' };
+          if (percent < 85) return { icon: '\u{1F44D}', text: 'On track for the day' };
+          return { icon: '\u26A0\uFE0F', text: 'Most of your budget used \u2014 consider a light dinner' };
+        }
+        if (percent < 95) return { icon: '\u{1F3AF}', text: 'Almost at your daily target' };
+        if (percent <= 100) return { icon: '\u{1F389}', text: 'Daily target reached!' };
+        const over = mockData.consumed - mockData.target;
+        return { icon: '\u{1F49C}', text: over + ' cal over target \u2014 that\u2019s okay, tomorrow is fresh!' };
+      }
+
+      function applyColorZones() {
+        const consumed = mockData.consumed;
+        const target = mockData.target;
+        const percent = Math.round((consumed / target) * 100);
+        const zone = getCalorieZone(percent);
+        const ring = document.getElementById('moCalorieRing');
+        const remainingEl = document.getElementById('moCalRemaining');
+
+        if (ring) ring.style.stroke = zone.color;
+        if (remainingEl) remainingEl.style.color = zone.color;
+
+        const paceMessage = getPaceMessage(new Date().getHours(), percent);
+        const paceIcon = document.querySelector('.mo-pace-icon');
+        const paceText = document.querySelector('.mo-pace-text');
+        if (paceIcon) paceIcon.textContent = paceMessage.icon;
+        if (paceText) paceText.textContent = paceMessage.text;
+
+        const ringLength = 326.73;
+        const consumedRatio = Math.min(1, consumed / target);
+        if (ring) ring.setAttribute('stroke-dashoffset', (ringLength * (1 - consumedRatio)).toFixed(2));
+
+        Object.keys(mockData.macros).forEach(function(macro) {
+          var m = mockData.macros[macro];
+          var mPercent = Math.min(100, Math.round((m.value / m.target) * 100));
+          var zoneColor = getMacroZoneColor(macro, mPercent);
+          var fillEl = document.getElementById('mo' + macro.charAt(0).toUpperCase() + macro.slice(1) + 'Fill');
+          if (fillEl) fillEl.style.background = zoneColor;
+        });
+      }
+
+      function showToast(message) {
+        var container = document.getElementById('moToastContainer');
+        if (!container) return;
+        var toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        container.appendChild(toast);
+        requestAnimationFrame(function() { toast.classList.add('show'); });
+        setTimeout(function() {
+          toast.classList.remove('show');
+          setTimeout(function() { toast.remove(); }, 300);
+        }, 2200);
+      }
+
+      function openDetailSheet() {
+        var d = mockData;
+        var remaining = Math.max(0, d.target - d.consumed);
+        var net = d.consumed - d.burned;
+        var pCal = d.macros.protein.value * d.macros.protein.calPerGram;
+        var cCal = d.macros.carbs.value * d.macros.carbs.calPerGram;
+        var fCal = d.macros.fats.value * d.macros.fats.calPerGram;
+        var pPercent = Math.round((d.macros.protein.value / d.macros.protein.target) * 100);
+        var cPercent = Math.round((d.macros.carbs.value / d.macros.carbs.target) * 100);
+        var fPercent = Math.round((d.macros.fats.value / d.macros.fats.target) * 100);
+
+        document.getElementById('moSheetConsumed').textContent = d.consumed.toLocaleString() + ' cal';
+        document.getElementById('moSheetTarget').textContent = d.target.toLocaleString() + ' cal';
+        document.getElementById('moSheetRemaining').textContent = remaining.toLocaleString() + ' cal';
+        document.getElementById('moSheetBurned').textContent = d.burned + ' cal (BMR+activity)';
+        document.getElementById('moSheetNet').textContent = net.toLocaleString() + ' cal';
+        document.getElementById('moSheetProtein').textContent = d.macros.protein.value + 'g / ' + d.macros.protein.target + 'g (' + pPercent + '%)';
+        document.getElementById('moSheetProteinCal').textContent = pCal + ' cal from protein';
+        document.getElementById('moSheetCarbs').textContent = d.macros.carbs.value + 'g / ' + d.macros.carbs.target + 'g (' + cPercent + '%)';
+        document.getElementById('moSheetCarbsCal').textContent = cCal + ' cal from carbs';
+        document.getElementById('moSheetFats').textContent = d.macros.fats.value + 'g / ' + d.macros.fats.target + 'g (' + fPercent + '%)';
+        document.getElementById('moSheetFatsCal').textContent = fCal + ' cal from fats';
+        document.getElementById('moSheetBreakfast').textContent = d.meals.breakfast.cal + ' cal (' + d.meals.breakfast.percent + '%)';
+        document.getElementById('moSheetLunch').textContent = d.meals.lunch.cal + ' cal (' + d.meals.lunch.percent + '%)';
+        document.getElementById('moSheetDinner').textContent = d.meals.dinner.cal + ' cal (' + d.meals.dinner.percent + '%)';
+        document.getElementById('moSheetSnacks').textContent = d.meals.snacks.cal + ' cal (' + d.meals.snacks.percent + '%)';
+
+        var paceMsg = getPaceMessage(new Date().getHours(), Math.round((d.consumed / d.target) * 100));
+        document.getElementById('moSheetPaceText').textContent = paceMsg.text;
+
+        detailSheet.classList.add('open');
+      }
+
+      function closeDetailSheet() {
+        detailSheet.classList.remove('open');
+      }
+
+      function openMacroDetailSheet(macro) {
+        var body = document.getElementById('moMacroSheetBody');
+        var title = document.getElementById('moMacroSheetTitle');
+        var actionBtn = document.getElementById('moMacroQuickAction');
+        var actionText = document.getElementById('moMacroQuickActionText');
+        var html = '';
+
+        if (macro === 'protein') {
+          title.textContent = 'Protein Details';
+          actionText.textContent = 'Log protein-rich snack';
+          html = '<div class="mo-sheet-section"><h4>Top protein sources today</h4>';
+          mockData.proteinSources.forEach(function(s) {
+            html += '<div class="mo-sheet-row"><span>' + s.name + ' (' + s.amount + ')</span><strong>' + s.protein + 'g</strong></div>';
+          });
+          html += '</div>';
+          html += '<div class="mo-sheet-section"><h4>Daily total</h4>';
+          html += '<div class="mo-sheet-row"><span>Consumed</span><strong>' + mockData.macros.protein.value + 'g / ' + mockData.macros.protein.target + 'g</strong></div>';
+          html += '<div class="mo-sheet-row"><span>Remaining</span><strong class="mo-sheet-remaining">' + (mockData.macros.protein.target - mockData.macros.protein.value) + 'g</strong></div>';
+          html += '</div>';
+        } else if (macro === 'carbs') {
+          title.textContent = 'Carb Timing';
+          actionText.textContent = 'Log carb source';
+          html = '<div class="mo-sheet-section"><h4>Carbs by meal</h4>';
+          mockData.carbTiming.forEach(function(c) {
+            html += '<div class="mo-sheet-row"><span>' + c.meal + '</span><strong>' + c.carbs + 'g</strong></div>';
+          });
+          html += '</div>';
+          html += '<div class="mo-sheet-section"><h4>Daily total</h4>';
+          html += '<div class="mo-sheet-row"><span>Consumed</span><strong>' + mockData.macros.carbs.value + 'g / ' + mockData.macros.carbs.target + 'g</strong></div>';
+          html += '<div class="mo-sheet-row"><span>Remaining</span><strong class="mo-sheet-remaining">' + (mockData.macros.carbs.target - mockData.macros.carbs.value) + 'g</strong></div>';
+          html += '</div>';
+        } else {
+          title.textContent = 'Fat Breakdown';
+          actionText.textContent = 'Log healthy fat';
+          html = '<div class="mo-sheet-section"><h4>Fat types</h4>';
+          html += '<div class="mo-sheet-row"><span>Saturated</span><strong>' + mockData.fatTypes.saturated + 'g</strong></div>';
+          html += '<div class="mo-sheet-row"><span>Unsaturated</span><strong>' + mockData.fatTypes.unsaturated + 'g</strong></div>';
+          html += '</div>';
+          html += '<div class="mo-sheet-section"><h4>Daily total</h4>';
+          html += '<div class="mo-sheet-row"><span>Consumed</span><strong>' + mockData.macros.fats.value + 'g / ' + mockData.macros.fats.target + 'g</strong></div>';
+          html += '<div class="mo-sheet-row"><span>Remaining</span><strong class="mo-sheet-remaining">' + (mockData.macros.fats.target - mockData.macros.fats.value) + 'g</strong></div>';
+          html += '</div>';
+        }
+
+        body.innerHTML = html;
+        macroDetailSheet.classList.add('open');
+      }
+
+      function closeMacroDetailSheet() {
+        macroDetailSheet.classList.remove('open');
+      }
+
+      function toggleEmptyState() {
+        isEmpty = !isEmpty;
+        var sections = content.querySelectorAll('.mo-card, .mo-section-title, .mo-date-row');
+        sections.forEach(function(s) { s.style.display = isEmpty ? 'none' : ''; });
+        emptyState.style.display = isEmpty ? 'block' : 'none';
+        showToast(isEmpty ? 'Empty state shown' : 'Logged data shown');
+      }
+
+      // Auto-show empty state if URL has ?empty=true query parameter
+      // This is optional - by default the page shows logged data
+      if (window.location.search.indexOf('empty=true') !== -1) {
+        var sections = content.querySelectorAll('.mo-card, .mo-section-title, .mo-date-row');
+        sections.forEach(function(s) { s.style.display = 'none'; });
+        emptyState.style.display = 'block';
+        isEmpty = true;
+      }
+
+      document.getElementById('moAddFoodBtn')?.addEventListener('click', function() { navigateTo('add-food-home'); });
+
+      document.getElementById('moCalorieCard')?.addEventListener('click', openDetailSheet);
+      document.getElementById('moSheetBackdrop')?.addEventListener('click', closeDetailSheet);
+      document.getElementById('moSheetClose')?.addEventListener('click', closeDetailSheet);
+
+      document.querySelectorAll('.mo-macro-card').forEach(function(card) {
+        card.addEventListener('click', function() {
+          openMacroDetailSheet(card.dataset.macro);
+        });
+      });
+      document.getElementById('moMacroBackdrop')?.addEventListener('click', closeMacroDetailSheet);
+      document.getElementById('moMacroSheetClose')?.addEventListener('click', closeMacroDetailSheet);
+      document.getElementById('moMacroQuickAction')?.addEventListener('click', function() {
+        closeMacroDetailSheet();
+        navigateTo('add-food-home');
+      });
+
+      applyColorZones();
+      window.toggleMicroEmpty = toggleEmptyState;
+    })();
+  </script>
+</body>
+
+</html>

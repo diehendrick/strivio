@@ -10,7 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=4">
+  <link rel="stylesheet" href="../../styles.css?v=6">
 </head>
 
 <body>
@@ -76,7 +76,14 @@
                   </div>
                   <span class="coach-status-pill good">Good</span>
                 </div>
-                <div class="coach-score-body">
+                <div class="coach-locked-preview compact coach-recovery-lock" data-coach-edge="paywall" data-premium-lock>
+                  <div>
+                    <strong>Full Recovery Score</strong>
+                    <p>Unlock the sleep, mood, HRV, and activity composite score with Premium.</p>
+                  </div>
+                  <span class="coach-premium-badge">Premium</span>
+                </div>
+                <div class="coach-score-body" data-premium-content>
                   <button class="coach-gauge" type="button" data-coach-edge="breakdown" aria-label="Show recovery score breakdown">
                     <svg viewBox="0 0 148 148">
                       <circle cx="74" cy="74" r="60" class="coach-gauge-track" />
@@ -92,7 +99,7 @@
                     <p>Your sleep duration and recent workload point to a strong session. Keep the warm-up deliberate.</p>
                   </div>
                 </div>
-                <div class="coach-edge-note" id="coachBreakdownNote">
+                <div class="coach-edge-note" id="coachBreakdownNote" data-premium-content>
                   Sleep 36 pts, mood 18 pts, activity balance 14 pts, HRV preview 10 pts.
                 </div>
               </article>
@@ -103,7 +110,7 @@
                     <h2>Sleep</h2>
                     <p>Last night from connected health data</p>
                   </div>
-                  <span class="coach-metric-value">7h 42m</span>
+                  <span class="coach-metric-value" id="coachSleepMetric">7h 42m</span>
                 </div>
                 <div class="coach-progress-row">
                   <span>Ideal range</span>
@@ -131,12 +138,16 @@
                     <span style="width: 8%; background:#FB923C"></span>
                   </div>
                   <div class="coach-stage-legend">
-                    <span>Deep 2h 08m</span>
-                    <span>Light 3h 12m</span>
-                    <span>REM 1h 42m</span>
-                    <span>Awake 40m</span>
+                    <span class="deep"><b></b><strong>Deep</strong><em>2h 08m repair</em></span>
+                    <span class="light"><b></b><strong>Light</strong><em>3h 12m reset</em></span>
+                    <span class="rem"><b></b><strong>REM</strong><em>1h 42m mood</em></span>
+                    <span class="awake"><b></b><strong>Awake</strong><em>40m interruptions</em></span>
                   </div>
-                  <button class="coach-secondary-pill" type="button">Add Sleep Manually</button>
+                  <p class="coach-stage-note">Darker blue means deeper recovery sleep. Orange marks awake time, which reduces sleep quality when it gets high.</p>
+                  <div class="coach-sleep-actions">
+                    <button class="coach-secondary-pill" type="button" id="coachSleepManualBtn">Add Sleep Manually</button>
+                    <button class="coach-secondary-pill ghost" type="button" id="coachSleepFaqBtn">Sleep stages FAQ</button>
+                  </div>
                 </div>
               </article>
 
@@ -150,6 +161,22 @@
                   <h2>No health data connected</h2>
                   <p>Connect Apple Health or Google Fit to replace these demo insights with sleep, steps, and HRV data.</p>
                 </div>
+              </article>
+
+              <article class="coach-card coach-health-connected" id="coachHealthConnected" hidden>
+                <div class="coach-card-head">
+                  <div>
+                    <h2>Apple Health Connected</h2>
+                    <p>Sample Apple Health / Google Fit sync for prototype review</p>
+                  </div>
+                  <span class="coach-status-pill good">Synced</span>
+                </div>
+                <div class="coach-health-grid">
+                  <span><strong>7h 42m</strong><em>Sleep</em></span>
+                  <span><strong>64 ms</strong><em>HRV</em></span>
+                  <span><strong>8,450</strong><em>Steps</em></span>
+                </div>
+                <p class="coach-card-copy">Last sample sync: Today, 7:12 AM. Tap Health again to switch back to disconnected state.</p>
               </article>
 
               <article class="coach-card">
@@ -205,10 +232,11 @@
                   </div>
                   <span class="coach-status-pill good">On track</span>
                 </div>
-                <div class="coach-nutrition-grid">
-                  <div><strong>1,850</strong><span>kcal logged</span></div>
-                  <div><strong>85g</strong><span>protein</span></div>
-                  <div><strong>350</strong><span>kcal left</span></div>
+                <div class="coach-nutrition-grid coach-macro-summary">
+                  <div><strong>1,850 / 2,200</strong><span>Calories · 350 remaining</span><i><b style="width:84%"></b></i></div>
+                  <div><strong>85g / 120g</strong><span>Protein · 35g remaining</span><i><b style="width:71%"></b></i></div>
+                  <div><strong>210g / 260g</strong><span>Carbs · 50g remaining</span><i><b style="width:81%"></b></i></div>
+                  <div><strong>58g / 70g</strong><span>Fat · 12g remaining</span><i><b style="width:83%"></b></i></div>
                 </div>
                 <p class="coach-card-copy">Protein is pacing well. Dinner should stay lean with a vegetable-heavy side to close the micronutrient gap.</p>
               </article>
@@ -248,7 +276,7 @@
                 </div>
                 <div>
                   <h2>No meals logged yet</h2>
-                  <p>When Log Book is empty, Coach shows a gentle prompt instead of trend charts.</p>
+                  <p>Start logging meals to see today's nutrition summary, trend insights, and coaching suggestions.</p>
                 </div>
               </article>
 
@@ -291,11 +319,30 @@
                   </div>
                   <button class="coach-change-mood" type="button" onclick="navigateTo('workout-schedule')">View all</button>
                 </div>
-                <div class="coach-schedule-list">
+                <div class="coach-schedule-strip">
+                  <span class="done">M<br><b>04</b></span>
+                  <span class="today">T<br><b>05</b></span>
+                  <span>W<br><b>06</b></span>
+                  <span>T<br><b>07</b></span>
+                  <span>F<br><b>08</b></span>
+                  <span>S<br><b>09</b></span>
+                  <span>S<br><b>10</b></span>
+                </div>
+                <div class="coach-schedule-list coach-schedule-full">
                   <button type="button" onclick="navigateTo('workout')"><span class="done">Mon</span><strong>Upper Body</strong><em>Completed</em></button>
                   <button type="button" onclick="navigateTo('workout')"><span class="today">Tue</span><strong>Lower Body</strong><em>Today</em></button>
                   <button type="button"><span>Wed</span><strong>Rest Day</strong><em>Recovery</em></button>
                   <button type="button" onclick="navigateTo('workout')"><span>Thu</span><strong>Full Body</strong><em>Planned</em></button>
+                  <button type="button" onclick="navigateTo('workout')"><span>Fri</span><strong>Upper Hypertrophy</strong><em>Planned</em></button>
+                  <button type="button"><span>Sat</span><strong>Zone 2 Cardio</strong><em>Optional</em></button>
+                  <button type="button"><span>Sun</span><strong>Rest Day</strong><em>Mobility</em></button>
+                  <button type="button" onclick="navigateTo('workout')"><span>Mon</span><strong>Lower Strength</strong><em>Next week</em></button>
+                  <button type="button" onclick="navigateTo('workout')"><span>Tue</span><strong>Push Strength</strong><em>Next week</em></button>
+                  <button type="button"><span>Wed</span><strong>Recovery Walk</strong><em>Next week</em></button>
+                  <button type="button" onclick="navigateTo('workout')"><span>Thu</span><strong>Pull Strength</strong><em>Next week</em></button>
+                  <button type="button"><span>Fri</span><strong>Rest Day</strong><em>Next week</em></button>
+                  <button type="button" onclick="navigateTo('workout')"><span>Sat</span><strong>Full Body</strong><em>Next week</em></button>
+                  <button type="button"><span>Sun</span><strong>Mobility</strong><em>Next week</em></button>
                 </div>
               </article>
 
@@ -308,7 +355,7 @@
                   <span class="coach-metric-value">8,450</span>
                 </div>
                 <div class="coach-progress-row">
-                  <span>Step goal</span>
+                  <span>8,450 / 10,000 steps</span>
                   <div class="coach-progress-track"><div style="width: 84%"></div></div>
                   <strong>84%</strong>
                 </div>
@@ -330,8 +377,8 @@
                     <span style="height:82%"></span>
                   </div>
                   <div class="coach-insight-strip">
-                    <span>2,960 kcal burned</span>
-                    <span>4 workouts</span>
+                    <span>Completion 4/5</span>
+                    <span>Consistency 5/7</span>
                     <span>Volume +5%</span>
                   </div>
                 </div>
@@ -347,6 +394,21 @@
                 <div>
                   <h2>No completed workouts yet</h2>
                   <p>After the first completed session, Coach replaces this with recent activity and progress notes.</p>
+                </div>
+              </article>
+
+              <article class="coach-card">
+                <div class="coach-card-head">
+                  <div>
+                    <h2>Past Workouts</h2>
+                    <p>Recent completed sessions</p>
+                  </div>
+                  <span class="coach-status-pill">7 days</span>
+                </div>
+                <div class="coach-past-list">
+                  <button type="button" onclick="navigateTo('workout-log')"><strong>Upper Body Strength</strong><span>Mon · 44 min · 312 kcal</span></button>
+                  <button type="button" onclick="navigateTo('workout-log')"><strong>Full Body Circuit</strong><span>Sat · 38 min · 286 kcal</span></button>
+                  <button type="button" onclick="navigateTo('workout-log')"><strong>Lower Body Strength</strong><span>Thu · 47 min · 335 kcal</span></button>
                 </div>
               </article>
 
@@ -417,12 +479,54 @@
               </button>
             </form>
           </aside>
+
+          <div class="coach-sheet-backdrop" id="coachSleepSheetBackdrop"></div>
+          <section class="coach-small-sheet" id="coachSleepSheet" aria-hidden="true">
+            <div class="coach-chat-handle"></div>
+            <header class="coach-small-sheet-head">
+              <div>
+                <h2>Add Sleep Data</h2>
+                <p>Prototype manual entry for nights without health data.</p>
+              </div>
+              <button type="button" id="coachSleepClose" aria-label="Close sleep entry">×</button>
+            </header>
+            <div class="coach-time-grid">
+              <label>
+                <span>Bedtime</span>
+                <input type="time" id="coachBedtime" value="22:45">
+              </label>
+              <label>
+                <span>Wake time</span>
+                <input type="time" id="coachWakeTime" value="06:30">
+              </label>
+            </div>
+            <button class="coach-primary-btn coach-sheet-save" type="button" id="coachSleepSave">Save Sleep</button>
+          </section>
+
+          <div class="coach-sheet-backdrop" id="coachFaqBackdrop"></div>
+          <section class="coach-small-sheet" id="coachFaqSheet" aria-hidden="true">
+            <div class="coach-chat-handle"></div>
+            <header class="coach-small-sheet-head">
+              <div>
+                <h2>Sleep Stages</h2>
+                <p>Simple recovery guide, not medical advice.</p>
+              </div>
+              <button type="button" id="coachFaqClose" aria-label="Close sleep stages FAQ">×</button>
+            </header>
+            <div class="coach-faq-list">
+              <p class="deep"><b></b><strong>Deep</strong> supports physical repair and recovery.</p>
+              <p class="light"><b></b><strong>Light</strong> makes up most sleep and helps transition between stages.</p>
+              <p class="rem"><b></b><strong>REM</strong> supports memory, mood, and learning.</p>
+              <p class="awake"><b></b><strong>Awake</strong> time is normal in small amounts, but high awake time can lower readiness.</p>
+            </div>
+          </section>
         </div>
 
       </div>
     </div>
   </div>
-  <script src="../../app.js?v=3"></script>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <script src="../../app.js?v=6"></script>
 </body>
 
 </html>

@@ -225,6 +225,7 @@
     </div>
   </div>
 
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <script src="../../app.js?v=9"></script>
   <script>
     (function() {
@@ -475,7 +476,7 @@
       document.getElementById('macroOverviewCard')?.addEventListener('click', () => showToast('Macro overview shown'));
       document.getElementById('copyPrevBtn')?.addEventListener('click', () => navigateTo('copy-previous-day'));
       document.getElementById('nutrientsCard')?.addEventListener('click', () => navigateTo(isPremium ? 'nutrients-full' : 'nutrients-locked'));
-      document.getElementById('macroOverviewAction')?.addEventListener('click', () => showToast('Macro overview shown'));
+      document.getElementById('macroOverviewAction')?.addEventListener('click', () => navigateTo('micro-overview'));
       document.getElementById('manualEntryBtn')?.addEventListener('click', () => navigateTo('manual-entry'));
       document.getElementById('myMealsBtn')?.addEventListener('click', () => navigateTo('custom-meals-list'));
       document.getElementById('addFoodBtn')?.addEventListener('click', () => navigateTo('add-food-home'));

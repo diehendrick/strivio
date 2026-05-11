@@ -3,6 +3,10 @@
     "vercel": {
       "transport": "http",
       "url": "https://mcp.vercel.com"
+    },
+    "figma": {
+      "transport": "http",
+      "url": "https://mcp.figma.com/mcp"
     }
   }
 }

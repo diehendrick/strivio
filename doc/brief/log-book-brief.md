@@ -121,21 +121,275 @@ A per-meal breakdown of macronutrients across the four standard meal slots.
 
 #### 2C. Daily Macro Overview
 
-The high-level summary of daily intake versus targets.
+The high-level summary of daily intake versus targets. This is the **most frequently viewed section** of the Log Book — users glance here to answer: *"Am I on track today?"* The design must make this answer **instantly obvious** without requiring mental math.
+
+---
+
+##### 2C.1 Visual Hierarchy & Layout
+
+The macro overview uses a **two-tier hierarchy** — calories are primary (largest, most prominent), macros are secondary (grouped together below).
+
+**Primary Tier — Calorie Ring (Center Stage):**
+```
+┌─────────────────────────────┐
+│      ┌───────────┐          │
+│      │   1,240   │  ← Consumed (large, bold)
+│      │  / 2,200  │  ← Target (smaller, muted)
+│      │   960     │  ← Remaining (accent color, prominent)
+│      │ remaining │
+│      └───────────┘          │
+│    ████████░░░░  56%        │  ← Progress bar with percentage
+└─────────────────────────────┘
+```
+
+**Secondary Tier — Macro Cards (Row or Grid):**
+```
+┌────────────┬────────────┬────────────┐
+│  Protein   │   Carbs    │    Fats    │
+│   82 / 150g│ 145 / 250g │  38 / 70g  │
+│   68g left │ 105g left  │  32g left  │
+│ ██████░░░  │ ████░░░░░  │ █████░░░░  │
+│   55%      │    58%     │    54%     │
+└────────────┴────────────┴────────────┘
+```
 
 **What's displayed:**
-| Macro | Target vs. Actual |
-|-------|-------------------|
-| **Calories** | Actual / Target (e.g., 1850 / 2200) |
-| **Protein** | Actual / Target (g) |
-| **Carbs** | Actual / Target (g) |
-| **Fats** | Actual / Target (g) |
+| Element | Data | Visual Treatment |
+|---------|------|------------------|
+| **Calories consumed** | Actual intake (e.g., 1,240) | Large, bold, primary text color |
+| **Calories target** | Daily goal (e.g., 2,200) | Smaller, muted/secondary text |
+| **Calories remaining** | Target − Consumed (e.g., 960) | Accent color, prominent — this is what users care about most |
+| **Calorie progress** | Percentage + bar/ring | Filled proportionally, color-coded by zone |
+| **Protein** | Consumed / Target + remaining | Compact card with mini progress bar |
+| **Carbs** | Consumed / Target + remaining | Compact card with mini progress bar |
+| **Fats** | Consumed / Target + remaining | Compact card with mini progress bar |
 
-**Design Notes:**
-- Progress rings or bars for each macro
-- Color coding: green when close to target, red when exceeding, yellow when under
-- Remaining values shown prominently (e.g., "350 cal remaining")
-- This is a **Free** feature
+---
+
+##### 2C.2 Smart Color Zones (Not Just Green/Red)
+
+Color coding should communicate **status at a glance** using intuitive zones, not binary pass/fail:
+
+| Zone | Calorie Range | Color | Meaning |
+|------|---------------|-------|---------|
+| **Under** | 0–50% of target | Blue `#3B82F6` | Plenty of room left |
+| **On Track** | 50–90% of target | Green `#10B981` | Progressing well |
+| **Near Limit** | 90–100% of target | Amber `#F59E0B` | Approaching daily goal |
+| **At Target** | 100% | Navy `#7F7CF0` | Goal reached |
+| **Over** | 100%+ | Red `#EF4444` | Exceeded daily target |
+
+**Macro-specific colors:**
+- Protein: Blue `#3B82F6` (always encouraging — more protein is generally good)
+- Carbs: Green `#10B981` (neutral tracking)
+- Fats: Amber `#F59E0B` (slightly cautionary — fats are calorie-dense)
+
+**Important:** Colors should never shame the user. "Over" should be informative, not alarming. Use soft red tones, not harsh alerts.
+
+---
+
+##### 2C.3 Contextual Insights (The "So What?" Layer)
+
+Numbers alone are not useful. The macro overview should answer **what the numbers mean** through contextual micro-copy:
+
+**Time-Aware Pacing Messages:**
+| Time of Day | Scenario | Message |
+|-------------|----------|---------|
+| 10 AM | 40% calories consumed | "Good pace for morning" |
+| 10 AM | 70% calories consumed | "Ahead of typical pace — light lunch ahead?" |
+| 2 PM | 50% calories consumed | "Half your calories left for dinner and snacks" |
+| 2 PM | 85% calories consumed | "Most of your budget used — consider a light dinner" |
+| 8 PM | 95% calories consumed | "Almost at your daily target" |
+| 8 PM | 110% calories consumed | "120 cal over target — that's okay, tomorrow is fresh!" |
+
+**Meal-Budget Guidance:**
+When the user has remaining meals in the day, show **per-meal budget**:
+
+```
+┌─────────────────────────────────────┐
+│ Remaining meal budget               │
+│                                     │
+│   Dinner:  ~450 cal                 │
+│   Snacks:  ~200 cal                 │
+│                                     │
+│ Based on your typical patterns      │
+└─────────────────────────────────────┘
+```
+
+**Protein Emphasis (Fitness-Focused):**
+For users with fitness goals, protein is the most important macro. Highlight it:
+
+```
+┌─────────────────────────────────────┐
+│ Protein Check                       │
+│                                     │
+│   82g of 150g logged                │
+│   68g remaining                     │
+│                                     │
+│   Tip: A chicken breast (30g) +     │
+│   Greek yogurt (15g) gets you       │
+│   halfway there                     │
+└─────────────────────────────────────┘
+```
+
+---
+
+##### 2C.4 Progressive Disclosure Design
+
+Not all users want the same level of detail. Use **progressive disclosure** to serve both casual and power users:
+
+**Level 1 — At a Glance (Always Visible):**
+- Calorie ring with consumed/target/remaining
+- Three macro mini-bars with percentages
+- Color-coded status
+
+**Level 2 — Tap to Expand (Tap calorie ring or any macro card):**
+```
+┌─────────────────────────────────────┐
+│ Today's Nutrition Details        X  │
+│                                     │
+│ --- CALORIES ---                    │
+│ Consumed:    1,240 cal              │
+│ Target:      2,200 cal              │
+│ Remaining:     960 cal              │
+│ Burned:        320 cal (BMR+activity)|
+│ Net:           920 cal              │
+│                                     │
+│ --- MACROS ---                      │
+│ Protein:  82g / 150g  (55%)        │
+│   -> 328 cal from protein           │
+│ Carbs:   145g / 250g  (58%)        │
+│   -> 580 cal from carbs             │
+│ Fats:     38g / 70g   (54%)        │
+│   -> 342 cal from fats              │
+│                                     │
+│ --- MEAL BREAKDOWN ---              │
+│ Breakfast:  380 cal  (31%)         │
+│ Lunch:      520 cal  (42%)         │
+│ Dinner:     240 cal  (19%)         │
+│ Snacks:     100 cal   (8%)         │
+│                                     │
+│ --- PACE ---                        │
+│ You're on track! Typical at this   │
+│ time: 1,180 cal consumed            │
+└─────────────────────────────────────┘
+```
+
+**Level 3 — See All Nutrients (Premium — tap "Full Nutrients"):**
+- Navigates to the micronutrient breakdown view (Section 2D)
+
+---
+
+##### 2C.5 Macro Card Interaction Patterns
+
+Each macro card is **tappable** and provides quick actions:
+
+**Tap Protein Card:**
+- Expands to show protein sources breakdown
+- "Top protein foods today: Chicken breast (30g), Eggs (12g), Greek yogurt (15g)"
+- Quick action: "Log protein-rich snack" -> opens food search filtered by high-protein foods
+
+**Tap Carbs Card:**
+- Expands to show carb timing distribution
+- "Carbs by meal: Breakfast 45g, Lunch 60g, Dinner 30g, Snacks 10g"
+- Quick action: "Log carb source" -> opens food search
+
+**Tap Fats Card:**
+- Expands to show fat type breakdown (if available)
+- "Saturated: 12g, Unsaturated: 26g"
+- Quick action: "Log healthy fat" -> opens food search
+
+---
+
+##### 2C.6 Empty State (No Food Logged)
+
+When no food has been logged yet, show an **encouraging, action-oriented** empty state:
+
+```
+┌─────────────────────────────────────┐
+│                                     │
+│        [icon]                       │
+│                                     │
+│   Start tracking your nutrition     │
+│                                     │
+│   Log your first meal to see your   │
+│   daily macro progress              │
+│                                     │
+│   + Add Food                        │
+│                                     │
+│   Your daily targets:               │
+│   2,200 cal  |  150g protein        │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+---
+
+##### 2C.7 Real-Time Update Behavior
+
+When a food is logged, the macro overview should **visibly react** to confirm the update:
+
+1. **Number animation**: Values count up/down smoothly (300ms duration)
+2. **Progress bar fill**: Animated fill transition to new percentage
+3. **Brief highlight**: The updated macro card gets a subtle glow/pulse (200ms)
+4. **Haptic feedback**: Light vibration on mobile when logging confirms
+
+**Example sequence:**
+```
+User logs "Chicken breast - 150 cal, 30g protein"
+
+Before:                    After (animated):
+Calories: 1,090 / 2,200    Calories: 1,240 / 2,200
+Remaining: 1,110           Remaining: 960
+Protein: 52 / 150g         Protein: 82 / 150g
+                           [Protein card pulses green briefly]
+```
+
+---
+
+##### 2C.8 Accessibility Considerations
+
+- **Color is never the only indicator**: Each zone has a label + icon + color
+- **Screen reader support**: Announce "1,240 calories consumed out of 2,200 target, 960 remaining, 56 percent"
+- **Large text mode**: Numbers remain readable at 200% zoom
+- **High contrast mode**: Progress bars have pattern fills (stripes/dots) in addition to color
+- **Reduced motion**: Respect `prefers-reduced-motion` - disable number animations and pulses
+
+---
+
+##### 2C.9 Design Notes Summary
+
+| Principle | Implementation |
+|-----------|----------------|
+| **Instant comprehension** | User should understand their status in <2 seconds |
+| **Remaining > Consumed** | Show "what's left" more prominently than "what's done" |
+| **Context over raw numbers** | Add pacing messages, meal budgets, tips |
+| **Progressive disclosure** | Simple view default, details on tap |
+| **Encouraging, not shaming** | Positive language even when over target |
+| **Real-time feedback** | Animate updates to confirm logging worked |
+| **Actionable** | Every insight should suggest a next step |
+| **This is a Free feature** | No Premium gate on any part of the macro overview |
+
+---
+
+##### 2C.10 Data Sources & Calculations
+
+**Displayed values are calculated from:**
+```
+Calories consumed  = Sum of (food calories x quantity) for all logged foods today
+Protein consumed   = Sum of (food protein x quantity) for all logged foods today
+Carbs consumed     = Sum of (food carbs x quantity) for all logged foods today
+Fats consumed      = Sum of (food fats x quantity) for all logged foods today
+
+Remaining          = Target - Consumed (floor at 0 for display)
+Percentage         = (Consumed / Target) x 100 (rounded to nearest integer)
+
+Net calories       = Consumed - Exercise calories burned (if tracked)
+```
+
+**Targets come from:**
+- User's personalized plan (calculated during onboarding)
+- Stored in `window.__strivio_state` under nutrition targets
+- Can be manually adjusted in Settings (Premium feature)
 
 #### 2D. See All Daily Nutrients (Premium)
 

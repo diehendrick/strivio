@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — Sync Data</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=5">
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <div class="screen screen-more-sync active" data-screen="more-sync">
+          <div class="more-content">
+            <div class="status-bar">
+              <span class="status-time">9:41</span>
+              <div class="status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" /><rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" /><rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" /></svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="#0f172a" /><path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="#0f172a" /><circle cx="8" cy="11" r="2" fill="#0f172a" /></svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" /><rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" /><rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" /><rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" /></svg>
+              </div>
+            </div>
+
+            <div class="more-header more-header-back">
+              <button class="more-back-btn" onclick="navigateTo('more')">
+                <img src="../../assets/svg_icons/back.svg" width="24" alt="">
+              </button>
+              <h1 class="more-title">Sync Data</h1>
+            </div>
+
+            <div class="more-scroll-wrapper">
+              <p class="more-section-desc">Manually refresh health data from your connected provider.</p>
+
+              <!-- Sync Status -->
+              <div class="more-sync-status">
+                <div class="more-sync-icon">
+                  <img src="../../assets/svg_icons/health.svg" width="48" alt="">
+                </div>
+                <h3 class="more-sync-title">Apple Health</h3>
+                <p class="more-sync-last">Last synced: <span id="lastSyncTime">2 hours ago</span></p>
+                <div class="more-sync-status-badge more-sync-status-connected">Connected</div>
+              </div>
+
+              <!-- Data Types -->
+              <div class="more-sync-data-types">
+                <h4 class="more-sync-data-title">Synced Data Types</h4>
+                <div class="more-sync-data-list">
+                  <div class="more-sync-data-item">
+                    <img src="../../assets/svg_icons/night.svg" width="20" alt="">
+                    <span>Sleep</span>
+                    <span class="more-sync-data-status">Active</span>
+                  </div>
+                  <div class="more-sync-data-item">
+                    <img src="../../assets/svg_icons/shoe-prints.svg" width="20" alt="">
+                    <span>Steps</span>
+                    <span class="more-sync-data-status">Active</span>
+                  </div>
+                  <div class="more-sync-data-item">
+                    <img src="../../assets/svg_icons/running.svg" width="20" alt="">
+                    <span>Activity</span>
+                    <span class="more-sync-data-status">Active</span>
+                  </div>
+                  <div class="more-sync-data-item">
+                    <img src="../../assets/svg_icons/hearth-rate.svg" width="20" alt="">
+                    <span>Heart Rate</span>
+                    <span class="more-sync-data-status more-sync-data-partial">Partial</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sync Button -->
+              <button class="more-save-btn" id="syncNowBtn">
+                <img src="../../assets/svg_icons/health-1.svg" width="20" alt="">
+                Sync Now
+              </button>
+
+              <!-- Google Fit (Not Connected) -->
+              <div class="more-sync-provider more-sync-provider-inactive">
+                <div class="more-sync-provider-info">
+                  <h4 class="more-sync-provider-name">Google Fit</h4>
+                  <p class="more-sync-provider-desc">Not connected</p>
+                </div>
+                <button class="more-connect-btn">Connect</button>
+              </div>
+
+              <div class="more-bottom-spacer"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=5"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('syncNowBtn').addEventListener('click', function() {
+        const btn = this;
+        btn.classList.add('syncing');
+        btn.innerHTML = '<span class="more-sync-spinner"></span> Syncing...';
+        btn.disabled = true;
+
+        setTimeout(() => {
+          btn.classList.remove('syncing');
+          btn.innerHTML = '<img src="../../assets/svg_icons/health-1.svg" width="20" alt=""> Sync Now';
+          btn.disabled = false;
+          document.getElementById('lastSyncTime').textContent = 'Just now';
+        }, 2000);
+      });
+    });
+  </script>
+</body>
+
+</html>

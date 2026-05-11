@@ -52,7 +52,24 @@ const state = window.__strivio_state = {
   todayWorkoutId: 'w-upper-1',
   todayWorkoutState: 'scheduled',
   favoriteWorkoutIds: [],
-  favoriteExerciseIds: []
+  favoriteExerciseIds: [],
+  // Settings state
+  equipment: '',
+  trainingStyles: [],
+  workoutDuration: '',
+  activityPriority: '',
+  notifications: {
+    workout: true,
+    workoutTime: '08:00',
+    meals: true,
+    breakfast: true,
+    lunch: true,
+    dinner: true,
+    snacks: false,
+    sleep: false,
+    streak: true,
+    planChange: true
+  }
 };
 
 const paceValues = [0.25, 0.5, 1.0, 1.5];
@@ -110,6 +127,7 @@ const screenPaths = {
   'optional-nutrients': BASE_PATH + '/screens/logbook/optional-nutrients.html',
   'nutrients-locked': BASE_PATH + '/screens/logbook/nutrients-locked.html',
   'nutrients-full': BASE_PATH + '/screens/logbook/nutrients-full.html',
+  'micro-overview': BASE_PATH + '/screens/logbook/micro-overview.html',
   // Premium screens (10 additional screens)
   'barcode-paywall': BASE_PATH + '/screens/logbook/barcode-paywall.html',
   'barcode-scanner': BASE_PATH + '/screens/logbook/barcode-scanner.html',
@@ -146,7 +164,21 @@ const screenPaths = {
   'workout-complete': BASE_PATH + '/screens/workout/workout-complete.html',
   'workout-settings': BASE_PATH + '/screens/workout/workout-settings.html',
   'workout-schedule': BASE_PATH + '/screens/workout/workout-schedule.html',
-  'workout-log': BASE_PATH + '/screens/workout/workout-log.html'
+  'workout-log': BASE_PATH + '/screens/workout/workout-log.html',
+  // Settings screens
+  'more': BASE_PATH + '/screens/settings/more.html',
+  'more-profile': BASE_PATH + '/screens/settings/more-profile.html',
+  'more-goals': BASE_PATH + '/screens/settings/more-goals.html',
+  'more-preferences': BASE_PATH + '/screens/settings/more-preferences.html',
+  'more-coach': BASE_PATH + '/screens/settings/more-coach.html',
+  'more-notifications': BASE_PATH + '/screens/settings/more-notifications.html',
+  'more-password': BASE_PATH + '/screens/settings/more-password.html',
+  'more-sync': BASE_PATH + '/screens/settings/more-sync.html',
+  'more-export': BASE_PATH + '/screens/settings/more-export.html',
+  'more-help': BASE_PATH + '/screens/settings/more-help.html',
+  'more-privacy': BASE_PATH + '/screens/settings/more-privacy.html',
+  'more-intake': BASE_PATH + '/screens/onboarding/q1.html',
+  'more-premium': BASE_PATH + '/screens/settings/more-premium.html'
 };
 
 // ===== NAVIGATION =====
@@ -1160,13 +1192,199 @@ window.toggleWorkoutFavorites = function toggleWorkoutFavorites() {
 };
 
 // ===== WORKOUT: LOG TYPE SELECTION =====
+var workoutDistanceTypes = ['Running', 'Walking', 'Cycling', 'Swimming', 'Hiking'];
+
 window.selectLogType = function selectLogType(type, btn) {
   var grid = document.getElementById('wkLogTypeGrid');
   if (!grid) return;
-  grid.querySelectorAll('.wk-log-type-btn').forEach(function(b){ b.classList.remove('selected'); });
+  grid.querySelectorAll('.wk-log-type-btn').forEach(function(b){
+    b.classList.remove('selected');
+    b.removeAttribute('data-selected');
+  });
   btn.classList.add('selected');
   btn.setAttribute('data-selected', 'true');
+  syncWorkoutLogFields(type);
+  setWorkoutLogFeedback('');
 };
+
+function syncWorkoutLogFields(type) {
+  var customField = document.getElementById('wkLogCustomField');
+  var distanceField = document.getElementById('wkLogDistanceField');
+  var distanceUnit = document.getElementById('wkLogDistanceUnit');
+  var distanceInput = document.getElementById('wkLogDistance');
+  var normalized = type || '';
+  var showCustom = normalized === 'Other';
+  var showDistance = workoutDistanceTypes.indexOf(normalized) >= 0;
+  var units = (state.workoutSettings && state.workoutSettings.units) === 'imperial' ? 'mi' : 'km';
+
+  if (customField) customField.style.display = showCustom ? 'block' : 'none';
+  if (distanceField) distanceField.style.display = showDistance ? '' : 'none';
+  if (distanceUnit) distanceUnit.textContent = units;
+  if (distanceInput && !showDistance) distanceInput.value = '';
+}
+
+function setWorkoutLogFeedback(message, isSuccess) {
+  var feedback = document.getElementById('wkLogFeedback');
+  if (!feedback) return;
+  if (!message) {
+    feedback.hidden = true;
+    feedback.textContent = '';
+    feedback.classList.remove('success');
+    return;
+  }
+  feedback.hidden = false;
+  feedback.textContent = message;
+  feedback.classList.toggle('success', !!isSuccess);
+}
+
+function setWorkoutLogNotice(message) {
+  var notice = document.getElementById('wkLogNotice');
+  if (!notice) return;
+  if (!message) {
+    notice.hidden = true;
+    notice.textContent = '';
+    return;
+  }
+  notice.hidden = false;
+  notice.textContent = message;
+}
+
+function resetWorkoutLogForm() {
+  var selectedBtn = document.querySelector('#wkLogTypeGrid .wk-log-type-btn.selected');
+  if (selectedBtn) {
+    selectedBtn.classList.remove('selected');
+    selectedBtn.removeAttribute('data-selected');
+  }
+  if (document.getElementById('wkLogCustomType')) document.getElementById('wkLogCustomType').value = '';
+  if (document.getElementById('wkLogDuration')) document.getElementById('wkLogDuration').value = '';
+  if (document.getElementById('wkLogDistance')) document.getElementById('wkLogDistance').value = '';
+  if (document.getElementById('wkLogCalories')) document.getElementById('wkLogCalories').value = '';
+  if (document.getElementById('wkLogNotes')) document.getElementById('wkLogNotes').value = '';
+  syncWorkoutLogFields('');
+  setWorkoutLogFeedback('');
+}
+
+window.openWorkoutLogForm = function openWorkoutLogForm() {
+  var formCard = document.getElementById('wkLogFormCard');
+  if (!formCard) return;
+  formCard.classList.remove('wk-log-form-card-hidden');
+  setWorkoutLogNotice('');
+  setWorkoutLogFeedback('');
+  if (typeof formCard.scrollIntoView === 'function') {
+    formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+};
+
+window.closeWorkoutLogForm = function closeWorkoutLogForm() {
+  var formCard = document.getElementById('wkLogFormCard');
+  if (!formCard) return;
+  formCard.classList.add('wk-log-form-card-hidden');
+  resetWorkoutLogForm();
+};
+
+function getWorkoutLogEntries() {
+  var manual = (state.activityLog || []).map(function(entry) {
+    var dateValue = entry.date ? new Date(entry.date) : new Date();
+    var displayName = entry.label || entry.customType || entry.type || 'Activity';
+    var badge = entry.type === 'rest' ? 'rest' : 'manual';
+    var badgeLabel = entry.type === 'rest' ? 'Recovery' : 'Manual';
+    var metrics = [];
+    if (entry.duration) metrics.push({ icon: 'solar:clock-circle-bold-duotone', text: entry.duration + ' min' });
+    if (entry.distance) metrics.push({ icon: 'solar:ruler-cross-pen-bold-duotone', text: entry.distance + ' ' + (((state.workoutSettings && state.workoutSettings.units) === 'imperial') ? 'mi' : 'km') });
+    if (entry.calories) metrics.push({ icon: 'solar:fire-bold-duotone', text: entry.calories + ' kcal' });
+
+    return {
+      kind: badge,
+      badgeLabel: badgeLabel,
+      title: displayName,
+      subtitle: entry.type === 'rest' ? 'Recovery day logged manually' : 'Added manually to recent activity',
+      note: entry.notes || '',
+      timestamp: dateValue.getTime(),
+      when: formatWorkoutLogWhen(dateValue),
+      metrics: metrics
+    };
+  });
+
+  var workouts = (state.workoutHistory || []).map(function(entry) {
+    var dateValue = entry.date ? new Date(entry.date) : new Date();
+    var metrics = [];
+    if (entry.totalTime) metrics.push({ icon: 'solar:clock-circle-bold-duotone', text: Math.max(1, Math.round(entry.totalTime / 60)) + ' min' });
+    else if (entry.duration) metrics.push({ icon: 'solar:clock-circle-bold-duotone', text: entry.duration });
+    if (entry.exercises) metrics.push({ icon: 'solar:dumbbell-bold-duotone', text: entry.exercises + ' exercises' });
+    if (entry.setsCompleted) metrics.push({ icon: 'solar:repeat-bold-duotone', text: entry.setsCompleted + ' sets' });
+    if (entry.calories) metrics.push({ icon: 'solar:fire-bold-duotone', text: entry.calories + ' kcal' });
+
+    return {
+      kind: 'workout',
+      badgeLabel: entry.completed === false ? 'In progress' : 'Workout',
+      title: entry.workoutName || entry.workout || 'Workout session',
+      subtitle: entry.completed === false ? 'Partial workout saved from execution flow' : 'Completed from your workout plan',
+      note: '',
+      timestamp: dateValue.getTime(),
+      when: formatWorkoutLogWhen(dateValue),
+      metrics: metrics
+    };
+  });
+
+  return manual.concat(workouts).sort(function(a, b) { return b.timestamp - a.timestamp; });
+}
+
+function formatWorkoutLogWhen(dateValue) {
+  if (!(dateValue instanceof Date) || isNaN(dateValue.getTime())) return 'Recent';
+
+  var now = new Date();
+  var startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  var startOfDate = new Date(dateValue.getFullYear(), dateValue.getMonth(), dateValue.getDate()).getTime();
+  var diffDays = Math.round((startOfToday - startOfDate) / 86400000);
+  var timeLabel = dateValue.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+  if (diffDays === 0) return 'Today - ' + timeLabel;
+  if (diffDays === 1) return 'Yesterday - ' + timeLabel;
+  return dateValue.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' - ' + timeLabel;
+}
+
+function renderWorkoutLogEntries() {
+  var list = document.getElementById('wkLogHistoryList');
+  var count = document.getElementById('wkLogStatCount');
+  var countLabel = document.getElementById('wkLogStatLabel');
+  if (!list) return;
+
+  var entries = getWorkoutLogEntries();
+  var thisWeekCount = entries.filter(function(entry) {
+    return entry.timestamp >= (Date.now() - (7 * 24 * 60 * 60 * 1000));
+  }).length;
+
+  if (count) count.textContent = String(thisWeekCount);
+  if (countLabel) countLabel.textContent = thisWeekCount === 1 ? 'entry this week' : 'entries this week';
+
+  if (!entries.length) {
+    list.innerHTML = '<div class="wk-log-history-empty"><strong>No activity yet</strong><p>Your manual activity, finished workouts, and rest days will start building a single timeline here.</p></div>';
+    return;
+  }
+
+  list.innerHTML = entries.slice(0, 8).map(function(entry) {
+    return '' +
+      '<article class="wk-log-history-item">' +
+        '<div class="wk-log-history-top">' +
+          '<div class="wk-log-history-title-wrap">' +
+            '<h3 class="wk-log-history-title">' + escapeHtml(entry.title) + '</h3>' +
+            '<p class="wk-log-history-subtitle">' + escapeHtml(entry.subtitle) + ' - ' + escapeHtml(entry.when) + '</p>' +
+          '</div>' +
+          '<span class="wk-log-history-badge ' + entry.kind + '">' + escapeHtml(entry.badgeLabel) + '</span>' +
+        '</div>' +
+        (entry.metrics.length ? '<div class="wk-log-history-metrics">' + entry.metrics.map(function(metric) {
+          return '<span class="wk-log-history-metric"><iconify-icon icon="' + metric.icon + '" width="14"></iconify-icon>' + escapeHtml(metric.text) + '</span>';
+        }).join('') + '</div>' : '') +
+        (entry.note ? '<p class="wk-log-history-note">' + escapeHtml(entry.note) + '</p>' : '') +
+      '</article>';
+  }).join('');
+}
+
+function initWorkoutLog() {
+  closeWorkoutLogForm();
+  setWorkoutLogNotice('');
+  renderWorkoutLogEntries();
+}
 
 // ===== WORKOUT: BUILD TOGGLE =====
 window.toggleAddedExercises = function toggleAddedExercises() {
@@ -3007,23 +3225,47 @@ function initWorkoutComplete() {
 window.saveLoggedActivity = function saveLoggedActivity() {
   var selectedBtn = document.querySelector('#wkLogTypeGrid .wk-log-type-btn.selected');
   var type = selectedBtn ? selectedBtn.dataset.type : '';
+  var customType = document.getElementById('wkLogCustomType') ? document.getElementById('wkLogCustomType').value.trim() : '';
   var duration = document.getElementById('wkLogDuration') ? parseInt(document.getElementById('wkLogDuration').value) || 0 : 0;
   var distance = document.getElementById('wkLogDistance') ? parseFloat(document.getElementById('wkLogDistance').value) || 0 : 0;
   var calories = document.getElementById('wkLogCalories') ? parseInt(document.getElementById('wkLogCalories').value) || 0 : 0;
+  var notes = document.getElementById('wkLogNotes') ? document.getElementById('wkLogNotes').value.trim() : '';
+  var label = type === 'Other' ? customType : type;
 
-  if (!type || !duration) return;
+  if (!type) {
+    setWorkoutLogFeedback('Choose an activity type before saving.');
+    return;
+  }
+
+  if (type === 'Other' && !customType) {
+    setWorkoutLogFeedback('Add a name for your activity so it appears clearly in history.');
+    return;
+  }
+
+  if (!duration) {
+    setWorkoutLogFeedback('Add the duration to save this activity.');
+    return;
+  }
 
   var entry = {
     date: new Date().toISOString(),
     type: type,
+    label: label,
+    customType: customType,
     duration: duration,
     distance: distance,
-    calories: calories
+    calories: calories,
+    notes: notes,
+    source: 'manual'
   };
   state.activityLog = state.activityLog || [];
   state.activityLog.unshift(entry);
+  if (state.activityLog.length > 50) state.activityLog = state.activityLog.slice(0, 50);
   try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
-  goBack();
+
+  renderWorkoutLogEntries();
+  closeWorkoutLogForm();
+  setWorkoutLogNotice((label || 'Activity') + ' added to recent activity.');
 };
 
 // ======================================================================
@@ -3123,6 +3365,13 @@ function initCoachMain() {
 
   state.coachMood = state.coachMood || 'Good';
   state.healthConnected = typeof state.healthConnected === 'boolean' ? state.healthConnected : false;
+  state.coachActiveTab = state.coachActiveTab || localStorage.getItem('strivio_coach_tab') || 'recovery';
+  if (state.coachManualSleep && state.coachManualSleep.durationMinutes) {
+    var initialSleepMetric = document.getElementById('coachSleepMetric');
+    var initialSleepHours = Math.floor(state.coachManualSleep.durationMinutes / 60);
+    var initialSleepMins = state.coachManualSleep.durationMinutes % 60;
+    if (initialSleepMetric) initialSleepMetric.textContent = initialSleepHours + 'h ' + String(initialSleepMins).padStart(2, '0') + 'm';
+  }
 
   function renderCoachPremiumState() {
     screen.classList.toggle('premium-unlocked', !!state.isPremium);
@@ -3152,19 +3401,41 @@ function initCoachMain() {
 
   var tabs = screen.querySelectorAll('[data-coach-tab]');
   var panels = screen.querySelectorAll('[data-coach-panel]');
-  tabs.forEach(function(tab) {
-    tab.addEventListener('click', function() {
-      var target = tab.getAttribute('data-coach-tab');
-      tabs.forEach(function(item) {
-        var active = item === tab;
+  function activateCoachTab(target) {
+    tabs.forEach(function(item) {
+      var active = item.getAttribute('data-coach-tab') === target;
         item.classList.toggle('active', active);
         item.setAttribute('aria-selected', active ? 'true' : 'false');
-      });
-      panels.forEach(function(panel) {
-        panel.classList.toggle('active', panel.getAttribute('data-coach-panel') === target);
-      });
+    });
+    panels.forEach(function(panel) {
+      panel.classList.toggle('active', panel.getAttribute('data-coach-panel') === target);
+    });
+    state.coachActiveTab = target;
+    try {
+      localStorage.setItem('strivio_coach_tab', target);
+      localStorage.setItem('strivio_state', JSON.stringify(state));
+    } catch(e) {}
+  }
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      activateCoachTab(tab.getAttribute('data-coach-tab'));
     });
   });
+  activateCoachTab(state.coachActiveTab);
+
+  var touchStartX = 0;
+  screen.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches && e.touches.length ? e.touches[0].clientX : 0;
+  }, { passive: true });
+  screen.addEventListener('touchend', function(e) {
+    if (!touchStartX || !e.changedTouches || !e.changedTouches.length) return;
+    var delta = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(delta) < 60) return;
+    var order = ['recovery', 'nutrition', 'activity'];
+    var index = order.indexOf(state.coachActiveTab || 'recovery');
+    if (delta < 0 && index < order.length - 1) activateCoachTab(order[index + 1]);
+    if (delta > 0 && index > 0) activateCoachTab(order[index - 1]);
+  }, { passive: true });
 
   var moodButtons = screen.querySelectorAll('.coach-mood-row button');
   var savedMood = document.getElementById('coachSavedMood');
@@ -3192,6 +3463,16 @@ function initCoachMain() {
     });
   }
 
+  function renderCoachHealthState() {
+    var empty = document.getElementById('coachHealthEmpty');
+    var connected = document.getElementById('coachHealthConnected');
+    var healthBtn = screen.querySelector('.coach-health-btn span');
+    if (empty) empty.hidden = !!state.healthConnected;
+    if (connected) connected.hidden = !state.healthConnected;
+    if (healthBtn) healthBtn.textContent = state.healthConnected ? 'Synced' : 'Health';
+  }
+  renderCoachHealthState();
+
   screen.querySelectorAll('[data-coach-edge]').forEach(function(el) {
     el.addEventListener('click', function() {
       var edge = el.getAttribute('data-coach-edge');
@@ -3199,8 +3480,15 @@ function initCoachMain() {
         if (state.isPremium) return;
         showCoachToast('Premium unlocks deeper trends, charts, and coaching breakdowns.');
       } else if (edge === 'health') {
-        showCoachToast(state.healthConnected ? 'Health data is connected.' : 'Connect Apple Health or Google Fit to replace demo data.');
+        state.healthConnected = !state.healthConnected;
+        try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+        renderCoachHealthState();
+        showCoachToast(state.healthConnected ? 'Apple Health sample connected.' : 'Health sample disconnected.');
       } else if (edge === 'breakdown') {
+        if (!state.isPremium) {
+          showCoachToast('Unlock Premium to see the recovery score breakdown.');
+          return;
+        }
         var note = document.getElementById('coachBreakdownNote');
         if (note) note.classList.toggle('visible');
       }
@@ -3244,10 +3532,65 @@ function initCoachMain() {
     });
   });
 
-  if (!state.healthConnected) {
-    var empty = document.getElementById('coachHealthEmpty');
-    if (empty) empty.style.display = 'flex';
+  var sleepSheet = document.getElementById('coachSleepSheet');
+  var sleepBackdrop = document.getElementById('coachSleepSheetBackdrop');
+  var faqSheet = document.getElementById('coachFaqSheet');
+  var faqBackdrop = document.getElementById('coachFaqBackdrop');
+  function setCoachSheetState(open) {
+    screen.classList.toggle('sheet-open', !!open);
   }
+  function openCoachSheet(sheet, backdrop) {
+    if (sheet) {
+      sheet.classList.add('open');
+      sheet.setAttribute('aria-hidden', 'false');
+    }
+    if (backdrop) backdrop.classList.add('open');
+    setCoachSheetState(true);
+  }
+  function closeCoachSheet(sheet, backdrop) {
+    if (sheet) {
+      sheet.classList.remove('open');
+      sheet.setAttribute('aria-hidden', 'true');
+    }
+    if (backdrop) backdrop.classList.remove('open');
+    if (!screen.querySelector('.coach-small-sheet.open') && !screen.querySelector('.coach-chat-sheet.open')) {
+      setCoachSheetState(false);
+    }
+  }
+  var sleepManualBtn = document.getElementById('coachSleepManualBtn');
+  if (sleepManualBtn) sleepManualBtn.addEventListener('click', function() {
+    openCoachSheet(sleepSheet, sleepBackdrop);
+  });
+  var sleepFaqBtn = document.getElementById('coachSleepFaqBtn');
+  if (sleepFaqBtn) sleepFaqBtn.addEventListener('click', function() {
+    openCoachSheet(faqSheet, faqBackdrop);
+  });
+  var sleepClose = document.getElementById('coachSleepClose');
+  var faqClose = document.getElementById('coachFaqClose');
+  if (sleepClose) sleepClose.addEventListener('click', function() { closeCoachSheet(sleepSheet, sleepBackdrop); });
+  if (sleepBackdrop) sleepBackdrop.addEventListener('click', function() { closeCoachSheet(sleepSheet, sleepBackdrop); });
+  if (faqClose) faqClose.addEventListener('click', function() { closeCoachSheet(faqSheet, faqBackdrop); });
+  if (faqBackdrop) faqBackdrop.addEventListener('click', function() { closeCoachSheet(faqSheet, faqBackdrop); });
+  var sleepSave = document.getElementById('coachSleepSave');
+  if (sleepSave) sleepSave.addEventListener('click', function() {
+    var bed = document.getElementById('coachBedtime');
+    var wake = document.getElementById('coachWakeTime');
+    if (!bed || !wake || !bed.value || !wake.value) return;
+    var bedParts = bed.value.split(':').map(Number);
+    var wakeParts = wake.value.split(':').map(Number);
+    var bedMins = bedParts[0] * 60 + bedParts[1];
+    var wakeMins = wakeParts[0] * 60 + wakeParts[1];
+    var duration = wakeMins - bedMins;
+    if (duration <= 0) duration += 24 * 60;
+    var hours = Math.floor(duration / 60);
+    var mins = duration % 60;
+    var metric = document.getElementById('coachSleepMetric');
+    if (metric) metric.textContent = hours + 'h ' + String(mins).padStart(2, '0') + 'm';
+    state.coachManualSleep = { bedtime: bed.value, wakeTime: wake.value, durationMinutes: duration };
+    try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+    closeCoachSheet(sleepSheet, sleepBackdrop);
+    showCoachToast('Manual sleep data saved.');
+  });
 
   renderCoachPremiumState();
 }
@@ -3279,6 +3622,8 @@ function openCoachChat(context) {
   if (sheet) {
     sheet.classList.add('open');
     sheet.setAttribute('aria-hidden', 'false');
+    var screen = sheet.closest('.screen');
+    if (screen) screen.classList.add('sheet-open');
   }
   if (backdrop) backdrop.classList.add('open');
   setTimeout(function() {
@@ -3292,6 +3637,8 @@ function closeCoachChat() {
   if (sheet) {
     sheet.classList.remove('open');
     sheet.setAttribute('aria-hidden', 'true');
+    var screen = sheet.closest('.screen');
+    if (screen && !screen.querySelector('.coach-small-sheet.open')) screen.classList.remove('sheet-open');
   }
   if (backdrop) backdrop.classList.remove('open');
 }
@@ -3332,13 +3679,19 @@ function respondAsCoach(question) {
   setTimeout(function() {
     if (typing.parentNode) typing.parentNode.removeChild(typing);
     var q = question.toLowerCase();
+    var goal = Array.isArray(state.goals) && state.goals.length ? state.goals.join(', ') : (state.goal || 'your current goal');
+    var mood = state.coachMood || 'Good';
+    var sleep = state.coachManualSleep && state.coachManualSleep.durationMinutes ?
+      Math.floor(state.coachManualSleep.durationMinutes / 60) + 'h ' + String(state.coachManualSleep.durationMinutes % 60).padStart(2, '0') + 'm' :
+      '7h 42m';
+    var healthCopy = state.healthConnected ? 'Apple Health sample data is synced' : 'health data is not connected yet';
     var answer = 'I am having trouble with that. Try asking about your nutrition, workouts, or recovery.';
     if (q.indexOf('nutrition') >= 0 || q.indexOf('meal') >= 0 || q.indexOf('protein') >= 0) {
-      answer = 'Your protein is pacing well today. Keep dinner lean and add greens or berries to improve micronutrient coverage.';
+      answer = 'For ' + goal + ', today looks close to plan: 1,850 of 2,200 calories and 85g of 120g protein. Keep dinner lean, add vegetables, and aim for about 35g more protein.';
     } else if (q.indexOf('workout') >= 0 || q.indexOf('training') >= 0 || q.indexOf('adjust') >= 0) {
-      answer = 'Today supports normal training volume. If your warm-up feels heavy, reduce the first two working sets by one rep.';
+      answer = 'Your next session is Upper Body Strength. With mood marked ' + mood + ' and recovery trending good, normal volume is fine. If the warm-up feels heavy, reduce the first two working sets by one rep.';
     } else if (q.indexOf('recovery') >= 0 || q.indexOf('sleep') >= 0 || q.indexOf('hrv') >= 0) {
-      answer = 'Recovery is good. Sleep duration is close to target, so the main focus is staying hydrated before your session.';
+      answer = 'Recovery is good. Sleep is ' + sleep + ', mood is ' + mood + ', and ' + healthCopy + '. Hydrate before training and keep the warm-up deliberate.';
     }
     addCoachMessage(answer, 'coach');
   }, 900);
@@ -3421,6 +3774,8 @@ if (typeof document !== 'undefined') {
       initWorkoutSchedule();
     } else if (currentPath.includes('workout-countdown')) {
       initWorkoutCountdown();
+    } else if (currentPath.includes('workout-log')) {
+      initWorkoutLog();
     } else if (currentPath.includes('coach-q6')) {
       initCoachQ6();
     } else if (currentPath.includes('coach-generating')) {

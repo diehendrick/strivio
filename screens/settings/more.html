@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Strivio — More Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=5">
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- More Settings Main Page -->
+        <div class="screen screen-more active" data-screen="more">
+          <div class="more-content">
+            <!-- Status Bar -->
+            <div class="status-bar">
+              <span class="status-time">9:41</span>
+              <div class="status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" />
+                  <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z"
+                    fill="#0f172a" />
+                  <path
+                    d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z"
+                    fill="#0f172a" />
+                  <circle cx="8" cy="11" r="2" fill="#0f172a" />
+                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" />
+                  <rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" />
+                  <rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" />
+                  <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Header -->
+            <div class="more-header">
+              <h1 class="more-title">More</h1>
+            </div>
+
+            <!-- Scrollable Settings -->
+            <div class="more-scroll-wrapper">
+              <!-- Profile Overview Card -->
+              <div class="more-profile-card" onclick="navigateTo('more-profile')">
+                <div class="more-profile-avatar">
+                  <img src="../../assets/img/profile.jpg" alt="Profile">
+                </div>
+                <div class="more-profile-info">
+                  <h2 class="more-profile-name" id="moreProfileName">Mike Michel</h2>
+                  <p class="more-profile-meta">Age 28 • 78.2 kg</p>
+                  <p class="more-profile-goal" id="moreProfileGoal">Lose Weight</p>
+                </div>
+                <div class="more-profile-coach">
+                  <img src="../../assets/img/marcus.jpg" alt="Coach" class="more-coach-avatar">
+                  <span class="more-coach-name">Marcus</span>
+                </div>
+                <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+              </div>
+
+              <!-- Membership Status -->
+              <div class="more-membership-row" id="moreMembershipRow" onclick="navigateTo('more-premium')">
+                <div class="more-row-icon">
+                  <img src="../../assets/svg_icons/crown.svg" class="icon-amber" width="20" alt="">
+                </div>
+                <span class="more-row-label">Membership</span>
+                <span class="more-row-value" id="moreMembershipValue">Free</span>
+                <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+              </div>
+
+              <!-- Profile & Plan Group -->
+              <div class="more-group">
+                <h3 class="more-group-title">Profile & Plan</h3>
+                
+                <div class="more-group-item" onclick="navigateTo('more-goals')">
+                  <div class="more-row-icon">
+                    <img src="../../assets/svg_icons/chart-simple.svg" class="icon-navy" width="20" alt="">
+                  </div>
+                  <span class="more-row-label">Personal Goals</span>
+                  <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+                </div>
+
+                <div class="more-group-item" onclick="navigateTo('more-preferences')">
+                  <div class="more-row-icon">
+                    <img src="../../assets/svg_icons/dumbbell-ray.svg" class="icon-green" width="20" alt="">
+                  </div>
+                  <span class="more-row-label">Gym Style & Preferences</span>
+                  <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+                </div>
+
+                <div class="more-group-item" onclick="navigateTo('more-intake')">
+                  <div class="more-row-icon">
+                    <img src="../../assets/svg_icons/file-edit.svg" class="icon-default" width="20" alt="">
+                  </div>
+                  <span class="more-row-label">Re-run Intake</span>
+                  <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+                </div>
+              </div>
+
+              <!-- Coach Group -->
+              <div class="more-group">
+                <h3 class="more-group-title">Coach</h3>
+                
+                <div class="more-group-item" onclick="navigateTo('more-coach')">
+                  <div class="more-row-icon">
+                    <img src="../../assets/svg_icons/coach.svg" class="icon-coral" width="20" alt="">
+                  </div>
+                  <span class="more-row-label">Change Coach</span>
+                  <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+                </div>
+              </div>
+
+              <!-- Notifications Group -->
+              <div class="more-group">
+                <h3 class="more-group-title">Notifications</h3>
+                
+                <div class="more-group-item" onclick="navigateTo('more-notifications')">
+                  <div class="more-row-icon">
+                    <img src="../../assets/svg_icons/alert.svg" class="icon-red" width="20" alt="">
+                  </div>
+                  <span class="more-row-label">Notification Settings</span>
+                  <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+                </div>
+              </div>
+
+              <!-- Data & Privacy Group -->
+              <div class="more-group">
+                <h3 class="more-group-title">Data & Privacy</h3>
+                
+                <div class="more-group-item" onclick="navigateTo('more-sync')">
+                  <div class="more-row-icon">
+                    <img src="../../assets/svg_icons/health.svg" class="icon-blue" width="20" alt="">
+                  </div>
+                  <span class="more-row-label">Sync Data</span>
+                  <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+                </div>
+
+                <div class="more-group-item more-group-item-premium" onclick="navigateTo('more-export')">
+                  <div class="more-row-icon">
+                    <img src="../../assets/svg_icons/copy.svg" class="icon-navy" width="20" alt="">
+                  </div>
+                  <span class="more-row-label">Export User Data</span>
+                  <span class="more-premium-badge">Premium</span>
+                  <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+                </div>
+
+                <div class="more-group-item" onclick="navigateTo('more-privacy')">
+                  <div class="more-row-icon">
+                    <img src="../../assets/svg_icons/lock.svg" class="icon-default" width="20" alt="">
+                  </div>
+                  <span class="more-row-label">Privacy & Documents</span>
+                  <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+                </div>
+              </div>
+
+              <!-- Account Group -->
+              <div class="more-group">
+                <h3 class="more-group-title">Account</h3>
+                
+                <div class="more-group-item" onclick="navigateTo('more-password')">
+                  <div class="more-row-icon">
+                    <img src="../../assets/svg_icons/lock.svg" class="icon-default" width="20" alt="">
+                  </div>
+                  <span class="more-row-label">Change Password</span>
+                  <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+                </div>
+              </div>
+
+              <!-- Help Group -->
+              <div class="more-group">
+                <h3 class="more-group-title">Help</h3>
+                
+                <div class="more-group-item" onclick="navigateTo('more-help')">
+                  <div class="more-row-icon">
+                    <img src="../../assets/svg_icons/book.svg" class="icon-green" width="20" alt="">
+                  </div>
+                  <span class="more-row-label">Help & Support</span>
+                  <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+                </div>
+              </div>
+
+              <!-- Danger Zone -->
+              <div class="more-group more-group-danger">
+                <div class="more-group-item" onclick="showMoreLogoutDialog()">
+                  <div class="more-row-icon">
+                    <img src="../../assets/svg_icons/back-1.svg" class="icon-red" width="20" alt="">
+                  </div>
+                  <span class="more-row-label more-row-label-danger">Logout</span>
+                  <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+                </div>
+
+                <div class="more-group-item" onclick="showMoreDeleteDialog()">
+                  <div class="more-row-icon">
+                    <img src="../../assets/svg_icons/circle-x.svg" class="icon-red" width="20" alt="">
+                  </div>
+                  <span class="more-row-label more-row-label-danger">Delete Account</span>
+                  <img src="../../assets/svg_icons/foward.svg" class="more-chevron" width="20" alt="">
+                </div>
+              </div>
+
+              <!-- App Version -->
+              <div class="more-version">
+                <span>Strivio v1.0.0</span>
+              </div>
+
+              <!-- Bottom spacing for nav -->
+              <div class="more-bottom-spacer"></div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="bottom-nav app-bottom-nav">
+              <button class="nav-item" data-nav="home" onclick="navigateTo('home')" aria-label="Home">
+                <img src="../../assets/svg_icons/house.svg" alt="">
+              </button>
+              <button class="nav-item" data-nav="logbook" onclick="navigateTo('logbook')" aria-label="Logbook">
+                <img src="../../assets/svg_icons/book-open.svg" alt="">
+              </button>
+              <button class="nav-fab" id="fabButton" aria-label="Add">
+                <img src="../../assets/svg_icons/plus.svg" alt="">
+              </button>
+              <button class="nav-item" data-nav="coach" onclick="navigateTo('coach-main')" aria-label="Coach">
+                <img src="../../assets/svg_icons/coach.svg" alt="">
+              </button>
+              <button class="nav-item active" data-nav="more" aria-label="More">
+                <img src="../../assets/svg_icons/more.svg" alt="">
+                <div class="nav-indicator"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout Confirmation Dialog -->
+  <div class="more-dialog" id="moreLogoutDialog">
+    <div class="more-dialog-backdrop" onclick="hideMoreLogoutDialog()"></div>
+    <div class="more-dialog-content">
+      <h3 class="more-dialog-title">Logout</h3>
+      <p class="more-dialog-text">Are you sure you want to logout? You will be redirected to the login screen.</p>
+      <div class="more-dialog-actions">
+        <button class="more-dialog-btn more-dialog-btn-cancel" onclick="hideMoreLogoutDialog()">Cancel</button>
+        <button class="more-dialog-btn more-dialog-btn-danger" onclick="confirmLogout()">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Account Confirmation Dialog -->
+  <div class="more-dialog" id="moreDeleteDialog">
+    <div class="more-dialog-backdrop" onclick="hideMoreDeleteDialog()"></div>
+    <div class="more-dialog-content">
+      <h3 class="more-dialog-title more-dialog-title-danger">Delete Account</h3>
+      <p class="more-dialog-text">This action is permanent and irreversible. All your data will be deleted from Strivio.</p>
+      <div class="more-dialog-input">
+        <input type="text" id="deleteConfirmInput" placeholder="Type DELETE to confirm">
+      </div>
+      <div class="more-dialog-actions">
+        <button class="more-dialog-btn more-dialog-btn-cancel" onclick="hideMoreDeleteDialog()">Cancel</button>
+        <button class="more-dialog-btn more-dialog-btn-danger" id="deleteConfirmBtn" disabled onclick="confirmDelete()">Delete Account</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../app.js?v=5"></script>
+  <script>
+    // Initialize More Settings page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Update profile info from state
+      const state = window.__strivio_state;
+      if (state.name) {
+        document.getElementById('moreProfileName').textContent = state.name;
+      }
+      if (state.age && state.weight) {
+        document.querySelector('.more-profile-meta').textContent = `Age ${state.age} • ${state.weight} kg`;
+      }
+      if (state.goals && state.goals.length > 0) {
+        document.getElementById('moreProfileGoal').textContent = state.goals[0];
+      }
+      const membershipValue = document.getElementById('moreMembershipValue');
+      const membershipRow = document.getElementById('moreMembershipRow');
+      if (membershipValue && membershipRow && state.isPremium) {
+        membershipValue.textContent = 'Premium';
+        membershipRow.classList.add('more-membership-row-active');
+      }
+
+      // Delete account confirmation input
+      const deleteInput = document.getElementById('deleteConfirmInput');
+      const deleteBtn = document.getElementById('deleteConfirmBtn');
+      if (deleteInput && deleteBtn) {
+        deleteInput.addEventListener('input', function() {
+          deleteBtn.disabled = this.value !== 'DELETE';
+        });
+      }
+    });
+
+    function showMoreLogoutDialog() {
+      document.getElementById('moreLogoutDialog').classList.add('more-dialog-active');
+    }
+
+    function hideMoreLogoutDialog() {
+      document.getElementById('moreLogoutDialog').classList.remove('more-dialog-active');
+    }
+
+    function showMoreDeleteDialog() {
+      document.getElementById('moreDeleteDialog').classList.add('more-dialog-active');
+      document.getElementById('deleteConfirmInput').value = '';
+      document.getElementById('deleteConfirmBtn').disabled = true;
+    }
+
+    function hideMoreDeleteDialog() {
+      document.getElementById('moreDeleteDialog').classList.remove('more-dialog-active');
+    }
+
+    function confirmLogout() {
+      // Clear auth state
+      hideMoreLogoutDialog();
+      navigateTo('login');
+    }
+
+    function confirmDelete() {
+      // Delete account
+      hideMoreDeleteDialog();
+      navigateTo('register');
+    }
+  </script>
+</body>
+
+</html>
