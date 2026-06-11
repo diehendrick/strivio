@@ -62,7 +62,7 @@
               </div>
               <div class="streak-badge">
                 <div class="streak-pill">
-                  <img src="../../assets/svg_icons/flame.svg" class="icon-coral" width="20" height="20" alt="">
+                  <span class="icon icon-coral" style="--icon-url: url('../../assets/svg_icons/flame.svg'); width: 20px; height: 20px;"></span>
                   <span class="streak-number" id="streakNumber">7</span>
                 </div>
                 <span class="streak-label">Day Streak</span>
@@ -127,6 +127,28 @@
                 </div>
               </div>
 
+              <!-- Daily Progress Score Card -->
+              <div class="progress-score-card" data-action="progress-score">
+                <div class="progress-score-left">
+                  <div class="progress-score-gauge">
+                    <svg viewBox="0 0 60 60" class="progress-gauge-svg">
+                      <circle cx="30" cy="30" r="26" class="gauge-track" />
+                      <circle cx="30" cy="30" r="26" class="gauge-progress" id="progressGauge" stroke-dasharray="163.36" stroke-dashoffset="45.74" />
+                    </svg>
+                    <div class="gauge-center">
+                      <span class="gauge-value" id="progressScoreValue">72%</span>
+                    </div>
+                  </div>
+                  <div class="progress-score-text">
+                    <span class="progress-score-title">Daily Progress Score</span>
+                    <span class="progress-score-subtitle">Nutrition, workout, steps &amp; water</span>
+                  </div>
+                </div>
+                <div class="progress-score-chevron">
+                  <img src="../../assets/svg_icons/foward.svg" width="24" height="24" alt="">
+                </div>
+              </div>
+
               <!-- Metric Cards Grid -->
               <div class="metric-grid">
                 <div class="metric-card" data-action="weight">
@@ -142,7 +164,7 @@
                 <div class="metric-card" data-action="water">
                   <div class="metric-header">
                     <span class="metric-title">Water</span>
-                    <img src="../../assets/svg_icons/water.svg" class="icon-blue" width="18" height="18" alt="">
+                    <span class="icon icon-blue" style="--icon-url: url('../../assets/svg_icons/water.svg'); width: 18px; height: 18px;"></span>
                   </div>
                   <div class="metric-body">
                     <span class="metric-value" id="waterValue">1,250</span>
@@ -152,7 +174,7 @@
                 <div class="metric-card" data-action="workout">
                   <div class="metric-header">
                     <span class="metric-title">Workout</span>
-                    <img src="../../assets/svg_icons/gym.svg" class="icon-lime" width="18" height="18" alt="">
+                    <span class="icon icon-lime" style="--icon-url: url('../../assets/svg_icons/gym.svg'); width: 18px; height: 18px;"></span>
                   </div>
                   <div class="metric-body">
                     <span class="metric-value" id="workoutValue">3/6</span>
@@ -162,7 +184,7 @@
                 <div class="metric-card" data-action="steps">
                   <div class="metric-header">
                     <span class="metric-title">Steps</span>
-                    <img src="../../assets/svg_icons/shoe.svg" class="icon-aqua" width="18" height="18" alt="">
+                    <span class="icon icon-aqua" style="--icon-url: url('../../assets/svg_icons/shoe.svg'); width: 18px; height: 18px;"></span>
                   </div>
                   <div class="metric-body">
                     <span class="metric-value" id="stepsValue">6,824</span>
@@ -178,7 +200,7 @@
                 </div>
                 <div class="burn-body">
                   <div class="burn-icon">
-                    <img src="../../assets/svg_icons/flame.svg" class="icon-coral" width="38" height="38" alt="">
+                    <span class="icon icon-coral" style="--icon-url: url('../../assets/svg_icons/flame.svg'); width: 38px; height: 38px;"></span>
                   </div>
                   <div class="burn-info">
                     <div class="burn-main">
@@ -207,19 +229,22 @@
             <div class="bottom-nav app-bottom-nav">
               <button class="nav-item active" data-nav="home" onclick="navigateTo('home')" aria-label="Home">
                 <img src="../../assets/svg_icons/house.svg" alt="">
-                <div class="nav-indicator"></div>
+                <span class="nav-label">Home</span>
               </button>
               <button class="nav-item" data-nav="logbook" onclick="navigateTo('logbook')" aria-label="Logbook">
                 <img src="../../assets/svg_icons/book-open.svg" alt="">
+                <span class="nav-label">Logbook</span>
               </button>
               <button class="nav-fab" id="fabButton" aria-label="Add">
                 <img src="../../assets/svg_icons/plus.svg" alt="">
               </button>
               <button class="nav-item" data-nav="coach" onclick="navigateTo('coach-main')" aria-label="Coach">
                 <img src="../../assets/svg_icons/coach.svg" alt="">
+                <span class="nav-label">Coach</span>
               </button>
-              <button class="nav-item" data-nav="more" aria-label="More">
+              <button class="nav-item" data-nav="more" onclick="navigateTo('more')" aria-label="More">
                 <img src="../../assets/svg_icons/more.svg" alt="">
+                <span class="nav-label">More</span>
               </button>
             </div>
 
@@ -231,7 +256,7 @@
                 <div class="sheet-track-header">
                   <h3 class="sheet-track-title">Track Your Progress</h3>
                   <button class="sheet-track-close" data-close="sheetTrack">
-                    <img src="../../assets/svg_icons/circle-x.svg" class="icon-default" width="24" height="24" alt="">
+                    <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;"></span>
                   </button>
                 </div>
                 <div class="sheet-track-list">
@@ -278,7 +303,7 @@
                 <div class="sheet-header">
                   <h3 class="sheet-title">Weight</h3>
                   <button class="sheet-close" data-close="sheetWeight">
-                    <img src="../../assets/svg_icons/circle-x.svg" class="icon icon-default" width="24" alt="">
+                    <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;"></span>
                   </button>
                 </div>
                 <div class="sheet-body">
@@ -346,10 +371,10 @@
                     <h3 class="sheet-title">Water Intake</h3>
                     <div class="water-header-actions">
                       <button class="water-settings-gear" id="waterSettingsGear">
-                        <img src="../../assets/svg_icons/settings.svg" width="24" alt="">
+                        <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/settings.svg'); width: 24px; height: 24px;"></span>
                       </button>
                       <button class="sheet-close" data-close="sheetWater">
-                        <img src="../../assets/svg_icons/circle-x.svg" class="icon icon-default" width="24" alt="">
+                        <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;"></span>
                       </button>
                     </div>
                   </div>
@@ -379,17 +404,17 @@
                     </div>
                     <div class="water-log-list" id="waterLogList">
                       <div class="water-log-item">
-                        <img src="../../assets/svg_icons/glass-water-droplet.svg" class="icon-blue" width="18" alt="">
+                        <span class="icon icon-blue" style="--icon-url: url('../../assets/svg_icons/glass-water-droplet.svg'); width: 18px; height: 18px;"></span>
                         <span class="water-log-amount">250 ml</span>
                         <span class="water-log-time">8:30 AM</span>
                       </div>
                       <div class="water-log-item">
-                        <img src="../../assets/svg_icons/glass-water-droplet.svg" class="icon-blue" width="18" alt="">
+                        <span class="icon icon-blue" style="--icon-url: url('../../assets/svg_icons/glass-water-droplet.svg'); width: 18px; height: 18px;"></span>
                         <span class="water-log-amount">500 ml</span>
                         <span class="water-log-time">12:15 PM</span>
                       </div>
                       <div class="water-log-item">
-                        <img src="../../assets/svg_icons/glass-water-droplet.svg" class="icon-blue" width="18" alt="">
+                        <span class="icon icon-blue" style="--icon-url: url('../../assets/svg_icons/glass-water-droplet.svg'); width: 18px; height: 18px;"></span>
                         <span class="water-log-amount">500 ml</span>
                         <span class="water-log-time">3:45 PM</span>
                       </div>
@@ -402,11 +427,11 @@
                   <div class="sheet-handle"></div>
                   <div class="sheet-header">
                     <button class="water-back-btn" id="waterSettingsBack">
-                      <img src="../../assets/svg_icons/back.svg" width="24" alt="">
+                      <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/back.svg'); width: 24px; height: 24px;"></span>
                     </button>
                     <h3 class="sheet-title">Settings</h3>
                     <button class="sheet-close" data-close="sheetWater">
-                      <img src="../../assets/svg_icons/circle-x.svg" class="icon icon-default" width="24" alt="">
+                      <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;"></span>
                     </button>
                   </div>
                   <div class="sheet-body">
@@ -447,7 +472,7 @@
                 <div class="sheet-header">
                   <h3 class="sheet-title">Daily Steps</h3>
                   <button class="sheet-close" data-close="sheetSteps">
-                    <img src="../../assets/svg_icons/circle-x.svg" class="icon icon-default" width="24" alt="">
+                    <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;"></span>
                   </button>
                 </div>
                 <div class="sheet-body">
@@ -498,7 +523,7 @@
                     </div>
                   </div>
                   <div class="steps-sync">
-                    <img src="../../assets/svg_icons/hearth-rate.svg" class="icon-default" width="14" alt="">
+                    <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/hearth-rate.svg'); width: 14px; height: 14px;"></span>
                     <span>Synced from Apple Health</span>
                   </div>
                 </div>
@@ -513,7 +538,7 @@
                 <div class="sheet-header">
                   <h3 class="sheet-title">Burned Calories</h3>
                   <button class="sheet-close" data-close="sheetBurn">
-                    <img src="../../assets/svg_icons/circle-x.svg" class="icon icon-default" width="24" alt="">
+                    <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;"></span>
                   </button>
                 </div>
                 <div class="sheet-body">
@@ -552,7 +577,7 @@
                 <div class="sheet-header">
                   <h3 class="sheet-title">Nutrition Overview</h3>
                   <button class="sheet-close" data-close="sheetNutrition">
-                    <img src="../../assets/svg_icons/circle-x.svg" class="icon icon-default" width="24" alt="">
+                    <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;"></span>
                   </button>
                 </div>
                 <div class="sheet-body">
@@ -615,6 +640,127 @@
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Sheet: Health Score -->
+            <div class="bottom-sheet" id="sheetHealthScore">
+              <div class="sheet-backdrop" data-close="sheetHealthScore"></div>
+              <div class="sheet-content hs-sheet-content">
+                <div class="hs-sheet-handle"></div>
+                <div class="hs-sheet-header">
+                  <div class="hs-sheet-title-group">
+                    <h3 class="hs-sheet-title">Today's Health Score</h3>
+                    <p class="hs-sheet-subtitle">Based on today's nutrition, workout, steps and water</p>
+                  </div>
+                  <button class="sheet-close hs-sheet-close" data-close="sheetHealthScore">
+                    <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;"></span>
+                  </button>
+                </div>
+                <div class="hs-score-ring-section">
+                  <div class="hs-score-ring">
+                    <svg viewBox="0 0 124 124" class="hs-ring-svg">
+                      <circle cx="62" cy="62" r="56" class="hs-ring-track" />
+                      <circle cx="62" cy="62" r="56" class="hs-ring-progress" id="hsRingProgress" stroke-dasharray="351.86" stroke-dashoffset="225.19" />
+                    </svg>
+                    <div class="hs-ring-center">
+                      <span class="hs-ring-value" id="hsScoreValue">36</span>
+                      <span class="hs-ring-label">/ 100%</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="hs-metric-rows">
+                  <!-- Nutrition -->
+                  <div class="hs-metric-row">
+                    <div class="hs-metric-icon hs-icon-nutrition">
+                      <span class="icon icon-blue" style="--icon-url: url('../../assets/svg_icons/salad.svg'); width: 18px; height: 18px;"></span>
+                    </div>
+                    <div class="hs-metric-details">
+                      <div class="hs-metric-header-row">
+                        <div class="hs-metric-info">
+                          <span class="hs-metric-label">Nutrition</span>
+                          <div class="hs-metric-values-inline">
+                            <span class="hs-metric-current" id="hsNutritionCurrent">1000</span>
+                            <span class="hs-metric-total" id="hsNutritionTotal">/2,000</span>
+                          </div>
+                        </div>
+                        <span class="hs-metric-pct" id="hsNutritionPct">50%</span>
+                      </div>
+                      <div class="hs-progress-track">
+                        <div class="hs-progress-fill" id="hsNutritionFill" style="width:50%"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Workout -->
+                  <div class="hs-metric-row">
+                    <div class="hs-metric-icon hs-icon-workout">
+                      <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 18px; height: 18px;"></span>
+                    </div>
+                    <div class="hs-metric-details">
+                      <div class="hs-metric-header-row">
+                        <div class="hs-metric-info">
+                          <span class="hs-metric-label">Workout</span>
+                          <div class="hs-metric-values-inline">
+                            <span class="hs-metric-current" id="hsWorkoutCurrent">2</span>
+                            <span class="hs-metric-total" id="hsWorkoutTotal">/ 6 Exercises</span>
+                          </div>
+                        </div>
+                        <span class="hs-metric-pct" id="hsWorkoutPct">20%</span>
+                      </div>
+                      <div class="hs-progress-track">
+                        <div class="hs-progress-fill hs-fill-primary" id="hsWorkoutFill" style="width:20%"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Steps -->
+                  <div class="hs-metric-row">
+                    <div class="hs-metric-icon hs-icon-steps">
+                      <span class="icon icon-green" style="--icon-url: url('../../assets/svg_icons/shoe.svg'); width: 18px; height: 18px;"></span>
+                    </div>
+                    <div class="hs-metric-details">
+                      <div class="hs-metric-header-row">
+                        <div class="hs-metric-info">
+                          <span class="hs-metric-label">Steps</span>
+                          <div class="hs-metric-values-inline">
+                            <span class="hs-metric-current" id="hsStepsCurrent">5000</span>
+                            <span class="hs-metric-total" id="hsStepsTotal">/ 10,000</span>
+                          </div>
+                        </div>
+                        <span class="hs-metric-pct" id="hsStepsPct">50%</span>
+                      </div>
+                      <div class="hs-progress-track">
+                        <div class="hs-progress-fill hs-fill-success" id="hsStepsFill" style="width:50%"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Water -->
+                  <div class="hs-metric-row">
+                    <div class="hs-metric-icon hs-icon-water">
+                      <span class="icon icon-amber" style="--icon-url: url('../../assets/svg_icons/glass-water-droplet.svg'); width: 18px; height: 18px;"></span>
+                    </div>
+                    <div class="hs-metric-details">
+                      <div class="hs-metric-header-row">
+                        <div class="hs-metric-info">
+                          <span class="hs-metric-label">Water</span>
+                          <div class="hs-metric-values-inline">
+                            <span class="hs-metric-current" id="hsWaterCurrent">500</span>
+                            <span class="hs-metric-total" id="hsWaterTotal">/2,000 ml</span>
+                          </div>
+                        </div>
+                        <span class="hs-metric-pct" id="hsWaterPct">25%</span>
+                      </div>
+                      <div class="hs-progress-track hs-track-water">
+                        <div class="hs-progress-fill hs-fill-amber" id="hsWaterFill" style="width:25%"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="hs-feedback-banner">
+                  <div class="hs-feedback-icon">
+                    <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/info.svg'); width: 20px; height: 20px;"></span>
+                  </div>
+                  <p class="hs-feedback-text" id="hsFeedbackText">Off to a steady start! A quick walk or a glass of water will keep your momentum going.</p>
                 </div>
               </div>
             </div>

@@ -1,0 +1,282 @@
+/* ===== STRIVIO DESIGN TOKENS ===== */
+/* Generated from Figma: https://www.figma.com/design/knsZc0EJGx9mugYyINBAzx/Strivio */
+/* Mode: Alt (blue theme), Typography: option 2 (Nunito-dominant) */
+
+/* ── Color Tokens ── */
+/* Collection: Colors | Mode: alt */
+:root {
+  /* Primary */
+  --color-primary: #0056D8;
+  --color-on-primary: #FFFFFF;
+  --color-primary-container: #EFF5FF;
+  --color-on-primary-container: #0056D8;
+
+  /* Secondary */
+  --color-secondary: #F97316;
+  --color-on-secondary: #FFFFFF;
+  --color-secondary-container: #FFEDD5;
+  --color-on-secondary-container: #F97316;
+
+  /* Tertiary */
+  --color-tertiary: #7F7CF0;
+  --color-on-tertiary: #FFFFFF;
+  --color-tertiary-container: #EDEDFF;
+  --color-on-tertiary-container: #A2A0FE;
+
+  /* Chart */
+  --color-chart-protein: #3B82F6;
+  --color-chart-carbs: #F97316;
+  --color-chart-fat: #7F7CF0;
+  --color-chart-calories: #EAB308;
+
+  /* Text */
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #525252;
+  --color-text-tertiary: #64748B;
+  --color-text-muted: #94A3B8;
+  --color-text-body: #464646;
+
+  /* Background & Surface */
+  --color-background: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-surface-variant: #F8F8F8;
+  --color-surface-container: #F8FAFF;
+
+  /* Border & Divider */
+  --color-border: #F4F4F4;
+  --color-divider: #F4F4F4;
+
+  /* Progress */
+  --color-progress-track: #E2E8F0;
+
+  /* Semantic */
+  --color-success: #22C55E;
+  --color-on-success: #D1FAE5;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-on-error: #FEE2E2;
+  --color-info: #3B82F6;
+  --color-default: #64748B;
+
+  /* Custom */
+  --color-toq: #70C7CE;
+  --color-greenish: #B5D170;
+  --color-dark: #0F172A;
+}
+
+/* ── Typography Tokens ── */
+/* Collection: Typography | Mode: option 2 */
+:root {
+  /* Display */
+  --typography-display-large-font-size: 57px;
+  --typography-display-large-line-height: 64px;
+  --typography-display-large-letter-spacing: -0.25px;
+  --typography-display-large-font-family: 'Nunito', sans-serif;
+  --typography-display-large-font-weight: 700;
+  --typography-display-large-font-style: normal;
+
+  --typography-display-medium-font-size: 45px;
+  --typography-display-medium-line-height: 52px;
+  --typography-display-medium-letter-spacing: 0;
+  --typography-display-medium-font-family: 'Nunito', sans-serif;
+  --typography-display-medium-font-weight: 700;
+  --typography-display-medium-font-style: normal;
+
+  --typography-display-small-font-size: 36px;
+  --typography-display-small-line-height: 44px;
+  --typography-display-small-letter-spacing: 0;
+  --typography-display-small-font-family: 'Nunito', sans-serif;
+  --typography-display-small-font-weight: 700;
+  --typography-display-small-font-style: normal;
+
+  /* Headline */
+  --typography-headline-large-font-size: 32px;
+  --typography-headline-large-line-height: 40px;
+  --typography-headline-large-letter-spacing: 0;
+  --typography-headline-large-font-family: 'Nunito', sans-serif;
+  --typography-headline-large-font-weight: 700;
+  --typography-headline-large-font-style: normal;
+
+  --typography-headline-medium-font-size: 28px;
+  --typography-headline-medium-line-height: 36px;
+  --typography-headline-medium-letter-spacing: 0;
+  --typography-headline-medium-font-family: 'Nunito', sans-serif;
+  --typography-headline-medium-font-weight: 600;
+  --typography-headline-medium-font-style: normal;
+
+  --typography-headline-small-font-size: 24px;
+  --typography-headline-small-line-height: 32px;
+  --typography-headline-small-letter-spacing: 0;
+  --typography-headline-small-font-family: 'Nunito', sans-serif;
+  --typography-headline-small-font-weight: 600;
+  --typography-headline-small-font-style: normal;
+
+  /* Title */
+  --typography-title-large-font-size: 20px;
+  --typography-title-large-line-height: 28px;
+  --typography-title-large-letter-spacing: 0;
+  --typography-title-large-font-family: 'Nunito', sans-serif;
+  --typography-title-large-font-weight: 600;
+  --typography-title-large-font-style: normal;
+
+  --typography-title-medium-font-size: 16px;
+  --typography-title-medium-line-height: 24px;
+  --typography-title-medium-letter-spacing: 0.15px;
+  --typography-title-medium-font-family: 'Nunito', sans-serif;
+  --typography-title-medium-font-weight: 600;
+  --typography-title-medium-font-style: normal;
+
+  --typography-title-small-font-size: 14px;
+  --typography-title-small-line-height: 20px;
+  --typography-title-small-letter-spacing: 0.1px;
+  --typography-title-small-font-family: 'Nunito', sans-serif;
+  --typography-title-small-font-weight: 600;
+  --typography-title-small-font-style: normal;
+
+  /* Body */
+  --typography-body-large-font-size: 16px;
+  --typography-body-large-line-height: 24px;
+  --typography-body-large-letter-spacing: 0.2px;
+  --typography-body-large-font-family: 'Inter', sans-serif;
+  --typography-body-large-font-weight: 400;
+  --typography-body-large-font-style: normal;
+
+  --typography-body-medium-font-size: 14px;
+  --typography-body-medium-line-height: 20px;
+  --typography-body-medium-letter-spacing: 0.15px;
+  --typography-body-medium-font-family: 'Nunito', sans-serif;
+  --typography-body-medium-font-weight: 400;
+  --typography-body-medium-font-style: normal;
+
+  --typography-body-small-font-size: 12px;
+  --typography-body-small-line-height: 16px;
+  --typography-body-small-letter-spacing: 0;
+  --typography-body-small-font-family: 'Nunito', sans-serif;
+  --typography-body-small-font-weight: 400;
+  --typography-body-small-font-style: normal;
+
+  /* Label */
+  --typography-label-large-font-size: 14px;
+  --typography-label-large-line-height: 20px;
+  --typography-label-large-letter-spacing: 0.1px;
+  --typography-label-large-font-family: 'Nunito', sans-serif;
+  --typography-label-large-font-weight: 600;
+  --typography-label-large-font-style: normal;
+
+  --typography-label-medium-font-size: 12px;
+  --typography-label-medium-line-height: 16px;
+  --typography-label-medium-letter-spacing: 0.5px;
+  --typography-label-medium-font-family: 'Nunito', sans-serif;
+  --typography-label-medium-font-weight: 600;
+  --typography-label-medium-font-style: normal;
+
+  --typography-label-small-font-size: 11px;
+  --typography-label-small-line-height: 16px;
+  --typography-label-small-letter-spacing: 0.5px;
+  --typography-label-small-font-family: 'Nunito', sans-serif;
+  --typography-label-small-font-weight: 600;
+  --typography-label-small-font-style: normal;
+
+  /* Numerical */
+  --typography-numerical-large-font-size: 32px;
+  --typography-numerical-large-line-height: 40px;
+  --typography-numerical-large-letter-spacing: -0.5px;
+  --typography-numerical-large-font-family: 'Nunito', sans-serif;
+  --typography-numerical-large-font-weight: 700;
+  --typography-numerical-large-font-style: normal;
+
+  --typography-numerical-medium-font-size: 24px;
+  --typography-numerical-medium-line-height: 32px;
+  --typography-numerical-medium-letter-spacing: -0.25px;
+  --typography-numerical-medium-font-family: 'Nunito', sans-serif;
+  --typography-numerical-medium-font-weight: 600;
+  --typography-numerical-medium-font-style: normal;
+
+  --typography-numerical-small-font-size: 18px;
+  --typography-numerical-small-line-height: 24px;
+  --typography-numerical-small-letter-spacing: 0;
+  --typography-numerical-small-font-family: 'Nunito', sans-serif;
+  --typography-numerical-small-font-weight: 600;
+  --typography-numerical-small-font-style: normal;
+
+  /* Arc */
+  --typography-arc-large-font-size: 24px;
+  --typography-arc-large-line-height: 32px;
+  --typography-arc-large-letter-spacing: 1.5px;
+  --typography-arc-large-font-family: 'Nunito', sans-serif;
+  --typography-arc-large-font-weight: 600;
+  --typography-arc-large-font-style: normal;
+
+  --typography-arc-medium-font-size: 18px;
+  --typography-arc-medium-line-height: 24px;
+  --typography-arc-medium-letter-spacing: 1px;
+  --typography-arc-medium-font-family: 'Nunito', sans-serif;
+  --typography-arc-medium-font-weight: 600;
+  --typography-arc-medium-font-style: normal;
+
+  --typography-arc-small-font-size: 12px;
+  --typography-arc-small-line-height: 16px;
+  --typography-arc-small-letter-spacing: 0.75px;
+  --typography-arc-small-font-family: 'Nunito', sans-serif;
+  --typography-arc-small-font-weight: 600;
+  --typography-arc-small-font-style: normal;
+}
+
+/* ── Spacing Tokens ── */
+/* Collection: Spacing | Mode: Default */
+:root {
+  --spacing-s0: 0;
+  --spacing-s2: 2px;
+  --spacing-s4: 4px;
+  --spacing-s6: 6px;
+  --spacing-s8: 8px;
+  --spacing-s10: 10px;
+  --spacing-s12: 12px;
+  --spacing-s14: 14px;
+  --spacing-s16: 16px;
+  --spacing-s20: 20px;
+  --spacing-s24: 24px;
+  --spacing-s28: 28px;
+  --spacing-s32: 32px;
+  --spacing-s36: 36px;
+  --spacing-s40: 40px;
+  --spacing-s48: 48px;
+  --spacing-s56: 56px;
+  --spacing-s64: 64px;
+  --spacing-s80: 80px;
+  --spacing-s96: 96px;
+}
+
+/* ── Radius Tokens ── */
+/* Collection: Radius | Mode: Default */
+:root {
+  --radius-r0: 0;
+  --radius-r2: 2px;
+  --radius-r4: 4px;
+  --radius-r6: 6px;
+  --radius-r8: 8px;
+  --radius-r10: 10px;
+  --radius-r12: 12px;
+  --radius-r16: 16px;
+  --radius-r20: 20px;
+  --radius-r24: 24px;
+  --radius-r28: 28px;
+  --radius-r32: 32px;
+  --radius-rFull: 9999px;
+}
+
+/* ── Border Tokens ── */
+/* Collection: Border | Mode: Default */
+:root {
+  --border-b0: 0;
+  --border-b-thin: 0.5px;
+  --border-b-light: 1px;
+  --border-b-medium: 1.5px;
+  --border-b-regular: 2px;
+  --border-b-thick: 3px;
+  --border-b-heavy: 4px;
+  --border-b-x-heavy: 6px;
+  --border-b-ultra: 8px;
+}
+
+

@@ -10,7 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=6">
+  <link rel="stylesheet" href="../../styles.css?v=16">
 </head>
 
 <body>
@@ -45,7 +45,6 @@
 
             <header class="coach-main-header">
               <div>
-                <p class="coach-main-kicker">Today</p>
                 <h1 class="coach-main-title">Coach</h1>
               </div>
               <div class="coach-header-actions">
@@ -53,13 +52,42 @@
                   Premium
                 </button>
                 <button class="coach-health-btn" type="button" data-coach-edge="health">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0056D8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z" />
-                  </svg>
-                  <span>Health</span>
+                  <img src="../../assets/svg_icons/health-1.svg" alt="">
+                  <span>Synced</span>
                 </button>
               </div>
             </header>
+
+            <div class="coach-day-strip" aria-label="Week overview">
+              <div class="coach-day-pill">
+                <span>S</span>
+                <strong>04</strong>
+              </div>
+              <div class="coach-day-pill">
+                <span>M</span>
+                <strong>05</strong>
+              </div>
+              <div class="coach-day-pill">
+                <span>T</span>
+                <strong>06</strong>
+              </div>
+              <div class="coach-day-pill active">
+                <span>W</span>
+                <strong>07</strong>
+              </div>
+              <div class="coach-day-pill">
+                <span>T</span>
+                <strong>08</strong>
+              </div>
+              <div class="coach-day-pill">
+                <span>F</span>
+                <strong>09</strong>
+              </div>
+              <div class="coach-day-pill">
+                <span>S</span>
+                <strong>10</strong>
+              </div>
+            </div>
 
             <div class="coach-tab-bar" role="tablist" aria-label="Coach sections">
               <button class="coach-tab active" type="button" role="tab" aria-selected="true" data-coach-tab="recovery">Recovery</button>
@@ -68,6 +96,7 @@
             </div>
 
             <section class="coach-panel active" data-coach-panel="recovery">
+              <!-- Recovery Score Card - Locked State -->
               <article class="coach-card coach-score-card">
                 <div class="coach-card-head">
                   <div>
@@ -76,14 +105,17 @@
                   </div>
                   <span class="coach-status-pill good">Good</span>
                 </div>
-                <div class="coach-locked-preview compact coach-recovery-lock" data-coach-edge="paywall" data-premium-lock>
-                  <div>
-                    <strong>Full Recovery Score</strong>
-                    <p>Unlock the sleep, mood, HRV, and activity composite score with Premium.</p>
+                <div class="coach-locked-section" data-coach-edge="paywall" data-premium-lock>
+                  <div class="coach-locked-icon">
+                    <img src="../../assets/svg_icons/lock.svg" alt="">
                   </div>
-                  <span class="coach-premium-badge">Premium</span>
+                  <p>Unlock the sleep, mood, HRV, and activity composite score with Premium.</p>
+                  <button class="coach-secondary-pill" type="button" data-coach-edge="premium">
+                    <img src="../../assets/svg_icons/plus.svg" alt="">
+                    Get Premium
+                  </button>
                 </div>
-                <div class="coach-score-body" data-premium-content>
+                <div class="coach-score-body" data-premium-content hidden>
                   <button class="coach-gauge" type="button" data-coach-edge="breakdown" aria-label="Show recovery score breakdown">
                     <svg viewBox="0 0 148 148">
                       <circle cx="74" cy="74" r="60" class="coach-gauge-track" />
@@ -99,11 +131,12 @@
                     <p>Your sleep duration and recent workload point to a strong session. Keep the warm-up deliberate.</p>
                   </div>
                 </div>
-                <div class="coach-edge-note" id="coachBreakdownNote" data-premium-content>
+                <div class="coach-edge-note" id="coachBreakdownNote" data-premium-content hidden>
                   Sleep 36 pts, mood 18 pts, activity balance 14 pts, HRV preview 10 pts.
                 </div>
               </article>
 
+              <!-- Sleep Card - Locked State -->
               <article class="coach-card">
                 <div class="coach-card-head">
                   <div>
@@ -117,20 +150,17 @@
                   <div class="coach-progress-track"><div style="width: 85%"></div></div>
                   <strong>85%</strong>
                 </div>
-                <div class="coach-locked-preview" data-coach-edge="paywall" data-premium-lock>
-                  <div class="sleep-stage-preview">
-                    <span style="width: 28%; background:#1e3a5f"></span>
-                    <span style="width: 42%; background:#60A5FA"></span>
-                    <span style="width: 22%; background:#A78BFA"></span>
-                    <span style="width: 8%; background:#FB923C"></span>
+                <div class="coach-locked-section" data-coach-edge="paywall" data-premium-lock>
+                  <div class="coach-locked-icon">
+                    <img src="../../assets/svg_icons/lock.svg" alt="">
                   </div>
-                  <div>
-                    <strong>Sleep stages</strong>
-                    <p>Premium unlocks deep, light, REM, awake, and manual sleep entry.</p>
-                  </div>
-                  <span class="coach-premium-badge">Premium</span>
+                  <p>Premium unlocks deep, light, REM, awake, and manual sleep entry.</p>
+                  <button class="coach-secondary-pill" type="button" data-coach-edge="premium">
+                    <img src="../../assets/svg_icons/plus.svg" alt="">
+                    Get Premium
+                  </button>
                 </div>
-                <div class="coach-premium-content coach-sleep-detail" data-premium-content>
+                <div class="coach-premium-content coach-sleep-detail" data-premium-content hidden>
                   <div class="coach-stage-bars">
                     <span style="width: 28%; background:#1e3a5f"></span>
                     <span style="width: 42%; background:#60A5FA"></span>
@@ -145,25 +175,14 @@
                   </div>
                   <p class="coach-stage-note">Darker blue means deeper recovery sleep. Orange marks awake time, which reduces sleep quality when it gets high.</p>
                   <div class="coach-sleep-actions">
-                    <button class="coach-secondary-pill" type="button" id="coachSleepManualBtn">Add Sleep Manually</button>
-                    <button class="coach-secondary-pill ghost" type="button" id="coachSleepFaqBtn">Sleep stages FAQ</button>
+                    <button class="coach-secondary-pill ghost" type="button" id="coachSleepFaqBtn">FAQ Stage</button>
+                    <button class="coach-secondary-pill" type="button" id="coachSleepManualBtn">Add Manually</button>
                   </div>
                 </div>
               </article>
 
-              <article class="coach-card coach-empty-card" id="coachHealthEmpty">
-                <div class="coach-empty-icon">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0056D8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2v20M2 12h20" />
-                  </svg>
-                </div>
-                <div>
-                  <h2>No health data connected</h2>
-                  <p>Connect Apple Health or Google Fit to replace these demo insights with sleep, steps, and HRV data.</p>
-                </div>
-              </article>
-
-              <article class="coach-card coach-health-connected" id="coachHealthConnected" hidden>
+              <!-- Apple Health Card - Always Accessible -->
+              <article class="coach-card coach-health-connected" id="coachHealthConnected">
                 <div class="coach-card-head">
                   <div>
                     <h2>Apple Health Connected</h2>
@@ -179,24 +198,34 @@
                 <p class="coach-card-copy">Last sample sync: Today, 7:12 AM. Tap Health again to switch back to disconnected state.</p>
               </article>
 
+              <!-- Heart Rate Variability Card - Locked State -->
               <article class="coach-card">
                 <div class="coach-card-head">
                   <div>
                     <h2>Heart Rate Variability</h2>
                     <p>Recovery signal from wearables</p>
                   </div>
-                  <span class="coach-premium-badge">Premium</span>
+                  <span class="coach-status-pill coach-unlocked-pill" data-premium-content hidden>Unlocked</span>
                 </div>
-                <div class="coach-blur-line" data-premium-lock></div>
-                <p class="coach-card-copy" data-premium-lock>HRV requires Apple Watch support. Android users will see this card hidden when unavailable.</p>
-                <div class="coach-premium-content coach-hrv-detail" data-premium-content>
+                <div class="coach-locked-section" data-coach-edge="paywall" data-premium-lock>
+                  <div class="coach-locked-icon">
+                    <img src="../../assets/svg_icons/lock.svg" alt="">
+                  </div>
+                  <p>Unlock HRV to see how well your body is recovering</p>
+                  <button class="coach-secondary-pill" type="button" data-coach-edge="premium">
+                    <img src="../../assets/svg_icons/plus.svg" alt="">
+                    Get Premium
+                  </button>
+                </div>
+                <div class="coach-premium-content coach-hrv-detail" data-premium-content hidden>
                   <div><strong>64 ms</strong><span>Morning HRV</span></div>
                   <div><strong>+8%</strong><span>vs 7-day baseline</span></div>
                   <p>Your nervous system is trending recovered. Keep caffeine moderate after lunch to protect tonight's sleep.</p>
                 </div>
               </article>
 
-              <article class="coach-card">
+              <!-- Mood Check-in Card - Always Accessible -->
+              <article class="coach-card coach-mood-card">
                 <div class="coach-card-head">
                   <div>
                     <h2>Mood Check-in</h2>
@@ -205,21 +234,24 @@
                   <button class="coach-change-mood" type="button" id="coachMoodChange">Change</button>
                 </div>
                 <div class="coach-mood-row">
-                  <button type="button" data-mood="Great"><span>Great</span></button>
-                  <button type="button" data-mood="Good" class="selected"><span>Good</span></button>
-                  <button type="button" data-mood="Okay"><span>Okay</span></button>
-                  <button type="button" data-mood="Bad"><span>Bad</span></button>
-                  <button type="button" data-mood="Low"><span>Low</span></button>
+                  <button type="button" data-mood="Great"><span class="icon icon-green" style="--icon-url: url('../../assets/svg_icons/great.svg'); width: 20px; height: 20px;"></span><span>Great</span></button>
+                  <button type="button" data-mood="Good" class="selected"><span class="icon icon-blue" style="--icon-url: url('../../assets/svg_icons/good.svg'); width: 20px; height: 20px;"></span><span>Good</span></button>
+                  <button type="button" data-mood="Okay"><span class="icon icon-amber" style="--icon-url: url('../../assets/svg_icons/okay.svg'); width: 20px; height: 20px;"></span><span>Okay</span></button>
+                  <button type="button" data-mood="Bad"><span class="icon icon-red" style="--icon-url: url('../../assets/svg_icons/bad.svg'); width: 20px; height: 20px;"></span><span>Bad</span></button>
+                  <button type="button" data-mood="Low"><span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/low.svg'); width: 20px; height: 20px;"></span><span>Low</span></button>
                 </div>
                 <p class="coach-saved-mood" id="coachSavedMood">Mood saved: Good</p>
               </article>
 
-              <article class="coach-card coach-chat-entry">
+              <!-- Talk to Coach Card - Always Accessible -->
+              <article class="coach-card coach-chat-entry coach-chat-entry-locked">
                 <div>
                   <h2>Talk to Coach</h2>
                   <p>Ask about recovery, sleep, or today's workout.</p>
                 </div>
-                <button class="coach-primary-btn" type="button" data-open-coach-chat data-chat-context="recovery">Chat with Coach</button>
+                <button class="coach-primary-btn" type="button" data-open-coach-chat data-chat-context="recovery">
+                  Chat with Coach
+                </button>
               </article>
             </section>
 
@@ -233,12 +265,12 @@
                   <span class="coach-status-pill good">On track</span>
                 </div>
                 <div class="coach-nutrition-grid coach-macro-summary">
-                  <div><strong>1,850 / 2,200</strong><span>Calories · 350 remaining</span><i><b style="width:84%"></b></i></div>
-                  <div><strong>85g / 120g</strong><span>Protein · 35g remaining</span><i><b style="width:71%"></b></i></div>
-                  <div><strong>210g / 260g</strong><span>Carbs · 50g remaining</span><i><b style="width:81%"></b></i></div>
-                  <div><strong>58g / 70g</strong><span>Fat · 12g remaining</span><i><b style="width:83%"></b></i></div>
+                  <div><strong>1,850 / 2,200</strong><span>Calories - 350 remaining</span><i><b style="width:84%"></b></i></div>
+                  <div><strong>85g / 120g</strong><span>Protein - 35g remaining</span><i><b style="width:71%"></b></i></div>
+                  <div><strong>210g / 260g</strong><span>Carbs - 50g remaining</span><i><b style="width:81%"></b></i></div>
+                  <div><strong>58g / 70g</strong><span>Fat - 12g remaining</span><i><b style="width:83%"></b></i></div>
                 </div>
-                <p class="coach-card-copy">Protein is pacing well. Dinner should stay lean with a vegetable-heavy side to close the micronutrient gap.</p>
+                <p class="coach-card-copy">Protein intake is on track. Prioritize a lean dinner with ample vegetables.</p>
               </article>
 
               <article class="coach-card">
@@ -247,51 +279,54 @@
                     <h2>7-Day Calories</h2>
                     <p>Premium trend insight</p>
                   </div>
-                  <span class="coach-premium-badge">Premium</span>
+                  <span class="coach-status-pill coach-unlocked-pill" data-premium-content hidden>Unlocked</span>
                 </div>
-                <div class="coach-chart-preview" data-coach-edge="paywall" data-premium-preview>
-                  <span style="height:44%"></span>
-                  <span style="height:58%"></span>
-                  <span style="height:63%"></span>
-                  <span style="height:80%" class="over"></span>
-                  <span style="height:52%"></span>
-                  <span style="height:68%"></span>
-                  <span style="height:74%"></span>
+                <div class="coach-locked-section" data-coach-edge="paywall" data-premium-lock>
+                  <div class="coach-locked-icon">
+                    <img src="../../assets/svg_icons/lock.svg" alt="">
+                  </div>
+                  <p>Unlock weekly patterns, over-target days, and meal timing coaching.</p>
+                  <button class="coach-secondary-pill" type="button" data-coach-edge="premium">Get Premium</button>
+                </div>
+                <div class="coach-nutrition-chart" data-premium-content hidden>
+                  <span style="height:49px"></span>
+                  <span style="height:64px"></span>
+                  <span style="height:70px"></span>
+                  <span class="over" style="height:89px"></span>
+                  <span style="height:58px"></span>
+                  <span style="height:75px"></span>
+                  <span style="height:82px"></span>
                 </div>
                 <p class="coach-card-copy">Unlock weekly patterns, over-target days, and meal timing coaching.</p>
-                <div class="coach-premium-content coach-insight-strip" data-premium-content>
-                  <span>Avg 2,080 kcal</span>
-                  <span>2 over-target days</span>
-                  <span>Protein hit 5/7 days</span>
-                </div>
               </article>
 
-              <article class="coach-card coach-empty-card">
-                <div class="coach-empty-icon amber">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
+              <article class="coach-card coach-empty-card coach-nutrition-empty-card">
+                <div class="coach-empty-icon amber coach-salad-icon">
+                  <span class="icon icon-amber" style="--icon-url: url('../../assets/svg_icons/salad.svg'); width: 18px; height: 18px;"></span>
                 </div>
                 <div>
                   <h2>No meals logged yet</h2>
-                  <p>Start logging meals to see today's nutrition summary, trend insights, and coaching suggestions.</p>
+                  <p>When Log Book is empty, Coach shows a gentle prompt instead of trend charts.</p>
                 </div>
               </article>
 
-              <article class="coach-card coach-action-row">
-                <div>
+              <article class="coach-card coach-logbook-source-card">
+                <div class="coach-logbook-source-head">
+                  <div class="coach-empty-icon coach-logbook-source-icon">
+                    <span class="icon icon-navy" style="--icon-url: url('../../assets/svg_icons/journal-alt.svg'); width: 18px; height: 18px;"></span>
+                  </div>
+                  <div>
                   <h2>Log Book source</h2>
                   <p>Open today's food log for item-level details.</p>
+                  </div>
                 </div>
-                <button type="button" onclick="navigateTo('logbook')">Open</button>
+                <button class="coach-outline-btn" type="button" onclick="navigateTo('logbook')">Open</button>
               </article>
 
-              <article class="coach-card coach-chat-entry">
+              <article class="coach-card coach-chat-entry coach-chat-entry-locked">
                 <div>
                   <h2>Talk to Coach</h2>
-                  <p>Ask for meal ideas or macro adjustments.</p>
+                  <p>Ask about recovery, sleep, or today's workout.</p>
                 </div>
                 <button class="coach-primary-btn" type="button" data-open-coach-chat data-chat-context="nutrition">Chat with Coach</button>
               </article>
@@ -317,7 +352,7 @@
                     <h2>2-Week Schedule</h2>
                     <p>Upcoming training rhythm</p>
                   </div>
-                  <button class="coach-change-mood" type="button" onclick="navigateTo('workout-schedule')">View all</button>
+                  <button class="coach-change-mood" type="button" onclick="navigateTo('workout-schedule')">View All</button>
                 </div>
                 <div class="coach-schedule-strip">
                   <span class="done">M<br><b>04</b></span>
@@ -328,29 +363,18 @@
                   <span>S<br><b>09</b></span>
                   <span>S<br><b>10</b></span>
                 </div>
-                <div class="coach-schedule-list coach-schedule-full">
+                <div class="coach-schedule-list coach-schedule-compact">
                   <button type="button" onclick="navigateTo('workout')"><span class="done">Mon</span><strong>Upper Body</strong><em>Completed</em></button>
                   <button type="button" onclick="navigateTo('workout')"><span class="today">Tue</span><strong>Lower Body</strong><em>Today</em></button>
                   <button type="button"><span>Wed</span><strong>Rest Day</strong><em>Recovery</em></button>
-                  <button type="button" onclick="navigateTo('workout')"><span>Thu</span><strong>Full Body</strong><em>Planned</em></button>
-                  <button type="button" onclick="navigateTo('workout')"><span>Fri</span><strong>Upper Hypertrophy</strong><em>Planned</em></button>
-                  <button type="button"><span>Sat</span><strong>Zone 2 Cardio</strong><em>Optional</em></button>
-                  <button type="button"><span>Sun</span><strong>Rest Day</strong><em>Mobility</em></button>
-                  <button type="button" onclick="navigateTo('workout')"><span>Mon</span><strong>Lower Strength</strong><em>Next week</em></button>
-                  <button type="button" onclick="navigateTo('workout')"><span>Tue</span><strong>Push Strength</strong><em>Next week</em></button>
-                  <button type="button"><span>Wed</span><strong>Recovery Walk</strong><em>Next week</em></button>
-                  <button type="button" onclick="navigateTo('workout')"><span>Thu</span><strong>Pull Strength</strong><em>Next week</em></button>
-                  <button type="button"><span>Fri</span><strong>Rest Day</strong><em>Next week</em></button>
-                  <button type="button" onclick="navigateTo('workout')"><span>Sat</span><strong>Full Body</strong><em>Next week</em></button>
-                  <button type="button"><span>Sun</span><strong>Mobility</strong><em>Next week</em></button>
                 </div>
               </article>
 
-              <article class="coach-card">
+              <article class="coach-card coach-activity-stats-card">
                 <div class="coach-card-head">
                   <div>
                     <h2>Activity Stats</h2>
-                    <p>Steps and weekly burn</p>
+                    <p>Last night from connected health data</p>
                   </div>
                   <span class="coach-metric-value">8,450</span>
                 </div>
@@ -359,22 +383,20 @@
                   <div class="coach-progress-track"><div style="width: 84%"></div></div>
                   <strong>84%</strong>
                 </div>
-                <div class="coach-locked-preview compact" data-coach-edge="paywall" data-premium-lock>
-                  <div>
-                    <strong>7-day burned calories</strong>
-                    <p>Premium shows trend lines and workout highlights.</p>
-                  </div>
-                  <span class="coach-premium-badge">Premium</span>
+                <div class="coach-locked-section" data-premium-lock>
+                  <span class="coach-locked-icon"><img src="../../assets/svg_icons/lock.svg" alt=""></span>
+                  <p>Premium shows trend lines and workout highlights.</p>
+                  <button class="coach-secondary-pill" type="button" onclick="window.togglePremiumCoachState(false)">Get Premium</button>
                 </div>
-                <div class="coach-premium-content" data-premium-content>
+                <div class="coach-premium-content coach-activity-stats-detail" data-premium-content hidden>
                   <div class="coach-burn-chart">
-                    <span style="height:42%"></span>
-                    <span style="height:57%"></span>
-                    <span style="height:38%"></span>
-                    <span style="height:72%"></span>
-                    <span style="height:64%"></span>
-                    <span style="height:49%"></span>
-                    <span style="height:82%"></span>
+                    <span style="height:46px"></span>
+                    <span style="height:62px"></span>
+                    <span style="height:42px"></span>
+                    <span style="height:79px"></span>
+                    <span style="height:70px"></span>
+                    <span style="height:54px"></span>
+                    <span style="height:90px"></span>
                   </div>
                   <div class="coach-insight-strip">
                     <span>Completion 4/5</span>
@@ -386,10 +408,7 @@
 
               <article class="coach-card coach-empty-card">
                 <div class="coach-empty-icon">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0056D8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
-                  </svg>
+                  <span class="icon icon-navy" style="--icon-url: url('../../assets/svg_icons/gym.svg'); width: 18px; height: 18px;"></span>
                 </div>
                 <div>
                   <h2>No completed workouts yet</h2>
@@ -397,25 +416,25 @@
                 </div>
               </article>
 
-              <article class="coach-card">
+              <article class="coach-card coach-past-workouts-card" data-premium-content hidden>
                 <div class="coach-card-head">
                   <div>
                     <h2>Past Workouts</h2>
                     <p>Recent completed sessions</p>
                   </div>
-                  <span class="coach-status-pill">7 days</span>
+                  <button class="coach-change-mood" type="button">7 days</button>
                 </div>
                 <div class="coach-past-list">
-                  <button type="button" onclick="navigateTo('workout-log')"><strong>Upper Body Strength</strong><span>Mon · 44 min · 312 kcal</span></button>
-                  <button type="button" onclick="navigateTo('workout-log')"><strong>Full Body Circuit</strong><span>Sat · 38 min · 286 kcal</span></button>
-                  <button type="button" onclick="navigateTo('workout-log')"><strong>Lower Body Strength</strong><span>Thu · 47 min · 335 kcal</span></button>
+                  <button type="button" onclick="navigateTo('workout-log')"><strong>Upper Body Strength</strong><span>Mon - 44 min - 312 kcal</span></button>
+                  <button type="button" onclick="navigateTo('workout-log')"><strong>Full Body Circuit</strong><span>Sat - 38 min - 286 kcal</span></button>
+                  <button type="button" onclick="navigateTo('workout-log')"><strong>Lower Body Strength</strong><span>Thu - 47 min - 335 kcal</span></button>
                 </div>
               </article>
 
-              <article class="coach-card coach-chat-entry">
+              <article class="coach-card coach-chat-entry coach-chat-entry-locked">
                 <div>
                   <h2>Talk to Coach</h2>
-                  <p>Ask if you should push volume or recover.</p>
+                  <p>Ask about recovery, sleep, or today's workout.</p>
                 </div>
                 <button class="coach-primary-btn" type="button" data-open-coach-chat data-chat-context="activity">Chat with Coach</button>
               </article>
@@ -425,19 +444,22 @@
           <div class="bottom-nav app-bottom-nav">
             <button class="nav-item" data-nav="home" onclick="navigateTo('home')" aria-label="Home">
               <img src="../../assets/svg_icons/house.svg" alt="">
+              <span class="nav-label">Home</span>
             </button>
             <button class="nav-item" data-nav="logbook" onclick="navigateTo('logbook')" aria-label="Logbook">
               <img src="../../assets/svg_icons/book-open.svg" alt="">
+              <span class="nav-label">Logbook</span>
             </button>
             <button class="nav-fab" id="fabButtonCoach" onclick="navigateTo('coach-q1')" aria-label="Add">
               <img src="../../assets/svg_icons/plus.svg" alt="">
             </button>
             <button class="nav-item active" data-nav="coach" onclick="navigateTo('coach-main')" aria-label="Coach">
               <img src="../../assets/svg_icons/coach.svg" alt="">
-              <div class="nav-indicator"></div>
+              <span class="nav-label">Coach</span>
             </button>
-            <button class="nav-item" data-nav="more" aria-label="More">
+            <button class="nav-item" data-nav="more" onclick="navigateTo('more')" aria-label="More">
               <img src="../../assets/svg_icons/more.svg" alt="">
+              <span class="nav-label">More</span>
             </button>
           </div>
 
@@ -488,7 +510,7 @@
                 <h2>Add Sleep Data</h2>
                 <p>Prototype manual entry for nights without health data.</p>
               </div>
-              <button type="button" id="coachSleepClose" aria-label="Close sleep entry">×</button>
+              <button type="button" id="coachSleepClose" aria-label="Close sleep entry">Ã—</button>
             </header>
             <div class="coach-time-grid">
               <label>
@@ -511,7 +533,7 @@
                 <h2>Sleep Stages</h2>
                 <p>Simple recovery guide, not medical advice.</p>
               </div>
-              <button type="button" id="coachFaqClose" aria-label="Close sleep stages FAQ">×</button>
+              <button type="button" id="coachFaqClose" aria-label="Close sleep stages FAQ">Ã—</button>
             </header>
             <div class="coach-faq-list">
               <p class="deep"><b></b><strong>Deep</strong> supports physical repair and recovery.</p>
@@ -526,7 +548,7 @@
     </div>
   </div>
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
-  <script src="../../app.js?v=6"></script>
+  <script src="../../app.js?v=16"></script>
 </body>
 
 </html>

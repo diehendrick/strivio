@@ -66,7 +66,7 @@
             </div>
             <div class="streak-badge">
               <div class="streak-pill">
-                <img src="../../assets/svg_icons/flame.svg" class="icon-coral" width="20" height="20" alt="">
+                <span class="icon icon-coral" style="--icon-url: url('../../assets/svg_icons/flame.svg'); width: 20px; height: 20px;"></span>
                 <span class="streak-number">7</span>
               </div>
               <span class="streak-label">Day Streak</span>
@@ -133,7 +133,7 @@
               <div class="wk-grid-card unlocked" onclick="navigateTo('exercise-library')">
                 <div class="wk-grid-card-header">
                   <div class="wk-grid-card-icon">
-                    <img src="../../assets/svg_icons/book.svg" class="icon-lime" width="28" alt="">
+                    <span class="icon icon-lime" style="--icon-url: url('../../assets/svg_icons/book.svg'); width: 28px; height: 28px;"></span>
                   </div>
                 </div>
                 <div class="wk-grid-card-body">
@@ -148,7 +148,7 @@
               <div class="wk-grid-card unlocked" onclick="navigateTo('custom-workouts')">
                 <div class="wk-grid-card-header">
                   <div class="wk-grid-card-icon">
-                    <img src="../../assets/svg_icons/add.svg" class="icon-orange" width="28" alt="">
+                    <span class="icon icon-orange" style="--icon-url: url('../../assets/svg_icons/add.svg'); width: 28px; height: 28px;"></span>
                   </div>
                 </div>
                 <div class="wk-grid-card-body">
@@ -161,7 +161,7 @@
               <div class="wk-grid-card unlocked" onclick="navigateTo('workout-log')">
                 <div class="wk-grid-card-header">
                   <div class="wk-grid-card-icon">
-                    <img src="../../assets/svg_icons/journal-alt.svg" class="icon-teal" width="28" alt="">
+                    <span class="icon icon-teal" style="--icon-url: url('../../assets/svg_icons/journal-alt.svg'); width: 28px; height: 28px;"></span>
                   </div>
                   <div class="wk-grid-card-lock wk-lock-hidden">
                     <img src="../../assets/svg_icons/lock.svg" class="icon" width="16" alt="">
@@ -180,19 +180,22 @@
           <div class="bottom-nav app-bottom-nav">
             <button class="nav-item" data-nav="home" onclick="navigateTo('home')" aria-label="Home">
               <img src="../../assets/svg_icons/house.svg" alt="">
+              <span class="nav-label">Home</span>
             </button>
             <button class="nav-item" data-nav="logbook" onclick="navigateTo('logbook')" aria-label="Logbook">
               <img src="../../assets/svg_icons/book-open.svg" alt="">
+              <span class="nav-label">Logbook</span>
             </button>
             <button class="nav-fab" id="fabButtonWorkout" onclick="navigateTo('coach-q1')" aria-label="Add">
               <img src="../../assets/svg_icons/plus.svg" alt="">
             </button>
             <button class="nav-item active" data-nav="coach" onclick="navigateTo('coach-main')" aria-label="Coach">
               <img src="../../assets/svg_icons/coach.svg" alt="">
-              <div class="nav-indicator"></div>
+              <span class="nav-label">Coach</span>
             </button>
-            <button class="nav-item" data-nav="more" aria-label="More">
+            <button class="nav-item" data-nav="more" onclick="navigateTo('more')" aria-label="More">
               <img src="../../assets/svg_icons/more.svg" alt="">
+              <span class="nav-label">More</span>
             </button>
           </div>
 

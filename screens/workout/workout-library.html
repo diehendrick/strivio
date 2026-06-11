@@ -55,239 +55,56 @@
             </button>
           </div>
 
-          <div class="wk-filters" id="wkLibraryFilters">
-            <button class="wk-chip active" data-filter="all">All</button>
-            <button class="wk-chip" data-filter="chest">Chest</button>
-            <button class="wk-chip" data-filter="back">Back</button>
-            <button class="wk-chip" data-filter="legs">Legs</button>
-            <button class="wk-chip" data-filter="shoulders">Shoulders</button>
-            <button class="wk-chip" data-filter="arms">Arms</button>
-            <button class="wk-chip" data-filter="core">Core</button>
+          <div class="wk-filter-grid" id="wkLibraryFilters">
+            <button class="wk-filter-trigger" type="button" data-filter-sheet="muscle" aria-haspopup="dialog" aria-expanded="false">
+              <span class="wk-filter-trigger-label">Muscle Group</span>
+              <span class="wk-filter-trigger-value" id="wkFilterValue-muscle">All</span>
+            </button>
+            <button class="wk-filter-trigger" type="button" data-filter-sheet="goal" aria-haspopup="dialog" aria-expanded="false">
+              <span class="wk-filter-trigger-label">Goal</span>
+              <span class="wk-filter-trigger-value" id="wkFilterValue-goal">All</span>
+            </button>
+            <button class="wk-filter-trigger" type="button" data-filter-sheet="duration" aria-haspopup="dialog" aria-expanded="false">
+              <span class="wk-filter-trigger-label">Duration</span>
+              <span class="wk-filter-trigger-value" id="wkFilterValue-duration">All</span>
+            </button>
+            <button class="wk-filter-trigger" type="button" data-filter-sheet="level" aria-haspopup="dialog" aria-expanded="false">
+              <span class="wk-filter-trigger-label">Level</span>
+              <span class="wk-filter-trigger-value" id="wkFilterValue-level">All</span>
+            </button>
+            <button class="wk-filter-trigger" type="button" data-filter-sheet="location" aria-haspopup="dialog" aria-expanded="false">
+              <span class="wk-filter-trigger-label">Location</span>
+              <span class="wk-filter-trigger-value" id="wkFilterValue-location">All</span>
+            </button>
+          </div>
+
+          <div class="wk-library-summary">
+            <p class="wk-library-result-count" id="wkLibraryResultsCount">0 workouts</p>
+            <button class="wk-library-reset" type="button" id="wkLibraryResetFilters" onclick="resetWorkoutLibraryFilters()" hidden>Reset filters</button>
           </div>
 
           <div class="wk-list wk-library-list" id="wkLibraryList">
           </div>
+
+          <div class="wk-filter-sheet-backdrop" id="wkFilterSheetBackdrop" hidden></div>
+          <section class="wk-filter-sheet" id="wkFilterSheet" aria-hidden="true">
+            <div class="wk-filter-sheet-handle" aria-hidden="true"></div>
+            <div class="wk-filter-sheet-header">
+              <div>
+                <p class="wk-filter-sheet-kicker">Workout Filter</p>
+                <h2 class="wk-filter-sheet-title" id="wkFilterSheetTitle">Select Filter</h2>
+              </div>
+              <button class="wk-filter-sheet-close" type="button" onclick="closeWorkoutLibrarySheet()" aria-label="Close filter sheet">
+                <img src="../../assets/svg_icons/cross-x.svg" class="icon" width="16" height="16" alt="">
+              </button>
+            </div>
+            <div class="wk-filter-sheet-options" id="wkFilterSheetOptions"></div>
+          </section>
         </div>
 
       </div>
     </div>
   </div>
   <script src="../../app.js?v=7"></script>
-  <script>
-    (function () {
-      var fallbackWorkouts = [
-        {
-          id: 'w1',
-          name: 'Upper Body Strength',
-          desc: 'Build overall upper body strength with compound movements.',
-          muscle: 'chest',
-          muscles: ['Chest', 'Back', 'Shoulders'],
-          duration: 45,
-          difficulty: 'Intermediate',
-          image: '../../assets/img/woman-upper-body.png'
-        },
-        {
-          id: 'w2',
-          name: 'Lower Body Power',
-          desc: 'Increase leg strength with explosive and strength exercises.',
-          muscle: 'legs',
-          muscles: ['Quadriceps', 'Glutes'],
-          duration: 50,
-          difficulty: 'Advanced',
-          image: '../../assets/img/david.jpg'
-        },
-        {
-          id: 'w4',
-          name: 'Core Stability',
-          desc: 'Enhance core muscles for better balance and posture.',
-          muscle: 'core',
-          muscles: ['Abs', 'Lower Back'],
-          duration: 30,
-          difficulty: 'Beginner',
-          image: '../../assets/img/sara.jpg'
-        },
-        {
-          id: 'w5',
-          name: 'Flexibility & Mobility',
-          desc: 'Improve joint range of motion with dynamic stretches.',
-          muscle: 'shoulders',
-          muscles: ['Shoulders', 'Hips', 'Spine'],
-          duration: 40,
-          difficulty: 'All Levels',
-          image: '../../assets/img/lena.jpg'
-        },
-        {
-          id: 'w8',
-          name: 'Cardio Endurance',
-          desc: 'Boost cardiovascular health with interval training.',
-          muscle: 'legs',
-          muscles: ['Heart', 'Lungs', 'Legs'],
-          duration: 35,
-          difficulty: 'Intermediate',
-          image: '../../assets/img/marcus.jpg'
-        }
-      ];
-
-      function escapeText(value) {
-        return String(value || '').replace(/[&<>"']/g, function (match) {
-          return {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;'
-          }[match];
-        });
-      }
-
-      function getFallbackState() {
-        var activeChip = document.querySelector('#wkLibraryFilters .wk-chip.active');
-        var input = document.getElementById('wkLibrarySearch');
-        return {
-          filter: activeChip ? activeChip.dataset.filter : 'all',
-          search: input ? input.value.trim().toLowerCase() : ''
-        };
-      }
-
-      function openFallbackWorkout(id) {
-        if (typeof window.openWorkoutDetail === 'function') {
-          window.openWorkoutDetail(id);
-          return;
-        }
-
-        var workout = fallbackWorkouts.find(function (item) { return item.id === id; });
-        if (workout) {
-          try {
-            var rawState = localStorage.getItem('strivio_state');
-            var savedState = rawState ? JSON.parse(rawState) : {};
-            savedState.currentWorkout = workout;
-            localStorage.setItem('strivio_state', JSON.stringify(savedState));
-          } catch (error) {
-            // Navigation still works if storage is unavailable.
-          }
-        }
-        window.location.href = 'workout-detail.html';
-      }
-
-      function renderFallbackLibrary() {
-        var list = document.getElementById('wkLibraryList');
-        var clearBtn = document.getElementById('wkLibrarySearchClear');
-        if (!list) return;
-
-        var current = getFallbackState();
-        var results = fallbackWorkouts.filter(function (workout) {
-          var matchesFilter = current.filter === 'all' || workout.muscle === current.filter || (workout.muscles || []).some(function (muscle) {
-            return muscle.toLowerCase().includes(current.filter);
-          });
-          var haystack = [workout.name, workout.desc, workout.muscle].concat(workout.muscles || []).join(' ').toLowerCase();
-          var matchesSearch = !current.search || haystack.includes(current.search);
-          return matchesFilter && matchesSearch;
-        });
-
-        if (clearBtn) {
-          clearBtn.style.display = current.search ? 'flex' : 'none';
-        }
-
-        if (!results.length) {
-          list.innerHTML = '<div class="wk-lib-empty">' +
-            '<div class="wk-lib-empty-icon"><img src="../../assets/svg_icons/search.svg" width="38" height="38" alt=""></div>' +
-            '<h3>No workouts found for "' + escapeText(current.search || current.filter) + '"</h3>' +
-            '<p>Try searching another muscle group or clear the filter to browse the full library.</p>' +
-            '<button class="wk-empty-clear" type="button">Clear search</button>' +
-            '</div>';
-          var emptyButton = list.querySelector('.wk-empty-clear');
-          if (emptyButton) {
-            emptyButton.addEventListener('click', function () {
-              var input = document.getElementById('wkLibrarySearch');
-              if (input) input.value = '';
-              document.querySelectorAll('#wkLibraryFilters .wk-chip').forEach(function (chip) {
-                chip.classList.toggle('active', chip.dataset.filter === 'all');
-              });
-              renderFallbackLibrary();
-            });
-          }
-          return;
-        }
-
-        list.innerHTML = results.map(function (workout) {
-          var tags = (workout.muscles || []).slice(0, 2).map(function (tag) {
-            return '<span>' + escapeText(tag) + '</span>';
-          }).join('');
-          return '<button class="wk-lib-card" type="button" data-workout-id="' + escapeText(workout.id) + '">' +
-            '<div class="wk-lib-thumb"><img src="' + escapeText(workout.image) + '" alt="' + escapeText(workout.name) + '"></div>' +
-            '<div class="wk-lib-content">' +
-              '<h3>' + escapeText(workout.name) + '</h3>' +
-              '<p>' + escapeText(workout.desc) + '</p>' +
-              '<div class="wk-lib-meta">' +
-                '<span>' + escapeText(workout.duration) + ' min</span>' +
-                '<span>' + escapeText(workout.difficulty) + '</span>' +
-              '</div>' +
-              '<div class="wk-lib-tags">' + tags + '</div>' +
-            '</div>' +
-          '</button>';
-        }).join('');
-
-        list.querySelectorAll('.wk-lib-card').forEach(function (card) {
-          card.addEventListener('click', function () {
-            openFallbackWorkout(card.dataset.workoutId);
-          });
-        });
-      }
-
-      function wireFallbackLibrary() {
-        var search = document.getElementById('wkLibrarySearch');
-        var clear = document.getElementById('wkLibrarySearchClear');
-        var filters = document.getElementById('wkLibraryFilters');
-
-        if (search && !search.dataset.fallbackReady) {
-          search.dataset.fallbackReady = 'true';
-          search.addEventListener('input', renderFallbackLibrary);
-        }
-
-        if (clear && !clear.dataset.fallbackReady) {
-          clear.dataset.fallbackReady = 'true';
-          clear.addEventListener('click', function () {
-            if (search) {
-              search.value = '';
-              search.focus();
-            }
-            renderFallbackLibrary();
-          });
-        }
-
-        if (filters && !filters.dataset.fallbackReady) {
-          filters.dataset.fallbackReady = 'true';
-          filters.addEventListener('click', function (event) {
-            var chip = event.target.closest('.wk-chip');
-            if (!chip) return;
-            filters.querySelectorAll('.wk-chip').forEach(function (item) {
-              item.classList.toggle('active', item === chip);
-            });
-            renderFallbackLibrary();
-          });
-        }
-      }
-
-      window.addEventListener('load', function () {
-        setTimeout(function () {
-          var list = document.getElementById('wkLibraryList');
-          if (!list) return;
-
-          if (!list.children.length && typeof window.initWorkoutLibrary === 'function') {
-            try {
-              window.initWorkoutLibrary();
-            } catch (error) {
-              list.innerHTML = '';
-            }
-          }
-
-          if (!list.children.length) {
-            wireFallbackLibrary();
-            renderFallbackLibrary();
-          }
-        }, 80);
-      });
-    })();
-  </script>
 </body>
 </html>

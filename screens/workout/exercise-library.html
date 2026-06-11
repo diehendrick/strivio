@@ -7,9 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
-  <link rel="stylesheet" href="../../styles.css?v=3">
-  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <link rel="stylesheet" href="../../styles.css?v=12">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 <body>
@@ -19,33 +17,77 @@
       <div class="screens-wrapper" id="screensWrapper">
 
         <!-- ===== WORKOUT TAB: Exercise Library ===== -->
-        <div class="screen screen-exercise-library active" data-screen="exercise-library">
+        <div class="screen screen-exercise-library screen-exercise-library-figma active" data-screen="exercise-library">
+          <div class="status-bar">
+            <span class="status-time">9:41</span>
+            <div class="status-icons">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" />
+                <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" />
+                <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
+              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="#0f172a" />
+                <path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="#0f172a" />
+                <circle cx="8" cy="11" r="2" fill="#0f172a" />
+              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" />
+                <rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" />
+                <rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" />
+                <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" />
+              </svg>
+            </div>
+          </div>
           <div class="wk-nav-header">
-            <button class="wk-back-btn" onclick="goBack()"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
-            <span class="wk-nav-title">Exercise Library</span>
+            <button class="wk-back-btn" onclick="goBack()" aria-label="Back"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
+            <span class="wk-nav-title">Exercise</span>
           </div>
-          <div class="wk-search-wrap">
-            <iconify-icon icon="solar:magnifer-bold-duotone" width="18" class="wk-search-icon"></iconify-icon>
+          <div class="wk-search-wrap wk-ex-library-search-wrap">
+            <img src="../../assets/svg_icons/search.svg" class="wk-search-icon-img" width="20" height="20" alt="">
             <input type="text" class="wk-search-input" placeholder="Search exercises..." id="wkExLibSearch">
-            <button class="wk-search-clear" id="wkExLibSearchClear" onclick="clearExerciseSearch()" style="display:none"><img src="../../assets/svg_icons/circle-x.svg" class="icon" width="16" alt=""></button>
+            <button class="wk-search-clear" id="wkExLibSearchClear" onclick="clearExerciseSearch()" style="display:none" aria-label="Clear search"><img src="../../assets/svg_icons/cross-x.svg" class="icon" width="16" alt=""></button>
           </div>
-          <div class="wk-filters" id="wkExLibFilters">
-            <button class="wk-chip active" data-filter="all">All</button>
-            <button class="wk-chip" data-filter="chest">Chest</button>
-            <button class="wk-chip" data-filter="back">Back</button>
-            <button class="wk-chip" data-filter="legs">Legs</button>
-            <button class="wk-chip" data-filter="shoulders">Shoulders</button>
-            <button class="wk-chip" data-filter="arms">Arms</button>
-            <button class="wk-chip" data-filter="core">Core</button>
+          <div class="wk-filter-grid wk-ex-filter-grid" id="wkExLibFilters">
+            <button class="wk-filter-trigger" type="button" data-ex-filter-sheet="muscle" aria-haspopup="dialog" aria-expanded="false">
+              <span class="wk-filter-trigger-label">Muscle Area</span>
+              <span class="wk-filter-trigger-value" id="wkExFilterValue-muscle">All</span>
+            </button>
+            <button class="wk-filter-trigger" type="button" data-ex-filter-sheet="level" aria-haspopup="dialog" aria-expanded="false">
+              <span class="wk-filter-trigger-label">Level</span>
+              <span class="wk-filter-trigger-value" id="wkExFilterValue-level">All</span>
+            </button>
+            <button class="wk-filter-trigger" type="button" data-ex-filter-sheet="location" aria-haspopup="dialog" aria-expanded="false">
+              <span class="wk-filter-trigger-label">Location</span>
+              <span class="wk-filter-trigger-value" id="wkExFilterValue-location">All</span>
+            </button>
+          </div>
+          <div class="wk-library-summary wk-ex-library-summary">
+            <p class="wk-library-result-count" id="wkExLibraryResultsCount">0 exercises</p>
+            <button class="wk-library-reset" type="button" id="wkExLibraryResetFilters" onclick="resetExerciseLibraryFilters()" hidden>Reset filters</button>
           </div>
           <div class="wk-list" id="wkExLibList">
             <!-- Dynamically rendered -->
           </div>
+          <div class="wk-filter-sheet-backdrop" id="wkExFilterSheetBackdrop" hidden></div>
+          <section class="wk-filter-sheet wk-ex-filter-sheet" id="wkExFilterSheet" aria-hidden="true">
+            <div class="wk-filter-sheet-handle" aria-hidden="true"></div>
+            <div class="wk-filter-sheet-header">
+              <div>
+                <p class="wk-filter-sheet-kicker">Exercise Filter</p>
+                <h2 class="wk-filter-sheet-title" id="wkExFilterSheetTitle">Select Filter</h2>
+              </div>
+              <button class="wk-filter-sheet-close" type="button" onclick="closeExerciseLibrarySheet()" aria-label="Close filter sheet">
+                <img src="../../assets/svg_icons/cross-x.svg" class="icon" width="16" height="16" alt="">
+              </button>
+            </div>
+            <div class="wk-filter-sheet-options" id="wkExFilterSheetOptions"></div>
+          </section>
         </div>
 
       </div>
     </div>
   </div>
-  <script src="../../app.js?v=3"></script>
+  <script src="../../app.js?v=12"></script>
 </body>
 </html>
