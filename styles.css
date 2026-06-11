@@ -7712,8 +7712,11 @@ body::before {
 .screen-workout-detail-figma .wk-detail-body {
   flex: 1;
   overflow-y: auto;
-  padding: 0 24px 124px;
+  padding: 16px 24px 124px;
   scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .screen-workout-detail-figma .wk-detail-body::-webkit-scrollbar {
@@ -7727,6 +7730,7 @@ body::before {
   overflow: hidden;
   position: relative;
   padding: 16px;
+  flex-shrink: 0;
 }
 
 .screen-workout-detail-figma .wk-detail-hero-bg {
@@ -7747,21 +7751,21 @@ body::before {
   z-index: 1;
   font-family: 'Nunito', var(--font-body);
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 16px;
-  color: #64748b;
+  color: var(--color-text-tertiary, #64748b);
 }
 
 .screen-workout-detail-figma .wk-detail-hero-card h2 {
   position: relative;
   z-index: 1;
-  margin: 12px 0 10px;
+  margin: 0 0 4px 0;
   width: calc(100% - 132px);
   font-family: 'Nunito', var(--font-display);
   font-size: 20px;
   font-weight: 800;
   line-height: 28px;
-  color: #0f172a;
+  color: var(--color-text-primary, #0f172a);
 }
 
 .screen-workout-detail-figma .wk-detail-hero-meta {
@@ -7798,19 +7802,21 @@ body::before {
 }
 
 .screen-workout-detail-figma .wk-detail-exercises-title {
-  margin: 18px 0 12px;
+  margin: 0;
   font-family: 'Nunito', var(--font-display);
-  font-size: 20px;
-  line-height: 28px;
+  font-size: 16px;
+  line-height: 24px;
   font-weight: 800;
   color: #1a1d26;
+  letter-spacing: 0.15px;
 }
 
 .screen-workout-detail-figma .wk-detail-exercises-card {
   border-radius: 24px;
   background: #fff;
-  box-shadow: 0 0 38px rgba(0, 0, 0, 0.06);
-  padding: 10px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 24px 16px;
+  flex-shrink: 0;
 }
 
 .screen-workout-detail-figma .wk-detail-ex-row {
@@ -7820,8 +7826,6 @@ body::before {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 14px 0;
-  border-bottom: 1px solid #f4f4f4;
   text-align: left;
 }
 
@@ -21341,6 +21345,489 @@ body::before {
 
 .custom-workouts-fab img {}
 
+/* Workout generator */
+.screen-workout-generator {
+  --wg-duration-progress: 50%;
+  background: color-mix(in srgb, var(--color-surface-variant) 70%, var(--color-background) 30%);
+  color: var(--color-text-primary);
+  overflow: hidden;
+}
+
+.screen-workout-generator .status-bar {
+  color: var(--color-text-primary);
+}
+
+.wg-generator-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-s12);
+  width: 344px;
+  margin: 22px auto 18px;
+}
+
+.wg-generator-back {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.wg-generator-header h1 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--typography-headline-small-font-family);
+  font-size: var(--typography-headline-small-font-size);
+  font-style: var(--typography-headline-small-font-style);
+  font-weight: var(--typography-headline-small-font-weight);
+  letter-spacing: var(--typography-headline-small-letter-spacing);
+  line-height: var(--typography-headline-small-line-height);
+}
+
+.wg-generator-scroll {
+  width: 344px;
+  height: calc(100% - 132px);
+  margin: 0 auto;
+  padding: 0 0 156px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.wg-generator-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.wg-generator-hero {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  min-height: 214px;
+  margin-bottom: var(--spacing-s24);
+  padding: var(--spacing-s10) var(--spacing-s12) var(--spacing-s14);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-r20, 20px);
+  background: var(--color-surface);
+  box-shadow: 0 0 38px color-mix(in srgb, var(--color-text-primary) 6%, transparent);
+  overflow: hidden;
+}
+
+.wg-generator-hero-art {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 150px;
+  overflow: hidden;
+}
+
+.wg-generator-hero-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--color-text-primary) 18%, transparent) 0%, transparent 52%),
+    linear-gradient(180deg, color-mix(in srgb, var(--color-background) 12%, transparent) 0%, transparent 38%);
+  pointer-events: none;
+}
+
+.wg-generator-hero-shape {
+  position: absolute;
+  left: -48px;
+  top: -4px;
+  width: 228px;
+  height: 214px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface) 90%);
+}
+
+.wg-generator-hero-art img {
+  position: absolute;
+  left: -18px;
+  bottom: 0;
+  width: 194px;
+  height: 206px;
+  object-fit: contain;
+  object-position: left bottom;
+  border-radius: 0;
+}
+
+.wg-generator-hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--spacing-s12);
+  margin-left: 136px;
+}
+
+.wg-generator-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-s4);
+  align-self: flex-start;
+  min-height: 28px;
+  padding: var(--spacing-s6) var(--spacing-s10);
+  border-radius: 9999px;
+  background: var(--color-primary-container);
+  color: var(--color-primary);
+  font-family: var(--typography-label-medium-font-family);
+  font-size: var(--typography-label-medium-font-size);
+  font-style: var(--typography-label-medium-font-style);
+  font-weight: var(--typography-label-medium-font-weight);
+  letter-spacing: var(--typography-label-medium-letter-spacing);
+  line-height: var(--typography-label-medium-line-height);
+}
+
+.wg-generator-hero-title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--typography-label-large-font-family);
+  font-size: var(--typography-label-large-font-size);
+  font-style: var(--typography-label-large-font-style);
+  font-weight: var(--typography-label-large-font-weight);
+  letter-spacing: var(--typography-label-large-letter-spacing);
+  line-height: var(--typography-label-large-line-height);
+}
+
+.wg-generator-hero-copy {
+  margin: -4px 0 0;
+  color: var(--color-text-tertiary);
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-style: var(--typography-body-small-font-style);
+  font-weight: var(--typography-body-small-font-weight);
+  letter-spacing: var(--typography-body-small-letter-spacing);
+  line-height: var(--typography-body-small-line-height);
+}
+
+.wg-generator-hero-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-s8) var(--spacing-s4);
+}
+
+.wg-generator-hero-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-s6);
+  min-width: 0;
+  color: var(--color-text-tertiary);
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-style: var(--typography-body-small-font-style);
+  font-weight: var(--typography-body-small-font-weight);
+  letter-spacing: var(--typography-body-small-letter-spacing);
+  line-height: var(--typography-body-small-line-height);
+  white-space: nowrap;
+}
+
+.wg-generator-section,
+.wg-generator-toggle-row,
+.wg-generator-recommendation {
+  margin-bottom: var(--spacing-s24);
+}
+
+.wg-generator-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-s12);
+  margin-bottom: var(--spacing-s12);
+}
+
+.wg-generator-section-head h2,
+.wg-generator-toggle-row h2 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--typography-title-medium-font-family);
+  font-size: var(--typography-title-medium-font-size);
+  font-style: var(--typography-title-medium-font-style);
+  font-weight: var(--typography-title-medium-font-weight);
+  letter-spacing: var(--typography-title-medium-letter-spacing);
+  line-height: var(--typography-title-medium-line-height);
+}
+
+.wg-generator-duration-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: var(--spacing-s8) var(--spacing-s12);
+  border-radius: var(--radius-r8);
+  background: var(--color-primary-container);
+  color: var(--color-primary);
+  font-family: var(--typography-label-medium-font-family);
+  font-size: var(--typography-label-medium-font-size);
+  font-style: var(--typography-label-medium-font-style);
+  font-weight: var(--typography-label-medium-font-weight);
+  letter-spacing: var(--typography-label-medium-letter-spacing);
+  line-height: var(--typography-label-medium-line-height);
+}
+
+.wg-generator-slider-wrap {
+  padding: var(--spacing-s16) 4px 0;
+}
+
+.wg-generator-slider {
+  width: 100%;
+  height: 4px;
+  margin: 0;
+  border-radius: 9999px;
+  outline: 0;
+  appearance: none;
+  background: linear-gradient(to right, var(--color-primary) 0, var(--color-primary) var(--wg-duration-progress), var(--color-progress-track) var(--wg-duration-progress), var(--color-progress-track) 100%);
+}
+
+.wg-generator-slider::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border: 2px solid var(--color-on-primary);
+  border-radius: 50%;
+  appearance: none;
+  background: var(--color-primary);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-primary) 32%, transparent);
+  cursor: pointer;
+}
+
+.wg-generator-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: transparent;
+}
+
+.wg-generator-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--color-on-primary);
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-primary) 32%, transparent);
+  cursor: pointer;
+}
+
+.wg-generator-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-s12) 2px 0;
+  color: var(--color-text-tertiary);
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-style: var(--typography-body-small-font-style);
+  font-weight: var(--typography-body-small-font-weight);
+  letter-spacing: var(--typography-body-small-letter-spacing);
+  line-height: var(--typography-body-small-line-height);
+  text-align: center;
+}
+
+.wg-generator-target-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-s8);
+}
+
+.wg-target-chip,
+.wg-choice-chip,
+.wg-generator-toggle-option {
+  border: 1px solid transparent;
+  outline: 0;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease, box-shadow 140ms ease;
+  cursor: pointer;
+}
+
+.wg-target-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--spacing-s4);
+  min-width: 0;
+  min-height: 32px;
+  padding: var(--spacing-s6) var(--spacing-s10);
+  border-radius: 9999px;
+  background: var(--color-surface-variant);
+  color: var(--color-text-tertiary);
+}
+
+.wg-target-chip .wg-target-chip-icon {
+  width: 20px;
+  height: 20px;
+  background-color: var(--wg-chip-icon-color);
+}
+
+.wg-target-chip span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-style: var(--typography-body-small-font-style);
+  font-weight: var(--typography-body-small-font-weight);
+  letter-spacing: var(--typography-body-small-letter-spacing);
+  line-height: var(--typography-body-small-line-height);
+}
+
+.wg-target-chip.is-selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-container);
+  color: var(--color-primary);
+}
+
+.wg-generator-recommendation {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-s12);
+  padding: var(--spacing-s16);
+  border-radius: var(--radius-r16);
+  background: var(--color-primary-container);
+}
+
+.wg-generator-recommendation[hidden] {
+  display: none;
+}
+
+.wg-generator-recommendation h3 {
+  margin: 0 0 var(--spacing-s4);
+  color: var(--color-text-primary);
+  font-family: var(--typography-label-large-font-family);
+  font-size: var(--typography-label-large-font-size);
+  font-style: var(--typography-label-large-font-style);
+  font-weight: var(--typography-label-large-font-weight);
+  letter-spacing: var(--typography-label-large-letter-spacing);
+  line-height: var(--typography-label-large-line-height);
+}
+
+.wg-generator-recommendation p {
+  margin: 0;
+  color: var(--color-primary);
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-style: var(--typography-body-small-font-style);
+  font-weight: var(--typography-body-small-font-weight);
+  letter-spacing: var(--typography-body-small-letter-spacing);
+  line-height: var(--typography-body-small-line-height);
+}
+
+.wg-generator-choice-row {
+  display: flex;
+  gap: var(--spacing-s10);
+}
+
+.wg-choice-chip {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-s4);
+  min-height: 30px;
+  min-width: 0;
+  padding: var(--spacing-s6) var(--spacing-s10);
+  border-radius: 9999px;
+  background: var(--color-surface-variant);
+  color: var(--color-text-tertiary);
+}
+
+.wg-choice-chip .icon {
+  background-color: currentColor;
+}
+
+.wg-choice-chip span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--typography-body-medium-font-family);
+  font-size: var(--typography-body-medium-font-size);
+  font-style: var(--typography-body-medium-font-style);
+  font-weight: var(--typography-body-medium-font-weight);
+  letter-spacing: var(--typography-body-medium-letter-spacing);
+  line-height: var(--typography-body-medium-line-height);
+}
+
+.wg-choice-chip.is-selected {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--color-primary) 28%, transparent);
+}
+
+.wg-generator-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-s12);
+}
+
+.wg-generator-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-s4);
+  padding: 4px;
+  border-radius: var(--radius-r10);
+  background: color-mix(in srgb, var(--color-surface-variant) 80%, var(--color-background) 20%);
+}
+
+.wg-generator-toggle-option {
+  min-width: 41px;
+  min-height: 27px;
+  padding: 0 var(--spacing-s12);
+  border-radius: var(--radius-r8);
+  background: transparent;
+  color: var(--color-text-tertiary);
+  font-family: var(--typography-label-medium-font-family);
+  font-size: var(--typography-label-medium-font-size);
+  font-style: var(--typography-label-medium-font-style);
+  font-weight: var(--typography-label-medium-font-weight);
+  letter-spacing: var(--typography-label-medium-letter-spacing);
+  line-height: var(--typography-label-medium-line-height);
+}
+
+.wg-generator-toggle-option.is-selected {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.wg-generator-actions {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  z-index: 4;
+  width: 344px;
+  transform: translateX(-50%);
+}
+
+.wg-generate-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-s8);
+  width: 100%;
+  height: 56px;
+  padding: 0 var(--spacing-s20);
+  border: 0;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--typography-title-medium-font-family);
+  font-size: var(--typography-title-medium-font-size);
+  font-style: var(--typography-title-medium-font-style);
+  font-weight: var(--typography-title-medium-font-weight);
+  letter-spacing: var(--typography-title-medium-letter-spacing);
+  line-height: var(--typography-title-medium-line-height);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--color-primary) 28%, transparent);
+  cursor: pointer;
+}
+
+.wg-generate-btn .icon {
+  background-color: currentColor;
+}
+
+.wg-generate-btn:disabled {
+  background: color-mix(in srgb, var(--color-primary-container) 78%, var(--color-text-muted) 22%);
+  color: var(--color-text-muted);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
 /* Final coach review action sizing guard */
 .screen-coach-review .cr-actions .cr-btn-save,
 .screen-coach-review .cr-actions .cr-btn-discard {
@@ -25025,4 +25512,627 @@ body::before {
   color: #6b7280;
   font-size: 13px;
   font-weight: 800;
+}
+
+/* ── Workout Detail Redesign & Customization ── */
+
+.screen-workout-detail-figma {
+  background: var(--color-background);
+}
+
+.screen-workout-detail-figma .wk-target-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-s8, 8px);
+}
+
+.screen-workout-detail-figma .wk-muscle-badge {
+  background: var(--color-tertiary-container, #EDEDFF);
+  color: var(--color-tertiary, #7F7CF0);
+  border-radius: var(--radius-rFull, 9999px);
+  padding: 6px 12px 6px 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Nunito', var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+}
+
+.screen-workout-detail-figma .wk-muscle-badge img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.screen-workout-detail-figma .wk-expect-cards {
+  display: flex;
+  gap: var(--spacing-s8, 8px);
+  width: 100%;
+}
+
+.screen-workout-detail-figma .wk-expect-card {
+  flex: 1;
+  background: var(--color-surface, #fff);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0px 0px 38px 0px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.screen-workout-detail-figma .wk-expect-card img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-expect-card p {
+  font-family: 'Nunito', var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--color-text-primary, #0f172a);
+  margin: 0;
+}
+
+/* Customize Mode toggling */
+.screen-workout-detail-figma .wk-ex-drag-handle,
+.screen-workout-detail-figma .wk-ex-delete-btn,
+.screen-workout-detail-figma .wk-customize-add-btn,
+.screen-workout-detail-figma .wk-customize-infobox,
+.screen-workout-detail-figma .wk-detail-actions-customize {
+  display: none !important;
+}
+
+.screen-workout-detail-figma.is-customizing .wk-ex-drag-handle,
+.screen-workout-detail-figma.is-customizing .wk-ex-delete-btn,
+.screen-workout-detail-figma.is-customizing .wk-customize-add-btn,
+.screen-workout-detail-figma.is-customizing .wk-customize-infobox,
+.screen-workout-detail-figma.is-customizing .wk-detail-actions-customize {
+  display: flex !important;
+}
+
+.screen-workout-detail-figma.is-customizing .wk-detail-ex-arrow,
+.screen-workout-detail-figma.is-customizing .wk-detail-actions-normal {
+  display: none !important;
+}
+
+/* Customize elements detail styling */
+.screen-workout-detail-figma .wk-ex-drag-handle {
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-ex-drag-handle img {
+  width: 16px;
+  height: 16px;
+}
+
+.screen-workout-detail-figma .wk-ex-delete-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.screen-workout-detail-figma .wk-ex-delete-btn img {
+  width: 24px;
+  height: 24px;
+}
+
+.screen-workout-detail-figma .wk-customize-add-btn {
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-primary, #0056D8);
+  border-radius: 9999px;
+  height: 56px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--color-primary, #0056D8);
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  margin: var(--spacing-s12, 12px) 0;
+}
+
+.screen-workout-detail-figma .wk-customize-add-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+.screen-workout-detail-figma .wk-customize-infobox {
+  background: var(--color-primary-container, #EFF5FF);
+  border-radius: var(--radius-r16, 16px);
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.screen-workout-detail-figma .wk-customize-infobox img {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-customize-infobox p {
+  font-family: 'Inter', var(--font-body);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color-primary, #0056D8);
+  margin: 0;
+}
+
+/* Dragging visual classes */
+.screen-workout-detail-figma .wk-detail-ex-row.is-dragging {
+  opacity: 0.4;
+  background: #f1f5f9;
+  border-style: dashed;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row.drag-over {
+  border-top: 2px solid var(--color-primary, #0056D8);
+}
+
+/* Bottom Sheets UI */
+.screen-workout-detail-figma .wk-bottom-sheet-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.4);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.screen-workout-detail-figma .wk-bottom-sheet-backdrop.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.screen-workout-detail-figma .wk-bottom-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  z-index: 1001;
+  transform: translateY(100%);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  max-height: 90%;
+}
+
+.screen-workout-detail-figma .wk-bottom-sheet.is-open {
+  transform: translateY(0);
+}
+
+.screen-workout-detail-figma .wk-sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  margin: 8px auto 0;
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px 12px;
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-sheet-title {
+  font-family: 'Nunito', var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.screen-workout-detail-figma .wk-sheet-close {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid #cbd5e1;
+  color: #64748b;
+  padding: 0;
+}
+
+.screen-workout-detail-figma .wk-sheet-close img {
+  width: 14px;
+  height: 14px;
+}
+
+.screen-workout-detail-figma .wk-sheet-search-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--color-surface-variant, #F8F8F8);
+  border-radius: 9999px;
+  padding: 0 16px;
+  margin: 0 24px 12px;
+  height: 48px;
+  border: 1.5px solid transparent;
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-sheet-search-wrap:focus-within {
+  border-color: var(--color-primary, #0056D8);
+  background: #fff;
+}
+
+.screen-workout-detail-figma .wk-sheet-search-icon-img {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.screen-workout-detail-figma .wk-sheet-search-input {
+  border: none;
+  background: transparent;
+  flex: 1;
+  outline: none;
+  font-size: 14px;
+  color: var(--color-text-primary, #0f172a);
+  margin-left: 8px;
+  font-family: 'Nunito', var(--font-body);
+}
+
+.screen-workout-detail-figma .wk-sheet-search-clear {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.screen-workout-detail-figma .wk-sheet-search-clear img {
+  width: 14px;
+  height: 14px;
+  opacity: 0.5;
+}
+
+.screen-workout-detail-figma .wk-sheet-filter-row {
+  display: flex;
+  gap: 8px;
+  padding: 0 24px 16px;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.screen-workout-detail-figma .wk-sheet-filter-row::-webkit-scrollbar {
+  display: none;
+}
+
+.screen-workout-detail-figma .wk-sheet-adv-filter-btn {
+  border: 1px solid #cbd5e1;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #fff;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-sheet-adv-filter-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+.screen-workout-detail-figma .wk-sheet-filter-chip {
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  height: 36px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  background: #fff;
+  color: #525252;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-sheet-filter-chip.is-active {
+  border-color: var(--color-primary, #0056D8);
+  background: var(--color-primary-container, #EFF5FF);
+  color: var(--color-primary, #0056D8);
+}
+
+.screen-workout-detail-figma .wk-sheet-filter-chip img.chevron {
+  width: 14px;
+  height: 14px;
+}
+
+.screen-workout-detail-figma .wk-sheet-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 24px 24px;
+}
+
+.screen-workout-detail-figma .wk-sheet-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border, #f4f4f4);
+}
+
+.screen-workout-detail-figma .wk-sheet-item:last-child {
+  border-bottom: none;
+}
+
+.screen-workout-detail-figma .wk-sheet-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.screen-workout-detail-figma .wk-sheet-item-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-primary-container, #EFF5FF);
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-sheet-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.screen-workout-detail-figma .wk-sheet-item-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.screen-workout-detail-figma .wk-sheet-item-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  font-family: 'Nunito', var(--font-display);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.screen-workout-detail-figma .wk-sheet-item-details {
+  font-size: 12px;
+  color: #64748b;
+  font-family: 'Nunito', var(--font-body);
+}
+
+.screen-workout-detail-figma .wk-sheet-item-toggle {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+}
+
+.screen-workout-detail-figma .wk-sheet-item-toggle img {
+  width: 24px;
+  height: 24px;
+}
+
+.screen-workout-detail-figma .wk-sheet-footer {
+  padding: 12px 24px;
+  border-top: 1px solid var(--color-border, #f4f4f4);
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-sheet-action-btn {
+  width: 100%;
+  height: 56px;
+  border-radius: 9999px;
+  border: none;
+  background: var(--color-primary, #0056D8);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.screen-workout-detail-figma .wk-sheet-action-btn:disabled {
+  background: #EFF5FF;
+  color: #94A3B8;
+  cursor: not-allowed;
+}
+
+/* Stepper styles inside Edit sheet */
+.screen-workout-detail-figma .wk-edit-stepper-container {
+  padding: 8px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.screen-workout-detail-figma .wk-edit-badge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.screen-workout-detail-figma .wk-edit-badge-row h3 {
+  font-family: 'Nunito', var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a1d26;
+  margin: 0;
+}
+
+.screen-workout-detail-figma .wk-edit-badge {
+  background: var(--color-primary-container, #EFF5FF);
+  color: var(--color-primary, #0056D8);
+  border-radius: 9999px;
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Nunito', var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.screen-workout-detail-figma .wk-edit-badge img {
+  width: 16px;
+  height: 16px;
+}
+
+.screen-workout-detail-figma .wk-edit-stepper-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.screen-workout-detail-figma .wk-edit-stepper-title {
+  font-family: 'Nunito', var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.screen-workout-detail-figma .wk-edit-stepper-ctrl {
+  display: flex;
+  align-items: center;
+  background: #f8f8f8;
+  border-radius: 9999px;
+  height: 48px;
+  padding: 4px;
+  width: 140px;
+  justify-content: space-between;
+}
+
+.screen-workout-detail-figma .wk-edit-stepper-btn {
+  border: none;
+  background: transparent;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-primary, #0056D8);
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0;
+}
+
+.screen-workout-detail-figma .wk-edit-stepper-btn img {
+  width: 24px;
+  height: 24px;
+}
+
+.screen-workout-detail-figma .wk-edit-stepper-val {
+  font-family: 'Nunito', var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: center;
+  flex: 1;
+}
+
+/* Inline dropdown menu inside Add Exercise sheet */
+.screen-workout-detail-figma .wk-dropdown-menu {
+  position: absolute;
+  top: 42px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  border: 1px solid #cbd5e1;
+  z-index: 1005;
+  min-width: 160px;
+  display: none;
+  overflow: hidden;
+}
+
+.screen-workout-detail-figma .wk-dropdown-menu.is-active {
+  display: block;
+}
+
+.screen-workout-detail-figma .wk-dropdown-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #525252;
+  text-align: left;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.screen-workout-detail-figma .wk-dropdown-item.is-selected {
+  color: var(--color-primary, #0056D8);
+  font-weight: 800;
+  background: var(--color-primary-container, #EFF5FF);
 }

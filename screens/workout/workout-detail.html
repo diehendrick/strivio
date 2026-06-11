@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Strivio — Your Personalized Plan</title>
+  <title>Strivio — Workout Details</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=7">
+  <link rel="stylesheet" href="../../styles.css?v=15">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 <body>
@@ -17,8 +17,10 @@
       <div class="screens-wrapper" id="screensWrapper">
 
         <!-- ===== WORKOUT TAB: Workout Detail ===== -->
-        <div class="screen screen-workout-detail screen-workout-detail-figma active" data-screen="workout-detail" style="padding:0!important;overflow:hidden;display:flex;flex-direction:column">
-          <div class="status-bar">
+        <div class="screen screen-workout-detail screen-workout-detail-figma active" data-screen="workout-detail" style="padding:0!important;overflow:hidden;display:flex;flex-direction:column;position:relative;height:100%;">
+          
+          <!-- Status Bar -->
+          <div class="status-bar" style="flex-shrink:0;">
             <span class="status-time">9:41</span>
             <div class="status-icons">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -40,56 +42,240 @@
             </div>
           </div>
 
-          <div class="wk-nav-header">
-            <button class="wk-back-btn" onclick="goBack()" aria-label="Back"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
-            <span class="wk-nav-title">Workout Details</span>
+          <!-- Nav Header -->
+          <div class="wk-nav-header" style="justify-content: space-between; padding: 0 24px; flex-shrink:0;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <button class="wk-back-btn" onclick="handleBackClick()" aria-label="Back">
+                <img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt="">
+              </button>
+              <span class="wk-nav-title" style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 24px; color: #1a1d26; line-height: 32px;">Workout Details</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <button id="wkDetailConflictBtn" class="wk-action-icon" style="background:none; border:none; padding:0; cursor:pointer;" onclick="showConflictAlert()" hidden>
+                <img src="../../assets/svg_icons/alert.svg" width="24" height="24" alt="Conflict alert" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">
+              </button>
+              <button id="wkDetailFavBtn" class="wk-action-icon" style="background:none; border:none; padding:0; cursor:pointer;" onclick="toggleFavoriteDetail()">
+                <img id="wkDetailFavIcon" src="../../assets/svg_icons/health.svg" width="24" height="24" alt="Favorite">
+              </button>
+            </div>
           </div>
 
-          <div class="wk-detail-body" id="wkDetailBody">
-            <!-- Dynamically rendered -->
+          <!-- Detail Body Content -->
+          <div class="wk-detail-body" id="wkDetailBody" style="padding-bottom: 96px;">
+            <!-- Dynamically populated -->
           </div>
 
-          <div class="wk-detail-actions" id="wkDetailActions">
-            <button class="wk-start-btn" id="wkDetailStart" onclick="navigateTo('workout-countdown')">
-              <img src="../../assets/svg_icons/play.svg" class="icon" width="18" alt=""> Start
+          <!-- Bottom Action Bars -->
+          <!-- Normal Mode Actions -->
+          <div class="wk-detail-actions wk-detail-actions-normal" id="wkDetailActionsNormal" style="position: absolute; bottom: 0; left: 0; right: 0; background: #fff; padding: 12px 24px; display: flex; gap: 16px; align-items: center; box-shadow: 0 -8px 24px rgba(0,0,0,0.05); z-index: 10;">
+            <button class="wk-start-btn" id="wkDetailStart" onclick="startWorkout()" style="flex: 1; height: 56px; border-radius: 9999px; background: var(--color-primary, #0056D8); color: #fff; border: none; font-size: 16px; font-weight: 800; font-family: 'Nunito', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; padding: 0;">
+              <img src="../../assets/svg_icons/play.svg" class="icon" width="18" alt="" style="filter: brightness(0) invert(1);"> Start
             </button>
-            <button class="wk-action-icon wk-action-icon-edit" id="wkDetailEdit" onclick="navigateTo('workout-edit')" aria-label="Edit">
-              <img src="../../assets/svg_icons/file-edit.svg" class="icon" width="24" height="24" alt="">
+            <button class="wk-action-icon-settings" id="wkDetailSettings" onclick="openWorkoutSettings()" aria-label="Settings" style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-primary-container, #EFF5FF); display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; flex-shrink: 0; padding: 0;">
+              <img src="../../assets/svg_icons/settings.svg" class="icon" width="24" height="24" alt="">
             </button>
           </div>
+
+          <!-- Customize Mode Actions -->
+          <div class="wk-detail-actions-customize" id="wkDetailActionsCustomize" style="position: absolute; bottom: 0; left: 0; right: 0; background: #fff; padding: 12px 24px; display: none; gap: 16px; align-items: center; box-shadow: 0 -8px 24px rgba(0,0,0,0.05); z-index: 10;">
+            <button class="wk-sheet-action-btn" id="wkDetailSave" onclick="saveCustomizedWorkout()" style="flex: 1;">
+              <img src="../../assets/svg_icons/play.svg" class="icon" width="18" alt="" style="filter: brightness(0) invert(1);"> Save Changes
+            </button>
+            <button class="wk-action-icon-cancel" id="wkDetailCancelCustomize" onclick="exitCustomizeMode(false)" aria-label="Cancel" style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-primary-container, #EFF5FF); display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; flex-shrink: 0; padding: 0;">
+              <img src="../../assets/svg_icons/cross-x.svg" class="icon" width="20" height="20" alt="">
+            </button>
+          </div>
+
+          <!-- ===== ADD EXERCISE BOTTOM SHEET ===== -->
+          <div class="wk-bottom-sheet-backdrop" id="addSheetBackdrop" onclick="closeAddExerciseSheet()"></div>
+          <div class="wk-bottom-sheet" id="addExerciseSheet">
+            <div class="wk-sheet-handle"></div>
+            <div class="wk-sheet-header">
+              <h2 class="wk-sheet-title">Add Exercise</h2>
+              <button class="wk-sheet-close" onclick="closeAddExerciseSheet()">
+                <img src="../../assets/svg_icons/cross-x.svg" alt="Close">
+              </button>
+            </div>
+            
+            <!-- Search bar -->
+            <div class="wk-sheet-search-wrap">
+              <img src="../../assets/svg_icons/search.svg" class="wk-sheet-search-icon-img" alt="Search">
+              <input type="text" class="wk-sheet-search-input" placeholder="Search workouts..." id="addSheetSearch" oninput="handleAddSheetSearch(this.value)">
+              <button class="wk-sheet-search-clear" id="addSheetSearchClear" onclick="clearAddSheetSearch()" style="display:none">
+                <img src="../../assets/svg_icons/cross-x.svg" alt="Clear">
+              </button>
+            </div>
+
+            <!-- Filters -->
+            <div class="wk-sheet-filter-row" id="addSheetFiltersContainer">
+              <button class="wk-sheet-adv-filter-btn" id="addSheetAdvFilterToggle" onclick="toggleAddSheetAdvFilter()" aria-label="Advanced filters">
+                <img src="../../assets/svg_icons/settings-1.svg" alt="Filters">
+              </button>
+              
+              <!-- Level Dropdown Chip -->
+              <div style="position: relative;">
+                <button class="wk-sheet-filter-chip" id="addSheetLevelChip" onclick="toggleDropdownMenu(event, 'level')">
+                  <span id="addSheetLevelText">Level</span>
+                  <img src="../../assets/svg_icons/down.svg" class="chevron" alt="">
+                </button>
+                <div class="wk-dropdown-menu" id="addSheetLevelMenu">
+                  <!-- Dynamically rendered -->
+                </div>
+              </div>
+
+              <!-- Location Dropdown Chip -->
+              <div style="position: relative;">
+                <button class="wk-sheet-filter-chip" id="addSheetLocationChip" onclick="toggleDropdownMenu(event, 'location')">
+                  <span id="addSheetLocationText">Location</span>
+                  <img src="../../assets/svg_icons/down.svg" class="chevron" alt="">
+                </button>
+                <div class="wk-dropdown-menu" id="addSheetLocationMenu">
+                  <!-- Dynamically rendered -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Advanced Filter muscle options row (initially hidden) -->
+            <div id="addSheetAdvFilterRow" style="display:none; padding:0 24px 12px; gap:8px; overflow-x:auto; scrollbar-width:none; flex-shrink:0;">
+              <!-- Dynamically populated muscle tags -->
+            </div>
+
+            <!-- Exercise List -->
+            <div class="wk-sheet-list" id="addSheetList">
+              <!-- Dynamically populated -->
+            </div>
+
+            <!-- Footer Action Button -->
+            <div class="wk-sheet-footer">
+              <button class="wk-sheet-action-btn" id="addSheetApplyBtn" onclick="applyAddExercises()" disabled>
+                Add Selected (0)
+              </button>
+            </div>
+          </div>
+
+          <!-- ===== EDIT EXERCISE BOTTOM SHEET ===== -->
+          <div class="wk-bottom-sheet-backdrop" id="editSheetBackdrop" onclick="closeEditExerciseSheet()"></div>
+          <div class="wk-bottom-sheet" id="editExerciseSheet">
+            <div class="wk-sheet-handle"></div>
+            <div class="wk-sheet-header">
+              <h2 class="wk-sheet-title">Edit Exercise</h2>
+              <button class="wk-sheet-close" onclick="closeEditExerciseSheet()">
+                <img src="../../assets/svg_icons/cross-x.svg" alt="Close">
+              </button>
+            </div>
+
+            <!-- Exercise Info Summary -->
+            <div style="display: flex; align-items: center; gap: 12px; padding: 12px 24px; border-bottom: 1px solid var(--color-border, #f4f4f4); flex-shrink:0;">
+              <div class="wk-sheet-item-img" id="editSheetExImg" style="width: 56px; height: 56px; border-radius: 12px;">
+                <!-- img tag -->
+              </div>
+              <div class="wk-sheet-item-text">
+                <div class="wk-sheet-item-name" id="editSheetExName" style="font-size: 16px;">Barbell Bench</div>
+                <div class="wk-sheet-item-details" id="editSheetExParams">4 sets · 8 reps</div>
+              </div>
+            </div>
+
+            <!-- Stepper Container -->
+            <div class="wk-edit-stepper-container">
+              <div class="wk-edit-badge-row">
+                <h3>Total Sets and Reps</h3>
+                <span class="wk-edit-badge">
+                  <img src="../../assets/svg_icons/dumbbell-ray.svg" alt="">
+                  <span id="editSheetTotalSummaryBadge">4 Sets 8 Reps</span>
+                </span>
+              </div>
+
+              <!-- Sets Stepper -->
+              <div class="wk-edit-stepper-row">
+                <span class="wk-edit-stepper-title">Sets</span>
+                <div class="wk-edit-stepper-ctrl">
+                  <button class="wk-edit-stepper-btn" onclick="adjustEditStepper('sets', -1)">
+                    <img src="../../assets/svg_icons/minus.svg" alt="-">
+                  </button>
+                  <span class="wk-edit-stepper-val" id="editSheetSetsVal">4</span>
+                  <button class="wk-edit-stepper-btn" onclick="adjustEditStepper('sets', 1)">
+                    <img src="../../assets/svg_icons/plus.svg" alt="+">
+                  </button>
+                </div>
+              </div>
+
+              <!-- Reps Stepper -->
+              <div class="wk-edit-stepper-row">
+                <span class="wk-edit-stepper-title" id="editSheetRepsTitle">Reps</span>
+                <div class="wk-edit-stepper-ctrl">
+                  <button class="wk-edit-stepper-btn" onclick="adjustEditStepper('reps', -1)">
+                    <img src="../../assets/svg_icons/minus.svg" alt="-">
+                  </button>
+                  <span class="wk-edit-stepper-val" id="editSheetRepsVal">8</span>
+                  <button class="wk-edit-stepper-btn" onclick="adjustEditStepper('reps', 1)">
+                    <img src="../../assets/svg_icons/plus.svg" alt="+">
+                  </button>
+                </div>
+              </div>
+
+              <!-- Rest Time Stepper -->
+              <div class="wk-edit-stepper-row">
+                <span class="wk-edit-stepper-title">Rest Time</span>
+                <div class="wk-edit-stepper-ctrl">
+                  <button class="wk-edit-stepper-btn" onclick="adjustEditStepper('rest', -15)">
+                    <img src="../../assets/svg_icons/minus.svg" alt="-">
+                  </button>
+                  <span class="wk-edit-stepper-val" id="editSheetRestVal">60 sec</span>
+                  <button class="wk-edit-stepper-btn" onclick="adjustEditStepper('rest', 15)">
+                    <img src="../../assets/svg_icons/plus.svg" alt="+">
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer Action Button -->
+            <div class="wk-sheet-footer">
+              <button class="wk-sheet-action-btn" id="editSheetSaveBtn" onclick="saveEditExercise()" disabled>
+                Save
+              </button>
+            </div>
+          </div>
+
         </div>
 
       </div>
     </div>
   </div>
-  <script src="../../app.js?v=7"></script>
+
+  <script src="../../app.js?v=15"></script>
   <script>
     (function () {
-      var fallbackWorkout = {
-        id: 'w1',
-        name: 'Upper Body Strength',
-        duration: 45,
-        difficulty: 'Intermediate',
-        image: '../../assets/img/woman-upper-body.png',
-        exercises: [
-          { id: 'e1', name: 'Bench Press', sets: 4, reps: '8-10' },
-          { id: 'e8', name: 'Incline Dumbbell Press', sets: 3, reps: '10-12' },
-          { id: 'e12', name: 'Dumbbell Fly', sets: 3, reps: '12-15' },
-          { id: 'e3', name: 'Overhead Press', sets: 4, reps: '8-10' },
-          { id: 'e7', name: 'Tricep Pushdown', sets: 3, reps: '12-15' }
-        ]
-      };
+      // ── Local working variables ──
+      var activeWorkout = null;
+      var currentExercises = [];
+      var isCustomizeMode = false;
+      var dragSrcEl = null;
 
-      function escapeText(value) {
-        return String(value || '').replace(/[&<>"']/g, function (match) {
-          return {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;'
-          }[match];
-        });
+      // ── Add Sheet variables ──
+      var addSheetSelected = []; // array of exercise objects
+      var addSheetSearchVal = '';
+      var addSheetActiveLevel = 'all';
+      var addSheetActiveLocation = 'all';
+      var addSheetActiveMuscle = 'all';
+      var addSheetShowAdvFilters = false;
+
+      // ── Edit Sheet variables ──
+      var editActiveIndex = -1;
+      var editCurrentState = { sets: 3, reps: 10, rest: 60 };
+      var editOriginalState = { sets: 3, reps: 10, rest: 60 };
+
+      // Helper: get exercise image
+      function getExerciseImage(ex) {
+        var name = String(ex.name || '').toLowerCase();
+        if (name.indexOf('bench') >= 0) return '../../assets/img/workouts/barbell_bench.png';
+        if (name.indexOf('row') >= 0) return '../../assets/img/workouts/barbel_row.png';
+        if (name.indexOf('overhead') >= 0 || name.indexOf('ohp') >= 0 || name.indexOf('press') >= 0) return '../../assets/img/workouts/overhead_press.png';
+        if (name.indexOf('pull') >= 0) return '../../assets/img/workouts/Pull-Ups.png';
+        if (name.indexOf('curl') >= 0) return '../../assets/img/workouts/barbell_curl.png';
+        if (name.indexOf('squat') >= 0) return '../../assets/img/workouts/barber_squat.png';
+        if (name.indexOf('plank') >= 0) return '../../assets/img/workouts/plank.png';
+        if (name.indexOf('hiit') >= 0 || name.indexOf('cardio') >= 0) return '../../assets/img/workouts/Cardio.png';
+        return '../../assets/img/workouts/strength_building.png';
       }
 
       function getSavedWorkout() {
@@ -99,99 +285,912 @@
           if (savedState && savedState.currentWorkout) {
             return savedState.currentWorkout;
           }
-        } catch (error) {
-          // Fall back to the default workout when storage is unavailable.
-        }
-        return fallbackWorkout;
+        } catch (error) {}
+        
+        // Fallback w1 Upper Body Strength
+        return {
+          id: 'w1',
+          name: 'Upper Body Strength',
+          muscle: 'chest',
+          muscles: ['Chest', 'Shoulders', 'Upper Back'],
+          duration: 45,
+          difficulty: 'intermediate',
+          equipment: ['Barbell', 'Dumbbells', 'Pull-up Bar'],
+          calories: 280,
+          desc: 'Build overall upper body strength with compound movements.',
+          exercises: ['e1', 'e4', 'e3', 'e2', 'e20', 'e7']
+        };
       }
 
-      function normalizeExercises(workout) {
-        if (!workout || !Array.isArray(workout.exercises)) return fallbackWorkout.exercises;
-        var exercises = workout.exercises.map(function (exercise, index) {
-          if (exercise && typeof exercise === 'object') {
+      function getWorkoutExerciseList(workout) {
+        var items = workout.exercises || [];
+        return items.map(function (item, index) {
+          if (item && typeof item === 'object') {
             return {
-              id: exercise.id || 'fallback-' + index,
-              name: exercise.name || 'Exercise',
-              sets: exercise.sets || 3,
-              reps: exercise.reps || '10'
+              id: item.id || 'fallback-' + index,
+              name: item.name || 'Exercise',
+              sets: item.sets || 3,
+              reps: String(item.reps || '10'),
+              equipment: item.equipment || 'Bodyweight',
+              rest: item.rest || 60,
+              difficulty: item.difficulty || 'intermediate',
+              muscle: item.muscle || 'general',
+              muscles: item.muscles || []
             };
           }
-          var fallback = fallbackWorkout.exercises[index % fallbackWorkout.exercises.length];
-          return {
-            id: String(exercise || fallback.id),
-            name: fallback.name,
-            sets: fallback.sets,
-            reps: fallback.reps
-          };
-        }).filter(Boolean);
-        return exercises.length ? exercises : fallbackWorkout.exercises;
-      }
-
-      function renderFallbackDetail() {
-        var body = document.getElementById('wkDetailBody');
-        if (!body) return;
-
-        var workout = getSavedWorkout();
-        var title = workout.name || fallbackWorkout.name;
-        var duration = workout.duration || fallbackWorkout.duration;
-        var difficulty = workout.difficulty || fallbackWorkout.difficulty;
-        var difficultyLabel = String(difficulty).charAt(0).toUpperCase() + String(difficulty).slice(1);
-        var image = workout.image || '../../assets/img/woman-upper-body.png';
-        var exercises = normalizeExercises(workout);
-
-        body.innerHTML =
-          '<section class="wk-detail-hero-card">' +
-            '<div class="wk-detail-hero-bg"></div>' +
-            '<div class="wk-detail-hero-date"><img src="../../assets/svg_icons/calendar.svg" width="16" height="16" alt=""> Today, May 23</div>' +
-            '<h2>' + escapeText(title) + '</h2>' +
-            '<div class="wk-detail-hero-meta">' +
-              '<span><img src="../../assets/svg_icons/clock-five.svg" width="16" height="16" alt=""> ' + escapeText(duration) + ' min</span>' +
-              '<span><img src="../../assets/svg_icons/chart-simple.svg" width="16" height="16" alt=""> ' + escapeText(difficultyLabel) + '</span>' +
-            '</div>' +
-            '<div class="wk-detail-hero-image"><img src="' + escapeText(image) + '" alt=""></div>' +
-          '</section>' +
-          '<h3 class="wk-detail-exercises-title">Exercises</h3>' +
-          '<section class="wk-detail-exercises-card">' +
-            exercises.map(function (exercise, index) {
-              return '<button class="wk-detail-ex-row" type="button" data-exercise-id="' + escapeText(exercise.id) + '">' +
-                '<span class="wk-detail-ex-num">' + (index + 1) + '</span>' +
-                '<span class="wk-detail-ex-info">' +
-                  '<span class="wk-detail-ex-name">' + escapeText(exercise.name) + '</span>' +
-                  '<span class="wk-detail-ex-params">' + escapeText(exercise.sets) + ' sets &middot; ' + escapeText(exercise.reps) + ' reps</span>' +
-                '</span>' +
-                '<span class="wk-detail-ex-arrow"><img src="../../assets/svg_icons/foward.svg" width="14" height="14" alt=""></span>' +
-              '</button>';
-            }).join('') +
-          '</section>';
-
-        body.querySelectorAll('.wk-detail-ex-row').forEach(function (row, index) {
-          row.addEventListener('click', function () {
-            if (typeof window.startWorkoutExerciseFromDetail === 'function') {
-              window.startWorkoutExerciseFromDetail(row.dataset.exerciseId, index);
-            } else if (typeof window.openExerciseDetail === 'function') {
-              window.openExerciseDetail(row.dataset.exerciseId);
+          // String ID
+          if (typeof window.getEx === 'function') {
+            var libEx = window.getEx(item);
+            if (libEx) {
+              return {
+                id: libEx.id,
+                name: libEx.name,
+                sets: libEx.sets || 3,
+                reps: String(libEx.reps || '10'),
+                equipment: libEx.equipment || 'Bodyweight',
+                rest: libEx.rest || 60,
+                difficulty: libEx.difficulty || 'intermediate',
+                muscle: libEx.muscle || 'general',
+                muscles: libEx.muscles || []
+              };
             }
-          });
+          }
+          return {
+            id: String(item),
+            name: 'Exercise ' + (index + 1),
+            sets: 3,
+            reps: '10',
+            equipment: 'Bodyweight',
+            rest: 60
+          };
         });
       }
 
-      window.addEventListener('load', function () {
-        setTimeout(function () {
-          var body = document.getElementById('wkDetailBody');
-          if (!body || body.children.length) return;
+      function escapeText(value) {
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
 
-          if (typeof window.initWorkoutDetail === 'function') {
-            try {
-              window.initWorkoutDetail();
-            } catch (error) {
-              body.innerHTML = '';
+      // Render the workout detail content dynamically
+      function renderDetail() {
+        var body = document.getElementById('wkDetailBody');
+        if (!body) return;
+
+        var w = activeWorkout;
+        var difficultyLabel = String(w.difficulty || 'intermediate');
+        difficultyLabel = difficultyLabel.charAt(0).toUpperCase() + difficultyLabel.slice(1);
+        
+        // Favorite icon toggle state
+        var favIcon = document.getElementById('wkDetailFavIcon');
+        if (favIcon) {
+          if (w.favorite) {
+            // Active: primary blue color
+            favIcon.style.filter = 'brightness(0) saturate(100%) invert(16%) sepia(88%) saturate(3280%) hue-rotate(210deg) brightness(94%) contrast(101%)';
+          } else {
+            // Inactive: dark textprimary
+            favIcon.style.filter = 'brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%)';
+          }
+        }
+
+        // Equipment list
+        var eqList = Array.isArray(w.equipment) ? w.equipment.join(', ') : (w.equipment || 'Bodyweight');
+
+        // Dynamic target area badges
+        var badgeHtml = (w.muscles || ['Chest', 'Shoulders']).map(function(muscle) {
+          var cleanName = muscle.toLowerCase().replace(/\s+/g, '-');
+          var imgUrl = '../../assets/img/anatomical-muscles/anatomical-' + cleanName + '.png';
+          // Check fallback for muscle names
+          if (cleanName === 'upper-back' || cleanName === 'back') {
+            imgUrl = '../../assets/img/anatomical-muscles/anatomical-upper-back.png';
+          } else if (cleanName === 'chest') {
+            imgUrl = '../../assets/img/anatomical-muscles/anatomical-chest.png';
+          } else if (cleanName === 'shoulders') {
+            imgUrl = '../../assets/img/anatomical-muscles/anatomical-shoulders.png';
+          } else if (cleanName === 'forearm' || cleanName === 'arms') {
+            imgUrl = '../../assets/img/anatomical-muscles/anatomical-forearm.png';
+          } else if (cleanName === 'triceps') {
+            imgUrl = '../../assets/img/anatomical-muscles/anatomical-tricep.png';
+          } else if (cleanName === 'biceps' || cleanName === 'bicep') {
+            imgUrl = '../../assets/img/anatomical-muscles/anatomical-bicep.png';
+          } else {
+            imgUrl = '../../assets/img/anatomical-muscles/anatomical-chest.png'; // default fallback
+          }
+
+          return '<div class="wk-muscle-badge">' +
+            '<img src="' + imgUrl + '" alt="' + escapeText(muscle) + '">' +
+            '<span>' + escapeText(muscle) + '</span>' +
+          '</div>';
+        }).join('');
+
+        // Exercise Rows
+        var exerciseRowsHtml = currentExercises.map(function (ex, index) {
+          var formattedReps = String(ex.reps).indexOf('sec') >= 0 || String(ex.reps).indexOf('s') >= 0 ? ex.reps : ex.reps + ' reps';
+          var isLast = index === currentExercises.length - 1;
+          var rowBorderStyle = isLast ? 'none' : '1px solid var(--color-border, #f4f4f4)';
+
+          if (isCustomizeMode) {
+            return '<div class="wk-detail-ex-row" draggable="true" data-index="' + index + '" style="cursor: grab; display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; border-bottom: ' + rowBorderStyle + '; margin-bottom: ' + (isLast ? '0' : '12px') + ';">' +
+              '<div style="display:flex; align-items:center; gap: 8px; flex: 1; min-width: 0;">' +
+                '<div class="wk-ex-drag-handle" style="display: inline-flex; width: 24px; height: 24px; justify-content: center; align-items: center; flex-shrink: 0;">' +
+                  '<img src="../../assets/svg_icons/grid dot vertical.svg" alt="Drag" style="opacity: 0.4;">' +
+                '</div>' +
+                '<div style="display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0;">' +
+                  '<div style="width: 64px; height: 64px; border-radius: 12px; overflow: hidden; background: var(--color-primary-container, #EFF5FF); flex-shrink: 0; position: relative;">' +
+                    '<img src="' + getExerciseImage(ex) + '" alt="' + escapeText(ex.name) + '" style="width: 100%; height: 100%; object-fit: cover;">' +
+                  '</div>' +
+                  '<div onclick="openEditExerciseSheet(' + index + ')" style="flex: 1; min-width: 0; cursor: pointer;">' +
+                    '<span style="font-family: \'Nunito\', sans-serif; font-size: 14px; font-weight: 700; color: var(--color-text-primary, #0f172a); letter-spacing: 0.1px; line-height: 20px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + escapeText(ex.name) + '</span>' +
+                    '<span style="font-family: \'Nunito\', sans-serif; font-size: 12px; font-weight: 400; color: var(--color-text-tertiary, #64748b); letter-spacing: 0; line-height: 16px; display: block;">' + escapeText(ex.sets) + ' sets · ' + escapeText(formattedReps) + '</span>' +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+              '<button class="wk-ex-delete-btn" onclick="deleteExercise(' + index + ')" style="border: none; background: transparent; cursor: pointer; padding: 4px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; margin-left: 8px;">' +
+                '<img src="../../assets/svg_icons/minus.svg" alt="Delete" style="width: 24px; height: 24px; filter: invert(27%) sepia(98%) saturate(1200%) hue-rotate(337deg) brightness(90%);">' +
+              '</button>' +
+            '</div>';
+          } else {
+            return '<div class="wk-detail-ex-row" style="display: flex; align-items: center; gap: 14px; padding-bottom: ' + (isLast ? '0' : '12px') + '; border-bottom: ' + rowBorderStyle + '; margin-bottom: ' + (isLast ? '0' : '12px') + ';">' +
+              '<div style="width: 64px; height: 64px; border-radius: 12px; overflow: hidden; background: var(--color-primary-container, #EFF5FF); flex-shrink: 0; position: relative;">' +
+                '<img src="' + getExerciseImage(ex) + '" alt="' + escapeText(ex.name) + '" style="width: 100%; height: 100%; object-fit: cover;">' +
+              '</div>' +
+              '<div style="flex: 1; min-width: 0; display: flex; flex-direction: row; align-items: center; gap: 14px;">' +
+                '<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;">' +
+                  '<span style="font-family: \'Nunito\', sans-serif; font-size: 14px; font-weight: 700; color: var(--color-text-primary, #0f172a); letter-spacing: 0.1px; line-height: 20px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + escapeText(ex.name) + '</span>' +
+                  '<span style="font-family: \'Nunito\', sans-serif; font-size: 12px; font-weight: 400; color: var(--color-text-tertiary, #64748b); letter-spacing: 0; line-height: 16px; display: block;">' + escapeText(ex.sets) + ' sets · ' + escapeText(formattedReps) + '</span>' +
+                '</div>' +
+                '<button type="button" onclick="startWorkoutExercise(' + index + ')" style="width: 24px; height: 24px; border-radius: 12px; background: var(--color-primary-container, #EFF5FF); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border: none; cursor: pointer; padding: 0;">' +
+                  '<img src="../../assets/svg_icons/foward.svg" width="16" height="16" alt="">' +
+                '</button>' +
+              '</div>' +
+            '</div>';
+          }
+        }).join('');
+
+        body.innerHTML =
+          '<section class="wk-detail-hero-card" style="margin-top: 0;">' +
+            '<div class="wk-detail-hero-bg"></div>' +
+            '<div style="display:flex; justify-content:space-between; align-items:flex-start; position:relative; z-index:1; margin-bottom: 12px;">' +
+              '<div style="display:inline-flex; align-items:center; gap:8px; font-family:\'Nunito\'; font-size:12px; font-weight:400; color:var(--color-text-tertiary, #64748b); letter-spacing:0; line-height:16px;">' +
+                '<img src="../../assets/svg_icons/calendar.svg" width="16" height="16" alt="" style="filter: brightness(0) saturate(100%) invert(46%) sepia(9%) saturate(1062%) hue-rotate(181deg) brightness(92%) contrast(87%);">' +
+                'Today, April 24' +
+              '</div>' +
+              '<div style="display:inline-flex; align-items:center; gap:8px; font-family:\'Nunito\'; font-size:12px; font-weight:400; color:var(--color-text-tertiary, #64748b);">' +
+                '<img src="../../assets/svg_icons/location.svg" width="16" height="16" alt="" style="filter: brightness(0) saturate(100%) invert(46%) sepia(9%) saturate(1062%) hue-rotate(181deg) brightness(92%) contrast(87%);">' +
+                'Gym' +
+              '</div>' +
+            '</div>' +
+            '<div style="position:relative; z-index:1; display:flex; align-items:flex-start; margin-bottom: 4px;">' +
+              '<div style="flex: 1; min-width: 0; padding-right: 8px;">' +
+                '<p style="font-family:\'Nunito\'; font-size:20px; font-weight:800; color:var(--color-text-primary, #0f172a); line-height:28px; margin: 0 0 4px 0; letter-spacing:0;">' + escapeText(w.name) + '</p>' +
+                '<p style="font-family:\'Nunito\'; font-size:12px; font-weight:400; color:var(--color-text-tertiary, #64748b); margin:0; line-height:16px; letter-spacing:0;">' + escapeText(w.desc || 'No description.') + '</p>' +
+              '</div>' +
+            '</div>' +
+            '<div class="wk-detail-hero-image" style="top: -10px;"><img src="../../assets/img/woman-upper-body.png" alt=""></div>' +
+            '<div style="position:relative; z-index:1; display:flex; align-items:center; gap:8px; font-family:\'Nunito\'; font-size:12px; font-weight:700; color:var(--color-text-primary, #0f172a); letter-spacing:0.5px; margin-top: 12px;">' +
+              '<img src="../../assets/svg_icons/dumbbell-ray.svg" width="16" height="16" alt="" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">' + escapeText(eqList) +
+            '</div>' +
+          '</section>' +
+
+          '<section class="wk-detail-exercises-card" style="margin-top: 0; padding: 12px; display: flex; align-items: center; justify-content: space-between;">' +
+            '<div style="display:flex; align-items:center; gap:8px; height:40px;">' +
+              '<img src="../../assets/svg_icons/clock-five.svg" width="16" height="16" alt="" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">' +
+              '<div style="display:flex; flex-direction:column; justify-content:center;">' +
+                '<strong style="font-family:\'Nunito\'; font-size:12px; font-weight:700; color:var(--color-text-primary,#0f172a); line-height:16px; letter-spacing:0.5px;">' + escapeText(w.duration) + ' min</strong>' +
+                '<span style="font-family:\'Nunito\'; font-size:12px; font-weight:400; color:var(--color-text-tertiary,#64748b); line-height:16px;">Duration</span>' +
+              '</div>' +
+            '</div>' +
+            '<div style="width:1px; height:24px; background:var(--color-divider,#f4f4f4);"></div>' +
+            '<div style="display:flex; align-items:center; gap:8px; height:40px;">' +
+              '<img src="../../assets/svg_icons/chart-simple.svg" width="16" height="16" alt="" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">' +
+              '<div style="display:flex; flex-direction:column; justify-content:center;">' +
+                '<strong style="font-family:\'Nunito\'; font-size:12px; font-weight:700; color:var(--color-text-primary,#0f172a); line-height:16px; letter-spacing:0.5px;">' + escapeText(difficultyLabel) + '</strong>' +
+                '<span style="font-family:\'Nunito\'; font-size:12px; font-weight:400; color:var(--color-text-tertiary,#64748b); line-height:16px;">Level</span>' +
+              '</div>' +
+            '</div>' +
+            '<div style="width:1px; height:24px; background:var(--color-divider,#f4f4f4);"></div>' +
+            '<div style="display:flex; align-items:center; gap:8px; height:40px;">' +
+              '<img src="../../assets/svg_icons/flame.svg" width="16" height="16" alt="" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">' +
+              '<div style="display:flex; flex-direction:column; justify-content:center;">' +
+                '<strong style="font-family:\'Nunito\'; font-size:12px; font-weight:700; color:var(--color-text-primary,#0f172a); line-height:16px; letter-spacing:0.5px;">' + escapeText(w.calories || 280) + ' kcal</strong>' +
+                '<span style="font-family:\'Nunito\'; font-size:12px; font-weight:400; color:var(--color-text-tertiary,#64748b); line-height:16px;">Est. Calories</span>' +
+              '</div>' +
+            '</div>' +
+          '</section>' +
+
+          '<div style="display:flex; flex-direction:column; gap:12px;">' +
+            '<p style="font-family:\'Nunito\'; font-size:16px; font-weight:800; color:#1a1d26; line-height:24px; letter-spacing:0.15px; margin: 0;">Target Area</p>' +
+            '<div class="wk-target-badges" style="margin:0;">' + badgeHtml + '</div>' +
+          '</div>' +
+
+          '<div style="display:flex; flex-direction:column; gap:12px;">' +
+            '<p style="font-family:\'Nunito\'; font-size:16px; font-weight:800; color:#1a1d26; line-height:24px; letter-spacing:0.15px; margin: 0;">What to Expect</p>' +
+            '<div class="wk-expect-cards">' +
+              '<div class="wk-expect-card">' +
+                '<img src="../../assets/svg_icons/bullseye-arrow.svg" alt="" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">' +
+                '<p>Strength-Focused upper body session</p>' +
+              '</div>' +
+              '<div class="wk-expect-card">' +
+                '<img src="../../assets/svg_icons/exchange.svg" alt="" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">' +
+                '<p>Mixed of push and pull exercises</p>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+
+          '<div style="display:flex; flex-direction:column; gap:12px;">' +
+            '<div style="display:flex; align-items:center; justify-content:space-between;">' +
+              '<div style="display:flex; align-items:center; gap:8px;">' +
+                '<p style="margin:0; font-family:\'Nunito\'; font-size:16px; font-weight:800; color:#1a1d26; line-height:24px; letter-spacing:0.15px;">Exercises</p>' +
+                '<div style="background:var(--color-surface-variant,#f8f8f8); color:var(--color-text-tertiary,#64748b); font-family:\'Nunito\'; font-size:14px; font-weight:400; line-height:20px; padding:6px 10px; border-radius:20px;" id="wkDetailExCountBadge">' + currentExercises.length + ' Exercise' + (currentExercises.length === 1 ? '' : 's') + '</div>' +
+              '</div>' +
+              '<button type="button" onclick="toggleCustomizeMode()" style="border:none; background:transparent; color:var(--color-tertiary,#7F7CF0); font-family:\'Nunito\'; font-size:14px; font-weight:800; cursor:pointer; line-height:20px; letter-spacing:0.1px; padding:0;" id="wkDetailCustomizeBtn">' +
+                (isCustomizeMode ? 'Done' : 'Customize') +
+              '</button>' +
+            '</div>' +
+            '<div class="wk-detail-exercises-card" id="wkDetailExercisesListContainer" style="background: var(--color-background, #fff); border-radius: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 24px 16px;">' +
+              exerciseRowsHtml +
+            '</div>' +
+          '</div>' +
+
+          '<button class="wk-customize-add-btn" onclick="openAddExerciseSheet()">' +
+            '<img src="../../assets/svg_icons/plus.svg" alt="" style="filter: invert(16%) sepia(88%) saturate(3280%) hue-rotate(210deg) brightness(94%) contrast(101%);"> Add Exercise' +
+          '</button>' +
+
+          '<div class="wk-customize-infobox">' +
+            '<img src="../../assets/svg_icons/info.svg" alt="" style="filter: invert(16%) sepia(88%) saturate(3280%) hue-rotate(210deg) brightness(94%) contrast(101%);">' +
+            '<p>Tip: drag and drop the order exercises. tap an exercise to adjust sets, reps or rest time</p>' +
+          '</div>';
+
+        // Add drag & drop event listeners in customize mode
+        if (isCustomizeMode) {
+          setupDragAndDrop();
+        }
+      }
+
+      // ── Customize Mode toggle ──
+      window.toggleCustomizeMode = function toggleCustomizeMode() {
+        if (isCustomizeMode) {
+          saveCustomizedWorkout();
+        } else {
+          enterCustomizeMode();
+        }
+      };
+
+      function enterCustomizeMode() {
+        isCustomizeMode = true;
+        document.querySelector('.screen-workout-detail-figma').classList.add('is-customizing');
+        document.getElementById('wkDetailActionsNormal').style.display = 'none';
+        document.getElementById('wkDetailActionsCustomize').style.display = 'flex';
+        renderDetail();
+      }
+
+      window.exitCustomizeMode = function exitCustomizeMode(save) {
+        isCustomizeMode = false;
+        document.querySelector('.screen-workout-detail-figma').classList.remove('is-customizing');
+        document.getElementById('wkDetailActionsNormal').style.display = 'flex';
+        document.getElementById('wkDetailActionsCustomize').style.display = 'none';
+        
+        if (!save) {
+          // Revert changes
+          currentExercises = getWorkoutExerciseList(activeWorkout);
+        }
+        renderDetail();
+      };
+
+      // ── Exercise CRUD & Reordering ──
+      window.deleteExercise = function deleteExercise(index) {
+        currentExercises.splice(index, 1);
+        renderDetail();
+        updateSaveBtnDisabledState();
+      };
+
+      function setupDragAndDrop() {
+        var rows = document.querySelectorAll('#wkDetailExercisesListContainer .wk-detail-ex-row');
+        rows.forEach(function (row) {
+          row.addEventListener('dragstart', handleDragStart, false);
+          row.addEventListener('dragenter', handleDragEnter, false);
+          row.addEventListener('dragover', handleDragOver, false);
+          row.addEventListener('dragleave', handleDragLeave, false);
+          row.addEventListener('drop', handleDrop, false);
+          row.addEventListener('dragend', handleDragEnd, false);
+        });
+      }
+
+      function handleDragStart(e) {
+        dragSrcEl = this;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', this.dataset.index);
+        this.classList.add('is-dragging');
+      }
+
+      function handleDragOver(e) {
+        if (e.preventDefault) {
+          e.preventDefault();
+        }
+        e.dataTransfer.dropEffect = 'move';
+        return false;
+      }
+
+      function handleDragEnter(e) {
+        this.classList.add('drag-over');
+      }
+
+      function handleDragLeave(e) {
+        this.classList.remove('drag-over');
+      }
+
+      function handleDrop(e) {
+        if (e.stopPropagation) {
+          e.stopPropagation();
+        }
+        
+        this.classList.remove('drag-over');
+        
+        var sourceIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
+        var targetIndex = parseInt(this.dataset.index, 10);
+        
+        if (sourceIndex !== targetIndex) {
+          // Reorder array
+          var movedItem = currentExercises.splice(sourceIndex, 1)[0];
+          currentExercises.splice(targetIndex, 0, movedItem);
+          renderDetail();
+          updateSaveBtnDisabledState();
+        }
+        return false;
+      }
+
+      function handleDragEnd(e) {
+        this.classList.remove('is-dragging');
+        var rows = document.querySelectorAll('#wkDetailExercisesListContainer .wk-detail-ex-row');
+        rows.forEach(function (row) {
+          row.classList.remove('drag-over');
+        });
+      }
+
+      // ── Actions ──
+      window.startWorkout = function startWorkout() {
+        if (typeof window.startWorkoutExerciseFromDetail === 'function') {
+          // start first exercise
+          var firstEx = currentExercises[0];
+          var fid = firstEx ? firstEx.id : 'e1';
+          window.startWorkoutExerciseFromDetail(fid, 0);
+        } else {
+          navigateTo('workout-countdown');
+        }
+      };
+
+      window.startWorkoutExercise = function startWorkoutExercise(index) {
+        var ex = currentExercises[index];
+        if (ex && typeof window.startWorkoutExerciseFromDetail === 'function') {
+          window.startWorkoutExerciseFromDetail(ex.id, index);
+        } else {
+          navigateTo('workout-countdown');
+        }
+      };
+
+      window.openWorkoutSettings = function openWorkoutSettings() {
+        navigateTo('workout-edit');
+      };
+
+      window.handleBackClick = function handleBackClick() {
+        if (isCustomizeMode) {
+          exitCustomizeMode(false);
+        } else {
+          goBack();
+        }
+      };
+
+      // ── Save Changes to LocalStorage ──
+      window.saveCustomizedWorkout = function saveCustomizedWorkout() {
+        activeWorkout.exercises = currentExercises.map(function(ex) {
+          return {
+            id: ex.id,
+            name: ex.name,
+            sets: ex.sets,
+            reps: ex.reps,
+            equipment: ex.equipment,
+            rest: ex.rest,
+            difficulty: ex.difficulty,
+            muscle: ex.muscle,
+            muscles: ex.muscles
+          };
+        });
+
+        // Save back to global state
+        if (typeof state !== 'undefined') {
+          state.currentWorkout = activeWorkout;
+          
+          // Also update in customWorkouts list if exists there
+          if (Array.isArray(state.customWorkouts)) {
+            var idx = state.customWorkouts.findIndex(function(cw) { return cw.id === activeWorkout.id; });
+            if (idx >= 0) {
+              state.customWorkouts[idx] = activeWorkout;
             }
           }
+          
+          try {
+            localStorage.setItem('strivio_state', JSON.stringify(state));
+          } catch(e) {}
+        }
+        
+        exitCustomizeMode(true);
+        showToast("Workout customized successfully!");
+      };
 
-          if (!body.children.length) {
-            renderFallbackDetail();
+      function updateSaveBtnDisabledState() {
+        // Workout detail save changes button behaviour:
+        // Mockup dictates "by default botton akan ke disabled, jika ada ubahan baru botton akan enabled."
+        var saveBtn = document.getElementById('wkDetailSave');
+        if (!saveBtn) return;
+        
+        var originalExs = getWorkoutExerciseList(activeWorkout);
+        var isChanged = false;
+        
+        if (currentExercises.length !== originalExs.length) {
+          isChanged = true;
+        } else {
+          for (var i = 0; i < currentExercises.length; i++) {
+            if (currentExercises[i].id !== originalExs[i].id ||
+                currentExercises[i].sets !== originalExs[i].sets ||
+                currentExercises[i].reps !== originalExs[i].reps ||
+                currentExercises[i].rest !== originalExs[i].rest) {
+              isChanged = true;
+              break;
+            }
           }
-        }, 80);
+        }
+        
+        if (isChanged) {
+          saveBtn.disabled = false;
+          saveBtn.style.opacity = '1';
+        } else {
+          saveBtn.disabled = true;
+          saveBtn.style.opacity = '0.5';
+        }
+      }
+
+      function showToast(msg) {
+        var toast = document.createElement('div');
+        toast.style.position = 'absolute';
+        toast.style.bottom = '80px';
+        toast.style.left = '50%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.background = '#0f172a';
+        toast.style.color = '#fff';
+        toast.style.padding = '10px 20px';
+        toast.style.borderRadius = '9999px';
+        toast.style.fontSize = '12px';
+        toast.style.fontFamily = '\'Nunito\', sans-serif';
+        toast.style.fontWeight = '700';
+        toast.style.zIndex = '10000';
+        toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+        toast.textContent = msg;
+        
+        var screen = document.querySelector('.screen-workout-detail');
+        if (screen) {
+          screen.appendChild(toast);
+          setTimeout(function() {
+            toast.style.transition = 'opacity 0.5s ease';
+            toast.style.opacity = '0';
+            setTimeout(function() { toast.remove(); }, 500);
+          }, 2000);
+        }
+      }
+
+      // ── Favorite Toggle ──
+      window.toggleFavoriteDetail = function toggleFavoriteDetail() {
+        activeWorkout.favorite = !activeWorkout.favorite;
+        
+        if (typeof state !== 'undefined') {
+          state.currentWorkout = activeWorkout;
+          try {
+            localStorage.setItem('strivio_state', JSON.stringify(state));
+          } catch(e) {}
+        }
+        renderDetail();
+        showToast(activeWorkout.favorite ? "Added to Favorites" : "Removed from Favorites");
+      };
+
+      // ── Conflict Warning Alert ──
+      window.showConflictAlert = function showConflictAlert() {
+        alert("Warning: This customized upper body workout contains training conflicts with your scheduled rest day or target fatigue zones. Please adjust intensity or rest periods.");
+      };
+
+      // ── ADD EXERCISE BOTTOM SHEET LOGIC ──
+      window.openAddExerciseSheet = function openAddExerciseSheet() {
+        document.getElementById('addSheetBackdrop').classList.add('is-visible');
+        document.getElementById('addExerciseSheet').classList.add('is-open');
+        addSheetSelected = []; // Reset selections
+        addSheetSearchVal = '';
+        addSheetActiveLevel = 'all';
+        addSheetActiveLocation = 'all';
+        addSheetActiveMuscle = 'all';
+        document.getElementById('addSheetSearch').value = '';
+        document.getElementById('addSheetSearchClear').style.display = 'none';
+        
+        renderAddSheetDropdowns();
+        renderAddSheetMuscleRow();
+        renderAddSheetList();
+        updateAddSheetApplyButton();
+      };
+
+      window.closeAddExerciseSheet = function closeAddExerciseSheet() {
+        document.getElementById('addSheetBackdrop').classList.remove('is-visible');
+        document.getElementById('addExerciseSheet').classList.remove('is-open');
+        hideAllDropdowns();
+      };
+
+      window.handleAddSheetSearch = function handleAddSheetSearch(val) {
+        addSheetSearchVal = val;
+        document.getElementById('addSheetSearchClear').style.display = val ? 'block' : 'none';
+        renderAddSheetList();
+      };
+
+      window.clearAddSheetSearch = function clearAddSheetSearch() {
+        document.getElementById('addSheetSearch').value = '';
+        handleAddSheetSearch('');
+      };
+
+      window.toggleAddSheetAdvFilter = function toggleAddSheetAdvFilter() {
+        addSheetShowAdvFilters = !addSheetShowAdvFilters;
+        var advRow = document.getElementById('addSheetAdvFilterRow');
+        var toggleBtn = document.getElementById('addSheetAdvFilterToggle');
+        if (addSheetShowAdvFilters) {
+          advRow.style.display = 'flex';
+          toggleBtn.classList.add('is-active');
+        } else {
+          advRow.style.display = 'none';
+          toggleBtn.classList.remove('is-active');
+          addSheetActiveMuscle = 'all';
+          renderAddSheetList();
+        }
+      };
+
+      // Render custom dropdown popup options
+      function renderAddSheetDropdowns() {
+        var levels = [
+          { value: 'all', label: 'All Levels' },
+          { value: 'beginner', label: 'Beginner' },
+          { value: 'intermediate', label: 'Intermediate' },
+          { value: 'advanced', label: 'Advanced' }
+        ];
+
+        var locations = [
+          { value: 'all', label: 'All Locations' },
+          { value: 'home', label: 'Home' },
+          { value: 'gym', label: 'Gym' }
+        ];
+
+        document.getElementById('addSheetLevelMenu').innerHTML = levels.map(function(item) {
+          var selClass = addSheetActiveLevel === item.value ? ' is-selected' : '';
+          return '<button class="wk-dropdown-item' + selClass + '" onclick="selectFilterOption(\'level\', \'' + item.value + '\', \'' + item.label + '\')">' + item.label + '</button>';
+        }).join('');
+
+        document.getElementById('addSheetLocationMenu').innerHTML = locations.map(function(item) {
+          var selClass = addSheetActiveLocation === item.value ? ' is-selected' : '';
+          return '<button class="wk-dropdown-item' + selClass + '" onclick="selectFilterOption(\'location\', \'' + item.value + '\', \'' + item.label + '\')">' + item.label + '</button>';
+        }).join('');
+
+        // Set chip text
+        document.getElementById('addSheetLevelText').textContent = addSheetActiveLevel === 'all' ? 'Level' : capitalize(addSheetActiveLevel);
+        document.getElementById('addSheetLocationText').textContent = addSheetActiveLocation === 'all' ? 'Location' : capitalize(addSheetActiveLocation);
+        
+        // Chip highlight state
+        document.getElementById('addSheetLevelChip').classList.toggle('is-active', addSheetActiveLevel !== 'all');
+        document.getElementById('addSheetLocationChip').classList.toggle('is-active', addSheetActiveLocation !== 'all');
+      }
+
+      function renderAddSheetMuscleRow() {
+        var muscles = ['Chest', 'Shoulders', 'Back', 'Core', 'Legs', 'Arms'];
+        var advRow = document.getElementById('addSheetAdvFilterRow');
+        
+        advRow.innerHTML = '<button class="wk-sheet-filter-chip' + (addSheetActiveMuscle === 'all' ? ' is-active' : '') + '" onclick="selectMuscleFilter(\'all\')">All muscles</button>' +
+          muscles.map(function(m) {
+            var val = m.toLowerCase();
+            var active = addSheetActiveMuscle === val ? ' is-active' : '';
+            return '<button class="wk-sheet-filter-chip' + active + '" onclick="selectMuscleFilter(\'' + val + '\')">' + m + '</button>';
+          }).join('');
+      }
+
+      window.selectMuscleFilter = function selectMuscleFilter(muscle) {
+        addSheetActiveMuscle = muscle;
+        renderAddSheetMuscleRow();
+        renderAddSheetList();
+      };
+
+      window.toggleDropdownMenu = function toggleDropdownMenu(e, type) {
+        e.stopPropagation();
+        var menu = document.getElementById('addSheet' + capitalize(type) + 'Menu');
+        var isActive = menu.classList.contains('is-active');
+        hideAllDropdowns();
+        if (!isActive) {
+          menu.classList.add('is-active');
+        }
+      };
+
+      window.selectFilterOption = function selectFilterOption(type, value, label) {
+        if (type === 'level') {
+          addSheetActiveLevel = value;
+        } else {
+          addSheetActiveLocation = value;
+        }
+        hideAllDropdowns();
+        renderAddSheetDropdowns();
+        renderAddSheetList();
+      };
+
+      function hideAllDropdowns() {
+        document.getElementById('addSheetLevelMenu').classList.remove('is-active');
+        document.getElementById('addSheetLocationMenu').classList.remove('is-active');
+      }
+
+      document.addEventListener('click', function() {
+        hideAllDropdowns();
+      });
+
+      function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      }
+
+      // Populate exercises list inside bottom sheet
+      function renderAddSheetList() {
+        var container = document.getElementById('addSheetList');
+        if (!container || typeof exerciseLibrary === 'undefined') return;
+
+        // Filter list
+        var list = exerciseLibrary.filter(function(ex) {
+          // Search
+          if (addSheetSearchVal) {
+            var q = addSheetSearchVal.toLowerCase();
+            var matchedSearch = ex.name.toLowerCase().indexOf(q) >= 0 ||
+                                (ex.equipment && ex.equipment.toLowerCase().indexOf(q) >= 0) ||
+                                (ex.muscle && ex.muscle.toLowerCase().indexOf(q) >= 0);
+            if (!matchedSearch) return false;
+          }
+          // Level
+          if (addSheetActiveLevel !== 'all' && ex.difficulty !== addSheetActiveLevel) return false;
+          // Location (mapping equipment to location category)
+          if (addSheetActiveLocation !== 'all') {
+            var isHome = addSheetActiveLocation === 'home';
+            var isGym = addSheetActiveLocation === 'gym';
+            var eq = String(ex.equipment || '').toLowerCase();
+            if (isHome && eq.indexOf('machine') >= 0) return false;
+            if (isGym && eq.indexOf('bodyweight') >= 0 && eq.indexOf('barbell') === -1) return false;
+          }
+          // Muscle (Advanced filter)
+          if (addSheetActiveMuscle !== 'all') {
+            if (ex.muscle !== addSheetActiveMuscle && (ex.muscles || []).map(function(m) { return m.toLowerCase(); }).indexOf(addSheetActiveMuscle) === -1) {
+              return false;
+            }
+          }
+          return true;
+        });
+
+        if (!list.length) {
+          container.innerHTML = '<div style="text-align:center; padding: 40px 20px; color:#64748b; font-family:\'Nunito\';">No exercises found match these filters.</div>';
+          return;
+        }
+
+        container.innerHTML = list.map(function(ex) {
+          // Check if already selected or already in workout
+          var isDraftSelected = addSheetSelected.some(function(item) { return item.id === ex.id; });
+          var isAlreadyInWorkout = currentExercises.some(function(item) { return item.id === ex.id; });
+          
+          var isSelectedState = isDraftSelected || isAlreadyInWorkout;
+          var iconUrl = isSelectedState ? '../../assets/svg_icons/minus.svg' : '../../assets/svg_icons/plus.svg';
+          var filterStyle = isSelectedState ? '' : 'filter: invert(36%) sepia(85%) saturate(2283%) hue-rotate(205deg) brightness(91%) contrast(101%);';
+
+          return '<div class="wk-sheet-item">' +
+            '<div class="wk-sheet-item-left">' +
+              '<div class="wk-sheet-item-img">' +
+                '<img src="' + getExerciseImage(ex) + '" alt="">' +
+              '</div>' +
+              '<div class="wk-sheet-item-text">' +
+                '<div class="wk-sheet-item-name">' + escapeText(ex.name) + '</div>' +
+                '<div class="wk-sheet-item-details">' + escapeText(ex.sets || 3) + ' sets · ' + escapeText(ex.reps || '10') + ' reps · ' + escapeText(ex.equipment || 'Bodyweight') + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<button class="wk-sheet-item-toggle" onclick="toggleAddSheetExercise(' + JSON.stringify(ex).replace(/"/g, '&quot;') + ')">' +
+              '<img src="' + iconUrl + '" alt="" style="' + filterStyle + '">' +
+            '</button>' +
+          '</div>';
+        }).join('');
+      }
+
+      window.toggleAddSheetExercise = function toggleAddSheetExercise(ex) {
+        // Find if in selected draft
+        var idx = addSheetSelected.findIndex(function(item) { return item.id === ex.id; });
+        var isAlreadyInWorkout = currentExercises.some(function(item) { return item.id === ex.id; });
+        
+        if (isAlreadyInWorkout) {
+          // If already in workout, clicking minus deletes it directly from currentExercises
+          var workIdx = currentExercises.findIndex(function(item) { return item.id === ex.id; });
+          if (workIdx >= 0) {
+            currentExercises.splice(workIdx, 1);
+            showToast("Removed " + ex.name);
+          }
+        } else {
+          if (idx >= 0) {
+            addSheetSelected.splice(idx, 1);
+          } else {
+            addSheetSelected.push({
+              id: ex.id,
+              name: ex.name,
+              sets: ex.sets || 3,
+              reps: String(ex.reps || '10'),
+              equipment: ex.equipment || 'Bodyweight',
+              rest: ex.rest || 60,
+              difficulty: ex.difficulty || 'intermediate',
+              muscle: ex.muscle || 'general',
+              muscles: ex.muscles || []
+            });
+          }
+        }
+        
+        renderAddSheetList();
+        updateAddSheetApplyButton();
+        renderDetail(); // Keep main page detail updated
+      };
+
+      function updateAddSheetApplyButton() {
+        var btn = document.getElementById('addSheetApplyBtn');
+        if (!btn) return;
+        var count = addSheetSelected.length;
+        btn.textContent = 'Add Selected (' + count + ')';
+        
+        if (count > 0) {
+          btn.disabled = false;
+          btn.style.opacity = '1';
+        } else {
+          btn.disabled = true;
+          btn.style.opacity = '0.5';
+        }
+      }
+
+      window.applyAddExercises = function applyAddExercises() {
+        if (!addSheetSelected.length) return;
+        
+        // Append selections
+        currentExercises = currentExercises.concat(addSheetSelected);
+        renderDetail();
+        closeAddExerciseSheet();
+        updateSaveBtnDisabledState();
+        showToast("Added " + addSheetSelected.length + " exercise(s) to workout");
+      };
+
+      // ── EDIT EXERCISE BOTTOM SHEET LOGIC ──
+      window.openEditExerciseSheet = function openEditExerciseSheet(index) {
+        editActiveIndex = index;
+        var ex = currentExercises[index];
+        if (!ex) return;
+
+        // Setup image & text
+        document.getElementById('editSheetExImg').innerHTML = '<img src="' + getExerciseImage(ex) + '" style="width:100%; height:100%; object-fit:cover;">';
+        document.getElementById('editSheetExName').textContent = ex.name;
+        
+        var formattedReps = String(ex.reps).indexOf('sec') >= 0 || String(ex.reps).indexOf('s') >= 0 ? ex.reps : ex.reps + ' reps';
+        document.getElementById('editSheetExParams').textContent = ex.sets + ' sets · ' + formattedReps;
+
+        // Parse reps number
+        var parsedReps = parseInt(ex.reps, 10);
+        if (isNaN(parsedReps)) parsedReps = 10;
+        
+        var isSeconds = String(ex.reps).indexOf('sec') >= 0 || String(ex.reps).indexOf('s') >= 0;
+        document.getElementById('editSheetRepsTitle').textContent = isSeconds ? 'Seconds' : 'Reps';
+
+        // Load state
+        editCurrentState.sets = parseInt(ex.sets, 10) || 3;
+        editCurrentState.reps = parsedReps;
+        editCurrentState.rest = parseInt(ex.rest, 10) || 60;
+        editCurrentState.isSeconds = isSeconds;
+
+        // Store original state to detect modification
+        editOriginalState.sets = editCurrentState.sets;
+        editOriginalState.reps = editCurrentState.reps;
+        editOriginalState.rest = editCurrentState.rest;
+        editOriginalState.isSeconds = isSeconds;
+
+        renderEditSheetSteppers();
+
+        document.getElementById('editSheetBackdrop').classList.add('is-visible');
+        document.getElementById('editExerciseSheet').classList.add('is-open');
+      };
+
+      window.closeEditExerciseSheet = function closeEditExerciseSheet() {
+        document.getElementById('editSheetBackdrop').classList.remove('is-visible');
+        document.getElementById('editExerciseSheet').classList.remove('is-open');
+        editActiveIndex = -1;
+      };
+
+      function renderEditSheetSteppers() {
+        document.getElementById('editSheetSetsVal').textContent = editCurrentState.sets;
+        
+        var repsLabel = editCurrentState.isSeconds ? editCurrentState.reps + 's' : editCurrentState.reps;
+        document.getElementById('editSheetRepsVal').textContent = repsLabel;
+        
+        document.getElementById('editSheetRestVal').textContent = editCurrentState.rest + ' sec';
+
+        // Badge pill
+        var textBadge = editCurrentState.sets + ' Sets ' + (editCurrentState.isSeconds ? editCurrentState.reps + ' Secs' : editCurrentState.reps + ' Reps');
+        document.getElementById('editSheetTotalSummaryBadge').textContent = textBadge;
+
+        // Disable/enable Save button
+        var saveBtn = document.getElementById('editSheetSaveBtn');
+        var isModified = editCurrentState.sets !== editOriginalState.sets ||
+                           editCurrentState.reps !== editOriginalState.reps ||
+                           editCurrentState.rest !== editOriginalState.rest;
+        
+        if (isModified) {
+          saveBtn.disabled = false;
+          saveBtn.style.opacity = '1';
+        } else {
+          saveBtn.disabled = true;
+          saveBtn.style.opacity = '0.5';
+        }
+      }
+
+      window.adjustEditStepper = function adjustEditStepper(type, delta) {
+        if (type === 'sets') {
+          editCurrentState.sets = Math.max(1, Math.min(10, editCurrentState.sets + delta));
+        } else if (type === 'reps') {
+          var step = editCurrentState.isSeconds ? 5 : 1;
+          editCurrentState.reps = Math.max(1, Math.min(120, editCurrentState.reps + (delta * step)));
+        } else if (type === 'rest') {
+          editCurrentState.rest = Math.max(0, Math.min(600, editCurrentState.rest + delta));
+        }
+        renderEditSheetSteppers();
+      };
+
+      window.saveEditExercise = function saveEditExercise() {
+        if (editActiveIndex < 0) return;
+        var ex = currentExercises[editActiveIndex];
+        if (!ex) return;
+
+        ex.sets = editCurrentState.sets;
+        var repSuffix = editCurrentState.isSeconds ? ' sec' : '';
+        ex.reps = String(editCurrentState.reps) + repSuffix;
+        ex.rest = editCurrentState.rest;
+
+        renderDetail();
+        closeEditExerciseSheet();
+        updateSaveBtnDisabledState();
+        showToast("Exercise sets/reps updated");
+      };
+
+      // ── Custom Page Loader Hook ──
+      window.initWorkoutDetailCustom = function initWorkoutDetailCustom() {
+        activeWorkout = getSavedWorkout();
+        currentExercises = getWorkoutExerciseList(activeWorkout);
+        isCustomizeMode = false;
+        
+        // Show conflict icon if warning active
+        var conflictBtn = document.getElementById('wkDetailConflictBtn');
+        if (conflictBtn) {
+          conflictBtn.hidden = activeWorkout.conflict ? false : true;
+        }
+
+        renderDetail();
+        
+        // Initial setup for customize buttons display
+        document.getElementById('wkDetailActionsNormal').style.display = 'flex';
+        document.getElementById('wkDetailActionsCustomize').style.display = 'none';
+        
+        // Override global initWorkoutDetail in app.js
+        window.initWorkoutDetail = function() {
+          activeWorkout = getSavedWorkout();
+          currentExercises = getWorkoutExerciseList(activeWorkout);
+          renderDetail();
+        };
+      };
+
+      // Bind window load
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          window.initWorkoutDetailCustom();
+        }, 100);
       });
     })();
   </script>

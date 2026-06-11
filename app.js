@@ -149,6 +149,7 @@ const screenPaths = {
   'exercise-detail': BASE_PATH + '/screens/workout/exercise-detail.html',
   'workout-build': BASE_PATH + '/screens/workout/workout-build.html',
   'custom-workouts': BASE_PATH + '/screens/workout/custom-workouts.html?v=1',
+  'workout-generator': BASE_PATH + '/screens/workout/workout-generator.html?v=1',
   'coach-q1': BASE_PATH + '/screens/workout/coach-q1.html?v=5',
   'coach-q2': BASE_PATH + '/screens/workout/coach-q2.html?v=5',
   'coach-q3': BASE_PATH + '/screens/workout/coach-q3.html?v=5',
@@ -2226,6 +2227,14 @@ state.workoutSchedule = state.workoutSchedule || null;
 state.buildExercises = state.buildExercises || [];
 state.exerciseNotes = state.exerciseNotes || {};
 state.exerciseHistory = state.exerciseHistory || {};
+state.workoutGeneratorDraft = state.workoutGeneratorDraft || {
+  duration: 30,
+  targets: [],
+  level: '',
+  location: '',
+  warmup: true,
+  cooldown: true
+};
 
 // ======================================================================
 // HELPER: GET EXERCISE BY ID
@@ -2309,6 +2318,7 @@ function initCoachGenerating() {
 function generateCoachPlan() {
   var params = state.coachParams;
   var targetMuscles = params.coachMuscles || ['full-body'];
+  var location = params.coachLocation || '';
   if (typeof targetMuscles === 'string') targetMuscles = [targetMuscles];
 
   // Filter exercises by muscle and difficulty
@@ -2320,8 +2330,13 @@ function generateCoachPlan() {
       (params.coachDifficulty === 'beginner' && ex.difficulty === 'beginner') ||
       (params.coachDifficulty === 'intermediate' && (ex.difficulty === 'beginner' || ex.difficulty === 'intermediate')) ||
       (params.coachDifficulty === 'advanced');
-    var eqMatch = !params.coachEquipment || params.coachEquipment === 'full-gym' ||
-      ex.equipment === params.coachEquipment || ex.equipment === 'Bodyweight';
+    var eqMatch = true;
+    if (location === 'home') {
+      eqMatch = ex.equipment === 'Bodyweight' || ex.equipment === 'Dumbbells';
+    } else if (!location) {
+      eqMatch = !params.coachEquipment || params.coachEquipment === 'full-gym' ||
+        ex.equipment === params.coachEquipment || ex.equipment === 'Bodyweight';
+    }
     return muscleMatch && diffMatch && eqMatch;
   });
 
@@ -2334,6 +2349,17 @@ function generateCoachPlan() {
   // Determine duration
   var timeMap = { '30': 30, '45': 40, '60': 50, '90': 70 };
   var duration = timeMap[params.coachTime] || 45;
+  var equipmentLabels = location === 'home'
+    ? ['Home']
+    : location === 'gym'
+      ? ['Gym']
+      : location === 'both'
+        ? ['Gym', 'Home']
+        : params.coachEquipment === 'bodyweight'
+          ? ['Bodyweight']
+          : params.coachEquipment === 'dumbbells'
+            ? ['Dumbbells']
+            : ['Mixed'];
 
   state.coachWorkout = {
     id: 'coach_' + Date.now(),
@@ -2342,11 +2368,16 @@ function generateCoachPlan() {
     muscles: targetMuscles.map(function(m) { return m.charAt(0).toUpperCase() + m.slice(1); }),
     duration: duration,
     difficulty: params.coachDifficulty || 'intermediate',
-    equipment: params.coachEquipment === 'bodyweight' ? ['Bodyweight'] : params.coachEquipment === 'dumbbells' ? ['Dumbbells'] : ['Mixed'],
+    equipment: equipmentLabels,
+    location: location || '',
     calories: Math.round(duration * 7),
-    desc: 'Coach-generated workout based on your preferences.',
+    desc: location
+      ? 'Coach-generated workout based on your selected duration, level, location, and target areas.'
+      : 'Coach-generated workout based on your preferences.',
     exercises: picked.map(function(ex) { return ex.id; }),
-    favorite: false
+    favorite: false,
+    warmup: params.coachWarmup !== false,
+    cooldown: params.coachCooldown !== false
   };
   try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
 }
@@ -2378,7 +2409,7 @@ function initCoachReview() {
       '<div class="cr-plan-pattern"></div>' +
       '<div class="cr-workout-header">' +
         '<h2 class="cr-workout-name">' + w.name + '</h2>' +
-        '<p class="cr-workout-origin">Generated from your intake preferences</p>' +
+        '<p class="cr-workout-origin">' + (w.location ? 'Generated from your workout generator selections' : 'Generated from your intake preferences') + '</p>' +
       '</div>' +
       '<div class="cr-badges">' +
         '<div class="cr-badge"><img src="../../assets/svg_icons/clock-five.svg" width="16" alt=""><span>' + w.duration + ' min</span></div>' +
@@ -2405,6 +2436,230 @@ window.saveCoachWorkout = function saveCoachWorkout() {
   state.coachParams = {};
   try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
   navigateTo('workout');
+};
+
+var workoutGeneratorDurationValues = [15, 30, 45, 60];
+var workoutGeneratorTargetDefinitions = {
+  chest: { label: 'Chest', canonical: 'chest' },
+  shoulders: { label: 'Shoulders', canonical: 'shoulders' },
+  'upper-back': { label: 'Upper Back', canonical: 'back' },
+  bicep: { label: 'Bicep', canonical: 'arms' },
+  triceps: { label: 'Triceps', canonical: 'triceps' },
+  glutes: { label: 'Glutes', canonical: 'glutes' },
+  legs: { label: 'Legs', canonical: 'legs' },
+  core: { label: 'Core', canonical: 'core' },
+  forearms: { label: 'Forearms', canonical: 'arms' }
+};
+var workoutGeneratorLevelDefinitions = {
+  beginner: { label: 'Beginer' },
+  intermediate: { label: 'Intermediate' },
+  advanced: { label: 'Advanced' }
+};
+var workoutGeneratorLocationDefinitions = {
+  gym: { label: 'Gym' },
+  home: { label: 'Home' },
+  both: { label: 'Both' }
+};
+
+function getDefaultWorkoutGeneratorDraft() {
+  return {
+    duration: 30,
+    targets: [],
+    level: '',
+    location: '',
+    warmup: true,
+    cooldown: true
+  };
+}
+
+function normalizeWorkoutGeneratorDraft(draft) {
+  var normalized = getDefaultWorkoutGeneratorDraft();
+  var source = draft && typeof draft === 'object' ? draft : {};
+  var duration = parseInt(source.duration, 10);
+  if (workoutGeneratorDurationValues.indexOf(duration) >= 0) {
+    normalized.duration = duration;
+  }
+  if (Array.isArray(source.targets)) {
+    normalized.targets = source.targets.filter(function(key, index, list) {
+      return workoutGeneratorTargetDefinitions[key] && list.indexOf(key) === index;
+    });
+  }
+  if (workoutGeneratorLevelDefinitions[source.level]) normalized.level = source.level;
+  if (workoutGeneratorLocationDefinitions[source.location]) normalized.location = source.location;
+  normalized.warmup = source.warmup !== false;
+  normalized.cooldown = source.cooldown !== false;
+  return normalized;
+}
+
+function getWorkoutGeneratorDraft() {
+  state.workoutGeneratorDraft = normalizeWorkoutGeneratorDraft(state.workoutGeneratorDraft);
+  return state.workoutGeneratorDraft;
+}
+
+function persistWorkoutGeneratorDraft() {
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+}
+
+function getWorkoutGeneratorSelectedTargets(draft) {
+  return draft.targets.map(function(key) {
+    return workoutGeneratorTargetDefinitions[key];
+  }).filter(Boolean);
+}
+
+function getWorkoutGeneratorDurationPercent(value) {
+  var index = workoutGeneratorDurationValues.indexOf(value);
+  if (index <= 0) return 0;
+  return (index / (workoutGeneratorDurationValues.length - 1)) * 100;
+}
+
+function buildWorkoutGeneratorRecommendation(targets) {
+  var labels = targets.map(function(item) {
+    return item.label.toLowerCase();
+  });
+  if (!labels.length) return '';
+  if (labels.length === 1) {
+    return 'Great choice! focusing on ' + labels[0] + ' builds strength, control and confidence.';
+  }
+  if (labels.length === 2) {
+    return 'Great choice! focusing on ' + labels[0] + ' + ' + labels[1] + ' builds strength, power and balance.';
+  }
+  return 'Great choice! focusing on ' + labels.slice(0, -1).join(', ') + ' + ' + labels[labels.length - 1] + ' builds strength, control and balance.';
+}
+
+function buildWorkoutGeneratorName(draft) {
+  var labels = getWorkoutGeneratorSelectedTargets(draft).map(function(item) {
+    return item.label;
+  });
+  var focus = labels.length ? labels.slice(0, 2).join(' & ') : 'Coach';
+  return draft.duration + ' Min ' + focus + ' Workout';
+}
+
+function updateWorkoutGeneratorUI() {
+  var screen = document.querySelector('.screen-workout-generator');
+  if (!screen) return;
+  var draft = getWorkoutGeneratorDraft();
+  var durationBadge = document.getElementById('wgDurationBadge');
+  var durationSlider = document.getElementById('wgDurationSlider');
+  var coachName = document.getElementById('wgCoachFirstName');
+  var selectedTargets = getWorkoutGeneratorSelectedTargets(draft);
+  var recommendation = document.getElementById('wgRecommendation');
+  var recommendationText = document.getElementById('wgRecommendationText');
+  var generateBtn = document.getElementById('wgGenerateBtn');
+
+  screen.style.setProperty('--wg-duration-progress', getWorkoutGeneratorDurationPercent(draft.duration) + '%');
+  if (durationBadge) durationBadge.textContent = draft.duration + ' min';
+  if (durationSlider) durationSlider.value = String(draft.duration);
+  if (coachName) coachName.textContent = (state.name || 'Mike Michel').split(' ')[0] || 'Mike';
+
+  document.querySelectorAll('[data-wg-target]').forEach(function(button) {
+    var key = button.getAttribute('data-wg-target');
+    button.classList.toggle('is-selected', draft.targets.indexOf(key) >= 0);
+  });
+
+  document.querySelectorAll('[data-wg-level]').forEach(function(button) {
+    var key = button.getAttribute('data-wg-level');
+    button.classList.toggle('is-selected', draft.level === key);
+  });
+
+  document.querySelectorAll('[data-wg-location]').forEach(function(button) {
+    var key = button.getAttribute('data-wg-location');
+    button.classList.toggle('is-selected', draft.location === key);
+  });
+
+  document.querySelectorAll('[data-wg-binary]').forEach(function(button) {
+    var key = button.getAttribute('data-wg-binary');
+    var value = button.getAttribute('data-value') === 'true';
+    button.classList.toggle('is-selected', !!draft[key] === value);
+  });
+
+  if (recommendation) recommendation.hidden = !selectedTargets.length;
+  if (recommendationText) recommendationText.textContent = buildWorkoutGeneratorRecommendation(selectedTargets);
+  if (generateBtn) generateBtn.disabled = !(selectedTargets.length && draft.level && draft.location);
+}
+
+function initWorkoutGenerator() {
+  var screen = document.querySelector('.screen-workout-generator');
+  if (!screen) return;
+
+  getWorkoutGeneratorDraft();
+
+  var durationSlider = document.getElementById('wgDurationSlider');
+  if (durationSlider) {
+    durationSlider.addEventListener('input', function() {
+      state.workoutGeneratorDraft.duration = parseInt(durationSlider.value, 10) || 30;
+      persistWorkoutGeneratorDraft();
+      updateWorkoutGeneratorUI();
+    });
+  }
+
+  document.querySelectorAll('[data-wg-target]').forEach(function(button) {
+    button.addEventListener('click', function() {
+      var key = button.getAttribute('data-wg-target');
+      var draft = getWorkoutGeneratorDraft();
+      var index = draft.targets.indexOf(key);
+      if (index >= 0) {
+        draft.targets.splice(index, 1);
+      } else {
+        draft.targets.push(key);
+      }
+      persistWorkoutGeneratorDraft();
+      updateWorkoutGeneratorUI();
+    });
+  });
+
+  document.querySelectorAll('[data-wg-level]').forEach(function(button) {
+    button.addEventListener('click', function() {
+      state.workoutGeneratorDraft.level = button.getAttribute('data-wg-level') || '';
+      persistWorkoutGeneratorDraft();
+      updateWorkoutGeneratorUI();
+    });
+  });
+
+  document.querySelectorAll('[data-wg-location]').forEach(function(button) {
+    button.addEventListener('click', function() {
+      state.workoutGeneratorDraft.location = button.getAttribute('data-wg-location') || '';
+      persistWorkoutGeneratorDraft();
+      updateWorkoutGeneratorUI();
+    });
+  });
+
+  document.querySelectorAll('[data-wg-binary]').forEach(function(button) {
+    button.addEventListener('click', function() {
+      var key = button.getAttribute('data-wg-binary');
+      state.workoutGeneratorDraft[key] = button.getAttribute('data-value') === 'true';
+      persistWorkoutGeneratorDraft();
+      updateWorkoutGeneratorUI();
+    });
+  });
+
+  updateWorkoutGeneratorUI();
+}
+
+window.generateWorkoutFromGenerator = function generateWorkoutFromGenerator() {
+  var draft = getWorkoutGeneratorDraft();
+  var selectedTargets = getWorkoutGeneratorSelectedTargets(draft);
+  if (!selectedTargets.length || !draft.level || !draft.location) return;
+
+  var canonicalTargets = [];
+  selectedTargets.forEach(function(item) {
+    if (canonicalTargets.indexOf(item.canonical) === -1) {
+      canonicalTargets.push(item.canonical);
+    }
+  });
+
+  state.coachParams = {
+    coachTime: String(draft.duration),
+    coachDifficulty: draft.level,
+    coachLocation: draft.location,
+    coachEquipment: draft.location === 'home' ? 'dumbbells' : 'full-gym',
+    coachMuscles: canonicalTargets,
+    coachWarmup: !!draft.warmup,
+    coachCooldown: !!draft.cooldown,
+    coachWorkoutName: buildWorkoutGeneratorName(draft)
+  };
+  persistWorkoutGeneratorDraft();
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  navigateTo('coach-generating');
 };
 
 function dismissWorkoutSavedToast() {
@@ -2487,7 +2742,7 @@ function renderCustomWorkouts(search) {
         '<img src="../../assets/svg_icons/not-found-alt.svg" width="48" height="48" alt="">' +
         '<h2>No custom workouts yet</h2>' +
         '<p>Create a coach-built workout and it will appear here.</p>' +
-        '<button type="button" onclick="navigateTo(\'coach-q1\')">Create Workout</button>' +
+        '<button type="button" onclick="navigateTo(\'workout-generator\')">Create Workout</button>' +
       '</section>';
     return;
   }
@@ -5565,6 +5820,8 @@ if (typeof document !== 'undefined') {
     // WORKOUT SCREEN INITIALIZERS
     } else if (currentPath.includes('workout-library')) {
       initWorkoutLibrary();
+    } else if (currentPath.includes('workout-generator')) {
+      initWorkoutGenerator();
     } else if (currentPath.includes('custom-workouts')) {
       initCustomWorkouts();
     } else if (currentPath.includes('workout-detail')) {

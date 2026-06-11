@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Strivio - Workout Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=16">
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+        <div class="screen screen-workout-generator active" data-screen="workout-generator">
+          <div class="status-bar">
+            <span class="status-time">9:41</span>
+            <div class="status-icons">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="10" width="3" height="5" rx="0.5" fill="currentColor" />
+                <rect x="6" y="7" width="3" height="8" rx="0.5" fill="currentColor" />
+                <rect x="11" y="3" width="3" height="12" rx="0.5" fill="currentColor" />
+              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="currentColor" />
+                <path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="currentColor" />
+                <circle cx="8" cy="11" r="2" fill="currentColor" />
+              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="5" width="2" height="6" rx="0.5" fill="currentColor" />
+                <rect x="5" y="3" width="2" height="8" rx="0.5" fill="currentColor" />
+                <rect x="9" y="1" width="2" height="10" rx="0.5" fill="currentColor" />
+                <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="currentColor" />
+              </svg>
+            </div>
+          </div>
+
+          <header class="wg-generator-header">
+            <button type="button" class="wg-generator-back" onclick="goBack()" aria-label="Back">
+              <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/back.svg'); width: 24px; height: 24px;"></span>
+            </button>
+            <h1>Workout Generator</h1>
+          </header>
+
+          <main class="wg-generator-scroll" id="wgGeneratorScroll">
+            <section class="wg-generator-hero">
+              <div class="wg-generator-hero-art">
+                <div class="wg-generator-hero-shape"></div>
+                <img src="../../assets/img/workout-generator-coach.png" alt="Coach Marcus">
+              </div>
+              <div class="wg-generator-hero-content">
+                <div class="wg-generator-pill">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/sparkles.svg'); width: 14px; height: 14px; background-color: var(--color-primary);"></span>
+                  <span>Your Coach</span>
+                </div>
+                <p class="wg-generator-hero-title">Hi, <span id="wgCoachFirstName">Mike</span>, I’ll build your workout based on your choices.</p>
+                <p class="wg-generator-hero-copy">Coach is tailoring your session in real time</p>
+                <div class="wg-generator-hero-meta">
+                  <span><span class="icon" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>30 min</span>
+                  <span><span class="icon" style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>Intermediate</span>
+                  <span><span class="icon" style="--icon-url: url('../../assets/svg_icons/location.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>Gym</span>
+                  <span><span class="icon" style="--icon-url: url('../../assets/svg_icons/leg.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>Legs, Glutes</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="wg-generator-section">
+              <div class="wg-generator-section-head">
+                <h2>Select Duration</h2>
+                <span class="wg-generator-duration-badge" id="wgDurationBadge">30 min</span>
+              </div>
+              <div class="wg-generator-slider-wrap">
+                <input id="wgDurationSlider" class="wg-generator-slider" type="range" min="15" max="60" step="15" value="30" aria-label="Workout duration">
+                <div class="wg-generator-slider-labels">
+                  <span>15<br>min</span>
+                  <span>30<br>min</span>
+                  <span>45<br>min</span>
+                  <span>60<br>min</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="wg-generator-section">
+              <div class="wg-generator-section-head">
+                <h2>Choose Your Target Area</h2>
+              </div>
+              <div class="wg-generator-target-grid">
+                <button type="button" class="wg-target-chip" data-wg-target="chest">
+                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/muscle.svg'); --wg-chip-icon-color: var(--color-secondary);"></span>
+                  <span>Chest</span>
+                </button>
+                <button type="button" class="wg-target-chip" data-wg-target="shoulders">
+                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/shoulder.svg'); --wg-chip-icon-color: var(--color-tertiary);"></span>
+                  <span>Shoulders</span>
+                </button>
+                <button type="button" class="wg-target-chip" data-wg-target="upper-back">
+                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/body.svg'); --wg-chip-icon-color: var(--color-toq);"></span>
+                  <span>Upper Back</span>
+                </button>
+                <button type="button" class="wg-target-chip" data-wg-target="bicep">
+                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); --wg-chip-icon-color: var(--color-greenish);"></span>
+                  <span>Bicep</span>
+                </button>
+                <button type="button" class="wg-target-chip" data-wg-target="triceps">
+                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); --wg-chip-icon-color: var(--color-tertiary);"></span>
+                  <span>Triceps</span>
+                </button>
+                <button type="button" class="wg-target-chip" data-wg-target="glutes">
+                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/body.svg'); --wg-chip-icon-color: var(--color-secondary);"></span>
+                  <span>Glutes</span>
+                </button>
+                <button type="button" class="wg-target-chip" data-wg-target="legs">
+                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/leg.svg'); --wg-chip-icon-color: var(--color-secondary);"></span>
+                  <span>Legs</span>
+                </button>
+                <button type="button" class="wg-target-chip" data-wg-target="core">
+                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/core.svg'); --wg-chip-icon-color: var(--color-primary);"></span>
+                  <span>Core</span>
+                </button>
+                <button type="button" class="wg-target-chip" data-wg-target="forearms">
+                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/weight.svg'); --wg-chip-icon-color: var(--color-tertiary);"></span>
+                  <span>Forearms</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="wg-generator-recommendation" id="wgRecommendation" hidden>
+              <span class="icon" style="--icon-url: url('../../assets/svg_icons/star.svg'); width: 20px; height: 20px; background-color: var(--color-primary);"></span>
+              <div>
+                <h3>Coach Recommendation</h3>
+                <p id="wgRecommendationText"></p>
+              </div>
+            </section>
+
+            <section class="wg-generator-section">
+              <div class="wg-generator-section-head">
+                <h2>Select Your Fitness Level</h2>
+              </div>
+              <div class="wg-generator-choice-row">
+                <button type="button" class="wg-choice-chip" data-wg-level="beginner">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/low.svg'); width: 16px; height: 16px;"></span>
+                  <span>Beginer</span>
+                </button>
+                <button type="button" class="wg-choice-chip" data-wg-level="intermediate">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 16px; height: 16px;"></span>
+                  <span>Intermediate</span>
+                </button>
+                <button type="button" class="wg-choice-chip" data-wg-level="advanced">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/bolt.svg'); width: 16px; height: 16px;"></span>
+                  <span>Advanced</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="wg-generator-section">
+              <div class="wg-generator-section-head">
+                <h2>Location</h2>
+              </div>
+              <div class="wg-generator-choice-row">
+                <button type="button" class="wg-choice-chip wg-choice-chip-location" data-wg-location="gym">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/gym.svg'); width: 16px; height: 16px;"></span>
+                  <span>Gym</span>
+                </button>
+                <button type="button" class="wg-choice-chip wg-choice-chip-location" data-wg-location="home">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/home.svg'); width: 16px; height: 16px;"></span>
+                  <span>Home</span>
+                </button>
+                <button type="button" class="wg-choice-chip wg-choice-chip-location" data-wg-location="both">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/exchange.svg'); width: 16px; height: 16px;"></span>
+                  <span>Both</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="wg-generator-toggle-row">
+              <h2>Start with a warm-up?</h2>
+              <div class="wg-generator-toggle">
+                <button type="button" class="wg-generator-toggle-option" data-wg-binary="warmup" data-value="true">Yes</button>
+                <button type="button" class="wg-generator-toggle-option" data-wg-binary="warmup" data-value="false">No</button>
+              </div>
+            </section>
+
+            <section class="wg-generator-toggle-row">
+              <h2>End with a cooldown?</h2>
+              <div class="wg-generator-toggle">
+                <button type="button" class="wg-generator-toggle-option" data-wg-binary="cooldown" data-value="true">Yes</button>
+                <button type="button" class="wg-generator-toggle-option" data-wg-binary="cooldown" data-value="false">No</button>
+              </div>
+            </section>
+          </main>
+
+          <div class="wg-generator-actions">
+            <button id="wgGenerateBtn" class="wg-generate-btn" type="button" onclick="generateWorkoutFromGenerator()" disabled>
+              <span class="icon" style="--icon-url: url('../../assets/svg_icons/sparkles.svg'); width: 18px; height: 18px;"></span>
+              <span>Generate with Coach</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=22"></script>
+</body>
+
+</html>
