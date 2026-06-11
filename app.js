@@ -4959,11 +4959,71 @@ function respondAsCoach(question) {
   }, 900);
 }
 
+// ===== PWA INITIALIZATION =====
+function initPWA() {
+  if (typeof document === 'undefined') return;
+
+  // 1. Inject Manifest Link if not already present
+  if (!document.querySelector('link[rel="manifest"]')) {
+    const manifestLink = document.createElement('link');
+    manifestLink.rel = 'manifest';
+    manifestLink.href = BASE_PATH + '/manifest.json';
+    document.head.appendChild(manifestLink);
+  }
+
+  // 2. Inject PWA and iOS Meta Tags
+  const metaTags = [
+    { name: 'theme-color', content: '#0056D8' },
+    { name: 'apple-mobile-web-app-capable', content: 'yes' },
+    { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
+    { name: 'apple-mobile-web-app-title', content: 'Strivio' }
+  ];
+
+  metaTags.forEach(tag => {
+    if (!document.querySelector(`meta[name="${tag.name}"]`)) {
+      const meta = document.createElement('meta');
+      meta.name = tag.name;
+      meta.content = tag.content;
+      document.head.appendChild(meta);
+    }
+  });
+
+  // 3. Inject Apple Touch Icon
+  if (!document.querySelector('link[rel="apple-touch-icon"]')) {
+    const appleIcon = document.createElement('link');
+    appleIcon.rel = 'apple-touch-icon';
+    appleIcon.href = BASE_PATH + '/assets/icon-192.png';
+    document.head.appendChild(appleIcon);
+  }
+
+  // 4. Register Service Worker
+  if ('serviceWorker' in navigator) {
+    const registerSW = () => {
+      const swUrl = BASE_PATH + '/sw.js';
+      navigator.serviceWorker.register(swUrl)
+        .then(reg => {
+          console.log('[PWA] Service Worker registered with scope:', reg.scope);
+        })
+        .catch(err => {
+          console.error('[PWA] Service Worker registration failed:', err);
+        });
+    };
+
+    if (document.readyState === 'complete') {
+      registerSW();
+    } else {
+      window.addEventListener('load', registerSW);
+    }
+  }
+}
+
 // ======================================================================
 // INIT =====
 if (typeof document !== 'undefined') {
   document.addEventListener('DOMContentLoaded', () => {
     restoreState();
+    initPWA();
+
 
     // Sync workout settings to state
     if (state.workoutSettings) {
