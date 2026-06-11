@@ -116,21 +116,21 @@
   --typography-title-large-line-height: 28px;
   --typography-title-large-letter-spacing: 0;
   --typography-title-large-font-family: 'Nunito', sans-serif;
-  --typography-title-large-font-weight: 600;
+  --typography-title-large-font-weight: 800;
   --typography-title-large-font-style: normal;
 
   --typography-title-medium-font-size: 16px;
   --typography-title-medium-line-height: 24px;
   --typography-title-medium-letter-spacing: 0.15px;
   --typography-title-medium-font-family: 'Nunito', sans-serif;
-  --typography-title-medium-font-weight: 600;
+  --typography-title-medium-font-weight: 800;
   --typography-title-medium-font-style: normal;
 
   --typography-title-small-font-size: 14px;
   --typography-title-small-line-height: 20px;
   --typography-title-small-letter-spacing: 0.1px;
   --typography-title-small-font-family: 'Nunito', sans-serif;
-  --typography-title-small-font-weight: 600;
+  --typography-title-small-font-weight: 800;
   --typography-title-small-font-style: normal;
 
   /* Body */
@@ -278,5 +278,3 @@
   --border-b-x-heavy: 6px;
   --border-b-ultra: 8px;
 }
-
-

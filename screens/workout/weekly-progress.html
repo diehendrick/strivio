@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Strivio — Weekly Progress</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=15">
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    /* Custom page-specific overrides mapping to design-tokens.css */
+    
+    .screen-weekly-progress {
+      background-color: var(--color-background);
+      font-family: var(--typography-body-medium-font-family);
+    }
+
+    /* Navigation Header */
+    .screen-weekly-progress .wk-nav-header {
+      display: flex;
+      align-items: center;
+      padding: var(--spacing-s48) var(--spacing-s20) var(--spacing-s12);
+      gap: var(--spacing-s12);
+      background: var(--color-surface);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      border: none;
+    }
+
+    .screen-weekly-progress .wk-back-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      border-radius: var(--radius-rFull);
+      transition: background-color 0.2s ease;
+    }
+
+    .screen-weekly-progress .wk-back-btn:active {
+      background-color: var(--color-surface-variant);
+    }
+
+    .screen-weekly-progress .wk-back-btn .icon {
+      background-color: var(--color-text-primary);
+      width: 24px;
+      height: 24px;
+    }
+
+    .screen-weekly-progress .wk-nav-title {
+      font-family: var(--typography-headline-small-font-family);
+      font-size: var(--typography-headline-small-font-size);
+      font-weight: var(--typography-headline-small-font-weight);
+      color: #1A1D26;
+      line-height: 32px;
+    }
+
+    /* Content Body */
+    .screen-weekly-progress .wk-progress-page-body {
+      padding: 0 var(--spacing-s24) var(--spacing-s24);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-s16);
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    /* Headings & Section Groups */
+    .screen-weekly-progress .progress-section-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-s12);
+      width: 100%;
+    }
+
+    .screen-weekly-progress .section-title {
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-weight: var(--typography-title-medium-font-weight);
+      color: #1A1D26;
+      line-height: 24px;
+      margin: 0;
+    }
+
+    /* Cards Common */
+    .screen-weekly-progress .progress-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-r20);
+      box-shadow: 0px 0px 38px rgba(0, 0, 0, 0.06);
+      padding: var(--spacing-s16);
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    /* 1. Daily Workout Minutes Chart Card */
+    .screen-weekly-progress .chart-card {
+      height: 184px;
+      display: flex;
+      padding: var(--spacing-s16) var(--spacing-s24) var(--spacing-s16) var(--spacing-s12);
+      align-items: flex-end;
+      position: relative;
+    }
+
+    .screen-weekly-progress .chart-y-axis {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 120px;
+      margin-bottom: 24px; /* Space to match horizontal alignment with the day labels */
+      padding-right: var(--spacing-s8);
+      width: 24px;
+      text-align: right;
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      color: var(--color-text-secondary);
+      box-sizing: border-box;
+      z-index: 3;
+    }
+
+    .screen-weekly-progress .chart-y-axis span {
+      line-height: 16px;
+    }
+
+    .screen-weekly-progress .chart-container {
+      flex: 1;
+      height: 100%;
+      position: relative;
+    }
+
+    .screen-weekly-progress .chart-grid {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 4px; /* Offset matching the vertical center of '60' axis label */
+      height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .screen-weekly-progress .chart-gridline {
+      width: 100%;
+      height: 0;
+      border-top: 1px dashed var(--color-border);
+    }
+
+    .screen-weekly-progress .chart-bars {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 4px;
+      bottom: 0;
+      height: 144px;
+      display: flex;
+      z-index: 2;
+    }
+
+    .screen-weekly-progress .chart-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      height: 100%;
+    }
+
+    .screen-weekly-progress .chart-bar-wrap {
+      height: 120px;
+      display: flex;
+      align-items: flex-end;
+      margin-bottom: var(--spacing-s2);
+    }
+
+    .screen-weekly-progress .chart-bar {
+      width: 8px;
+      border-radius: var(--radius-rFull);
+      background-color: var(--color-primary);
+      transition: height 0.3s ease;
+    }
+
+    .screen-weekly-progress .chart-day-lbl {
+      height: 24px;
+      line-height: 24px;
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-weight: var(--typography-body-small-font-weight);
+      color: var(--color-text-secondary);
+      text-align: center;
+    }
+
+    /* 2. Workout Stats Row Card */
+    .screen-weekly-progress .stats-card {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--spacing-s20) var(--spacing-s24);
+    }
+
+    .screen-weekly-progress .stat-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--spacing-s8);
+    }
+
+    .screen-weekly-progress .stat-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .screen-weekly-progress .stat-value {
+      font-family: var(--typography-label-large-font-family);
+      font-size: var(--typography-label-large-font-size);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      line-height: 20px;
+    }
+
+    .screen-weekly-progress .stat-label {
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      color: var(--color-text-tertiary);
+      line-height: 16px;
+    }
+
+    .screen-weekly-progress .stat-divider {
+      width: 1px;
+      height: 48px;
+      background-color: var(--color-divider);
+      align-self: center;
+    }
+
+    /* 3. Daily Breakdown Card */
+    .screen-weekly-progress .breakdown-card {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      border-radius: var(--radius-r16);
+    }
+
+    .screen-weekly-progress .breakdown-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--spacing-s12) var(--spacing-s16);
+      border-bottom: 1px solid var(--color-border);
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .screen-weekly-progress .breakdown-row:last-child {
+      border-bottom: none;
+    }
+
+    .screen-weekly-progress .breakdown-day {
+      width: 86px;
+      font-family: var(--typography-label-large-font-family);
+      font-size: var(--typography-label-large-font-size);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      line-height: 20px;
+    }
+
+    .screen-weekly-progress .breakdown-group {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-s16);
+    }
+
+    .screen-weekly-progress .breakdown-bar {
+      height: 6px;
+      border-radius: var(--radius-rFull);
+      background-color: var(--color-primary);
+      flex-shrink: 0;
+    }
+
+    .screen-weekly-progress .breakdown-value {
+      font-family: var(--typography-label-large-font-family);
+      font-size: var(--typography-label-large-font-size);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      line-height: 20px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    /* Highlight Friday in primary color */
+    .screen-weekly-progress .breakdown-row.highlight .breakdown-day,
+    .screen-weekly-progress .breakdown-row.highlight .breakdown-value {
+      color: var(--color-primary);
+    }
+
+    /* 4. Insights Card */
+    .screen-weekly-progress .insights-card {
+      border: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-s16);
+      padding: var(--spacing-s16);
+    }
+
+    .screen-weekly-progress .insight-row {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-s12);
+      width: 100%;
+    }
+
+    .screen-weekly-progress .insight-icon-container {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-rFull);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .screen-weekly-progress .insight-icon-container.blue-bg {
+      background-color: var(--color-primary-container);
+    }
+
+    .screen-weekly-progress .insight-icon-container.green-bg {
+      background-color: var(--color-on-success);
+    }
+
+    .screen-weekly-progress .insight-info {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-s4);
+    }
+
+    .screen-weekly-progress .insight-title {
+      font-family: var(--typography-label-large-font-family);
+      font-size: var(--typography-label-large-font-size);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      line-height: 20px;
+    }
+
+    .screen-weekly-progress .insight-subtitle {
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      color: #6b6b78;
+      line-height: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== WORKOUT TAB: Weekly Progress ===== -->
+        <div class="screen screen-weekly-progress active" data-screen="weekly-progress">
+          <!-- Navigation Header -->
+          <div class="wk-nav-header">
+            <button class="wk-back-btn" onclick="goBack()">
+              <span class="icon" style="--icon-url: url('../../assets/svg_icons/back.svg'); width: 24px; height: 24px; background-color: var(--color-text-primary);"></span>
+            </button>
+            <span class="wk-nav-title">Weekly Progress</span>
+          </div>
+
+          <!-- Content Body -->
+          <div class="wk-progress-page-body">
+            <!-- 1. Daily Workout Minutes Section -->
+            <div class="progress-section-group">
+              <h2 class="section-title">Daily Workout Minutes</h2>
+              <div class="progress-card chart-card">
+                <div class="chart-y-axis">
+                  <span>60</span>
+                  <span>40</span>
+                  <span>20</span>
+                  <span>0</span>
+                </div>
+                <div class="chart-container">
+                  <div class="chart-grid">
+                    <div class="chart-gridline"></div>
+                    <div class="chart-gridline"></div>
+                    <div class="chart-gridline"></div>
+                    <div class="chart-gridline"></div>
+                  </div>
+                  <div class="chart-bars">
+                    <!-- Mon -->
+                    <div class="chart-col">
+                      <div class="chart-bar-wrap">
+                        <div class="chart-bar" style="height: 50%;"></div>
+                      </div>
+                      <span class="chart-day-lbl">M</span>
+                    </div>
+                    <!-- Tue -->
+                    <div class="chart-col">
+                      <div class="chart-bar-wrap">
+                        <div class="chart-bar" style="height: 33.3%;"></div>
+                      </div>
+                      <span class="chart-day-lbl">T</span>
+                    </div>
+                    <!-- Wed -->
+                    <div class="chart-col">
+                      <div class="chart-bar-wrap">
+                        <div class="chart-bar" style="height: 66.7%;"></div>
+                      </div>
+                      <span class="chart-day-lbl">W</span>
+                    </div>
+                    <!-- Thu -->
+                    <div class="chart-col">
+                      <div class="chart-bar-wrap">
+                        <div class="chart-bar" style="height: 41.7%;"></div>
+                      </div>
+                      <span class="chart-day-lbl">T</span>
+                    </div>
+                    <!-- Fri -->
+                    <div class="chart-col">
+                      <div class="chart-bar-wrap">
+                        <div class="chart-bar" style="height: 91.7%;"></div>
+                      </div>
+                      <span class="chart-day-lbl">F</span>
+                    </div>
+                    <!-- Sat -->
+                    <div class="chart-col">
+                      <div class="chart-bar-wrap">
+                        <div class="chart-bar" style="height: 50%;"></div>
+                      </div>
+                      <span class="chart-day-lbl">S</span>
+                    </div>
+                    <!-- Sun -->
+                    <div class="chart-col">
+                      <div class="chart-bar-wrap">
+                        <div class="chart-bar" style="height: 16.7%;"></div>
+                      </div>
+                      <span class="chart-day-lbl">S</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Workout Stats Row Card -->
+            <div class="progress-card stats-card">
+              <!-- Stat Item 1 -->
+              <div class="stat-item">
+                <span class="icon stat-icon" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); background-color: var(--color-primary);"></span>
+                <span class="stat-value">205 min</span>
+                <span class="stat-label">Total This<br>Week</span>
+              </div>
+              
+              <!-- Divider -->
+              <div class="stat-divider"></div>
+              
+              <!-- Stat Item 2 -->
+              <div class="stat-item">
+                <span class="icon stat-icon" style="--icon-url: url('../../assets/svg_icons/chart-pie-alt.svg'); background-color: var(--color-secondary);"></span>
+                <span class="stat-value">29 min</span>
+                <span class="stat-label">Avg per<br>Day</span>
+              </div>
+              
+              <!-- Divider -->
+              <div class="stat-divider"></div>
+              
+              <!-- Stat Item 3 -->
+              <div class="stat-item">
+                <span class="icon stat-icon" style="--icon-url: url('../../assets/svg_icons/bullseye-arrow.svg'); background-color: var(--color-success);"></span>
+                <span class="stat-value">82%</span>
+                <span class="stat-label">Completion<br>Workout</span>
+              </div>
+            </div>
+
+            <!-- 3. Daily Breakdown Section -->
+            <div class="progress-section-group">
+              <h2 class="section-title">Daily Breakdown</h2>
+              <div class="progress-card breakdown-card">
+                <!-- Monday -->
+                <div class="breakdown-row">
+                  <span class="breakdown-day">Monday</span>
+                  <div class="breakdown-group">
+                    <div class="breakdown-bar" style="width: 100px;"></div>
+                    <span class="breakdown-value">30 min</span>
+                  </div>
+                </div>
+                <!-- Tuesday -->
+                <div class="breakdown-row">
+                  <span class="breakdown-day">Tuesday</span>
+                  <div class="breakdown-group">
+                    <div class="breakdown-bar" style="width: 58px;"></div>
+                    <span class="breakdown-value">20 min</span>
+                  </div>
+                </div>
+                <!-- Wednesday -->
+                <div class="breakdown-row">
+                  <span class="breakdown-day">Wednesday</span>
+                  <div class="breakdown-group">
+                    <div class="breakdown-bar" style="width: 130px;"></div>
+                    <span class="breakdown-value">40 min</span>
+                  </div>
+                </div>
+                <!-- Thursday -->
+                <div class="breakdown-row">
+                  <span class="breakdown-day">Thursday</span>
+                  <div class="breakdown-group">
+                    <div class="breakdown-bar" style="width: 85px;"></div>
+                    <span class="breakdown-value">25 min</span>
+                  </div>
+                </div>
+                <!-- Friday (highlighted) -->
+                <div class="breakdown-row highlight">
+                  <span class="breakdown-day">Friday</span>
+                  <div class="breakdown-group">
+                    <div class="breakdown-bar" style="width: 156px;"></div>
+                    <span class="breakdown-value">55 min</span>
+                  </div>
+                </div>
+                <!-- Saturday -->
+                <div class="breakdown-row">
+                  <span class="breakdown-day">Saturday</span>
+                  <div class="breakdown-group">
+                    <div class="breakdown-bar" style="width: 100px;"></div>
+                    <span class="breakdown-value">30 min</span>
+                  </div>
+                </div>
+                <!-- Sunday -->
+                <div class="breakdown-row">
+                  <span class="breakdown-day">Sunday</span>
+                  <div class="breakdown-group">
+                    <div class="breakdown-bar" style="width: 40px;"></div>
+                    <span class="breakdown-value">10 min</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Insights Section -->
+            <div class="progress-section-group">
+              <h2 class="section-title">Insights</h2>
+              <div class="progress-card insights-card">
+                <!-- Insight 1 -->
+                <div class="insight-row">
+                  <div class="insight-icon-container blue-bg">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/calendar.svg'); width: 18px; height: 18px; background-color: var(--color-primary);"></span>
+                  </div>
+                  <div class="insight-info">
+                    <span class="insight-title">Best day: Friday</span>
+                    <span class="insight-subtitle">You crushed it with 55 minutes!</span>
+                  </div>
+                </div>
+                <!-- Insight 2 -->
+                <div class="insight-row">
+                  <div class="insight-icon-container green-bg">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/bullseye-arrow.svg'); width: 18px; height: 18px; background-color: var(--color-success);"></span>
+                  </div>
+                  <div class="insight-info">
+                    <span class="insight-title">Goal completion: 82%</span>
+                    <span class="insight-subtitle">Great job! Keep it up!</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=15"></script>
+</body>
+
+</html>

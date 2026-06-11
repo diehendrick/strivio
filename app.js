@@ -143,6 +143,7 @@ const screenPaths = {
   'paywall-sheet': BASE_PATH + '/screens/logbook/paywall-sheet.html',
   // Workout screens
   'workout': BASE_PATH + '/screens/workout/workout.html?v=8',
+  'weekly-progress': BASE_PATH + '/screens/workout/weekly-progress.html',
   'workout-library': BASE_PATH + '/screens/workout/workout-library.html',
   'exercise-library': BASE_PATH + '/screens/workout/exercise-library.html',
   'exercise-detail': BASE_PATH + '/screens/workout/exercise-detail.html',
@@ -1744,8 +1745,41 @@ window.markRestDay = function markRestDay() {
   };
   if (!state.activityLog) state.activityLog = [];
   state.activityLog.unshift(entry);
+  state.todayWorkoutState = 'rest';
   try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
-  alert('Rest day noted. Recovery is essential!');
+
+  // Toggle UI
+  var workoutCard = document.getElementById('workoutCard');
+  var restDayCard = document.getElementById('restDayCard');
+  var rescheduledContainer = document.getElementById('rescheduledContainer');
+  var workoutExtraSections = document.getElementById('workoutExtraSections');
+  if (workoutCard) workoutCard.style.display = 'none';
+  if (restDayCard) restDayCard.style.display = 'flex';
+  if (rescheduledContainer) rescheduledContainer.style.display = 'none';
+  if (workoutExtraSections) workoutExtraSections.style.display = 'block';
+}
+
+window.markRescheduled = function markRescheduled() {
+  var now = new Date();
+  var entry = {
+    date: now.toISOString().split('T')[0],
+    type: 'rescheduled',
+    label: 'Rescheduled Workout'
+  };
+  if (!state.activityLog) state.activityLog = [];
+  state.activityLog.unshift(entry);
+  state.todayWorkoutState = 'rescheduled';
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+
+  // Toggle UI
+  var workoutCard = document.getElementById('workoutCard');
+  var restDayCard = document.getElementById('restDayCard');
+  var rescheduledContainer = document.getElementById('rescheduledContainer');
+  var workoutExtraSections = document.getElementById('workoutExtraSections');
+  if (workoutCard) workoutCard.style.display = 'none';
+  if (restDayCard) restDayCard.style.display = 'none';
+  if (rescheduledContainer) rescheduledContainer.style.display = 'block';
+  if (workoutExtraSections) workoutExtraSections.style.display = 'none';
 }
 
 // ===== AUTH: PASSWORD TOGGLE =====
@@ -2260,6 +2294,30 @@ function dismissWorkoutSavedToast() {
 
 function initWorkoutHome() {
   updateHomeGreeting();
+
+  // Toggle UI based on state
+  var workoutCard = document.getElementById('workoutCard');
+  var restDayCard = document.getElementById('restDayCard');
+  var rescheduledContainer = document.getElementById('rescheduledContainer');
+  var workoutExtraSections = document.getElementById('workoutExtraSections');
+
+  if (state.todayWorkoutState === 'rest') {
+    if (workoutCard) workoutCard.style.display = 'none';
+    if (restDayCard) restDayCard.style.display = 'flex';
+    if (rescheduledContainer) rescheduledContainer.style.display = 'none';
+    if (workoutExtraSections) workoutExtraSections.style.display = 'block';
+  } else if (state.todayWorkoutState === 'rescheduled') {
+    if (workoutCard) workoutCard.style.display = 'none';
+    if (restDayCard) restDayCard.style.display = 'none';
+    if (rescheduledContainer) rescheduledContainer.style.display = 'block';
+    if (workoutExtraSections) workoutExtraSections.style.display = 'none';
+  } else {
+    if (workoutCard) workoutCard.style.display = 'flex';
+    if (restDayCard) restDayCard.style.display = 'none';
+    if (rescheduledContainer) rescheduledContainer.style.display = 'none';
+    if (workoutExtraSections) workoutExtraSections.style.display = 'block';
+  }
+
   if (!state.pendingWorkoutSaveToast) return;
 
   state.pendingWorkoutSaveToast = false;
@@ -2370,24 +2428,24 @@ function escapeHtml(value) {
 
 function getWorkoutLibraryImage(workout) {
   var byId = {
-    w1: '../../assets/img/woman-upper-body.png',
-    w2: '../../assets/img/david.jpg',
-    w3: '../../assets/img/marcus.jpg',
-    w4: '../../assets/img/sara.jpg',
-    w5: '../../assets/img/lena.jpg',
-    w6: '../../assets/img/profile.jpg',
-    w7: '../../assets/img/onvboarding-1.jpg',
-    w8: '../../assets/img/onvboarding-2.jpg'
+    w1: '../../assets/img/workouts/barbell_bench.png',
+    w2: '../../assets/img/workouts/barber_squat.png',
+    w3: '../../assets/img/workouts/barbel_row.png',
+    w4: '../../assets/img/workouts/plank.png',
+    w5: '../../assets/img/workouts/Cardio.png',
+    w6: '../../assets/img/workouts/barber_roll.png',
+    w7: '../../assets/img/workouts/overhead_press.png',
+    w8: '../../assets/img/workouts/Pull-Ups.png'
   };
 
   if (byId[workout.id]) return byId[workout.id];
 
   var muscle = String(workout.muscle || '').toLowerCase();
-  if (muscle === 'legs') return '../../assets/img/david.jpg';
-  if (muscle === 'core') return '../../assets/img/sara.jpg';
-  if (muscle === 'back') return '../../assets/img/marcus.jpg';
-  if (muscle === 'full-body') return '../../assets/img/lena.jpg';
-  return '../../assets/img/woman-upper-body.png';
+  if (muscle === 'legs') return '../../assets/img/workouts/barber_squat.png';
+  if (muscle === 'core') return '../../assets/img/workouts/plank.png';
+  if (muscle === 'back') return '../../assets/img/workouts/barbel_row.png';
+  if (muscle === 'full-body') return '../../assets/img/workouts/Cardio.png';
+  return '../../assets/img/workouts/barbell_bench.png';
 }
 
 var workoutLibraryFilters = {
@@ -2557,11 +2615,25 @@ function getWorkoutLibraryProfile(workout) {
 }
 
 function updateWorkoutLibraryFilterUI() {
-  Object.keys(workoutLibraryFilterDefinitions).forEach(function(filterType) {
+  var groupedActive = ['muscle', 'goal', 'duration'].some(function(filterType) {
+    return workoutLibraryFilters[filterType] && workoutLibraryFilters[filterType] !== 'all';
+  });
+
+  var groupedTrigger = document.querySelector('[data-filter-sheet="filters"]');
+  if (groupedTrigger) {
+    groupedTrigger.classList.toggle('is-active', groupedActive);
+    groupedTrigger.setAttribute('aria-expanded', workoutLibraryActiveSheet === 'filters' ? 'true' : 'false');
+  }
+
+  ['level', 'location'].forEach(function(filterType) {
     var valueEl = document.getElementById('wkFilterValue-' + filterType);
     var trigger = document.querySelector('[data-filter-sheet="' + filterType + '"]');
     var isActive = workoutLibraryFilters[filterType] && workoutLibraryFilters[filterType] !== 'all';
-    if (valueEl) valueEl.textContent = getWorkoutLibraryFilterLabel(filterType, workoutLibraryFilters[filterType]);
+    if (valueEl) {
+      valueEl.textContent = isActive
+        ? getWorkoutLibraryFilterLabel(filterType, workoutLibraryFilters[filterType])
+        : workoutLibraryFilterDefinitions[filterType].label;
+    }
     if (trigger) {
       trigger.classList.toggle('is-active', !!isActive);
       trigger.setAttribute('aria-expanded', workoutLibraryActiveSheet === filterType ? 'true' : 'false');
@@ -2580,6 +2652,29 @@ function renderWorkoutLibraryFilterSheet() {
 
   var title = document.getElementById('wkFilterSheetTitle');
   var optionsRoot = document.getElementById('wkFilterSheetOptions');
+  if (workoutLibraryActiveSheet === 'filters') {
+    if (title) title.textContent = 'Filters';
+    if (!optionsRoot) return;
+    optionsRoot.innerHTML = ['muscle', 'goal', 'duration'].map(function(filterType) {
+      var config = workoutLibraryFilterDefinitions[filterType];
+      return '<section class="wk-filter-option-group">' +
+        '<h3 class="wk-filter-option-group-title">' + escapeHtml(config.label) + '</h3>' +
+        config.options.map(function(option) {
+          var isActive = workoutLibraryFilters[filterType] === option.value;
+          var media = option.image
+            ? '<div class="wk-filter-option-media"><img src="' + escapeHtml(option.image) + '" alt="' + escapeHtml(option.label) + '"></div>'
+            : '<div class="wk-filter-option-media wk-filter-option-media--empty"></div>';
+          return '<button class="wk-filter-option' + (isActive ? ' is-selected' : '') + '" type="button" data-filter-group="' + escapeHtml(filterType) + '" data-filter-value="' + escapeHtml(option.value) + '">' +
+            media +
+            '<span class="wk-filter-option-text">' + escapeHtml(option.label) + '</span>' +
+            '<span class="wk-filter-option-check" aria-hidden="true">' + (isActive ? '&#10003;' : '') + '</span>' +
+          '</button>';
+        }).join('') +
+      '</section>';
+    }).join('');
+    return;
+  }
+
   var config = workoutLibraryFilterDefinitions[workoutLibraryActiveSheet];
   if (!optionsRoot || !config) return;
 
@@ -2601,7 +2696,7 @@ function renderWorkoutLibraryFilterSheet() {
 window.openWorkoutLibrarySheet = function openWorkoutLibrarySheet(filterType) {
   var sheet = document.getElementById('wkFilterSheet');
   var backdrop = document.getElementById('wkFilterSheetBackdrop');
-  if (!sheet || !backdrop || !workoutLibraryFilterDefinitions[filterType]) return;
+  if (!sheet || !backdrop || (filterType !== 'filters' && !workoutLibraryFilterDefinitions[filterType])) return;
 
   workoutLibraryActiveSheet = filterType;
   backdrop.hidden = false;
@@ -2679,7 +2774,9 @@ function renderWorkoutLibrary() {
 
   var resultsCount = document.getElementById('wkLibraryResultsCount');
   if (resultsCount) {
-    resultsCount.textContent = results.length + ' workout' + (results.length === 1 ? '' : 's');
+    resultsCount.innerHTML =
+      '<span class="icon wk-default-icon" style="--icon-url: url(\'../../assets/svg_icons/dumbbell-ray.svg\'); width: 12px; height: 12px;"></span>' +
+      '<span>' + results.length + ' Workout' + (results.length === 1 ? '' : 's') + '</span>';
   }
 
   updateWorkoutLibraryFilterUI();
@@ -2698,22 +2795,20 @@ function renderWorkoutLibrary() {
 
   list.innerHTML = results.map(function(w) {
     var profile = getWorkoutLibraryProfile(w);
-    var tags = (profile.muscleLabels.length ? profile.muscleLabels : [w.muscle || 'General']).slice(0, 2);
+    var primaryMuscles = (profile.muscleLabels.length ? profile.muscleLabels : [w.muscle || 'General']).slice(0, 2);
+    var equipment = Array.isArray(w.equipment) ? w.equipment[0] : (w.equipment || 'Bodyweight');
+    var summary = primaryMuscles.join(', ') + ' · ' + String(equipment).toLowerCase();
     return '<article class="wk-lib-card" onclick="openWorkoutDetail(\'' + w.id + '\')">' +
       '<div class="wk-lib-thumb"><img src="' + getWorkoutLibraryImage(w) + '" alt=""></div>' +
       '<div class="wk-lib-content">' +
-        '<div class="wk-lib-topline">' +
-          '<span class="wk-lib-goal">' + escapeHtml(profile.goalLabel) + '</span>' +
-          '<span class="wk-lib-location">' + escapeHtml(profile.locationLabel) + '</span>' +
-        '</div>' +
         '<h3>' + escapeHtml(w.name) + '</h3>' +
         '<div class="wk-lib-meta">' +
-          '<span><img src="../../assets/svg_icons/clock-five.svg" width="12" height="12" alt=""> ' + escapeHtml(w.duration) + ' min</span>' +
-          '<span><img src="../../assets/svg_icons/chart-simple.svg" width="12" height="12" alt=""> ' + escapeHtml(profile.levelLabel) + '</span>' +
+          '<span class="wk-lib-meta-item"><span class="icon wk-default-icon" style="--icon-url: url(\'../../assets/svg_icons/dumbbell-ray.svg\'); width: 12px; height: 12px;"></span><span>' + escapeHtml(profile.locationLabel) + '</span></span>' +
+          '<span class="wk-lib-meta-item"><span class="icon wk-default-icon" style="--icon-url: url(\'../../assets/svg_icons/clock-five.svg\'); width: 12px; height: 12px;"></span><span>' + escapeHtml(w.duration) + ' min</span></span>' +
+          '<span class="wk-lib-meta-item"><span class="icon wk-default-icon" style="--icon-url: url(\'../../assets/svg_icons/chart-simple.svg\'); width: 12px; height: 12px;"></span><span>' + escapeHtml(profile.levelLabel) + '</span></span>' +
         '</div>' +
-        '<div class="wk-lib-tags">' + tags.map(function(tag) {
-          return '<span>' + escapeHtml(tag) + '</span>';
-        }).join('') + '</div>' +
+        '<p class="wk-lib-summary">' + escapeHtml(summary) + '</p>' +
+        '<p class="wk-lib-goal-text">Goal: ' + escapeHtml(profile.goalLabel) + '</p>' +
       '</div>' +
     '</article>';
   }).join('');
@@ -2754,7 +2849,8 @@ function initWorkoutLibrary() {
     sheetOptions.addEventListener('click', function(event) {
       var option = event.target.closest('[data-filter-value]');
       if (!option || !workoutLibraryActiveSheet) return;
-      workoutLibraryFilters[workoutLibraryActiveSheet] = option.getAttribute('data-filter-value');
+      var filterKey = option.getAttribute('data-filter-group') || workoutLibraryActiveSheet;
+      workoutLibraryFilters[filterKey] = option.getAttribute('data-filter-value');
       window.closeWorkoutLibrarySheet();
       renderWorkoutLibrary();
     });
