@@ -1778,8 +1778,130 @@ window.markRescheduled = function markRescheduled() {
   var workoutExtraSections = document.getElementById('workoutExtraSections');
   if (workoutCard) workoutCard.style.display = 'none';
   if (restDayCard) restDayCard.style.display = 'none';
-  if (rescheduledContainer) rescheduledContainer.style.display = 'block';
-  if (workoutExtraSections) workoutExtraSections.style.display = 'none';
+  if (rescheduledContainer) rescheduledContainer.style.display = 'flex';
+  if (workoutExtraSections) workoutExtraSections.style.display = 'block';
+}
+
+window.openRescheduleDatePicker = function openRescheduleDatePicker() {
+  var backdrop = document.getElementById('wkDatePickerBackdrop');
+  var sheet = document.getElementById('wkDatePickerSheet');
+  var applyBtn = document.getElementById('wkDatePickerApplyBtn');
+  if (!backdrop || !sheet) return;
+
+  // Initialize selected day state
+  window.selectedRescheduleDay = null;
+  if (applyBtn) applyBtn.disabled = true;
+
+  // Reset grid styles
+  var cells = document.querySelectorAll('.wk-date-cell');
+  cells.forEach(function(cell) {
+    if (cell.classList.contains('wk-date-selected')) {
+      cell.classList.remove('wk-date-selected');
+      cell.classList.add('wk-date-selectable');
+    }
+  });
+
+  // Open UI
+  backdrop.hidden = false;
+  sheet.setAttribute('aria-hidden', 'false');
+  window.requestAnimationFrame(function() {
+    backdrop.classList.add('is-visible');
+    sheet.classList.add('is-open');
+  });
+
+  // Setup click handlers for selectable days once
+  if (!window.datePickerInitialized) {
+    window.datePickerInitialized = true;
+
+    // Attach click listener for grid
+    var grid = document.getElementById('wkDatePickerGrid');
+    if (grid) {
+      grid.addEventListener('click', function(e) {
+        var cell = e.target.closest('.wk-date-selectable');
+        if (cell) {
+          // Clear current selection
+          var prevSelected = grid.querySelector('.wk-date-selected');
+          if (prevSelected) {
+            prevSelected.classList.remove('wk-date-selected');
+            prevSelected.classList.add('wk-date-selectable');
+          }
+
+          // Select this one
+          cell.classList.remove('wk-date-selectable');
+          cell.classList.add('wk-date-selected');
+
+          window.selectedRescheduleDay = cell.dataset.day;
+          if (applyBtn) applyBtn.disabled = false;
+        }
+      });
+    }
+
+    // Attach Apply button click listener
+    if (applyBtn) {
+      applyBtn.addEventListener('click', function() {
+        if (window.selectedRescheduleDay) {
+          window.confirmReschedule(window.selectedRescheduleDay);
+        }
+      });
+    }
+  }
+}
+
+window.closeRescheduleDatePicker = function closeRescheduleDatePicker() {
+  var backdrop = document.getElementById('wkDatePickerBackdrop');
+  var sheet = document.getElementById('wkDatePickerSheet');
+  if (!backdrop || !sheet) return;
+
+  backdrop.classList.remove('is-visible');
+  sheet.classList.remove('is-open');
+  sheet.setAttribute('aria-hidden', 'true');
+
+  window.setTimeout(function() {
+    backdrop.hidden = true;
+  }, 250);
+}
+
+window.confirmReschedule = function confirmReschedule(day) {
+  state.rescheduledDay = day;
+  state.rescheduledMonth = 'Apr';
+
+  var entry = {
+    date: '2026-04-' + (day < 10 ? '0' + day : day),
+    type: 'rescheduled',
+    label: 'Rescheduled Workout'
+  };
+  if (!state.activityLog) state.activityLog = [];
+  state.activityLog.unshift(entry);
+  state.todayWorkoutState = 'rescheduled';
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+
+  // Update DOM card values
+  var rescheduledContainer = document.getElementById('rescheduledContainer');
+  if (rescheduledContainer) {
+    var dayEl = rescheduledContainer.querySelector('.wk-rescheduled-day');
+    var monthEl = rescheduledContainer.querySelector('.wk-rescheduled-month');
+    if (dayEl) dayEl.textContent = day;
+    if (monthEl) monthEl.textContent = 'Apr';
+  }
+
+  // Toggle UI
+  var workoutCard = document.getElementById('workoutCard');
+  var restDayCard = document.getElementById('restDayCard');
+  var workoutExtraSections = document.getElementById('workoutExtraSections');
+  if (workoutCard) workoutCard.style.display = 'none';
+  if (restDayCard) restDayCard.style.display = 'none';
+  if (rescheduledContainer) rescheduledContainer.style.display = 'flex';
+  if (workoutExtraSections) workoutExtraSections.style.display = 'block';
+
+  window.closeRescheduleDatePicker();
+}
+
+window.resetWorkoutState = function resetWorkoutState() {
+  state.todayWorkoutState = 'scheduled';
+  delete state.rescheduledDay;
+  delete state.rescheduledMonth;
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  initWorkoutHome();
 }
 
 // ===== AUTH: PASSWORD TOGGLE =====
@@ -2309,8 +2431,14 @@ function initWorkoutHome() {
   } else if (state.todayWorkoutState === 'rescheduled') {
     if (workoutCard) workoutCard.style.display = 'none';
     if (restDayCard) restDayCard.style.display = 'none';
-    if (rescheduledContainer) rescheduledContainer.style.display = 'block';
-    if (workoutExtraSections) workoutExtraSections.style.display = 'none';
+    if (rescheduledContainer) {
+      rescheduledContainer.style.display = 'flex';
+      var dayEl = rescheduledContainer.querySelector('.wk-rescheduled-day');
+      var monthEl = rescheduledContainer.querySelector('.wk-rescheduled-month');
+      if (dayEl) dayEl.textContent = state.rescheduledDay || '26';
+      if (monthEl) monthEl.textContent = state.rescheduledMonth || 'Apr';
+    }
+    if (workoutExtraSections) workoutExtraSections.style.display = 'block';
   } else {
     if (workoutCard) workoutCard.style.display = 'flex';
     if (restDayCard) restDayCard.style.display = 'none';
@@ -2457,28 +2585,32 @@ var workoutLibraryFilters = {
   search: ''
 };
 
+var workoutLibraryGroupedFilterKeys = ['muscle', 'goal', 'duration'];
 var workoutLibraryActiveSheet = null;
+var workoutLibrarySheetParent = null;
+var workoutLibraryFilterDraft = null;
 
 var workoutLibraryFilterDefinitions = {
   muscle: {
     label: 'Muscle Group',
-    title: 'Select Muscle Group',
+    title: 'Muscle Group',
+    previewCount: 5,
     options: [
       { value: 'all', label: 'All Muscle Groups' },
       { value: 'chest', label: 'Chest', image: '../../assets/img/anatomical-muscles/anatomical-chest.png' },
-      { value: 'shoulder', label: 'Shoulder', image: '../../assets/img/anatomical-muscles/anatomical-shoulders.png' },
+      { value: 'shoulders', label: 'Shoulders', image: '../../assets/img/anatomical-muscles/anatomical-shoulders.png' },
       { value: 'upper-back', label: 'Upper Back', image: '../../assets/img/anatomical-muscles/anatomical-upper-back.png' },
       { value: 'lower-back', label: 'Lower Back', image: '../../assets/img/anatomical-muscles/anatomical-lower-back.png' },
       { value: 'rear-delts', label: 'Rear Delts', image: '../../assets/img/anatomical-muscles/anatomical-rear-delts.png' },
       { value: 'lats', label: 'Lats', image: '../../assets/img/anatomical-muscles/anatomical-lats.png' },
       { value: 'bicep', label: 'Bicep', image: '../../assets/img/anatomical-muscles/anatomical-bicep.png' },
-      { value: 'tricep', label: 'Tricep', image: '../../assets/img/anatomical-muscles/anatomical-tricep.png' },
+      { value: 'triceps', label: 'Triceps', image: '../../assets/img/anatomical-muscles/anatomical-tricep.png' },
       { value: 'forearm', label: 'Forearm', image: '../../assets/img/anatomical-muscles/anatomical-forearm.png' }
     ]
   },
   goal: {
-    label: 'Goal',
-    title: 'Select Goal',
+    label: 'Goals',
+    title: 'Goals',
     options: [
       { value: 'all', label: 'All Goals' },
       { value: 'build-muscle', label: 'Build Muscle' },
@@ -2489,32 +2621,35 @@ var workoutLibraryFilterDefinitions = {
   },
   duration: {
     label: 'Duration',
-    title: 'Select Duration',
+    title: 'Duration',
     options: [
       { value: 'all', label: 'All Durations' },
-      { value: 'under-20', label: '<20 min' },
-      { value: '20-40', label: '20-40 min' },
-      { value: '40-60', label: '40-60 min' }
+      { value: '0-20', label: '0-20 min', min: 0, max: 20 },
+      { value: '10-20', label: '10-20 min', min: 10, max: 20 },
+      { value: '20-30', label: '20-30 min', min: 20, max: 30 },
+      { value: '30-40', label: '30-40 min', min: 30, max: 40 },
+      { value: '40-50', label: '40-50 min', min: 40, max: 50 },
+      { value: '50-plus', label: '50+ min', min: 50, max: null }
     ]
   },
   level: {
     label: 'Level',
-    title: 'Select Level',
+    title: 'Level',
     options: [
-      { value: 'all', label: 'All Levels' },
-      { value: 'beginner', label: 'Beginner' },
-      { value: 'intermediate', label: 'Intermediate' },
-      { value: 'advanced', label: 'Advanced' }
+      { value: 'all', label: 'All Levels', icon: '../../assets/svg_icons/sparkles.svg', iconColor: 'var(--color-default)' },
+      { value: 'beginner', label: 'Beginner', icon: '../../assets/svg_icons/meditation.svg', iconColor: 'var(--color-toq)' },
+      { value: 'intermediate', label: 'Intermediate', icon: '../../assets/svg_icons/user.svg', iconColor: 'var(--color-primary)' },
+      { value: 'advanced', label: 'Advanced', icon: '../../assets/svg_icons/dumbbell-ray.svg', iconColor: 'var(--color-secondary)' }
     ]
   },
   location: {
     label: 'Location',
-    title: 'Select Location',
+    title: 'Location',
     options: [
-      { value: 'all', label: 'All Locations' },
-      { value: 'home', label: 'Home' },
-      { value: 'home-equipment', label: 'Home With Equipment' },
-      { value: 'gym', label: 'Gym' }
+      { value: 'all', label: 'All Locations', icon: '../../assets/svg_icons/location.svg', iconColor: 'var(--color-default)' },
+      { value: 'home', label: 'Home', icon: '../../assets/svg_icons/house.svg', iconColor: 'var(--color-primary)' },
+      { value: 'home-equipment', label: 'Home with Equipment', icon: '../../assets/svg_icons/dumbbell-ray.svg', iconColor: 'var(--color-secondary)' },
+      { value: 'gym', label: 'Gym', icon: '../../assets/svg_icons/gym.svg', iconColor: 'var(--color-tertiary)' }
     ]
   }
 };
@@ -2529,13 +2664,13 @@ function getWorkoutLibraryFilterLabel(filterType, value) {
 function normalizeWorkoutMuscleTag(value) {
   var normalized = String(value || '').toLowerCase();
   if (normalized.indexOf('chest') >= 0) return 'chest';
-  if (normalized.indexOf('shoulder') >= 0) return 'shoulder';
+  if (normalized.indexOf('shoulder') >= 0) return 'shoulders';
   if (normalized.indexOf('upper back') >= 0) return 'upper-back';
   if (normalized.indexOf('lower back') >= 0) return 'lower-back';
   if (normalized.indexOf('rear delt') >= 0) return 'rear-delts';
   if (normalized.indexOf('lat') >= 0) return 'lats';
   if (normalized.indexOf('bicep') >= 0) return 'bicep';
-  if (normalized.indexOf('tricep') >= 0) return 'tricep';
+  if (normalized.indexOf('tricep') >= 0) return 'triceps';
   if (normalized.indexOf('forearm') >= 0) return 'forearm';
   if (normalized === 'back') return 'upper-back';
   if (normalized === 'arms') return 'bicep';
@@ -2544,9 +2679,12 @@ function normalizeWorkoutMuscleTag(value) {
 
 function getWorkoutDurationBucket(duration) {
   var minutes = Number(duration || 0);
-  if (minutes < 20) return 'under-20';
-  if (minutes <= 40) return '20-40';
-  return '40-60';
+  if (minutes < 10) return '0-20';
+  if (minutes < 20) return '10-20';
+  if (minutes < 30) return '20-30';
+  if (minutes < 40) return '30-40';
+  if (minutes < 50) return '40-50';
+  return '50-plus';
 }
 
 function getWorkoutLocation(workout) {
@@ -2589,6 +2727,17 @@ function getWorkoutGoal(workout) {
   return 'build-muscle';
 }
 
+function matchesWorkoutLibraryDurationFilter(duration, filterValue) {
+  if (!filterValue || filterValue === 'all') return true;
+  var option = workoutLibraryFilterDefinitions.duration.options.find(function(item) {
+    return item.value === filterValue;
+  });
+  if (!option) return true;
+  var minutes = Number(duration || 0);
+  if (option.max == null) return minutes >= option.min;
+  return minutes >= option.min && minutes < option.max;
+}
+
 function getWorkoutLibraryProfile(workout) {
   var rawMuscles = (workout.muscles && workout.muscles.length ? workout.muscles : [workout.muscle || '']).map(function(item) {
     return String(item || '');
@@ -2614,15 +2763,90 @@ function getWorkoutLibraryProfile(workout) {
   };
 }
 
-function updateWorkoutLibraryFilterUI() {
-  var groupedActive = ['muscle', 'goal', 'duration'].some(function(filterType) {
+function cloneWorkoutLibraryGroupedFilters(source) {
+  source = source || {};
+  return {
+    muscle: source.muscle || 'all',
+    goal: source.goal || 'all',
+    duration: source.duration || 'all'
+  };
+}
+
+function areWorkoutLibraryGroupedFiltersEqual(a, b) {
+  return workoutLibraryGroupedFilterKeys.every(function(filterType) {
+    return (a && a[filterType] ? a[filterType] : 'all') === (b && b[filterType] ? b[filterType] : 'all');
+  });
+}
+
+function ensureWorkoutLibraryFilterDraft() {
+  if (!workoutLibraryFilterDraft) {
+    workoutLibraryFilterDraft = cloneWorkoutLibraryGroupedFilters(workoutLibraryFilters);
+  }
+  return workoutLibraryFilterDraft;
+}
+
+function resetWorkoutLibraryFilterDraft() {
+  workoutLibraryFilterDraft = cloneWorkoutLibraryGroupedFilters();
+  return workoutLibraryFilterDraft;
+}
+
+function getWorkoutLibrarySelectableOptions(filterType) {
+  var config = workoutLibraryFilterDefinitions[filterType];
+  if (!config) return [];
+  return config.options.filter(function(option) {
+    return option.value !== 'all';
+  });
+}
+
+function getWorkoutLibraryGroupedFilterCount(source) {
+  source = source || workoutLibraryFilters;
+  return workoutLibraryGroupedFilterKeys.filter(function(filterType) {
+    return source[filterType] && source[filterType] !== 'all';
+  }).length;
+}
+
+function hasAnyWorkoutLibraryFilters() {
+  return Object.keys(workoutLibraryFilterDefinitions).some(function(filterType) {
     return workoutLibraryFilters[filterType] && workoutLibraryFilters[filterType] !== 'all';
+  }) || !!String(workoutLibraryFilters.search || '').trim();
+}
+
+function renderWorkoutLibraryAppliedFilters() {
+  var row = document.getElementById('wkLibraryAppliedFilters');
+  var list = document.getElementById('wkLibraryAppliedFilterList');
+  if (!row || !list) return;
+
+  var pills = workoutLibraryGroupedFilterKeys.filter(function(filterType) {
+    return workoutLibraryFilters[filterType] && workoutLibraryFilters[filterType] !== 'all';
+  }).map(function(filterType) {
+    return {
+      filterType: filterType,
+      label: getWorkoutLibraryFilterLabel(filterType, workoutLibraryFilters[filterType])
+    };
   });
 
+  list.innerHTML = pills.map(function(item) {
+    return '<button class="wk-filter-pill" type="button" data-filter-pill-remove="' + escapeHtml(item.filterType) + '">' +
+      '<span>' + escapeHtml(item.label) + '</span>' +
+      '<span class="wk-filter-pill-remove" aria-hidden="true">&times;</span>' +
+    '</button>';
+  }).join('');
+
+  row.hidden = !hasAnyWorkoutLibraryFilters();
+  row.classList.toggle('is-empty', pills.length === 0);
+}
+
+function updateWorkoutLibraryFilterUI() {
+  var groupedActiveCount = getWorkoutLibraryGroupedFilterCount(workoutLibraryFilters);
   var groupedTrigger = document.querySelector('[data-filter-sheet="filters"]');
+  var groupedBadge = document.getElementById('wkFilterGroupedCount');
   if (groupedTrigger) {
-    groupedTrigger.classList.toggle('is-active', groupedActive);
-    groupedTrigger.setAttribute('aria-expanded', workoutLibraryActiveSheet === 'filters' ? 'true' : 'false');
+    groupedTrigger.classList.toggle('is-active', groupedActiveCount > 0);
+    groupedTrigger.setAttribute('aria-expanded', (workoutLibraryActiveSheet === 'filters' || workoutLibraryActiveSheet === 'muscle') ? 'true' : 'false');
+  }
+  if (groupedBadge) {
+    groupedBadge.hidden = groupedActiveCount === 0;
+    groupedBadge.textContent = groupedActiveCount;
   }
 
   ['level', 'location'].forEach(function(filterType) {
@@ -2640,57 +2864,129 @@ function updateWorkoutLibraryFilterUI() {
     }
   });
 
-  var resetBtn = document.getElementById('wkLibraryResetFilters');
-  var hasFilters = Object.keys(workoutLibraryFilterDefinitions).some(function(filterType) {
-    return workoutLibraryFilters[filterType] !== 'all';
-  }) || !!workoutLibraryFilters.search;
-  if (resetBtn) resetBtn.hidden = !hasFilters;
+  var clearBtn = document.getElementById('wkLibrarySearchClear');
+  if (clearBtn) clearBtn.style.display = workoutLibraryFilters.search ? '' : 'none';
+
+  renderWorkoutLibraryAppliedFilters();
+}
+
+function renderWorkoutLibraryGroupedDraftChip(filterType, option, isSelected, withImage) {
+  return '<button class="wk-filter-choice-chip' + (isSelected ? ' is-selected' : '') + (withImage ? ' wk-filter-choice-chip-muscle' : '') + '" type="button" data-filter-draft="' + escapeHtml(filterType) + '" data-filter-value="' + escapeHtml(option.value) + '">' +
+    (withImage ? '<span class="wk-filter-choice-chip-icon"><img src="' + escapeHtml(option.image || '') + '" alt="' + escapeHtml(option.label) + '"></span>' : '') +
+    '<span class="wk-filter-choice-chip-label">' + escapeHtml(option.label) + '</span>' +
+  '</button>';
+}
+
+function renderWorkoutLibraryGroupedSheet() {
+  var draft = ensureWorkoutLibraryFilterDraft();
+  var canApply = getWorkoutLibraryGroupedFilterCount(draft) > 0 || !areWorkoutLibraryGroupedFiltersEqual(draft, workoutLibraryFilters);
+  var muscleOptions = getWorkoutLibrarySelectableOptions('muscle').slice(0, workoutLibraryFilterDefinitions.muscle.previewCount || 5);
+  var goalOptions = getWorkoutLibrarySelectableOptions('goal');
+  var durationOptions = getWorkoutLibrarySelectableOptions('duration');
+
+  return '<div class="wk-filter-sheet-panel wk-filter-sheet-panel-grouped">' +
+    '<div class="wk-filter-sheet-header wk-filter-sheet-header-grouped">' +
+      '<h2 class="wk-filter-sheet-title wk-filter-sheet-title-grouped">Filter</h2>' +
+      '<button class="wk-filter-sheet-link" type="button" data-filter-reset-grouped>Reset</button>' +
+    '</div>' +
+    '<div class="wk-filter-sheet-sections">' +
+      '<section class="wk-filter-sheet-section">' +
+        '<div class="wk-filter-sheet-section-head">' +
+          '<h3 class="wk-filter-sheet-section-title">Muscle Group</h3>' +
+          '<button class="wk-filter-sheet-link" type="button" data-filter-sheet-nav="muscle">View all</button>' +
+        '</div>' +
+        '<div class="wk-filter-choice-grid wk-filter-choice-grid-muscle">' +
+          muscleOptions.map(function(option) {
+            return renderWorkoutLibraryGroupedDraftChip('muscle', option, draft.muscle === option.value, true);
+          }).join('') +
+        '</div>' +
+      '</section>' +
+      '<section class="wk-filter-sheet-section">' +
+        '<div class="wk-filter-sheet-section-head">' +
+          '<h3 class="wk-filter-sheet-section-title">Goals</h3>' +
+        '</div>' +
+        '<div class="wk-filter-choice-grid">' +
+          goalOptions.map(function(option) {
+            return renderWorkoutLibraryGroupedDraftChip('goal', option, draft.goal === option.value, false);
+          }).join('') +
+        '</div>' +
+      '</section>' +
+      '<section class="wk-filter-sheet-section">' +
+        '<div class="wk-filter-sheet-section-head">' +
+          '<h3 class="wk-filter-sheet-section-title">Duration</h3>' +
+        '</div>' +
+        '<div class="wk-filter-choice-grid">' +
+          durationOptions.map(function(option) {
+            return renderWorkoutLibraryGroupedDraftChip('duration', option, draft.duration === option.value, false);
+          }).join('') +
+        '</div>' +
+      '</section>' +
+    '</div>' +
+    '<div class="wk-filter-sheet-footer">' +
+      '<button class="wk-filter-sheet-apply' + (canApply ? '' : ' is-disabled') + '" type="button" data-filter-apply' + (canApply ? '' : ' disabled') + '>Find Workouts</button>' +
+    '</div>' +
+  '</div>';
+}
+
+function renderWorkoutLibraryMuscleSheet() {
+  var draft = ensureWorkoutLibraryFilterDraft();
+  var options = getWorkoutLibrarySelectableOptions('muscle');
+  return '<div class="wk-filter-sheet-panel wk-filter-sheet-panel-muscle">' +
+    '<div class="wk-filter-sheet-header wk-filter-sheet-header-muscle">' +
+      '<h2 class="wk-filter-sheet-title wk-filter-sheet-title-muscle">Muscle Group</h2>' +
+    '</div>' +
+    '<div class="wk-filter-muscle-list">' +
+      options.map(function(option, index) {
+        return '<button class="wk-filter-muscle-option' + (draft.muscle === option.value ? ' is-selected' : '') + '" type="button" data-filter-draft="muscle" data-filter-value="' + escapeHtml(option.value) + '">' +
+          '<span class="wk-filter-muscle-option-image"><img src="' + escapeHtml(option.image || '') + '" alt="' + escapeHtml(option.label) + '"></span>' +
+          '<span class="wk-filter-muscle-option-label">' + escapeHtml(option.label) + '</span>' +
+          '<span class="wk-filter-muscle-option-check" aria-hidden="true">' + (draft.muscle === option.value ? '&#10003;' : '') + '</span>' +
+        '</button>' + (index === options.length - 1 ? '' : '<div class="wk-filter-muscle-divider"></div>');
+      }).join('') +
+    '</div>' +
+  '</div>';
+}
+
+function renderWorkoutLibrarySingleFilterSheet(filterType) {
+  var config = workoutLibraryFilterDefinitions[filterType];
+  if (!config) return '';
+  return '<div class="wk-filter-sheet-panel wk-filter-sheet-panel-select">' +
+    '<div class="wk-filter-sheet-header wk-filter-sheet-header-select">' +
+      '<h2 class="wk-filter-sheet-title wk-filter-sheet-title-grouped">' + escapeHtml(config.title) + '</h2>' +
+      '<button class="wk-filter-sheet-link" type="button" data-filter-reset-single="' + escapeHtml(filterType) + '">Reset</button>' +
+    '</div>' +
+    '<div class="wk-filter-select-list">' +
+      config.options.map(function(option) {
+        var isActive = workoutLibraryFilters[filterType] === option.value;
+        var iconMarkup = option.icon
+          ? '<span class="icon wk-filter-select-icon" style="--icon-url: url(\'' + escapeHtml(option.icon) + '\'); background-color: ' + escapeHtml(option.iconColor || 'var(--color-default)') + ';"></span>'
+          : (option.image ? '<span class="wk-filter-select-icon-image"><img src="' + escapeHtml(option.image) + '" alt="' + escapeHtml(option.label) + '"></span>' : '<span class="wk-filter-select-icon wk-filter-select-icon-empty"></span>');
+        return '<button class="wk-filter-select-card' + (isActive ? ' is-selected' : '') + '" type="button" data-filter-value="' + escapeHtml(option.value) + '">' +
+          iconMarkup +
+          '<span class="wk-filter-select-label">' + escapeHtml(option.label) + '</span>' +
+          '<span class="wk-filter-select-check" aria-hidden="true">' + (isActive ? '&#10003;' : '') + '</span>' +
+        '</button>';
+      }).join('') +
+    '</div>' +
+  '</div>';
 }
 
 function renderWorkoutLibraryFilterSheet() {
-  if (!workoutLibraryActiveSheet) return;
-
-  var title = document.getElementById('wkFilterSheetTitle');
-  var optionsRoot = document.getElementById('wkFilterSheetOptions');
-  if (workoutLibraryActiveSheet === 'filters') {
-    if (title) title.textContent = 'Filters';
-    if (!optionsRoot) return;
-    optionsRoot.innerHTML = ['muscle', 'goal', 'duration'].map(function(filterType) {
-      var config = workoutLibraryFilterDefinitions[filterType];
-      return '<section class="wk-filter-option-group">' +
-        '<h3 class="wk-filter-option-group-title">' + escapeHtml(config.label) + '</h3>' +
-        config.options.map(function(option) {
-          var isActive = workoutLibraryFilters[filterType] === option.value;
-          var media = option.image
-            ? '<div class="wk-filter-option-media"><img src="' + escapeHtml(option.image) + '" alt="' + escapeHtml(option.label) + '"></div>'
-            : '<div class="wk-filter-option-media wk-filter-option-media--empty"></div>';
-          return '<button class="wk-filter-option' + (isActive ? ' is-selected' : '') + '" type="button" data-filter-group="' + escapeHtml(filterType) + '" data-filter-value="' + escapeHtml(option.value) + '">' +
-            media +
-            '<span class="wk-filter-option-text">' + escapeHtml(option.label) + '</span>' +
-            '<span class="wk-filter-option-check" aria-hidden="true">' + (isActive ? '&#10003;' : '') + '</span>' +
-          '</button>';
-        }).join('') +
-      '</section>';
-    }).join('');
+  var content = document.getElementById('wkFilterSheetContent');
+  if (!content) return;
+  if (!workoutLibraryActiveSheet) {
+    content.innerHTML = '';
     return;
   }
-
-  var config = workoutLibraryFilterDefinitions[workoutLibraryActiveSheet];
-  if (!optionsRoot || !config) return;
-
-  if (title) title.textContent = config.title;
-
-  optionsRoot.innerHTML = config.options.map(function(option) {
-    var isActive = workoutLibraryFilters[workoutLibraryActiveSheet] === option.value;
-    var media = option.image
-      ? '<div class="wk-filter-option-media"><img src="' + escapeHtml(option.image) + '" alt="' + escapeHtml(option.label) + '"></div>'
-      : '<div class="wk-filter-option-media wk-filter-option-media--empty"></div>';
-    return '<button class="wk-filter-option' + (isActive ? ' is-selected' : '') + '" type="button" data-filter-value="' + escapeHtml(option.value) + '">' +
-      media +
-      '<span class="wk-filter-option-text">' + escapeHtml(option.label) + '</span>' +
-      '<span class="wk-filter-option-check" aria-hidden="true">' + (isActive ? '&#10003;' : '') + '</span>' +
-    '</button>';
-  }).join('');
+  if (workoutLibraryActiveSheet === 'filters') {
+    content.innerHTML = renderWorkoutLibraryGroupedSheet();
+    return;
+  }
+  if (workoutLibraryActiveSheet === 'muscle') {
+    content.innerHTML = renderWorkoutLibraryMuscleSheet();
+    return;
+  }
+  content.innerHTML = renderWorkoutLibrarySingleFilterSheet(workoutLibraryActiveSheet);
 }
 
 window.openWorkoutLibrarySheet = function openWorkoutLibrarySheet(filterType) {
@@ -2698,23 +2994,47 @@ window.openWorkoutLibrarySheet = function openWorkoutLibrarySheet(filterType) {
   var backdrop = document.getElementById('wkFilterSheetBackdrop');
   if (!sheet || !backdrop || (filterType !== 'filters' && !workoutLibraryFilterDefinitions[filterType])) return;
 
+  if (filterType === 'filters') {
+    workoutLibraryFilterDraft = cloneWorkoutLibraryGroupedFilters(workoutLibraryFilters);
+    workoutLibrarySheetParent = null;
+  } else {
+    workoutLibrarySheetParent = null;
+  }
   workoutLibraryActiveSheet = filterType;
   backdrop.hidden = false;
-  sheet.classList.add('is-open');
   sheet.setAttribute('aria-hidden', 'false');
   renderWorkoutLibraryFilterSheet();
   updateWorkoutLibraryFilterUI();
+  requestAnimationFrame(function() {
+    backdrop.classList.add('is-visible');
+    sheet.classList.add('is-open');
+  });
 };
 
 window.closeWorkoutLibrarySheet = function closeWorkoutLibrarySheet() {
   var sheet = document.getElementById('wkFilterSheet');
   var backdrop = document.getElementById('wkFilterSheetBackdrop');
+  if (workoutLibraryActiveSheet === 'muscle' && workoutLibrarySheetParent === 'filters') {
+    workoutLibraryActiveSheet = 'filters';
+    workoutLibrarySheetParent = null;
+    renderWorkoutLibraryFilterSheet();
+    updateWorkoutLibraryFilterUI();
+    return;
+  }
   workoutLibraryActiveSheet = null;
+  workoutLibrarySheetParent = null;
+  workoutLibraryFilterDraft = null;
   if (sheet) {
     sheet.classList.remove('is-open');
     sheet.setAttribute('aria-hidden', 'true');
   }
-  if (backdrop) backdrop.hidden = true;
+  if (backdrop) {
+    backdrop.classList.remove('is-visible');
+    setTimeout(function() {
+      if (!workoutLibraryActiveSheet) backdrop.hidden = true;
+    }, 180);
+  }
+  renderWorkoutLibraryFilterSheet();
   updateWorkoutLibraryFilterUI();
 };
 
@@ -2729,6 +3049,20 @@ window.resetWorkoutLibraryFilters = function resetWorkoutLibraryFilters() {
   if (input) input.value = '';
   if (clearBtn) clearBtn.style.display = 'none';
 
+  workoutLibraryFilterDraft = null;
+  workoutLibrarySheetParent = null;
+  workoutLibraryActiveSheet = null;
+  var sheet = document.getElementById('wkFilterSheet');
+  var backdrop = document.getElementById('wkFilterSheetBackdrop');
+  if (sheet) {
+    sheet.classList.remove('is-open');
+    sheet.setAttribute('aria-hidden', 'true');
+  }
+  if (backdrop) {
+    backdrop.classList.remove('is-visible');
+    backdrop.hidden = true;
+  }
+  renderWorkoutLibraryFilterSheet();
   renderWorkoutLibrary();
 };
 
@@ -2742,7 +3076,7 @@ function renderWorkoutLibrary() {
     var profile = getWorkoutLibraryProfile(w);
     if (workoutLibraryFilters.muscle !== 'all' && profile.muscles.indexOf(workoutLibraryFilters.muscle) === -1) return false;
     if (workoutLibraryFilters.goal !== 'all' && profile.goal !== workoutLibraryFilters.goal) return false;
-    if (workoutLibraryFilters.duration !== 'all' && profile.durationBucket !== workoutLibraryFilters.duration) return false;
+    if (!matchesWorkoutLibraryDurationFilter(w.duration, workoutLibraryFilters.duration)) return false;
     if (workoutLibraryFilters.level !== 'all' && profile.level !== workoutLibraryFilters.level) return false;
     if (workoutLibraryFilters.location !== 'all' && profile.location !== workoutLibraryFilters.location) return false;
     return true;
@@ -2843,15 +3177,78 @@ function initWorkoutLibrary() {
     backdrop.addEventListener('click', window.closeWorkoutLibrarySheet);
   }
 
-  var sheetOptions = document.getElementById('wkFilterSheetOptions');
-  if (sheetOptions && !sheetOptions.dataset.ready) {
-    sheetOptions.dataset.ready = 'true';
-    sheetOptions.addEventListener('click', function(event) {
+  var sheetContent = document.getElementById('wkFilterSheetContent');
+  if (sheetContent && !sheetContent.dataset.ready) {
+    sheetContent.dataset.ready = 'true';
+    sheetContent.addEventListener('click', function(event) {
+      var navigateBtn = event.target.closest('[data-filter-sheet-nav]');
+      if (navigateBtn) {
+        workoutLibrarySheetParent = workoutLibraryActiveSheet;
+        workoutLibraryActiveSheet = navigateBtn.getAttribute('data-filter-sheet-nav');
+        renderWorkoutLibraryFilterSheet();
+        updateWorkoutLibraryFilterUI();
+        return;
+      }
+
+      var resetBtn = event.target.closest('[data-filter-reset-grouped]');
+      if (resetBtn) {
+        resetWorkoutLibraryFilterDraft();
+        renderWorkoutLibraryFilterSheet();
+        return;
+      }
+
+      var resetSingleBtn = event.target.closest('[data-filter-reset-single]');
+      if (resetSingleBtn) {
+        workoutLibraryFilters[resetSingleBtn.getAttribute('data-filter-reset-single')] = 'all';
+        renderWorkoutLibrary();
+        renderWorkoutLibraryFilterSheet();
+        return;
+      }
+
+      var applyBtn = event.target.closest('[data-filter-apply]');
+      if (applyBtn && !applyBtn.disabled) {
+        var draft = ensureWorkoutLibraryFilterDraft();
+        workoutLibraryGroupedFilterKeys.forEach(function(filterType) {
+          workoutLibraryFilters[filterType] = draft[filterType];
+        });
+        window.closeWorkoutLibrarySheet();
+        renderWorkoutLibrary();
+        return;
+      }
+
+      var closeBtn = event.target.closest('[data-filter-close]');
+      if (closeBtn) {
+        window.closeWorkoutLibrarySheet();
+        return;
+      }
+
+      var draftOption = event.target.closest('[data-filter-draft][data-filter-value]');
+      if (draftOption) {
+        var draftFilterType = draftOption.getAttribute('data-filter-draft');
+        ensureWorkoutLibraryFilterDraft()[draftFilterType] = draftOption.getAttribute('data-filter-value');
+        if (workoutLibraryActiveSheet === 'muscle') {
+          workoutLibraryActiveSheet = 'filters';
+          workoutLibrarySheetParent = null;
+        }
+        renderWorkoutLibraryFilterSheet();
+        return;
+      }
+
       var option = event.target.closest('[data-filter-value]');
-      if (!option || !workoutLibraryActiveSheet) return;
-      var filterKey = option.getAttribute('data-filter-group') || workoutLibraryActiveSheet;
-      workoutLibraryFilters[filterKey] = option.getAttribute('data-filter-value');
+      if (!option || !workoutLibraryActiveSheet || workoutLibraryActiveSheet === 'filters' || workoutLibraryActiveSheet === 'muscle') return;
+      workoutLibraryFilters[workoutLibraryActiveSheet] = option.getAttribute('data-filter-value');
       window.closeWorkoutLibrarySheet();
+      renderWorkoutLibrary();
+    });
+  }
+
+  var appliedFilters = document.getElementById('wkLibraryAppliedFilters');
+  if (appliedFilters && !appliedFilters.dataset.ready) {
+    appliedFilters.dataset.ready = 'true';
+    appliedFilters.addEventListener('click', function(event) {
+      var removeBtn = event.target.closest('[data-filter-pill-remove]');
+      if (!removeBtn) return;
+      workoutLibraryFilters[removeBtn.getAttribute('data-filter-pill-remove')] = 'all';
       renderWorkoutLibrary();
     });
   }

@@ -5712,6 +5712,34 @@ body::before {
   transform: scale(0.98);
 }
 
+.wk-rest-day-undo {
+  margin-top: 12px;
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  color: var(--color-text-tertiary);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.wk-rest-day-undo:hover {
+  color: var(--color-primary);
+}
+
+.wk-rescheduled-undo {
+  color: var(--color-primary);
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+  margin-left: 6px;
+  transition: opacity 150ms ease;
+  display: inline-block;
+}
+
+.wk-rescheduled-undo:hover {
+  opacity: 0.8;
+}
+
 /* ===== RESCHEDULED WORKOUT LAYOUT ===== */
 .wk-rescheduled-container {
   display: flex;
@@ -5722,8 +5750,8 @@ body::before {
 
 .wk-rescheduled-card {
   background: var(--color-surface);
-  border-radius: var(--radius-r20);
-  padding: var(--spacing-s16) var(--spacing-s20);
+  border-radius: var(--radius-r16);
+  padding: var(--spacing-s12) var(--spacing-s16);
   box-shadow: 0 0 38px rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
@@ -5740,8 +5768,8 @@ body::before {
 
 .wk-rescheduled-icon {
   color: var(--color-primary);
-  width: var(--spacing-s32);
-  height: var(--spacing-s32);
+  width: 28px;
+  height: 28px;
 }
 
 .wk-rescheduled-middle {
@@ -5752,20 +5780,20 @@ body::before {
 
 .wk-rescheduled-title {
   margin: 0;
-  font-family: var(--typography-title-medium-font-family);
-  font-size: var(--typography-title-medium-font-size);
-  font-weight: var(--typography-title-medium-font-weight);
-  line-height: var(--typography-title-medium-line-height);
+  font-family: var(--typography-title-small-font-family);
+  font-size: var(--typography-title-small-font-size);
+  font-weight: 800;
+  line-height: var(--typography-title-small-line-height);
   color: var(--color-text-primary);
 }
 
 .wk-rescheduled-subtitle {
-  margin: var(--spacing-s4) 0 0 0;
-  font-family: var(--typography-body-medium-font-family);
-  font-size: var(--typography-body-medium-font-size);
-  font-weight: var(--typography-body-medium-font-weight);
-  line-height: var(--typography-body-medium-line-height);
-  color: var(--color-text-secondary);
+  margin: 0;
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-weight: 400;
+  line-height: var(--typography-body-small-line-height);
+  color: var(--color-text-tertiary);
 }
 
 .wk-rescheduled-right {
@@ -5773,25 +5801,271 @@ body::before {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 36px;
+  flex-shrink: 0;
 }
 
 .wk-rescheduled-day {
-  font-family: var(--typography-title-large-font-family);
-  font-size: var(--typography-title-large-font-size);
-  font-weight: var(--typography-title-large-font-weight);
-  line-height: 1.1;
+  font-family: var(--typography-title-small-font-family);
+  font-size: var(--typography-title-small-font-size);
+  font-weight: 600;
+  line-height: var(--typography-title-small-line-height);
   color: var(--color-primary);
   display: block;
 }
 
 .wk-rescheduled-month {
-  font-family: var(--typography-body-medium-font-family);
-  font-size: var(--typography-body-medium-font-size);
-  font-weight: var(--typography-body-medium-font-weight);
-  line-height: 1;
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-weight: 400;
+  line-height: var(--typography-body-small-line-height);
   color: var(--color-primary);
   display: block;
-  margin-top: var(--spacing-s2);
+  margin-top: 0;
+}
+
+/* ===== DATEPICKER BOTTOM SHEET ===== */
+.wk-datepicker-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.34);
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  pointer-events: none;
+}
+
+.wk-datepicker-backdrop.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.wk-datepicker-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-background);
+  border-radius: 20px 20px 0 0;
+  padding: 8px 0 0;
+  z-index: 101;
+  transform: translateY(104%);
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 -18px 22px rgba(15, 23, 42, 0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.wk-datepicker-sheet.is-open {
+  transform: translateY(0);
+}
+
+.wk-datepicker-handle {
+  width: 37px;
+  height: 4px;
+  border-radius: 2px;
+  background: #d1d5db;
+  margin: 8px auto 0;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.wk-datepicker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px 16px;
+  width: 100%;
+  box-sizing: border-box;
+  height: 76px;
+  flex-shrink: 0;
+}
+
+.wk-datepicker-btn-month {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background: var(--color-primary-container);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 150ms ease, transform 100ms ease;
+  color: var(--color-primary);
+}
+
+.wk-datepicker-btn-month:active {
+  transform: scale(0.95);
+}
+
+.wk-datepicker-title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.wk-datepicker-kicker {
+  font-family: var(--typography-body-medium-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--color-text-primary);
+}
+
+.wk-datepicker-month-title {
+  margin: 0;
+  font-family: var(--typography-title-large-font-family);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 28px;
+  color: var(--color-text-primary);
+}
+
+.wk-datepicker-calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+  align-items: center;
+  flex-shrink: 0;
+  margin-bottom: 8px;
+}
+
+.wk-datepicker-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 44px);
+  gap: 0 8px;
+  justify-content: center;
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  align-items: center;
+}
+
+.wk-datepicker-weekdays span {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+}
+
+.wk-datepicker-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 44px);
+  gap: 4px 8px;
+  justify-content: center;
+  width: 100%;
+}
+
+.wk-date-cell {
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 150ms ease;
+  cursor: default;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.wk-date-cell.empty {
+  background: transparent;
+  border: none;
+  cursor: default;
+}
+
+.wk-date-disabled {
+  background: var(--color-surface-variant);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.wk-date-selectable {
+  background: var(--color-primary-container);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.wk-date-selectable:hover {
+  filter: brightness(0.96);
+}
+
+.wk-date-rest {
+  background: transparent;
+  color: var(--color-text-primary);
+  cursor: not-allowed;
+  font-weight: 400;
+}
+
+.wk-date-today {
+  background: var(--color-primary);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: not-allowed;
+}
+
+.wk-date-selected {
+  border: 1.5px solid var(--color-primary);
+  color: var(--color-primary);
+  background: transparent;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 0.5px var(--color-primary);
+}
+
+.wk-datepicker-footer {
+  border-top: 1px solid var(--color-border);
+  padding: 14px 24px 24px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wk-datepicker-apply {
+  width: 100%;
+  border: none;
+  border-radius: var(--radius-rFull);
+  padding: 12px 16px;
+  font-family: var(--typography-title-medium-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  transition: all 200ms ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.wk-datepicker-apply:disabled {
+  background: var(--color-primary-container);
+  color: var(--color-text-tertiary);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wk-datepicker-apply:not(:disabled) {
+  background: var(--color-primary);
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 86, 216, 0.2);
+}
+
+.wk-datepicker-apply:not(:disabled):active {
+  transform: scale(0.98);
 }
 
 /* ===== WEEKLY PROGRESS CARD ===== */
@@ -6665,7 +6939,8 @@ body::before {
 
 /* Search icon: use mask-based tinting so color matches design tokens */
 .screen-workout-library-figma .wk-search-icon-img {
-  display: none; /* hide the img tag */
+  display: none;
+  /* hide the img tag */
 }
 
 .screen-workout-library-figma .wk-library-search-wrap::before {
@@ -6710,37 +6985,35 @@ body::before {
 
 .screen-workout-library-figma .wk-filter-row {
   display: flex;
-  flex-direction: row;
-  gap: var(--spacing-s8);
-  padding: 0 var(--spacing-s24);
+  gap: 8px;
+  padding: 0 24px;
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: var(--spacing-s14);
+  margin-bottom: 12px;
 }
 
 .screen-workout-library-figma .wk-filter-trigger {
-  min-height: 34px;
+  min-height: 32px;
   border: 1px solid var(--color-divider);
-  border-radius: var(--radius-r20);
+  border-radius: 20px;
   background: var(--color-surface);
-  /* Figma: py-[7px] px-[11px] (spacing-6=6px→7px, spacing-10=10px→11px) */
-  padding: var(--spacing-s6) var(--spacing-s10);
+  padding: 7px 11px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-s4);
+  gap: 4px;
   cursor: pointer;
   flex: 1;
+  box-shadow: 0 0 38px rgba(0, 0, 0, 0.06);
 }
 
-/* The icon-only Filters chip should shrink to its content */
 .screen-workout-library-figma .wk-filter-trigger-filters {
   flex: 0 0 auto;
-  padding: var(--spacing-s6) var(--spacing-s10);
+  padding-right: 10px;
 }
 
 .screen-workout-library-figma .wk-filter-trigger.is-active {
-  border-color: rgba(0, 86, 216, 0.2);
+  border-color: var(--color-primary);
   background: var(--color-primary-container);
 }
 
@@ -6761,17 +7034,88 @@ body::before {
   color: var(--color-primary);
 }
 
+.screen-workout-library-figma .wk-filter-trigger-badge {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Nunito', var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
 .screen-workout-library-figma .wk-filter-chevron {
   flex-shrink: 0;
+}
+
+.screen-workout-library-figma .wk-library-applied-filters {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 24px 6px;
+}
+
+.screen-workout-library-figma .wk-library-applied-filters.is-empty {
+  justify-content: flex-end;
+}
+
+.screen-workout-library-figma .wk-library-applied-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 34px;
+}
+
+.screen-workout-library-figma .wk-filter-pill {
+  border: 1px solid var(--color-primary);
+  border-radius: 20px;
+  background: var(--color-primary-container);
+  padding: 7px 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Nunito', var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  color: var(--color-primary);
+}
+
+.screen-workout-library-figma .wk-filter-pill-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.screen-workout-library-figma .wk-library-clear-all {
+  border: none;
+  background: transparent;
+  padding: 7px 0 0;
+  font-family: 'Nunito', var(--font-body);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 20px;
+  color: var(--color-primary);
+  white-space: nowrap;
 }
 
 .screen-workout-library-figma .wk-library-summary {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-s12);
-  /* Figma: no bottom margin here; spacing handled by filter-row */
-  padding: 0 var(--spacing-s24) var(--spacing-s8);
+  gap: 12px;
+  padding: 0 24px 8px;
 }
 
 .screen-workout-library-figma .wk-library-result-count {
@@ -6785,16 +7129,6 @@ body::before {
   line-height: 16px;
   letter-spacing: 0.5px;
   color: var(--color-text-tertiary);
-}
-
-.screen-workout-library-figma .wk-library-reset {
-  border: none;
-  background: transparent;
-  padding: 0;
-  font-family: 'Nunito', var(--font-body);
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--color-primary);
 }
 
 .screen-workout-library-figma .wk-library-list {
@@ -6916,6 +7250,12 @@ body::before {
   inset: 0;
   background: rgba(15, 23, 42, 0.34);
   z-index: 25;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.screen-workout-library-figma .wk-filter-sheet-backdrop.is-visible {
+  opacity: 1;
 }
 
 .screen-workout-library-figma .wk-filter-sheet {
@@ -6923,12 +7263,12 @@ body::before {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #fff;
-  border-radius: 28px 28px 0 0;
-  padding: 10px 18px 24px;
+  background: var(--color-background);
+  border-radius: var(--radius-r28) var(--radius-r28) 0 0;
+  padding: 16px 0 24px;
   z-index: 30;
   transform: translateY(104%);
-  transition: transform 220ms ease;
+  transition: transform 180ms ease;
   box-shadow: 0 -16px 40px rgba(15, 23, 42, 0.16);
 }
 
@@ -6940,8 +7280,18 @@ body::before {
   width: 52px;
   height: 5px;
   border-radius: 999px;
-  background: #cbd5e1;
+  background: var(--color-progress-track);
   margin: 0 auto 14px;
+}
+
+.screen-workout-library-figma .wk-filter-sheet-content {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.screen-workout-library-figma .wk-filter-sheet-panel {
+  display: flex;
+  flex-direction: column;
 }
 
 .screen-workout-library-figma .wk-filter-sheet-header {
@@ -6949,8 +7299,13 @@ body::before {
   align-items: flex-start;
   justify-content: space-between;
   gap: 14px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid #edf2f7;
+  padding: 0 24px 14px;
+}
+
+.screen-workout-library-figma .wk-filter-sheet-header-grouped,
+.screen-workout-library-figma .wk-filter-sheet-header-muscle {
+  align-items: center;
+  padding-bottom: 8px;
 }
 
 .screen-workout-library-figma .wk-filter-sheet-kicker {
@@ -6960,16 +7315,38 @@ body::before {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.35px;
-  color: #94a3b8;
+  color: var(--color-text-muted);
 }
 
 .screen-workout-library-figma .wk-filter-sheet-title {
   margin: 0;
-  font-family: 'Nunito', var(--font-display);
-  font-size: 24px;
-  font-weight: 800;
-  line-height: 30px;
-  color: #0f172a;
+  font-family: var(--typography-title-large-font-family);
+  font-size: var(--typography-title-large-font-size);
+  font-weight: var(--typography-title-large-font-weight);
+  line-height: var(--typography-title-large-line-height);
+  letter-spacing: var(--typography-title-large-letter-spacing);
+  color: var(--color-text-primary);
+}
+
+.screen-workout-library-figma .wk-filter-sheet-title-grouped,
+.screen-workout-library-figma .wk-filter-sheet-title-muscle {
+  font-family: var(--typography-title-large-font-family);
+  font-size: var(--typography-title-large-font-size);
+  font-weight: var(--typography-title-large-font-weight);
+  line-height: var(--typography-title-large-line-height);
+  letter-spacing: var(--typography-title-large-letter-spacing);
+}
+
+.screen-workout-library-figma .wk-filter-sheet-link {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-family: var(--typography-title-small-font-family);
+  font-size: var(--typography-title-small-font-size);
+  font-weight: var(--typography-title-small-font-weight);
+  line-height: var(--typography-title-small-line-height);
+  letter-spacing: var(--typography-title-small-letter-spacing);
+  color: var(--color-primary);
 }
 
 .screen-workout-library-figma .wk-filter-sheet-close {
@@ -6977,30 +7354,212 @@ body::before {
   height: 36px;
   border: none;
   border-radius: 18px;
-  background: #f8fafc;
+  background: var(--color-surface-variant);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
-.screen-workout-library-figma .wk-filter-sheet-options {
-  max-height: 340px;
-  overflow-y: auto;
-  padding-top: 8px;
+.screen-workout-library-figma .wk-filter-sheet-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 12px 24px 0;
 }
 
-.screen-workout-library-figma .wk-filter-option-group+.wk-filter-option-group {
-  margin-top: 14px;
+.screen-workout-library-figma .wk-filter-sheet-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.screen-workout-library-figma .wk-filter-option-group-title {
-  margin: 0 0 8px;
-  font-family: 'Nunito', var(--font-display);
-  font-size: 14px;
-  font-weight: 800;
-  line-height: 20px;
+.screen-workout-library-figma .wk-filter-sheet-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.screen-workout-library-figma .wk-filter-sheet-section-title {
+  margin: 0;
+  font-family: 'Outfit', var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.15px;
   color: var(--color-text-primary);
+}
+
+.screen-workout-library-figma .wk-filter-choice-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.screen-workout-library-figma .wk-filter-choice-grid-muscle {
+  gap: 8px;
+}
+
+.screen-workout-library-figma .wk-filter-choice-chip {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: #f8f8f8;
+  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+}
+
+.screen-workout-library-figma .wk-filter-choice-chip.is-selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-container);
+}
+
+.screen-workout-library-figma .wk-filter-choice-chip-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.screen-workout-library-figma .wk-filter-choice-chip-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.screen-workout-library-figma .wk-filter-choice-chip-label {
+  font-family: 'Inter', var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  color: var(--color-text-tertiary);
+}
+
+.screen-workout-library-figma .wk-filter-choice-chip.is-selected .wk-filter-choice-chip-label {
+  color: var(--color-primary);
+}
+
+.screen-workout-library-figma .wk-filter-sheet-footer {
+  padding: 20px 24px 0;
+}
+
+.screen-workout-library-figma .wk-filter-sheet-apply {
+  width: 100%;
+  min-height: 56px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-primary);
+  font-family: 'Outfit', var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  color: #fff;
+}
+
+.screen-workout-library-figma .wk-filter-sheet-apply.is-disabled,
+.screen-workout-library-figma .wk-filter-sheet-apply:disabled {
+  background: var(--color-primary-container);
+  color: #94a3b8;
+}
+
+.screen-workout-library-figma .wk-filter-select-list {
+  max-height: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 24px 0;
+  overflow-y: auto;
+}
+
+.screen-workout-library-figma .wk-filter-sheet-header-select {
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.screen-workout-library-figma .wk-filter-select-card {
+  width: 100%;
+  min-height: 56px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-r12);
+  background: var(--color-surface);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+.screen-workout-library-figma .wk-filter-select-card.is-selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-container);
+}
+
+.screen-workout-library-figma .wk-filter-select-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.screen-workout-library-figma .wk-filter-select-icon-image {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.screen-workout-library-figma .wk-filter-select-icon-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.screen-workout-library-figma .wk-filter-select-icon-empty {
+  background-color: transparent;
+}
+
+.screen-workout-library-figma .wk-filter-select-label {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--typography-label-large-font-family);
+  font-size: var(--typography-label-large-font-size);
+  font-weight: var(--typography-label-large-font-weight);
+  line-height: var(--typography-label-large-line-height);
+  letter-spacing: var(--typography-label-large-letter-spacing);
+  color: var(--color-text-primary);
+}
+
+.screen-workout-library-figma .wk-filter-select-check {
+  width: 20px;
+  text-align: center;
+  font-family: 'Inter', var(--font-body);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.screen-workout-library-figma .wk-filter-select-card:not(.is-selected) .wk-filter-select-check {
+  color: transparent;
+}
+
+.screen-workout-library-figma .wk-filter-select-card.is-selected .wk-filter-select-label {
+  color: var(--color-primary);
+}
+
+.screen-workout-library-figma .wk-filter-sheet-options {
+  max-height: 420px;
+  overflow-y: auto;
+  padding: 8px 24px 0;
 }
 
 .screen-workout-library-figma .wk-filter-option {
@@ -7057,6 +7616,67 @@ body::before {
   font-size: 18px;
   font-weight: 800;
   color: #2563eb;
+}
+
+.screen-workout-library-figma .wk-filter-muscle-list {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 24px 0;
+}
+
+.screen-workout-library-figma .wk-filter-muscle-option {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+}
+
+.screen-workout-library-figma .wk-filter-muscle-option-image {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: var(--color-primary-container);
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.screen-workout-library-figma .wk-filter-muscle-option-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.screen-workout-library-figma .wk-filter-muscle-option-label {
+  flex: 1;
+  min-width: 0;
+  font-family: 'Outfit', var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  color: var(--color-text-primary);
+}
+
+.screen-workout-library-figma .wk-filter-muscle-option-check {
+  width: 20px;
+  text-align: center;
+  font-family: 'Inter', var(--font-body);
+  font-size: 18px;
+  font-weight: 800;
+  color: #2563eb;
+}
+
+.screen-workout-library-figma .wk-filter-muscle-divider {
+  margin-left: 78px;
+  border-top: 1px solid #f4f4f4;
 }
 
 .screen-workout-library-figma .wk-lib-empty {

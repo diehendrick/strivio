@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=7">
+  <link rel="stylesheet" href="../../styles.css?v=13">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 <body>
@@ -58,6 +58,8 @@
           <div class="wk-filter-row" id="wkLibraryFilters">
             <button class="wk-filter-trigger wk-filter-trigger-filters" type="button" data-filter-sheet="filters" aria-haspopup="dialog" aria-expanded="false" aria-label="Filters">
               <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/settings-1.svg'); width: 16px; height: 16px;"></span>
+              <span class="wk-filter-trigger-text">Filters</span>
+              <span class="wk-filter-trigger-badge" id="wkFilterGroupedCount" hidden>0</span>
             </button>
             <button class="wk-filter-trigger" type="button" data-filter-sheet="level" aria-haspopup="dialog" aria-expanded="false">
               <span class="wk-filter-trigger-text" id="wkFilterValue-level">Level</span>
@@ -69,9 +71,13 @@
             </button>
           </div>
 
+          <div class="wk-library-applied-filters" id="wkLibraryAppliedFilters" hidden>
+            <div class="wk-library-applied-list" id="wkLibraryAppliedFilterList"></div>
+            <button class="wk-library-clear-all" type="button" id="wkLibraryClearAll" onclick="resetWorkoutLibraryFilters()">Clear All</button>
+          </div>
+
           <div class="wk-library-summary">
             <p class="wk-library-result-count" id="wkLibraryResultsCount">0 workouts</p>
-            <button class="wk-library-reset" type="button" id="wkLibraryResetFilters" onclick="resetWorkoutLibraryFilters()" hidden>Reset filters</button>
           </div>
 
           <div class="wk-list wk-library-list" id="wkLibraryList">
@@ -80,22 +86,13 @@
           <div class="wk-filter-sheet-backdrop" id="wkFilterSheetBackdrop" hidden></div>
           <section class="wk-filter-sheet" id="wkFilterSheet" aria-hidden="true">
             <div class="wk-filter-sheet-handle" aria-hidden="true"></div>
-            <div class="wk-filter-sheet-header">
-              <div>
-                <p class="wk-filter-sheet-kicker">Workout Filter</p>
-                <h2 class="wk-filter-sheet-title" id="wkFilterSheetTitle">Select Filter</h2>
-              </div>
-              <button class="wk-filter-sheet-close" type="button" onclick="closeWorkoutLibrarySheet()" aria-label="Close filter sheet">
-                <img src="../../assets/svg_icons/cross-x.svg" class="icon" width="16" height="16" alt="">
-              </button>
-            </div>
-            <div class="wk-filter-sheet-options" id="wkFilterSheetOptions"></div>
+            <div class="wk-filter-sheet-content" id="wkFilterSheetContent"></div>
           </section>
         </div>
 
       </div>
     </div>
   </div>
-  <script src="../../app.js?v=7"></script>
+  <script src="../../app.js?v=13"></script>
 </body>
 </html>

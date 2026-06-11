@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Strivio — Workout</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,7 +67,8 @@
             </div>
             <div class="streak-badge">
               <div class="streak-pill">
-                <span class="icon icon-coral" style="--icon-url: url('../../assets/svg_icons/flame.svg'); width: 20px; height: 20px;"></span>
+                <span class="icon icon-coral"
+                  style="--icon-url: url('../../assets/svg_icons/flame.svg'); width: 20px; height: 20px;"></span>
                 <span class="streak-number">7</span>
               </div>
               <span class="streak-label">Day Streak</span>
@@ -88,17 +90,20 @@
               <img src="../../assets/img/woman-upper-body.png" class="wk-workout-card-photo" alt="Upper body workout">
               <div class="wk-workout-card-content">
                 <div class="wk-workout-card-date">
-                  <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/calendar.svg'); width: 16px; height: 16px;"></span>
+                  <span class="icon wk-default-icon"
+                    style="--icon-url: url('../../assets/svg_icons/calendar.svg'); width: 16px; height: 16px;"></span>
                   <span>Today, Apr 24</span>
                 </div>
                 <h2 class="wk-workout-card-title">Upper Body Strength</h2>
                 <div class="wk-workout-card-meta">
                   <div class="wk-meta-item">
-                    <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 16px; height: 16px;"></span>
+                    <span class="icon wk-default-icon"
+                      style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 16px; height: 16px;"></span>
                     <span>45 min</span>
                   </div>
                   <div class="wk-meta-item">
-                    <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 16px; height: 16px;"></span>
+                    <span class="icon wk-default-icon"
+                      style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 16px; height: 16px;"></span>
                     <span>Intermediate</span>
                   </div>
                 </div>
@@ -114,7 +119,8 @@
                   <span>Start Workout</span>
                 </button>
                 <div class="wk-workout-card-actions">
-                  <button class="wk-action-btn" type="button" onclick="window.markRescheduled()">Reschedule</button>
+                  <button class="wk-action-btn" type="button"
+                    onclick="window.openRescheduleDatePicker()">Reschedule</button>
                   <button class="wk-action-btn" type="button" onclick="window.markRestDay()">Rest Day</button>
                 </div>
               </div>
@@ -129,6 +135,8 @@
               <p class="wk-rest-day-subtitle">Recovery is part of the plan</p>
               <p class="wk-rest-day-next">Next workout: Upper Body Strength — Tomorrow</p>
               <button class="wk-rest-day-btn" onclick="navigateTo('workout-library')">Browse Workouts</button>
+              <a href="#" class="wk-rest-day-undo" onclick="event.preventDefault(); window.resetWorkoutState();">Undo
+                rest day</a>
             </div>
 
             <!-- Rescheduled Layout Container -->
@@ -137,12 +145,15 @@
               <div class="wk-rescheduled-card">
                 <div class="wk-rescheduled-left">
                   <svg class="wk-rescheduled-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 2H18V1C18 0.448 17.553 0 17 0C16.447 0 16 0.448 16 1V2H8V1C8 0.448 7.553 0 7 0C6.447 0 6 0.448 6 1V2H5C2.243 2 0 4.243 0 7V19C0 21.757 2.243 24 5 24H19C21.757 24 24 21.757 24 19V7C24 4.243 21.757 2 19 2ZM5 4H19C20.654 4 22 5.346 22 7V8H2V7C2 5.346 3.346 4 5 4ZM19 22H5C3.346 22 2 20.654 2 19V10H22V19C22 20.654 20.654 22 19 22ZM19 14C19 14.552 18.553 15 18 15H6C5.447 15 5 14.552 5 14C5 13.448 5.447 13 6 13H18C18.553 13 19 13.448 19 14ZM12 18C12 18.552 11.553 19 11 19H6C5.447 19 5 18.552 5 18C5 17.448 5.447 17 6 17H11C11.553 17 12 17.448 12 18Z" fill="currentColor"/>
+                    <path
+                      d="M19 2H18V1C18 0.448 17.553 0 17 0C16.447 0 16 0.448 16 1V2H8V1C8 0.448 7.553 0 7 0C6.447 0 6 0.448 6 1V2H5C2.243 2 0 4.243 0 7V19C0 21.757 2.243 24 5 24H19C21.757 24 24 21.757 24 19V7C24 4.243 21.757 2 19 2ZM5 4H19C20.654 4 22 5.346 22 7V8H2V7C2 5.346 3.346 4 5 4ZM19 22H5C3.346 22 2 20.654 2 19V10H22V19C22 20.654 20.654 22 19 22ZM19 14C19 14.552 18.553 15 18 15H6C5.447 15 5 14.552 5 14C5 13.448 5.447 13 6 13H18C18.553 13 19 13.448 19 14ZM12 18C12 18.552 11.553 19 11 19H6C5.447 19 5 18.552 5 18C5 17.448 5.447 17 6 17H11C11.553 17 12 17.448 12 18Z"
+                      fill="currentColor" />
                   </svg>
                 </div>
                 <div class="wk-rescheduled-middle">
                   <h4 class="wk-rescheduled-title">Workout has been rescheduled</h4>
-                  <p class="wk-rescheduled-subtitle">Upper Body Strength</p>
+                  <p class="wk-rescheduled-subtitle">Upper Body Strength <a href="#" class="wk-rescheduled-undo"
+                      onclick="event.preventDefault(); window.resetWorkoutState();">Undo</a></p>
                 </div>
                 <div class="wk-rescheduled-right">
                   <span class="wk-rescheduled-day">26</span>
@@ -158,21 +169,24 @@
                 </div>
                 <div class="wk-weekly-progress-content">
                   <div class="wk-weekly-progress-col">
-                    <span class="icon wk-weekly-progress-icon icon-blue" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 28px; height: 28px;"></span>
+                    <span class="icon wk-weekly-progress-icon icon-blue"
+                      style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 28px; height: 28px;"></span>
                     <span class="wk-weekly-progress-val">205 min</span>
-                    <span class="wk-weekly-progress-lbl">Total This Week</span>
+                    <span class="wk-weekly-progress-lbl">Total This<br>Week</span>
                   </div>
                   <div class="wk-weekly-progress-divider"></div>
                   <div class="wk-weekly-progress-col">
-                    <span class="icon wk-weekly-progress-icon icon-orange" style="--icon-url: url('../../assets/svg_icons/chart-pie-alt.svg'); width: 28px; height: 28px;"></span>
+                    <span class="icon wk-weekly-progress-icon icon-orange"
+                      style="--icon-url: url('../../assets/svg_icons/chart-pie-alt.svg'); width: 28px; height: 28px;"></span>
                     <span class="wk-weekly-progress-val">29 min</span>
-                    <span class="wk-weekly-progress-lbl">Avg per Day</span>
+                    <span class="wk-weekly-progress-lbl">Avg per<br>Day</span>
                   </div>
                   <div class="wk-weekly-progress-divider"></div>
                   <div class="wk-weekly-progress-col">
-                    <span class="icon wk-weekly-progress-icon icon-green" style="--icon-url: url('../../assets/svg_icons/bullseye-arrow.svg'); width: 28px; height: 28px;"></span>
+                    <span class="icon wk-weekly-progress-icon icon-green"
+                      style="--icon-url: url('../../assets/svg_icons/bullseye-arrow.svg'); width: 28px; height: 28px;"></span>
                     <span class="wk-weekly-progress-val">82%</span>
-                    <span class="wk-weekly-progress-lbl">Completion Workout</span>
+                    <span class="wk-weekly-progress-lbl">Completion<br>Workout</span>
                   </div>
                 </div>
               </div>
@@ -181,213 +195,236 @@
             <!-- Standard Workout Screen Extra Sections -->
             <div id="workoutExtraSections">
 
-            <div class="wk-shortcut-grid">
-              <div class="wk-shortcut-card" onclick="navigateTo('workout-library')">
-                <div class="wk-shortcut-icon">
-                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/muscle.svg'); width: 28px; height: 28px; background-color: var(--color-primary);"></span>
+              <div class="wk-shortcut-grid">
+                <div class="wk-shortcut-card" onclick="navigateTo('workout-library')">
+                  <div class="wk-shortcut-icon">
+                    <span class="icon"
+                      style="--icon-url: url('../../assets/svg_icons/muscle.svg'); width: 28px; height: 28px; background-color: var(--color-primary);"></span>
+                  </div>
+                  <span class="wk-shortcut-label">Workouts</span>
                 </div>
-                <span class="wk-shortcut-label">Workouts</span>
-              </div>
-              <div class="wk-shortcut-card" onclick="navigateTo('exercise-library')">
-                <div class="wk-shortcut-icon">
-                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/book.svg'); width: 28px; height: 28px; background-color: var(--color-greenish);"></span>
+                <div class="wk-shortcut-card" onclick="navigateTo('exercise-library')">
+                  <div class="wk-shortcut-icon">
+                    <span class="icon"
+                      style="--icon-url: url('../../assets/svg_icons/book.svg'); width: 28px; height: 28px; background-color: var(--color-greenish);"></span>
+                  </div>
+                  <span class="wk-shortcut-label">Exercises</span>
                 </div>
-                <span class="wk-shortcut-label">Exercises</span>
-              </div>
-              <div class="wk-shortcut-card" onclick="navigateTo('workout-log')">
-                <div class="wk-shortcut-icon">
-                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/journal-alt.svg'); width: 28px; height: 28px; background-color: var(--color-toq);"></span>
+                <div class="wk-shortcut-card" onclick="navigateTo('workout-log')">
+                  <div class="wk-shortcut-icon">
+                    <span class="icon"
+                      style="--icon-url: url('../../assets/svg_icons/journal-alt.svg'); width: 28px; height: 28px; background-color: var(--color-toq);"></span>
+                  </div>
+                  <span class="wk-shortcut-label">Log Activity</span>
                 </div>
-                <span class="wk-shortcut-label">Log Activity</span>
               </div>
-            </div>
 
-            <section class="wk-home-section">
-              <div class="wk-home-section-heading">
-                <h2 class="wk-home-section-title">Custom</h2>
-                <p class="wk-home-section-subtitle">Create your own workout</p>
-              </div>
-              <div class="wk-custom-grid">
-                <article class="wk-custom-card wk-custom-card-featured">
-                  <span class="wk-custom-badge">Recommended</span>
-                  <div class="wk-custom-avatar">
-                    <img src="../../assets/img/marcus.jpg" alt="Coach">
-                  </div>
-                  <div class="wk-custom-card-copy">
-                    <h3>Create with Coach</h3>
-                    <p>Smart workout based on your goal</p>
-                  </div>
-                  <button class="wk-custom-btn" type="button" onclick="navigateTo('coach-q1')">Build Workout</button>
-                </article>
-                <article class="wk-custom-card">
-                  <div class="wk-custom-icon-wrap">
-                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/add.svg'); width: 28px; height: 28px; background-color: var(--color-secondary);"></span>
-                  </div>
-                  <div class="wk-custom-card-copy">
-                    <h3>Build Myself</h3>
-                    <p>Build your own plan</p>
-                  </div>
-                  <button class="wk-custom-btn" type="button" onclick="navigateTo('custom-workouts')">Build Workout</button>
-                </article>
-              </div>
-            </section>
+              <section class="wk-home-section">
+                <div class="wk-home-section-heading">
+                  <h2 class="wk-home-section-title">Custom</h2>
+                  <p class="wk-home-section-subtitle">Create your own workout</p>
+                </div>
+                <div class="wk-custom-grid">
+                  <article class="wk-custom-card wk-custom-card-featured">
+                    <span class="wk-custom-badge">Recommended</span>
+                    <div class="wk-custom-avatar">
+                      <img src="../../assets/img/marcus.jpg" alt="Coach">
+                    </div>
+                    <div class="wk-custom-card-copy">
+                      <h3>Create with Coach</h3>
+                      <p>Smart workout based on your goal</p>
+                    </div>
+                    <button class="wk-custom-btn" type="button" onclick="navigateTo('coach-q1')">Build Workout</button>
+                  </article>
+                  <article class="wk-custom-card">
+                    <div class="wk-custom-icon-wrap">
+                      <span class="icon"
+                        style="--icon-url: url('../../assets/svg_icons/add.svg'); width: 28px; height: 28px; background-color: var(--color-secondary);"></span>
+                    </div>
+                    <div class="wk-custom-card-copy">
+                      <h3>Build Myself</h3>
+                      <p>Build your own plan</p>
+                    </div>
+                    <button class="wk-custom-btn" type="button" onclick="navigateTo('custom-workouts')">Build
+                      Workout</button>
+                  </article>
+                </div>
+              </section>
 
-            <section class="wk-home-section">
-              <div class="wk-home-section-heading">
-                <h2 class="wk-home-section-title">Recent Workouts</h2>
-              </div>
-              <div class="wk-recent-scroll">
-                <article class="wk-recent-card" onclick="navigateTo('workout-detail')">
-                  <div class="wk-recent-thumb">
-                    <img src="../../assets/img/workouts/barbell_bench.png" alt="Upper Body Strength">
-                  </div>
-                  <h3 class="wk-recent-title">Upper Body Strength</h3>
-                  <div class="wk-recent-meta">
-                    <span class="wk-recent-meta-item">
-                      <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
-                      <span>45 min</span>
-                    </span>
-                    <span class="wk-recent-meta-item">
-                      <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
-                      <span>Intermediate</span>
-                    </span>
-                  </div>
-                </article>
-                <article class="wk-recent-card" onclick="navigateTo('workout-detail')">
-                  <div class="wk-recent-thumb">
-                    <img src="../../assets/img/workouts/Cardio.png" alt="Cardio Endurance">
-                  </div>
-                  <h3 class="wk-recent-title">Cardio Endurance</h3>
-                  <div class="wk-recent-meta">
-                    <span class="wk-recent-meta-item">
-                      <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
-                      <span>30 min</span>
-                    </span>
-                    <span class="wk-recent-meta-item">
-                      <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
-                      <span>Beginner</span>
-                    </span>
-                  </div>
-                </article>
-                <article class="wk-recent-card" onclick="navigateTo('workout-detail')">
-                  <div class="wk-recent-thumb">
-                    <img src="../../assets/img/workouts/plank.png" alt="Core Stability">
-                  </div>
-                  <h3 class="wk-recent-title">Core Stability</h3>
-                  <div class="wk-recent-meta">
-                    <span class="wk-recent-meta-item">
-                      <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
-                      <span>20 min</span>
-                    </span>
-                    <span class="wk-recent-meta-item">
-                      <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
-                      <span>Advanced</span>
-                    </span>
-                  </div>
-                </article>
-              </div>
-            </section>
-
-            <section class="wk-home-section">
-              <div class="wk-home-section-row">
-                <h2 class="wk-home-section-title">Recommended Workouts</h2>
-                <button class="wk-section-link" type="button" onclick="navigateTo('workout-library')">See All</button>
-              </div>
-              <div class="wk-recommended-list">
-                <article class="wk-recommended-card" onclick="navigateTo('workout-detail')">
-                  <div class="wk-recommended-thumb">
-                    <img src="../../assets/img/workouts/barber_roll.png" alt="Flexibility Boost">
-                  </div>
-                  <div class="wk-recommended-content">
-                    <h3 class="wk-recommended-title">Flexibility Boost</h3>
-                    <div class="wk-recommended-meta">
-                      <span class="wk-recommended-meta-item">
-                        <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 12px; height: 12px;"></span>
-                        <span>15 min</span>
-                      </span>
-                      <span class="wk-recommended-meta-item">
-                        <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
+              <section class="wk-home-section">
+                <div class="wk-home-section-heading">
+                  <h2 class="wk-home-section-title">Recent Workouts</h2>
+                </div>
+                <div class="wk-recent-scroll">
+                  <article class="wk-recent-card" onclick="navigateTo('workout-detail')">
+                    <div class="wk-recent-thumb">
+                      <img src="../../assets/img/workouts/barbell_bench.png" alt="Upper Body Strength">
+                    </div>
+                    <h3 class="wk-recent-title">Upper Body Strength</h3>
+                    <div class="wk-recent-meta">
+                      <span class="wk-recent-meta-item">
+                        <span class="icon wk-default-icon"
+                          style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
                         <span>45 min</span>
                       </span>
-                      <span class="wk-recommended-meta-item">
-                        <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
+                      <span class="wk-recent-meta-item">
+                        <span class="icon wk-default-icon"
+                          style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
                         <span>Intermediate</span>
                       </span>
                     </div>
-                    <p class="wk-recommended-desc">Chest, Triceps · barbell</p>
-                  </div>
-                </article>
-                <article class="wk-recommended-card" onclick="navigateTo('workout-detail')">
-                  <div class="wk-recommended-thumb">
-                    <img src="../../assets/img/workouts/Pull-Ups.png" alt="Flexibility &amp; Mobility">
-                  </div>
-                  <div class="wk-recommended-content">
-                    <h3 class="wk-recommended-title">Flexibility &amp; Mobility</h3>
-                    <div class="wk-recommended-meta">
-                      <span class="wk-recommended-meta-item">
-                        <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 12px; height: 12px;"></span>
-                        <span>25 min</span>
-                      </span>
-                      <span class="wk-recommended-meta-item">
-                        <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
-                        <span>45 min</span>
-                      </span>
-                      <span class="wk-recommended-meta-item">
-                        <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
-                        <span>Advanced</span>
-                      </span>
+                  </article>
+                  <article class="wk-recent-card" onclick="navigateTo('workout-detail')">
+                    <div class="wk-recent-thumb">
+                      <img src="../../assets/img/workouts/Cardio.png" alt="Cardio Endurance">
                     </div>
-                    <p class="wk-recommended-desc">Chest, Triceps · barbell</p>
-                  </div>
-                </article>
-                <article class="wk-recommended-card" onclick="navigateTo('workout-detail')">
-                  <div class="wk-recommended-thumb">
-                    <img src="../../assets/img/workouts/strength_building.png" alt="Strength Building">
-                  </div>
-                  <div class="wk-recommended-content">
-                    <h3 class="wk-recommended-title">Strength Building</h3>
-                    <div class="wk-recommended-meta">
-                      <span class="wk-recommended-meta-item">
-                        <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 12px; height: 12px;"></span>
+                    <h3 class="wk-recent-title">Cardio Endurance</h3>
+                    <div class="wk-recent-meta">
+                      <span class="wk-recent-meta-item">
+                        <span class="icon wk-default-icon"
+                          style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
                         <span>30 min</span>
                       </span>
-                      <span class="wk-recommended-meta-item">
-                        <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
-                        <span>45 min</span>
-                      </span>
-                      <span class="wk-recommended-meta-item">
-                        <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
-                        <span>Expert</span>
-                      </span>
-                    </div>
-                    <p class="wk-recommended-desc">Chest, Triceps · barbell</p>
-                  </div>
-                </article>
-                <article class="wk-recommended-card" onclick="navigateTo('workout-detail')">
-                  <div class="wk-recommended-thumb">
-                    <img src="../../assets/img/workouts/overhead_press.png" alt="Yoga Flow">
-                  </div>
-                  <div class="wk-recommended-content">
-                    <h3 class="wk-recommended-title">Yoga Flow</h3>
-                    <div class="wk-recommended-meta">
-                      <span class="wk-recommended-meta-item">
-                        <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 12px; height: 12px;"></span>
-                        <span>45 min</span>
-                      </span>
-                      <span class="wk-recommended-meta-item">
-                        <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
-                        <span>45 min</span>
-                      </span>
-                      <span class="wk-recommended-meta-item">
-                        <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
+                      <span class="wk-recent-meta-item">
+                        <span class="icon wk-default-icon"
+                          style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
                         <span>Beginner</span>
                       </span>
                     </div>
-                    <p class="wk-recommended-desc">Chest, Triceps · barbell</p>
-                  </div>
-                </article>
-              </div>
-            </section>
+                  </article>
+                  <article class="wk-recent-card" onclick="navigateTo('workout-detail')">
+                    <div class="wk-recent-thumb">
+                      <img src="../../assets/img/workouts/plank.png" alt="Core Stability">
+                    </div>
+                    <h3 class="wk-recent-title">Core Stability</h3>
+                    <div class="wk-recent-meta">
+                      <span class="wk-recent-meta-item">
+                        <span class="icon wk-default-icon"
+                          style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
+                        <span>20 min</span>
+                      </span>
+                      <span class="wk-recent-meta-item">
+                        <span class="icon wk-default-icon"
+                          style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
+                        <span>Advanced</span>
+                      </span>
+                    </div>
+                  </article>
+                </div>
+              </section>
+
+              <section class="wk-home-section">
+                <div class="wk-home-section-row">
+                  <h2 class="wk-home-section-title">Recommended Workouts</h2>
+                  <button class="wk-section-link" type="button" onclick="navigateTo('workout-library')">See All</button>
+                </div>
+                <div class="wk-recommended-list">
+                  <article class="wk-recommended-card" onclick="navigateTo('workout-detail')">
+                    <div class="wk-recommended-thumb">
+                      <img src="../../assets/img/workouts/barber_roll.png" alt="Flexibility Boost">
+                    </div>
+                    <div class="wk-recommended-content">
+                      <h3 class="wk-recommended-title">Flexibility Boost</h3>
+                      <div class="wk-recommended-meta">
+                        <span class="wk-recommended-meta-item">
+                          <span class="icon wk-default-icon"
+                            style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 12px; height: 12px;"></span>
+                          <span>15 min</span>
+                        </span>
+                        <span class="wk-recommended-meta-item">
+                          <span class="icon wk-default-icon"
+                            style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
+                          <span>45 min</span>
+                        </span>
+                        <span class="wk-recommended-meta-item">
+                          <span class="icon wk-default-icon"
+                            style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
+                          <span>Intermediate</span>
+                        </span>
+                      </div>
+                      <p class="wk-recommended-desc">Chest, Triceps · barbell</p>
+                    </div>
+                  </article>
+                  <article class="wk-recommended-card" onclick="navigateTo('workout-detail')">
+                    <div class="wk-recommended-thumb">
+                      <img src="../../assets/img/workouts/Pull-Ups.png" alt="Flexibility &amp; Mobility">
+                    </div>
+                    <div class="wk-recommended-content">
+                      <h3 class="wk-recommended-title">Flexibility &amp; Mobility</h3>
+                      <div class="wk-recommended-meta">
+                        <span class="wk-recommended-meta-item">
+                          <span class="icon wk-default-icon"
+                            style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 12px; height: 12px;"></span>
+                          <span>25 min</span>
+                        </span>
+                        <span class="wk-recommended-meta-item">
+                          <span class="icon wk-default-icon"
+                            style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
+                          <span>45 min</span>
+                        </span>
+                        <span class="wk-recommended-meta-item">
+                          <span class="icon wk-default-icon"
+                            style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
+                          <span>Advanced</span>
+                        </span>
+                      </div>
+                      <p class="wk-recommended-desc">Chest, Triceps · barbell</p>
+                    </div>
+                  </article>
+                  <article class="wk-recommended-card" onclick="navigateTo('workout-detail')">
+                    <div class="wk-recommended-thumb">
+                      <img src="../../assets/img/workouts/strength_building.png" alt="Strength Building">
+                    </div>
+                    <div class="wk-recommended-content">
+                      <h3 class="wk-recommended-title">Strength Building</h3>
+                      <div class="wk-recommended-meta">
+                        <span class="wk-recommended-meta-item">
+                          <span class="icon wk-default-icon"
+                            style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 12px; height: 12px;"></span>
+                          <span>30 min</span>
+                        </span>
+                        <span class="wk-recommended-meta-item">
+                          <span class="icon wk-default-icon"
+                            style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
+                          <span>45 min</span>
+                        </span>
+                        <span class="wk-recommended-meta-item">
+                          <span class="icon wk-default-icon"
+                            style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
+                          <span>Expert</span>
+                        </span>
+                      </div>
+                      <p class="wk-recommended-desc">Chest, Triceps · barbell</p>
+                    </div>
+                  </article>
+                  <article class="wk-recommended-card" onclick="navigateTo('workout-detail')">
+                    <div class="wk-recommended-thumb">
+                      <img src="../../assets/img/workouts/overhead_press.png" alt="Yoga Flow">
+                    </div>
+                    <div class="wk-recommended-content">
+                      <h3 class="wk-recommended-title">Yoga Flow</h3>
+                      <div class="wk-recommended-meta">
+                        <span class="wk-recommended-meta-item">
+                          <span class="icon wk-default-icon"
+                            style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 12px; height: 12px;"></span>
+                          <span>45 min</span>
+                        </span>
+                        <span class="wk-recommended-meta-item">
+                          <span class="icon wk-default-icon"
+                            style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 12px; height: 12px;"></span>
+                          <span>45 min</span>
+                        </span>
+                        <span class="wk-recommended-meta-item">
+                          <span class="icon wk-default-icon"
+                            style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 12px; height: 12px;"></span>
+                          <span>Beginner</span>
+                        </span>
+                      </div>
+                      <p class="wk-recommended-desc">Chest, Triceps · barbell</p>
+                    </div>
+                  </article>
+                </div>
+              </section>
             </div>
           </div>
 
@@ -414,12 +451,99 @@
             </button>
           </div>
 
+          <!-- Datepicker Bottom Sheet -->
+          <div class="wk-datepicker-backdrop" id="wkDatePickerBackdrop" onclick="window.closeRescheduleDatePicker()"
+            hidden></div>
+          <section class="wk-datepicker-sheet" id="wkDatePickerSheet" aria-hidden="true">
+            <div class="wk-datepicker-handle" onclick="window.closeRescheduleDatePicker()" aria-label="Close sheet">
+            </div>
+
+            <!-- Header -->
+            <div class="wk-datepicker-header">
+              <button class="wk-datepicker-btn-month" id="wkPrevMonth" type="button" aria-label="Previous month">
+                <span class="icon wk-default-icon"
+                  style="--icon-url: url('../../assets/svg_icons/back.svg'); width: 18px; height: 18px; display: inline-block;"></span>
+              </button>
+              <div class="wk-datepicker-title-container">
+                <span class="wk-datepicker-kicker">Reschedule Date</span>
+                <h3 class="wk-datepicker-month-title">April 2026</h3>
+              </div>
+              <button class="wk-datepicker-btn-month" id="wkNextMonth" type="button" aria-label="Next month">
+                <span class="icon wk-default-icon"
+                  style="--icon-url: url('../../assets/svg_icons/back.svg'); width: 18px; height: 18px; transform: scaleX(-1); display: inline-block;"></span>
+              </button>
+            </div>
+
+            <!-- Calendar -->
+            <div class="wk-datepicker-calendar">
+              <!-- Weekday Headers -->
+              <div class="wk-datepicker-weekdays">
+                <span>Mon</span>
+                <span>Tue</span>
+                <span>Wed</span>
+                <span>Thu</span>
+                <span>Fri</span>
+                <span>Sat</span>
+                <span>Sun</span>
+              </div>
+
+              <!-- Days Grid -->
+              <div class="wk-datepicker-grid" id="wkDatePickerGrid">
+                <!-- April 2026 starts Friday (Col 5) -->
+                <div class="wk-date-cell empty"></div>
+                <div class="wk-date-cell empty"></div>
+                <div class="wk-date-cell empty"></div>
+                <div class="wk-date-cell empty"></div>
+                <div class="wk-date-cell wk-date-disabled" data-day="1">1</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="2">2</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="3">3</div>
+
+                <div class="wk-date-cell wk-date-disabled" data-day="4">4</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="5">5</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="6">6</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="7">7</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="8">8</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="9">9</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="10">10</div>
+
+                <div class="wk-date-cell wk-date-disabled" data-day="11">11</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="12">12</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="13">13</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="14">14</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="15">15</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="16">16</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="17">17</div>
+
+                <div class="wk-date-cell wk-date-disabled" data-day="18">18</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="19">19</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="20">20</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="21">21</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="22">22</div>
+                <div class="wk-date-cell wk-date-disabled" data-day="23">23</div>
+                <div class="wk-date-cell wk-date-today" data-day="24">24</div>
+
+                <div class="wk-date-cell wk-date-rest" data-day="25">25</div>
+                <div class="wk-date-cell wk-date-selectable" data-day="26">26</div>
+                <div class="wk-date-cell wk-date-selectable" data-day="27">27</div>
+                <div class="wk-date-cell wk-date-selectable" data-day="28">28</div>
+                <div class="wk-date-cell wk-date-selectable" data-day="29">29</div>
+                <div class="wk-date-cell wk-date-rest" data-day="30">30</div>
+                <div class="wk-date-cell wk-date-selectable" data-day="31">31</div>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="wk-datepicker-footer">
+              <button class="wk-datepicker-apply" id="wkDatePickerApplyBtn" disabled type="button">Apply</button>
+            </div>
+          </section>
+
         </div>
 
       </div>
     </div>
   </div>
-  <script src="../../app.js?v=8"></script>
+  <script src="../../app.js?v=20"></script>
 </body>
 
 </html>
