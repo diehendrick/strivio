@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Strivio — Your Personalized Plan</title>
+  <title>Strivio — Log Activity</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
-  <link rel="stylesheet" href="../../styles.css?v=8">
+  <link rel="stylesheet" href="../../styles.css?v=26">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 <body>
@@ -19,107 +19,251 @@
 
         <!-- ===== WORKOUT TAB: Log Activity ===== -->
         <div class="screen screen-workout-log active" data-screen="workout-log">
+          <div class="status-bar">
+            <span class="status-time">9:41</span>
+            <div class="status-icons">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="10" width="3" height="5" rx="0.5" fill="currentColor" />
+                <rect x="6" y="7" width="3" height="8" rx="0.5" fill="currentColor" />
+                <rect x="11" y="3" width="3" height="12" rx="0.5" fill="currentColor" />
+              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="currentColor" />
+                <path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="currentColor" />
+                <circle cx="8" cy="11" r="2" fill="currentColor" />
+              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="5" width="2" height="6" rx="0.5" fill="currentColor" />
+                <rect x="5" y="3" width="2" height="8" rx="0.5" fill="currentColor" />
+                <rect x="9" y="1" width="2" height="10" rx="0.5" fill="currentColor" />
+                <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="currentColor" />
+              </svg>
+            </div>
+          </div>
+
           <div class="wk-nav-header">
-            <button class="wk-back-btn" onclick="goBack()"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
+            <button class="wk-back-btn" onclick="goBack()">
+              <span class="icon" style="--icon-url: url('../../assets/svg_icons/back.svg'); width: 24px; height: 24px; background-color: var(--color-text-primary, #0F172A);"></span>
+            </button>
             <span class="wk-nav-title">Log Activity</span>
           </div>
+
           <div class="wk-log-body">
             <section class="wk-log-intro-card">
               <div class="wk-log-intro-copy">
-                <span class="wk-log-kicker">Manual entry</span>
-                <div class="wk-log-question">Log activity after you finish</div>
-                <p class="wk-log-support">For running, cycling, walking, classes, or sports without live tracking. Strength workouts with sets and reps still belong in the workout flow.</p>
+                <h1 class="wk-log-question">Stay Consistent.</h1>
+                <p class="wk-log-support">Every workout you log builds. Momentum and results.</p>
               </div>
               <div class="wk-log-intro-actions">
-                <button class="btn-primary wk-log-intro-btn" type="button" onclick="openWorkoutLogForm()">Add Activity</button>
+                <button class="wk-log-intro-btn" type="button" onclick="openWorkoutLogForm()">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/plus.svg'); width: 18px; height: 18px; background-color: var(--color-on-primary, #FFFFFF);"></span>
+                  <span>Add Activity</span>
+                </button>
               </div>
+              <img class="wk-log-intro-illustration" src="../../assets/illustration/option=report.svg" alt="">
             </section>
 
             <div class="wk-log-notice" id="wkLogNotice" hidden></div>
 
-            <section class="wk-log-history-card">
-              <div class="wk-log-section-head">
-                <div>
-                  <h2 class="wk-log-section-title">Recent activity</h2>
-                  <p class="wk-log-section-caption">Manual activity, completed workouts, and recovery days all show up here.</p>
-                </div>
-                <div class="wk-log-history-meta">
-                  <strong id="wkLogStatCount">0</strong>
-                  <span id="wkLogStatLabel">entries this week</span>
-                </div>
+            <section class="wk-log-feed">
+              <div class="wk-log-feed-head">
+                <h2 class="wk-log-feed-title">Recent Activity</h2>
+                <button class="wk-log-see-all" id="wkLogSeeAllBtn" type="button" onclick="navigateTo('workout-log-all')">See All</button>
               </div>
-              <div class="wk-log-history-list" id="wkLogHistoryList"></div>
+              <div class="wk-log-history-state has-entries" id="wkLogHistoryList">
+                <article class="wk-log-activity-row" onclick="viewWorkoutLogDetail(0, false)">
+                  <div class="wk-log-activity-icon wk-log-activity-icon--error">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/swimming-pool.svg'); width: 24px; height: 24px; background-color: var(--color-error, #EF4444);"></span>
+                  </div>
+                  <div class="wk-log-activity-copy">
+                    <h3 class="wk-log-activity-title">Swimming Laps</h3>
+                    <p class="wk-log-activity-meta">May 9, 2026  ·  40 min  ·  350 kcal</p>
+                  </div>
+                  <span class="wk-log-activity-action">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 16px; height: 16px; background-color: var(--color-primary, #0056D8);"></span>
+                  </span>
+                </article>
+                <article class="wk-log-activity-row" onclick="viewWorkoutLogDetail(1, false)">
+                  <div class="wk-log-activity-icon wk-log-activity-icon--primary">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/running.svg'); width: 24px; height: 24px; background-color: var(--color-primary, #0056D8);"></span>
+                  </div>
+                  <div class="wk-log-activity-copy">
+                    <h3 class="wk-log-activity-title">Lunchtime Run</h3>
+                    <p class="wk-log-activity-meta">May 8, 2026  ·  30 min  ·  300 kcal</p>
+                  </div>
+                  <span class="wk-log-activity-action">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 16px; height: 16px; background-color: var(--color-primary, #0056D8);"></span>
+                  </span>
+                </article>
+                <article class="wk-log-activity-row" onclick="viewWorkoutLogDetail(2, false)">
+                  <div class="wk-log-activity-icon wk-log-activity-icon--secondary">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/walking.svg'); width: 24px; height: 24px; background-color: var(--color-secondary, #F97316);"></span>
+                  </div>
+                  <div class="wk-log-activity-copy">
+                    <h3 class="wk-log-activity-title">Morning Walk</h3>
+                    <p class="wk-log-activity-meta">May 7, 2026  ·  35 min  ·  240 kcal</p>
+                  </div>
+                  <span class="wk-log-activity-action">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 16px; height: 16px; background-color: var(--color-primary, #0056D8);"></span>
+                  </span>
+                </article>
+                <article class="wk-log-activity-row" onclick="viewWorkoutLogDetail(3, false)">
+                  <div class="wk-log-activity-icon wk-log-activity-icon--tertiary">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/biking.svg'); width: 24px; height: 24px; background-color: var(--color-tertiary, #7F7CF0);"></span>
+                  </div>
+                  <div class="wk-log-activity-copy">
+                    <h3 class="wk-log-activity-title">Cycling Session</h3>
+                    <p class="wk-log-activity-meta">May 8, 2026  ·  60 min  ·  500 kcal</p>
+                  </div>
+                  <span class="wk-log-activity-action">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 16px; height: 16px; background-color: var(--color-primary, #0056D8);"></span>
+                  </span>
+                </article>
+                <article class="wk-log-activity-row" onclick="viewWorkoutLogDetail(4, false)">
+                  <div class="wk-log-activity-icon wk-log-activity-icon--primary">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/running.svg'); width: 24px; height: 24px; background-color: var(--color-primary, #0056D8);"></span>
+                  </div>
+                  <div class="wk-log-activity-copy">
+                    <h3 class="wk-log-activity-title">Evening Running</h3>
+                    <p class="wk-log-activity-meta">May 5, 2026  ·  35 min  ·  320 kcal</p>
+                  </div>
+                  <span class="wk-log-activity-action">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 16px; height: 16px; background-color: var(--color-primary, #0056D8);"></span>
+                  </span>
+                </article>
+                <article class="wk-log-activity-row" onclick="viewWorkoutLogDetail(5, false)">
+                  <div class="wk-log-activity-icon wk-log-activity-icon--error">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/bolt.svg'); width: 24px; height: 24px; background-color: var(--color-error, #EF4444);"></span>
+                  </div>
+                  <div class="wk-log-activity-copy">
+                    <h3 class="wk-log-activity-title">HIIT Workout</h3>
+                    <p class="wk-log-activity-meta">May 4, 2026  ·  20 min  ·  250 kcal</p>
+                  </div>
+                  <span class="wk-log-activity-action">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 16px; height: 16px; background-color: var(--color-primary, #0056D8);"></span>
+                  </span>
+                </article>
+                <article class="wk-log-activity-row" onclick="viewWorkoutLogDetail(6, false)">
+                  <div class="wk-log-activity-icon wk-log-activity-icon--primary">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/running.svg'); width: 24px; height: 24px; background-color: var(--color-primary, #0056D8);"></span>
+                  </div>
+                  <div class="wk-log-activity-copy">
+                    <h3 class="wk-log-activity-title">Morning Running</h3>
+                    <p class="wk-log-activity-meta">May 1, 2026  ·  35 min  ·  320 kcal</p>
+                  </div>
+                  <span class="wk-log-activity-action">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 16px; height: 16px; background-color: var(--color-primary, #0056D8);"></span>
+                  </span>
+                </article>
+              </div>
             </section>
 
-            <section class="wk-log-form-card wk-log-form-card-hidden" id="wkLogFormCard">
-              <div class="wk-log-section-head">
-                <div>
-                  <h2 class="wk-log-section-title">Add recent activity</h2>
-                  <p class="wk-log-section-caption">Choose a type, add the key numbers, then save it to your activity history.</p>
-                </div>
-                <button class="wk-log-close-btn" type="button" onclick="closeWorkoutLogForm()">
-                  <iconify-icon icon="solar:close-circle-bold" width="20"></iconify-icon>
+          </div>
+
+          <section class="bottom-sheet wk-log-sheet" id="wkLogSheet" aria-hidden="true">
+            <div class="sheet-backdrop" onclick="closeWorkoutLogForm()"></div>
+            <div class="sheet-content">
+              <div class="wk-log-sheet-handle"></div>
+
+              <div class="wk-log-sheet-head">
+                <h2 class="wk-log-sheet-title">Add Activity</h2>
+                <button class="wk-log-sheet-close" type="button" onclick="closeWorkoutLogForm()">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px; background-color: var(--color-text-tertiary, #64748B);"></span>
                 </button>
               </div>
 
-              <div class="wk-log-type-grid" id="wkLogTypeGrid">
-                <button class="wk-log-type-btn" data-type="Running" onclick="selectLogType('Running',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/running.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">Running</span></button>
-                <button class="wk-log-type-btn" data-type="Walking" onclick="selectLogType('Walking',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/walking.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">Walking</span></button>
-                <button class="wk-log-type-btn" data-type="Cycling" onclick="selectLogType('Cycling',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/shoe-prints.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">Cycling</span></button>
-                <button class="wk-log-type-btn" data-type="Swimming" onclick="selectLogType('Swimming',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/water.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">Swimming</span></button>
-                <button class="wk-log-type-btn" data-type="Yoga" onclick="selectLogType('Yoga',this)"><div class="wk-log-type-icon"><iconify-icon icon="solar:stretching-bold-duotone" width="24"></iconify-icon></div><span class="wk-log-type-label">Yoga</span></button>
-                <button class="wk-log-type-btn" data-type="HIIT" onclick="selectLogType('HIIT',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/bolt.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">HIIT</span></button>
-                <button class="wk-log-type-btn" data-type="Hiking" onclick="selectLogType('Hiking',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/endurance.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">Hiking</span></button>
-                <button class="wk-log-type-btn" data-type="Sports" onclick="selectLogType('Sports',this)"><div class="wk-log-type-icon"><iconify-icon icon="solar:football-bold-duotone" width="24"></iconify-icon></div><span class="wk-log-type-label">Sports</span></button>
-                <button class="wk-log-type-btn" data-type="Other" onclick="selectLogType('Other',this)"><div class="wk-log-type-icon"><img src="../../assets/svg_icons/trophy-star.svg" class="icon" width="24" alt=""></div><span class="wk-log-type-label">Other</span></button>
-              </div>
+              <div class="wk-log-sheet-body">
+                <div class="wk-log-sheet-grid" id="wkLogTypeGrid">
+                  <button class="wk-log-sheet-card" data-type="Running" onclick="selectLogType('Running',this)"><span class="icon" style="--icon-url: url('../../assets/svg_icons/running.svg'); width: 28px; height: 28px; background-color: var(--color-primary, #0056D8);"></span><span class="wk-log-sheet-card-label">Running</span></button>
+                  <button class="wk-log-sheet-card" data-type="Walking" onclick="selectLogType('Walking',this)"><span class="icon" style="--icon-url: url('../../assets/svg_icons/walking.svg'); width: 28px; height: 28px; background-color: var(--color-secondary, #F97316);"></span><span class="wk-log-sheet-card-label">Walking</span></button>
+                  <button class="wk-log-sheet-card" data-type="Cycling" onclick="selectLogType('Cycling',this)"><span class="icon" style="--icon-url: url('../../assets/svg_icons/biking.svg'); width: 28px; height: 28px; background-color: var(--color-tertiary, #7F7CF0);"></span><span class="wk-log-sheet-card-label">Cycling</span></button>
+                  <button class="wk-log-sheet-card" data-type="Yoga" onclick="selectLogType('Yoga',this)"><span class="icon" style="--icon-url: url('../../assets/svg_icons/meditation.svg'); width: 28px; height: 28px; background-color: var(--color-warning, #F59E0B);"></span><span class="wk-log-sheet-card-label">Yoga</span></button>
+                  <button class="wk-log-sheet-card" data-type="HIIT" onclick="selectLogType('HIIT',this)"><span class="icon" style="--icon-url: url('../../assets/svg_icons/bolt.svg'); width: 28px; height: 28px; background-color: var(--color-primary, #0056D8);"></span><span class="wk-log-sheet-card-label">HIIT</span></button>
+                  <button class="wk-log-sheet-card" data-type="Hiking" onclick="selectLogType('Hiking',this)"><span class="icon" style="--icon-url: url('../../assets/svg_icons/hiking.svg'); width: 28px; height: 28px; background-color: var(--color-success, #22C55E);"></span><span class="wk-log-sheet-card-label">Hiking</span></button>
+                  <button class="wk-log-sheet-card" data-type="Sport" onclick="selectLogType('Sport',this)"><span class="icon" style="--icon-url: url('../../assets/svg_icons/basketball.svg'); width: 28px; height: 28px; background-color: var(--color-greenish, #B5D170);"></span><span class="wk-log-sheet-card-label">Sport</span></button>
+                  <button class="wk-log-sheet-card" data-type="Swimming" onclick="selectLogType('Swimming',this)"><span class="icon" style="--icon-url: url('../../assets/svg_icons/swimming-pool.svg'); width: 28px; height: 28px; background-color: var(--color-error, #EF4444);"></span><span class="wk-log-sheet-card-label">Swimming</span></button>
+                  <button class="wk-log-sheet-card" data-type="Other" onclick="selectLogType('Other',this)"><span class="icon" style="--icon-url: url('../../assets/svg_icons/more.svg'); width: 28px; height: 28px; background-color: var(--color-primary, #0056D8);"></span><span class="wk-log-sheet-card-label">Other</span></button>
+                </div>
 
-              <div class="wk-log-feedback" id="wkLogFeedback" hidden></div>
+                <div class="wk-log-feedback" id="wkLogFeedback" hidden></div>
 
-              <div class="wk-log-field wk-log-field-hidden" id="wkLogCustomField">
-                <div class="wk-log-field-label">Activity name</div>
-                <input type="text" class="form-input" id="wkLogCustomType" placeholder="Basketball, dance class, paddle, etc.">
-              </div>
-
-              <div class="wk-log-form-grid">
-                <div class="wk-log-field">
-                  <div class="wk-log-field-label">Duration</div>
-                  <div class="wk-log-dual-input">
-                    <input type="number" class="form-input" id="wkLogDuration" placeholder="30" min="1" max="600">
-                    <span class="wk-log-unit">min</span>
+                <div class="wk-log-sheet-field wk-log-field-hidden" id="wkLogCustomField">
+                  <label class="wk-log-sheet-label" for="wkLogCustomType">Activity name</label>
+                  <div class="wk-log-input-shell">
+                    <input type="text" class="wk-log-sheet-input" id="wkLogCustomType" placeholder="Basketball, dance class, paddle, etc." oninput="updateWorkoutLogSaveState()">
                   </div>
                 </div>
-                <div class="wk-log-field" id="wkLogDistanceField">
-                  <div class="wk-log-field-label">Distance <span class="wk-log-field-meta">(optional)</span></div>
-                  <div class="wk-log-dual-input">
-                    <input type="number" class="form-input" id="wkLogDistance" placeholder="5" min="0" step="0.1">
-                    <span class="wk-log-unit" id="wkLogDistanceUnit">km</span>
-                  </div>
-                </div>
-                <div class="wk-log-field">
-                  <div class="wk-log-field-label">Calories <span class="wk-log-field-meta">(optional)</span></div>
-                  <div class="wk-log-dual-input">
-                    <input type="number" class="form-input" id="wkLogCalories" placeholder="250" min="0">
-                    <span class="wk-log-unit">kcal</span>
-                  </div>
-                </div>
-                <div class="wk-log-field">
-                  <div class="wk-log-field-label">Notes <span class="wk-log-field-meta">(optional)</span></div>
-                  <textarea class="form-input wk-log-textarea" id="wkLogNotes" rows="3" placeholder="Easy pace, group class, morning walk, outdoor court, etc."></textarea>
-                </div>
-              </div>
 
-              <div class="wk-log-actions">
-                <button class="btn-primary" id="wkLogSave" onclick="saveLoggedActivity()">Save Activity</button>
-                <button class="btn-secondary wk-log-secondary-btn" type="button" onclick="closeWorkoutLogForm()">Cancel</button>
+                <div class="wk-log-sheet-field">
+                  <label class="wk-log-sheet-label">Duration</label>
+                  <div class="wk-log-input-shell wk-log-input-shell--select" onclick="openDurationPicker()">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 20px; height: 20px; background-color: var(--color-text-tertiary, #64748B);"></span>
+                    <span class="wk-log-sheet-select-val is-placeholder" id="wkLogDurationDisplay">Select Duration</span>
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/down.svg'); width: 20px; height: 20px; background-color: var(--color-text-tertiary, #64748B);"></span>
+                  </div>
+                </div>
+
+                <div class="wk-log-sheet-field wk-log-field-hidden" id="wkLogDistanceField">
+                  <label class="wk-log-sheet-label" for="wkLogDistance">Distance <span class="wk-log-field-meta">(optional)</span></label>
+                  <div class="wk-log-input-shell">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/running.svg'); width: 20px; height: 20px; background-color: var(--color-text-tertiary, #64748B);"></span>
+                    <input type="number" class="wk-log-sheet-input" id="wkLogDistance" placeholder="e.g 5" min="0" step="0.1">
+                    <span class="wk-log-input-suffix" id="wkLogDistanceUnit">km</span>
+                  </div>
+                </div>
+
+                <div class="wk-log-sheet-field">
+                  <label class="wk-log-sheet-label" for="wkLogCalories">Calories <span class="wk-log-field-meta">(optional)</span></label>
+                  <div class="wk-log-input-shell">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/flame.svg'); width: 20px; height: 20px; background-color: var(--color-text-tertiary, #64748B);"></span>
+                    <input type="number" class="wk-log-sheet-input" id="wkLogCalories" placeholder="e.g 250" min="0">
+                    <span class="wk-log-input-suffix">kcal</span>
+                  </div>
+                </div>
+
+                <div class="wk-log-sheet-field">
+                  <label class="wk-log-sheet-label" for="wkLogNotes">Notes <span class="wk-log-field-meta">(optional)</span></label>
+                  <textarea class="wk-log-sheet-textarea" id="wkLogNotes" rows="4" placeholder="How did you feel? add any note here..."></textarea>
+                </div>
+
+                <button class="wk-log-sheet-save" id="wkLogSave" onclick="saveLoggedActivity()" disabled>Save Activity</button>
               </div>
-            </section>
+            </div>
+          </section>
+
+          <!-- Duration Picker Bottom Sheet -->
+          <section class="bottom-sheet wk-log-picker-sheet" id="wkLogDurationPickerSheet" aria-hidden="true">
+            <div class="sheet-backdrop" onclick="closeDurationPicker()"></div>
+            <div class="sheet-content">
+              <div class="wk-log-sheet-handle"></div>
+              <div class="wk-log-sheet-head">
+                <h2 class="wk-log-sheet-title">Duration</h2>
+                <button class="wk-log-sheet-close" type="button" onclick="closeDurationPicker()">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px; background-color: var(--color-text-tertiary, #64748B);"></span>
+                </button>
+              </div>
+              <div class="wk-log-picker-body">
+                <button class="wk-log-picker-item" onclick="selectDuration(10)">10 min</button>
+                <button class="wk-log-picker-item" onclick="selectDuration(15)">15 min</button>
+                <button class="wk-log-picker-item" onclick="selectDuration(20)">20 min</button>
+                <button class="wk-log-picker-item" onclick="selectDuration(30)">30 min</button>
+                <button class="wk-log-picker-item" onclick="selectDuration(40)">40 min</button>
+                <button class="wk-log-picker-item" onclick="selectDuration(45)">45 min</button>
+                <button class="wk-log-picker-item" onclick="selectDuration(60)">60 min</button>
+                <button class="wk-log-picker-item" onclick="selectDuration(90)">90 min</button>
+              </div>
+            </div>
+          </section>
+
+          <div class="wk-snackbar" id="wkSnackbar">
+            <span class="wk-snackbar-msg" id="wkSnackbarMsg"></span>
+            <button class="wk-snackbar-action" onclick="hideSnackbar()">OK</button>
           </div>
         </div>
 
       </div>
     </div>
   </div>
-  <script src="../../app.js?v=8"></script>
+  <script src="../../app.js?v=26"></script>
 </body>
 </html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Strivio — All Activities</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="../../styles.css?v=27">
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="screens-wrapper" id="screensWrapper">
+
+        <!-- ===== WORKOUT TAB: All Activities ===== -->
+        <div class="screen screen-workout-log-all active" data-screen="workout-log-all">
+          <div class="status-bar">
+            <span class="status-time">9:41</span>
+            <div class="status-icons">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="10" width="3" height="5" rx="0.5" fill="currentColor" />
+                <rect x="6" y="7" width="3" height="8" rx="0.5" fill="currentColor" />
+                <rect x="11" y="3" width="3" height="12" rx="0.5" fill="currentColor" />
+              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z"
+                  fill="currentColor" />
+                <path
+                  d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z"
+                  fill="currentColor" />
+                <circle cx="8" cy="11" r="2" fill="currentColor" />
+              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="5" width="2" height="6" rx="0.5" fill="currentColor" />
+                <rect x="5" y="3" width="2" height="8" rx="0.5" fill="currentColor" />
+                <rect x="9" y="1" width="2" height="10" rx="0.5" fill="currentColor" />
+                <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="currentColor" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="wk-nav-header">
+            <button class="wk-back-btn" onclick="navigateTo('workout-log')">
+              <span class="icon"
+                style="--icon-url: url('../../assets/svg_icons/back.svg'); width: 24px; height: 24px; background-color: var(--color-text-primary, #0F172A);"></span>
+            </button>
+            <span class="wk-nav-title">All Activities</span>
+          </div>
+
+          <div class="wk-log-all-body">
+            <!-- Search & Filters Container -->
+            <div class="wk-log-search-container">
+              <div class="wk-log-search-bar">
+                <span class="icon"
+                  style="--icon-url: url('../../assets/svg_icons/search.svg'); width: 20px; height: 20px; background-color: var(--color-text-muted, #94A3B8);"></span>
+                <input type="text" id="wkLogSearchInput" placeholder="Search log" oninput="onWorkoutLogSearchInput()">
+                <button class="wk-log-search-clear-btn" id="wkLogSearchClearBtn" onclick="clearWorkoutLogSearch()"
+                  style="display: none;">
+                  <span class="icon"
+                    style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary, #64748B);"></span>
+                </button>
+              </div>
+
+              <div class="wk-log-filter-row">
+                <button class="wk-log-filter-chip" onclick="openTimeFilterSheet()">
+                  <span id="wkLogFilterTimeLabel">Last Week</span>
+                  <span class="icon"
+                    style="--icon-url: url('../../assets/svg_icons/down.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary, #64748B);"></span>
+                </button>
+                <button class="wk-log-filter-chip" onclick="openTypeFilterSheet()">
+                  <span id="wkLogFilterTypeLabel">All Activities</span>
+                  <span class="icon"
+                    style="--icon-url: url('../../assets/svg_icons/down.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary, #64748B);"></span>
+                </button>
+              </div>
+            </div>
+
+            <!-- List Container -->
+            <section class="wk-log-feed-all">
+              <div class="wk-log-history-state has-entries" id="wkLogAllHistoryList">
+                <!-- Javascript populated list -->
+              </div>
+            </section>
+          </div>
+
+          <!-- Time Filter Bottom Sheet -->
+          <section class="bottom-sheet wk-log-all-picker-sheet" id="wkLogAllTimeSheet" aria-hidden="true">
+            <div class="sheet-backdrop" onclick="closeTimeFilterSheet()"></div>
+            <div class="sheet-content">
+              <div class="wk-log-sheet-handle"></div>
+              <div class="wk-log-sheet-head">
+                <h2 class="wk-log-sheet-title">Time Period</h2>
+                <button class="wk-log-sheet-close" type="button" onclick="closeTimeFilterSheet()">
+                  <span class="icon"
+                    style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px; background-color: var(--color-text-tertiary, #64748B);"></span>
+                </button>
+              </div>
+              <div class="wk-log-picker-body">
+                <button class="wk-log-picker-item" onclick="selectTimeFilter('All Time')">All Time</button>
+                <button class="wk-log-picker-item" onclick="selectTimeFilter('Last Week')">Last Week</button>
+                <button class="wk-log-picker-item" onclick="selectTimeFilter('Last Month')">Last Month</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Type Filter Bottom Sheet -->
+          <section class="bottom-sheet wk-log-all-picker-sheet" id="wkLogAllTypeSheet" aria-hidden="true">
+            <div class="sheet-backdrop" onclick="closeTypeFilterSheet()"></div>
+            <div class="sheet-content">
+              <div class="wk-log-sheet-handle"></div>
+              <div class="wk-log-sheet-head">
+                <h2 class="wk-log-sheet-title">Activity Type</h2>
+                <button class="wk-log-sheet-close" type="button" onclick="closeTypeFilterSheet()">
+                  <span class="icon"
+                    style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px; background-color: var(--color-text-tertiary, #64748B);"></span>
+                </button>
+              </div>
+              <div class="wk-log-picker-body">
+                <button class="wk-log-picker-item" onclick="selectTypeFilter('All Activities')">All Activities</button>
+                <button class="wk-log-picker-item" onclick="selectTypeFilter('Running')">Running</button>
+                <button class="wk-log-picker-item" onclick="selectTypeFilter('Walking')">Walking</button>
+                <button class="wk-log-picker-item" onclick="selectTypeFilter('Cycling')">Cycling</button>
+                <button class="wk-log-picker-item" onclick="selectTypeFilter('Yoga')">Yoga</button>
+                <button class="wk-log-picker-item" onclick="selectTypeFilter('HIIT')">HIIT</button>
+                <button class="wk-log-picker-item" onclick="selectTypeFilter('Swimming')">Swimming</button>
+                <button class="wk-log-picker-item" onclick="selectTypeFilter('Sport')">Sport</button>
+                <button class="wk-log-picker-item" onclick="selectTypeFilter('Workout')">Workout</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../../app.js?v=27"></script>
+</body>
+
+</html>

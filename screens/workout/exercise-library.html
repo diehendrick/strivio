@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=12">
+  <link rel="stylesheet" href="../../styles.css?v=13">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 <body>
@@ -44,25 +44,26 @@
             <span class="wk-nav-title">Exercise</span>
           </div>
           <div class="wk-search-wrap wk-ex-library-search-wrap">
-            <img src="../../assets/svg_icons/search.svg" class="wk-search-icon-img" width="20" height="20" alt="">
+            <span class="wk-search-icon" aria-hidden="true"></span>
             <input type="text" class="wk-search-input" placeholder="Search exercises..." id="wkExLibSearch">
-            <button class="wk-search-clear" id="wkExLibSearchClear" onclick="clearExerciseSearch()" style="display:none" aria-label="Clear search"><img src="../../assets/svg_icons/cross-x.svg" class="icon" width="16" alt=""></button>
+            <button class="wk-search-clear" id="wkExLibSearchClear" onclick="clearExerciseSearch()" style="display:none" aria-label="Clear search"><span class="icon" style="--icon-url:url('../../assets/svg_icons/cross-x.svg'); width:16px; height:16px" aria-hidden="true"></span></button>
           </div>
-          <div class="wk-filter-grid wk-ex-filter-grid" id="wkExLibFilters">
-            <button class="wk-filter-trigger" type="button" data-ex-filter-sheet="muscle" aria-haspopup="dialog" aria-expanded="false">
-              <span class="wk-filter-trigger-label">Muscle Area</span>
-              <span class="wk-filter-trigger-value" id="wkExFilterValue-muscle">All</span>
+          <div class="wk-ex-filter-row" id="wkExLibFilters">
+            <button class="wk-ex-filter-chip" type="button" data-ex-filter-sheet="muscle" aria-haspopup="dialog" aria-expanded="false">
+              <span>Muscle Group</span>
+              <span class="icon wk-ex-filter-chip-chevron" style="--icon-url:url('../../assets/svg_icons/down.svg'); width:16px; height:16px" aria-hidden="true"></span>
             </button>
-            <button class="wk-filter-trigger" type="button" data-ex-filter-sheet="level" aria-haspopup="dialog" aria-expanded="false">
-              <span class="wk-filter-trigger-label">Level</span>
-              <span class="wk-filter-trigger-value" id="wkExFilterValue-level">All</span>
+            <button class="wk-ex-filter-chip" type="button" data-ex-filter-sheet="level" aria-haspopup="dialog" aria-expanded="false">
+              <span>Level</span>
+              <span class="icon wk-ex-filter-chip-chevron" style="--icon-url:url('../../assets/svg_icons/down.svg'); width:16px; height:16px" aria-hidden="true"></span>
             </button>
-            <button class="wk-filter-trigger" type="button" data-ex-filter-sheet="location" aria-haspopup="dialog" aria-expanded="false">
-              <span class="wk-filter-trigger-label">Location</span>
-              <span class="wk-filter-trigger-value" id="wkExFilterValue-location">All</span>
+            <button class="wk-ex-filter-chip" type="button" data-ex-filter-sheet="location" aria-haspopup="dialog" aria-expanded="false">
+              <span>Location</span>
+              <span class="icon wk-ex-filter-chip-chevron" style="--icon-url:url('../../assets/svg_icons/down.svg'); width:16px; height:16px" aria-hidden="true"></span>
             </button>
           </div>
           <div class="wk-library-summary wk-ex-library-summary">
+            <span class="icon" style="--icon-url:url('../../assets/svg_icons/dumbbell-ray.svg'); width:12px; height:12px" aria-hidden="true"></span>
             <p class="wk-library-result-count" id="wkExLibraryResultsCount">0 exercises</p>
             <button class="wk-library-reset" type="button" id="wkExLibraryResetFilters" onclick="resetExerciseLibraryFilters()" hidden>Reset filters</button>
           </div>

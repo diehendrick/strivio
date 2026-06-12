@@ -167,6 +167,8 @@ const screenPaths = {
   'workout-settings': BASE_PATH + '/screens/workout/workout-settings.html',
   'workout-schedule': BASE_PATH + '/screens/workout/workout-schedule.html',
   'workout-log': BASE_PATH + '/screens/workout/workout-log.html',
+  'workout-log-all': BASE_PATH + '/screens/workout/workout-log-all.html',
+  'workout-log-detail': BASE_PATH + '/screens/workout/workout-log-detail.html',
   // Settings screens
   'more': BASE_PATH + '/screens/settings/more.html',
   'more-profile': BASE_PATH + '/screens/settings/more-profile.html',
@@ -1362,8 +1364,6 @@ window.shareWorkout = function shareWorkout() {
 window.toggleFavorite = function toggleFavorite() {
   var btn = document.getElementById('wkDetailFav') || document.getElementById('wkExDetailFav');
   if (!btn) return;
-  var icon = btn.querySelector('iconify-icon');
-  if (!icon) return;
 
   if (btn.id === 'wkExDetailFav' && state.currentExercise) {
     state.exerciseFavorites = state.exerciseFavorites || [];
@@ -1376,6 +1376,8 @@ window.toggleFavorite = function toggleFavorite() {
     return;
   }
 
+  var icon = btn.querySelector('iconify-icon');
+  if (!icon) return;
   var isFav = icon.getAttribute('icon') === 'solar:heart-bold-duotone';
   icon.setAttribute('icon', isFav ? 'solar:heart-bold' : 'solar:heart-bold-duotone');
   if (!isFav) icon.style.color = 'var(--navy)';
@@ -1419,7 +1421,7 @@ var workoutDistanceTypes = ['Running', 'Walking', 'Cycling', 'Swimming', 'Hiking
 window.selectLogType = function selectLogType(type, btn) {
   var grid = document.getElementById('wkLogTypeGrid');
   if (!grid) return;
-  grid.querySelectorAll('.wk-log-type-btn').forEach(function(b){
+  grid.querySelectorAll('[data-type]').forEach(function(b){
     b.classList.remove('selected');
     b.removeAttribute('data-selected');
   });
@@ -1427,6 +1429,7 @@ window.selectLogType = function selectLogType(type, btn) {
   btn.setAttribute('data-selected', 'true');
   syncWorkoutLogFields(type);
   setWorkoutLogFeedback('');
+  updateWorkoutLogSaveState();
 };
 
 function syncWorkoutLogFields(type) {
@@ -1439,10 +1442,11 @@ function syncWorkoutLogFields(type) {
   var showDistance = workoutDistanceTypes.indexOf(normalized) >= 0;
   var units = (state.workoutSettings && state.workoutSettings.units) === 'imperial' ? 'mi' : 'km';
 
-  if (customField) customField.style.display = showCustom ? 'block' : 'none';
-  if (distanceField) distanceField.style.display = showDistance ? '' : 'none';
+  if (customField) customField.style.display = showCustom ? 'flex' : 'none';
+  if (distanceField) distanceField.style.display = showDistance ? 'flex' : 'none';
   if (distanceUnit) distanceUnit.textContent = units;
   if (distanceInput && !showDistance) distanceInput.value = '';
+  updateWorkoutLogSaveState();
 }
 
 function setWorkoutLogFeedback(message, isSuccess) {
@@ -1471,141 +1475,430 @@ function setWorkoutLogNotice(message) {
   notice.textContent = message;
 }
 
+var workoutLogExpanded = false;
+var selectedWorkoutDuration = 0;
+
+window.openDurationPicker = function() {
+  var sheet = document.getElementById('wkLogDurationPickerSheet');
+  if (!sheet) return;
+  sheet.setAttribute('aria-hidden', 'false');
+  sheet.classList.add('open');
+};
+
+window.closeDurationPicker = function() {
+  var sheet = document.getElementById('wkLogDurationPickerSheet');
+  if (!sheet) return;
+  sheet.classList.remove('open');
+  sheet.setAttribute('aria-hidden', 'true');
+};
+
+window.selectDuration = function(val) {
+  selectedWorkoutDuration = val;
+  var display = document.getElementById('wkLogDurationDisplay');
+  if (display) {
+    display.textContent = val + ' min';
+    display.classList.remove('is-placeholder');
+  }
+  closeDurationPicker();
+  updateWorkoutLogSaveState();
+};
+
 function resetWorkoutLogForm() {
-  var selectedBtn = document.querySelector('#wkLogTypeGrid .wk-log-type-btn.selected');
+  state.pendingEditEntryTimestamp = null;
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  var saveBtn = document.getElementById('wkLogSave');
+  if (saveBtn) saveBtn.textContent = 'Save Activity';
+
+  var selectedBtn = document.querySelector('#wkLogTypeGrid [data-type].selected');
   if (selectedBtn) {
     selectedBtn.classList.remove('selected');
     selectedBtn.removeAttribute('data-selected');
   }
   if (document.getElementById('wkLogCustomType')) document.getElementById('wkLogCustomType').value = '';
-  if (document.getElementById('wkLogDuration')) document.getElementById('wkLogDuration').value = '';
+  selectedWorkoutDuration = 0;
+  var durationDisplay = document.getElementById('wkLogDurationDisplay');
+  if (durationDisplay) {
+    durationDisplay.textContent = 'Select Duration';
+    durationDisplay.classList.add('is-placeholder');
+  }
   if (document.getElementById('wkLogDistance')) document.getElementById('wkLogDistance').value = '';
   if (document.getElementById('wkLogCalories')) document.getElementById('wkLogCalories').value = '';
   if (document.getElementById('wkLogNotes')) document.getElementById('wkLogNotes').value = '';
   syncWorkoutLogFields('');
   setWorkoutLogFeedback('');
+  updateWorkoutLogSaveState();
 }
 
 window.openWorkoutLogForm = function openWorkoutLogForm() {
-  var formCard = document.getElementById('wkLogFormCard');
-  if (!formCard) return;
-  formCard.classList.remove('wk-log-form-card-hidden');
+  var sheet = document.getElementById('wkLogSheet');
+  if (!sheet) return;
+  openSheet('wkLogSheet');
+  sheet.setAttribute('aria-hidden', 'false');
   setWorkoutLogNotice('');
   setWorkoutLogFeedback('');
-  if (typeof formCard.scrollIntoView === 'function') {
-    formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+  updateWorkoutLogSaveState();
 };
 
 window.closeWorkoutLogForm = function closeWorkoutLogForm() {
-  var formCard = document.getElementById('wkLogFormCard');
-  if (!formCard) return;
-  formCard.classList.add('wk-log-form-card-hidden');
+  var sheet = document.getElementById('wkLogSheet');
+  if (!sheet) return;
+  closeSheet('wkLogSheet');
+  sheet.setAttribute('aria-hidden', 'true');
   resetWorkoutLogForm();
 };
 
+window.updateWorkoutLogSaveState = function updateWorkoutLogSaveState() {
+  var saveBtn = document.getElementById('wkLogSave');
+  if (!saveBtn) return;
+  var selectedBtn = document.querySelector('#wkLogTypeGrid [data-type].selected');
+  var customType = document.getElementById('wkLogCustomType');
+  var type = selectedBtn ? selectedBtn.dataset.type : '';
+  var hasDuration = selectedWorkoutDuration > 0;
+  var hasCustomLabel = type !== 'Other' || (customType && customType.value.trim());
+  saveBtn.disabled = !(type && hasDuration && hasCustomLabel);
+};
+
 function getWorkoutLogEntries() {
+  var distanceUnit = ((state.workoutSettings && state.workoutSettings.units) === 'imperial') ? 'mi' : 'km';
   var manual = (state.activityLog || []).map(function(entry) {
     var dateValue = entry.date ? new Date(entry.date) : new Date();
     var displayName = entry.label || entry.customType || entry.type || 'Activity';
-    var badge = entry.type === 'rest' ? 'rest' : 'manual';
-    var badgeLabel = entry.type === 'rest' ? 'Recovery' : 'Manual';
-    var metrics = [];
-    if (entry.duration) metrics.push({ icon: 'solar:clock-circle-bold-duotone', text: entry.duration + ' min' });
-    if (entry.distance) metrics.push({ icon: 'solar:ruler-cross-pen-bold-duotone', text: entry.distance + ' ' + (((state.workoutSettings && state.workoutSettings.units) === 'imperial') ? 'mi' : 'km') });
-    if (entry.calories) metrics.push({ icon: 'solar:fire-bold-duotone', text: entry.calories + ' kcal' });
-
     return {
-      kind: badge,
-      badgeLabel: badgeLabel,
+      type: entry.type || '',
       title: displayName,
-      subtitle: entry.type === 'rest' ? 'Recovery day logged manually' : 'Added manually to recent activity',
-      note: entry.notes || '',
       timestamp: dateValue.getTime(),
-      when: formatWorkoutLogWhen(dateValue),
-      metrics: metrics
+      dateValue: dateValue,
+      durationText: formatWorkoutLogDuration(entry.duration),
+      distanceText: entry.distance ? formatWorkoutLogDistance(entry.distance, distanceUnit) : '',
+      caloriesText: entry.calories ? String(entry.calories) + ' kcal' : '',
+      notes: entry.notes || '',
+      source: 'manual'
     };
   });
 
   var workouts = (state.workoutHistory || []).map(function(entry) {
     var dateValue = entry.date ? new Date(entry.date) : new Date();
-    var metrics = [];
-    if (entry.totalTime) metrics.push({ icon: 'solar:clock-circle-bold-duotone', text: Math.max(1, Math.round(entry.totalTime / 60)) + ' min' });
-    else if (entry.duration) metrics.push({ icon: 'solar:clock-circle-bold-duotone', text: entry.duration });
-    if (entry.exercises) metrics.push({ icon: 'solar:dumbbell-bold-duotone', text: entry.exercises + ' exercises' });
-    if (entry.setsCompleted) metrics.push({ icon: 'solar:repeat-bold-duotone', text: entry.setsCompleted + ' sets' });
-    if (entry.calories) metrics.push({ icon: 'solar:fire-bold-duotone', text: entry.calories + ' kcal' });
-
     return {
-      kind: 'workout',
-      badgeLabel: entry.completed === false ? 'In progress' : 'Workout',
+      type: inferWorkoutLogTypeFromTitle(entry.workoutName || entry.workout || ''),
       title: entry.workoutName || entry.workout || 'Workout session',
-      subtitle: entry.completed === false ? 'Partial workout saved from execution flow' : 'Completed from your workout plan',
-      note: '',
       timestamp: dateValue.getTime(),
-      when: formatWorkoutLogWhen(dateValue),
-      metrics: metrics
+      dateValue: dateValue,
+      durationText: entry.totalTime ? formatWorkoutLogDuration(Math.max(1, Math.round(entry.totalTime / 60))) : formatWorkoutLogDuration(entry.duration),
+      distanceText: '',
+      caloriesText: entry.calories ? String(entry.calories) + ' kcal' : '',
+      notes: entry.notes || '',
+      source: 'app'
     };
   });
 
-  return manual.concat(workouts).sort(function(a, b) { return b.timestamp - a.timestamp; });
+  var realEntries = manual.concat(workouts).sort(function(a, b) { return b.timestamp - a.timestamp; });
+  var seedEntries = getWorkoutLogSampleEntries();
+
+  // Filter deleted entries
+  var deleted = state.deletedSeedTimestamps || [];
+  realEntries = realEntries.filter(function(e) {
+    return deleted.indexOf(e.timestamp) === -1;
+  });
+  seedEntries = seedEntries.filter(function(e) {
+    return deleted.indexOf(e.timestamp) === -1;
+  });
+
+  if (!manual.length && !workouts.length) {
+    // If no real entries exist, only show non-deleted seeds
+    return seedEntries;
+  }
+
+  if (realEntries.length < 7) {
+    var seenTitles = {};
+    realEntries.forEach(function(entry) {
+      seenTitles[String(entry.title || '').toLowerCase()] = true;
+    });
+    seedEntries.forEach(function(entry) {
+      var key = String(entry.title || '').toLowerCase();
+      if (!seenTitles[key] && realEntries.length < 7) {
+        realEntries.push(entry);
+        seenTitles[key] = true;
+      }
+    });
+  }
+
+  return realEntries;
 }
 
-function formatWorkoutLogWhen(dateValue) {
+function getWorkoutLogSampleEntries() {
+  return [
+    createWorkoutLogSeedEntry('Swimming', 'Swimming Laps', '2026-05-09T09:00:00', 40, 350),
+    createWorkoutLogSeedEntry('Running', 'Lunchtime Run', '2026-05-08T12:30:00', 30, 300),
+    createWorkoutLogSeedEntry('Walking', 'Morning Walk', '2026-05-07T07:00:00', 35, 240),
+    createWorkoutLogSeedEntry('Cycling', 'Cycling Session', '2026-05-08T17:30:00', 60, 500),
+    createWorkoutLogSeedEntry('Running', 'Evening Running', '2026-05-05T18:00:00', 35, 320),
+    createWorkoutLogSeedEntry('HIIT', 'HIIT Workout', '2026-05-04T08:00:00', 20, 250),
+    createWorkoutLogSeedEntry('Running', 'Morning Running', '2026-05-01T06:30:00', 35, 320),
+    createWorkoutLogSeedEntry('Yoga', 'Morning Yoga', '2026-05-01T06:00:00', 45, 250),
+    createWorkoutLogSeedEntry('Cycling', 'Lunchtime Cycling', '2026-05-01T12:00:00', 30, 400),
+    createWorkoutLogSeedEntry('Running', 'Trail Run', '2026-04-28T08:00:00', 50, 480),
+    createWorkoutLogSeedEntry('Walking', 'Evening Walk', '2026-04-27T19:00:00', 25, 180),
+    createWorkoutLogSeedEntry('HIIT', 'Cardio Blast', '2026-04-26T07:30:00', 30, 350),
+    createWorkoutLogSeedEntry('Swimming', 'Pool Sprints', '2026-04-25T10:00:00', 25, 280),
+    createWorkoutLogSeedEntry('Cycling', 'Hill Climb', '2026-04-24T06:00:00', 45, 420),
+    createWorkoutLogSeedEntry('Yoga', 'Power Yoga', '2026-04-23T17:00:00', 60, 300),
+    createWorkoutLogSeedEntry('Running', '5K Tempo', '2026-04-22T07:00:00', 25, 220),
+    createWorkoutLogSeedEntry('Walking', 'Brisk Walk', '2026-04-21T08:30:00', 30, 200),
+    createWorkoutLogSeedEntry('HIIT', 'Total Burn', '2026-04-20T06:00:00', 20, 300),
+    createWorkoutLogSeedEntry('Swimming', 'Open Water Swim', '2026-04-19T09:00:00', 55, 520),
+    createWorkoutLogSeedEntry('Cycling', 'Road Cruise', '2026-04-18T11:00:00', 90, 650)
+  ];
+}
+
+function createWorkoutLogSeedEntry(type, title, isoDate, duration, calories) {
+  var dateValue = new Date(isoDate);
+  return {
+    type: type,
+    title: title,
+    timestamp: dateValue.getTime(),
+    dateValue: dateValue,
+    durationText: formatWorkoutLogDuration(duration),
+    distanceText: '',
+    caloriesText: String(calories) + ' kcal',
+    notes: 'A standard workout completed as part of your base training block.',
+    source: 'seed'
+  };
+}
+
+function formatWorkoutLogDuration(value) {
+  if (!value && value !== 0) return '';
+  if (typeof value === 'number' && isFinite(value)) return String(value) + ' min';
+  var text = String(value).trim();
+  if (!text) return '';
+  return /min/i.test(text) ? text : text + ' min';
+}
+
+function formatWorkoutLogDistance(value, unit) {
+  var numeric = Number(value);
+  if (!isFinite(numeric) || !numeric) return '';
+  var formatted = Math.round(numeric) === numeric ? String(numeric) : numeric.toFixed(1).replace(/\.0$/, '');
+  return formatted + ' ' + unit;
+}
+
+function formatWorkoutLogDateLabel(dateValue) {
   if (!(dateValue instanceof Date) || isNaN(dateValue.getTime())) return 'Recent';
+  return dateValue.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
 
-  var now = new Date();
-  var startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  var startOfDate = new Date(dateValue.getFullYear(), dateValue.getMonth(), dateValue.getDate()).getTime();
-  var diffDays = Math.round((startOfToday - startOfDate) / 86400000);
-  var timeLabel = dateValue.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+function buildWorkoutLogMeta(entry) {
+  var parts = [formatWorkoutLogDateLabel(entry.dateValue)];
+  if (entry.durationText) parts.push(entry.durationText);
+  if (entry.caloriesText) parts.push(entry.caloriesText);
+  else if (entry.distanceText) parts.push(entry.distanceText);
+  return parts.join('  ·  ');
+}
 
-  if (diffDays === 0) return 'Today - ' + timeLabel;
-  if (diffDays === 1) return 'Yesterday - ' + timeLabel;
-  return dateValue.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' - ' + timeLabel;
+function inferWorkoutLogTypeFromTitle(title) {
+  var text = String(title || '').toLowerCase();
+  if (text.indexOf('swim') !== -1) return 'Swimming';
+  if (text.indexOf('walk') !== -1 || text.indexOf('hike') !== -1) return 'Walking';
+  if (text.indexOf('cycl') !== -1 || text.indexOf('bike') !== -1) return 'Cycling';
+  if (text.indexOf('hiit') !== -1) return 'HIIT';
+  if (text.indexOf('yoga') !== -1) return 'Yoga';
+  if (text.indexOf('sport') !== -1 || text.indexOf('basketball') !== -1 || text.indexOf('football') !== -1) return 'Sports';
+  if (text.indexOf('run') !== -1) return 'Running';
+  return 'Workout';
+}
+
+function getWorkoutLogVisual(entry) {
+  var type = String(entry.type || '').toLowerCase();
+  if (type === 'swimming') {
+    return {
+      icon: '../../assets/svg_icons/swimming-pool.svg',
+      bubbleClass: 'wk-log-activity-icon--error',
+      iconColor: 'var(--color-error, #EF4444)'
+    };
+  }
+  if (type === 'walking') {
+    return {
+      icon: '../../assets/svg_icons/walking.svg',
+      bubbleClass: 'wk-log-activity-icon--secondary',
+      iconColor: 'var(--color-secondary, #F97316)'
+    };
+  }
+  if (type === 'hiking') {
+    return {
+      icon: '../../assets/svg_icons/hiking.svg',
+      bubbleClass: 'wk-log-activity-icon--success',
+      iconColor: 'var(--color-success, #22C55E)'
+    };
+  }
+  if (type === 'cycling') {
+    return {
+      icon: '../../assets/svg_icons/biking.svg',
+      bubbleClass: 'wk-log-activity-icon--tertiary',
+      iconColor: 'var(--color-tertiary, #7F7CF0)'
+    };
+  }
+  if (type === 'hiit') {
+    return {
+      icon: '../../assets/svg_icons/bolt.svg',
+      bubbleClass: 'wk-log-activity-icon--error',
+      iconColor: 'var(--color-error, #EF4444)'
+    };
+  }
+  if (type === 'sports' || type === 'sport') {
+    return {
+      icon: '../../assets/svg_icons/basketball.svg',
+      bubbleClass: 'wk-log-activity-icon--greenish',
+      iconColor: 'var(--color-greenish, #B5D170)'
+    };
+  }
+  if (type === 'yoga') {
+    return {
+      icon: '../../assets/svg_icons/meditation.svg',
+      bubbleClass: 'wk-log-activity-icon--warning',
+      iconColor: 'var(--color-warning, #F59E0B)'
+    };
+  }
+  if (type === 'workout') {
+    return {
+      icon: '../../assets/svg_icons/dumbbell-ray.svg',
+      bubbleClass: 'wk-log-activity-icon--primary',
+      iconColor: 'var(--color-primary, #0056D8)'
+    };
+  }
+  return {
+    icon: '../../assets/svg_icons/running.svg',
+    bubbleClass: 'wk-log-activity-icon--primary',
+    iconColor: 'var(--color-primary, #0056D8)'
+  };
 }
 
 function renderWorkoutLogEntries() {
   var list = document.getElementById('wkLogHistoryList');
-  var count = document.getElementById('wkLogStatCount');
-  var countLabel = document.getElementById('wkLogStatLabel');
+  var seeAllBtn = document.getElementById('wkLogSeeAllBtn');
   if (!list) return;
 
   var entries = getWorkoutLogEntries();
-  var thisWeekCount = entries.filter(function(entry) {
-    return entry.timestamp >= (Date.now() - (7 * 24 * 60 * 60 * 1000));
-  }).length;
-
-  if (count) count.textContent = String(thisWeekCount);
-  if (countLabel) countLabel.textContent = thisWeekCount === 1 ? 'entry this week' : 'entries this week';
+  var visibleEntries = entries.slice(0, 7);
+  if (seeAllBtn) {
+    seeAllBtn.textContent = 'See All';
+    seeAllBtn.classList.toggle('is-disabled', entries.length === 0);
+  }
 
   if (!entries.length) {
-    list.innerHTML = '<div class="wk-log-history-empty"><strong>No activity yet</strong><p>Your manual activity, finished workouts, and rest days will start building a single timeline here.</p></div>';
+    list.className = 'wk-log-history-state is-empty';
+    list.innerHTML =
+      '<div class="wk-log-history-empty">' +
+        '<img src="../../assets/svg_icons/not-found-alt.svg" width="36" height="36" alt="">' +
+        '<div class="wk-log-history-empty-copy">' +
+          '<strong>No Activities Yet</strong>' +
+          '<p>Log your first activity to start building your timeline.</p>' +
+        '</div>' +
+      '</div>';
     return;
   }
 
-  list.innerHTML = entries.slice(0, 8).map(function(entry) {
+  list.className = 'wk-log-history-state has-entries';
+  list.innerHTML = visibleEntries.map(function(entry, i) {
+    var visual = getWorkoutLogVisual(entry);
     return '' +
-      '<article class="wk-log-history-item">' +
-        '<div class="wk-log-history-top">' +
-          '<div class="wk-log-history-title-wrap">' +
-            '<h3 class="wk-log-history-title">' + escapeHtml(entry.title) + '</h3>' +
-            '<p class="wk-log-history-subtitle">' + escapeHtml(entry.subtitle) + ' - ' + escapeHtml(entry.when) + '</p>' +
-          '</div>' +
-          '<span class="wk-log-history-badge ' + entry.kind + '">' + escapeHtml(entry.badgeLabel) + '</span>' +
+      '<article class="wk-log-activity-row" onclick="viewWorkoutLogDetail(' + i + ', false)" style="cursor: pointer;">' +
+        '<div class="wk-log-activity-icon ' + visual.bubbleClass + '">' +
+          '<span class="icon" style="--icon-url: url(\'' + visual.icon + '\'); width: 24px; height: 24px; background-color: ' + visual.iconColor + ';"></span>' +
         '</div>' +
-        (entry.metrics.length ? '<div class="wk-log-history-metrics">' + entry.metrics.map(function(metric) {
-          return '<span class="wk-log-history-metric"><iconify-icon icon="' + metric.icon + '" width="14"></iconify-icon>' + escapeHtml(metric.text) + '</span>';
-        }).join('') + '</div>' : '') +
-        (entry.note ? '<p class="wk-log-history-note">' + escapeHtml(entry.note) + '</p>' : '') +
+        '<div class="wk-log-activity-copy">' +
+          '<h3 class="wk-log-activity-title">' + escapeHtml(entry.title) + '</h3>' +
+          '<p class="wk-log-activity-meta">' + escapeHtml(buildWorkoutLogMeta(entry)) + '</p>' +
+        '</div>' +
+        '<span class="wk-log-activity-action">' +
+          '<span class="icon" style="--icon-url: url(\'../../assets/svg_icons/foward.svg\'); width: 16px; height: 16px; background-color: var(--color-primary, #0056D8);"></span>' +
+        '</span>' +
       '</article>';
   }).join('');
 }
 
+window.viewWorkoutLogDetail = function viewWorkoutLogDetail(index, isFromAll) {
+  var entries;
+  if (isFromAll) {
+    entries = window.getCurrentFilteredAllEntries ? window.getCurrentFilteredAllEntries() : [];
+  } else {
+    var allEntries = getWorkoutLogEntries();
+    entries = allEntries.slice(0, 7);
+  }
+  var entry = entries[index];
+  if (!entry) return;
+  state.selectedWorkoutLogEntryTimestamp = entry.timestamp;
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  navigateTo('workout-log-detail');
+};
+
+function prefillWorkoutLogForm(entry) {
+  var type = entry.type || entry.label || 'Other';
+  var btn = document.querySelector('#wkLogTypeGrid [data-type="' + type + '"]');
+  if (!btn) {
+    btn = document.querySelector('#wkLogTypeGrid [data-type="Other"]');
+  }
+  if (btn) {
+    selectLogType(btn.dataset.type, btn);
+  }
+  if (entry.customType || entry.type === 'Other') {
+    var customInput = document.getElementById('wkLogCustomType');
+    if (customInput) customInput.value = entry.customType || entry.title || '';
+  }
+  var durationSelect = document.getElementById('wkLogDuration');
+  if (durationSelect) {
+    var dVal = typeof entry.duration === 'number' ? entry.duration : parseInt(entry.duration) || 0;
+    if (!dVal && entry.durationText) {
+      dVal = parseInt(entry.durationText) || 0;
+    }
+    durationSelect.value = dVal || '';
+  }
+  var distanceInput = document.getElementById('wkLogDistance');
+  if (distanceInput) {
+    var distVal = entry.distance || 0;
+    if (!distVal && entry.distanceText) {
+      distVal = parseFloat(entry.distanceText) || 0;
+    }
+    distanceInput.value = distVal || '';
+  }
+  var caloriesInput = document.getElementById('wkLogCalories');
+  if (caloriesInput) {
+    var calVal = entry.calories || 0;
+    if (!calVal && entry.caloriesText) {
+      calVal = parseInt(entry.caloriesText) || 0;
+    }
+    caloriesInput.value = calVal || '';
+  }
+  var notesTextarea = document.getElementById('wkLogNotes');
+  if (notesTextarea) {
+    notesTextarea.value = entry.notes || '';
+  }
+  updateWorkoutLogSaveState();
+}
+
 function initWorkoutLog() {
+  workoutLogExpanded = false;
   closeWorkoutLogForm();
   setWorkoutLogNotice('');
   renderWorkoutLogEntries();
+  updateWorkoutLogSaveState();
+
+  // Check pending Log Again
+  if (state.pendingLogAgain) {
+    var pending = state.pendingLogAgain;
+    state.pendingLogAgain = null;
+    try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+    prefillWorkoutLogForm(pending);
+    openWorkoutLogForm();
+  }
+  // Check pending Edit
+  else if (state.pendingEditEntryTimestamp) {
+    var editTimestamp = state.pendingEditEntryTimestamp;
+    var entry = getWorkoutLogEntries().find(function(e) { return e.timestamp === editTimestamp; });
+    if (entry) {
+      prefillWorkoutLogForm(entry);
+      var saveBtn = document.getElementById('wkLogSave');
+      if (saveBtn) saveBtn.textContent = 'Save Changes';
+      openWorkoutLogForm();
+    }
+  }
 }
 
 // ===== WORKOUT: BUILD TOGGLE =====
@@ -3861,16 +4154,31 @@ function getExerciseLibraryLocation(exercise) {
 }
 
 function getExerciseLibraryImage(exercise) {
-  var byMuscle = {
-    chest: '../../assets/img/anatomical-muscles/anatomical-chest.png',
-    back: '../../assets/img/anatomical-muscles/anatomical-upper-back.png',
-    legs: '../../assets/img/icon-gym.png',
-    shoulders: '../../assets/img/anatomical-muscles/anatomical-shoulders.png',
-    arms: '../../assets/img/anatomical-muscles/anatomical-bicep.png',
-    core: '../../assets/img/icon-flame-burn.png',
-    'full-body': '../../assets/img/woman-upper-body.png'
+  var base = '../../assets/img/workouts/';
+  var byId = {
+    e1:  'barbell_bench.png',
+    e2:  'Pull-Ups.png',
+    e3:  'overhead_press.png',
+    e4:  'barbel_row.png',
+    e5:  'strength_building.png',
+    e6:  'barber_squat.png',
+    e7:  'barber_roll.png',
+    e8:  'barbell_curl.png',
+    e9:  'Cardio.png',
+    e10: 'plank.png',
+    e11: 'barbel_row.png',
+    e12: 'barbell_bench.png',
+    e13: 'barber_squat.png',
+    e14: 'plank.png',
+    e15: 'Cardio.png',
+    e16: 'overhead_press.png',
+    e17: 'Cardio.png',
+    e18: 'Pull-Ups.png',
+    e19: 'strength_building.png',
+    e20: 'barbell_curl.png',
+    e21: 'barber_roll.png'
   };
-  return byMuscle[String(exercise.muscle || '').toLowerCase()] || '../../assets/img/woman-upper-body.png';
+  return base + (byId[exercise.id] || 'barbell_bench.png');
 }
 
 function getExerciseLibraryProfile(exercise) {
@@ -3889,13 +4197,11 @@ function getExerciseLibraryProfile(exercise) {
 
 function updateExerciseLibraryFilterUI() {
   Object.keys(exerciseLibraryFilterDefinitions).forEach(function(filterType) {
-    var valueEl = document.getElementById('wkExFilterValue-' + filterType);
-    var trigger = document.querySelector('[data-ex-filter-sheet="' + filterType + '"]');
+    var chip = document.querySelector('[data-ex-filter-sheet="' + filterType + '"]');
     var isActive = exerciseLibraryFilters[filterType] && exerciseLibraryFilters[filterType] !== 'all';
-    if (valueEl) valueEl.textContent = getExerciseLibraryFilterLabel(filterType, exerciseLibraryFilters[filterType]);
-    if (trigger) {
-      trigger.classList.toggle('is-active', !!isActive);
-      trigger.setAttribute('aria-expanded', exerciseLibraryActiveSheet === filterType ? 'true' : 'false');
+    if (chip) {
+      chip.classList.toggle('is-active', !!isActive);
+      chip.setAttribute('aria-expanded', exerciseLibraryActiveSheet === filterType ? 'true' : 'false');
     }
   });
 
@@ -4006,7 +4312,7 @@ renderExerciseLibrary = function renderExerciseLibrary() {
   updateExerciseLibraryFilterUI();
 
   var countEl = document.getElementById('wkExLibraryResultsCount');
-  if (countEl) countEl.textContent = results.length + ' exercise' + (results.length === 1 ? '' : 's');
+  if (countEl) countEl.textContent = results.length + ' Exercise' + (results.length === 1 ? '' : 's');
 
   if (!results.length) {
     list.innerHTML = '<div class="wk-empty-state"><iconify-icon icon="solar:stretching-bold-duotone" width="48"></iconify-icon><p>No exercises found</p></div>';
@@ -4015,25 +4321,28 @@ renderExerciseLibrary = function renderExerciseLibrary() {
 
   list.innerHTML = results.map(function(exercise) {
     var profile = getExerciseLibraryProfile(exercise);
+    var musclesDetail = (exercise.muscles || []).join(', ');
+    var equipmentDetail = String(exercise.equipment || '').toLowerCase();
+    var detailLine = musclesDetail + (equipmentDetail ? ' · ' + equipmentDetail : '');
     return '<article class="wk-ex-figma-card" onclick="openExerciseDetail(\'' + exercise.id + '\')">' +
       '<div class="wk-ex-figma-thumb">' +
         '<img src="' + getExerciseLibraryImage(exercise) + '" alt="' + escapeHtml(exercise.name) + '">' +
       '</div>' +
       '<div class="wk-ex-figma-content">' +
-        '<div class="wk-ex-figma-topline">' +
-          '<div>' +
-            '<h3>' + escapeHtml(exercise.name) + '</h3>' +
-            '<p>' + escapeHtml(profile.muscleLabel + ' · ' + String(exercise.equipment || '').toLowerCase()) + '</p>' +
-          '</div>' +
-          '<button class="wk-ex-figma-fav" type="button" onclick="event.stopPropagation();toggleExerciseFav(\'' + exercise.id + '\')" aria-label="Toggle favorite">' +
-            '<iconify-icon icon="' + ((state.exerciseFavorites || []).indexOf(exercise.id) >= 0 ? 'solar:heart-bold-duotone' : 'solar:heart-bold') + '" width="18" style="color:' + ((state.exerciseFavorites || []).indexOf(exercise.id) >= 0 ? 'var(--navy)' : '#94a3b8') + '"></iconify-icon>' +
-          '</button>' +
+        '<div>' +
+          '<h3>' + escapeHtml(exercise.name) + '</h3>' +
         '</div>' +
         '<div class="wk-ex-figma-meta-row">' +
-          '<span class="wk-ex-figma-badge ' + escapeHtml(profile.level) + '">' + escapeHtml(profile.levelLabel) + '</span>' +
-          '<span class="wk-ex-figma-info">' + escapeHtml(profile.locationLabel) + '</span>' +
-          '<span class="wk-ex-figma-info">' + escapeHtml(exercise.sets + ' × ' + exercise.reps) + '</span>' +
+          '<span class="wk-ex-figma-meta">' +
+            '<span class="icon" style="--icon-url:url(\'../../assets/svg_icons/dumbbell-ray.svg\'); width:12px; height:12px" aria-hidden="true"></span>' +
+            escapeHtml(profile.locationLabel) +
+          '</span>' +
+          '<span class="wk-ex-figma-meta">' +
+            '<span class="icon" style="--icon-url:url(\'../../assets/svg_icons/chart-simple.svg\'); width:12px; height:12px" aria-hidden="true"></span>' +
+            escapeHtml(profile.levelLabel) +
+          '</span>' +
         '</div>' +
+        '<p class="wk-ex-figma-detail">' + escapeHtml(detailLine) + '</p>' +
       '</div>' +
     '</article>';
   }).join('');
@@ -4258,6 +4567,7 @@ window.openExerciseDetail = function openExerciseDetail(id) {
 
 function initExerciseDetail() {
   var body = document.getElementById('wkExDetailBody');
+  var footer = document.getElementById('wkExDetailFooter');
   if (!body) return;
   var ex = state.currentExercise;
   if (!ex) { body.innerHTML = '<div class="wk-empty-state"><p>No exercise selected.</p></div>'; return; }
@@ -4267,11 +4577,68 @@ function initExerciseDetail() {
   state.exerciseHistory = state.exerciseHistory || {};
 
   function getExerciseDetailImage(exercise) {
-    var muscle = String(exercise.muscle || '').toLowerCase();
-    if (muscle === 'legs') return '../../assets/img/david.jpg';
-    if (muscle === 'back') return '../../assets/img/marcus.jpg';
-    if (muscle === 'core') return '../../assets/img/sara.jpg';
-    return '../../assets/img/woman-upper-body.png';
+    return '../../assets/img/exercise-cover.jpg';
+  }
+
+  function getExerciseDisplayName(exercise) {
+    var name = String(exercise.name || '').toLowerCase();
+    if (name === 'bench press') return 'Barbell Bench Press';
+    if (name === 'ohp') return 'Overhead Press';
+    return exercise.name || 'Exercise Detail';
+  }
+
+  function getExerciseLocationLabel(exercise) {
+    var equipment = String(exercise.equipment || '').toLowerCase();
+    if (equipment.indexOf('bodyweight') >= 0 || equipment.indexOf('home') >= 0) return 'Home';
+    return 'Gym';
+  }
+
+  function getExerciseDifficultyLabel(exercise) {
+    var key = String(exercise.difficulty || 'intermediate').toLowerCase();
+    return key.charAt(0).toUpperCase() + key.slice(1);
+  }
+
+  function getExerciseTargetMuscles(exercise) {
+    var seen = {};
+    var muscles = (Array.isArray(exercise.muscles) ? exercise.muscles.slice() : []).filter(Boolean);
+    if (!muscles.length && exercise.muscle) {
+      muscles = [String(exercise.muscle).charAt(0).toUpperCase() + String(exercise.muscle).slice(1)];
+    }
+
+    var priority = {
+      chest: 1,
+      shoulders: 2,
+      triceps: 3,
+      back: 4,
+      'upper back': 5,
+      lats: 6,
+      biceps: 7,
+      forearms: 8,
+      rear: 9,
+      legs: 10,
+      quadriceps: 11,
+      hamstrings: 12,
+      glutes: 13,
+      calves: 14,
+      core: 15,
+      abs: 16,
+      obliques: 17,
+      'lower back': 18
+    };
+
+    return muscles.map(function(label) {
+      return String(label).trim();
+    }).filter(function(label) {
+      if (!label) return false;
+      var key = label.toLowerCase();
+      if (seen[key]) return false;
+      seen[key] = true;
+      return true;
+    }).sort(function(a, b) {
+      var aKey = a.toLowerCase();
+      var bKey = b.toLowerCase();
+      return (priority[aKey] || 99) - (priority[bKey] || 99);
+    });
   }
 
   function getExerciseAnatomyImage(label) {
@@ -4289,6 +4656,10 @@ function initExerciseDetail() {
   }
 
   function getExerciseFormTip(exercise) {
+    var exerciseName = String(exercise.name || '').toLowerCase();
+    if (exerciseName === 'bench press') {
+      return 'Lie flat on bench, feet planted. Lower bar to mid-chest, press up explosively. Keep shoulder blades retracted.';
+    }
     var formTips = {
       chest: 'Lie flat on bench, feet planted. Lower bar to mid-chest, press up explosively. Keep shoulder blades retracted.',
       back: 'Brace your core and keep your chest proud. Pull with your elbows, then lower under control without rounding your back.',
@@ -4298,6 +4669,82 @@ function initExerciseDetail() {
       arms: 'Lock your elbows in place and control the lowering phase. Avoid swinging so the working muscle stays under tension.'
     };
     return formTips[exercise.muscle] || formTips.arms;
+  }
+
+  function getExerciseStepInstructions(exercise) {
+    var exerciseName = String(exercise.name || '').toLowerCase();
+    var stepMap = {
+      'bench press': [
+        'Lie flat on the bench with your eyes under the bar and feet planted.',
+        'Grip the bar slightly wider than shoulder width.',
+        'Lower the bar to mid-chest with control, elbows at about 45°.',
+        'Pause briefly, then press the bar upward explosively.',
+        'Lock out at the top without shrugging and keep shoulder blades retracted.'
+      ],
+      'pull ups': [
+        'Grab the bar with palms facing away and shoulders set down.',
+        'Brace your core and keep legs quiet before you pull.',
+        'Drive elbows toward your ribs until your chin clears the bar.',
+        'Pause briefly at the top without craning your neck.',
+        'Lower with control until your arms are fully extended again.'
+      ],
+      'overhead press': [
+        'Stand tall with the bar resting across your upper chest.',
+        'Brace your core and squeeze glutes before the press starts.',
+        'Press the bar straight overhead while moving your head slightly back.',
+        'Lock out with biceps by your ears and ribs still tucked.',
+        'Lower the bar with control back to the front rack position.'
+      ]
+    };
+
+    if (stepMap[exerciseName]) return stepMap[exerciseName];
+
+    var defaultSteps = {
+      chest: [
+        'Set up with your chest lifted and feet grounded.',
+        'Create full-body tension before starting the rep.',
+        'Move through the working range with steady control.',
+        'Drive through the target muscles on the effort phase.',
+        'Finish tall and reset before the next repetition.'
+      ],
+      back: [
+        'Set your hips and brace your midline before the pull.',
+        'Initiate the rep by driving elbows instead of hands.',
+        'Keep your chest open as you move through the range.',
+        'Pause briefly when the target muscles are fully engaged.',
+        'Return with control and avoid losing posture.'
+      ],
+      shoulders: [
+        'Start with ribs down and shoulders packed.',
+        'Press or raise with controlled tempo.',
+        'Avoid shrugging as the arms move upward.',
+        'Pause when you reach the strongest position.',
+        'Lower slowly while keeping tension on the delts.'
+      ],
+      arms: [
+        'Start with elbows locked into a stable position.',
+        'Move only through the joint you want to train.',
+        'Squeeze hard at the peak contraction.',
+        'Control the lowering phase instead of dropping the load.',
+        'Reset your posture before each new rep.'
+      ],
+      legs: [
+        'Set your stance and root through the floor.',
+        'Brace your core before the first rep.',
+        'Lower with control while keeping knees tracking cleanly.',
+        'Drive through mid-foot to stand back up strong.',
+        'Finish tall and reset your balance before repeating.'
+      ],
+      core: [
+        'Set your ribs down and brace around the midline.',
+        'Move slowly to keep tension on the core.',
+        'Avoid arching your lower back during the hardest part.',
+        'Exhale as you finish each controlled rep.',
+        'Reset your position before starting the next one.'
+      ]
+    };
+
+    return defaultSteps[exercise.muscle] || defaultSteps.arms;
   }
 
   function formatExerciseHistoryDate(dateString) {
@@ -4363,6 +4810,32 @@ function initExerciseDetail() {
     };
   }
 
+  function getExerciseHistoryIcon(type) {
+    var icons = {
+      lastDone: {
+        url: '../../assets/svg_icons/calendar.svg',
+        color: 'var(--color-error)'
+      },
+      bestWeight: {
+        url: '../../assets/svg_icons/weight.svg',
+        color: 'var(--color-tertiary)'
+      },
+      bestReps: {
+        url: '../../assets/svg_icons/exchange.svg',
+        color: 'var(--color-primary)'
+      },
+      totalSessions: {
+        url: '../../assets/svg_icons/chart-simple.svg',
+        color: 'var(--color-secondary)'
+      },
+      recentSession: {
+        url: '../../assets/svg_icons/calendar.svg',
+        color: 'var(--color-primary)'
+      }
+    };
+    return icons[type] || icons.recentSession;
+  }
+
   function renderHistoryChart(entries) {
     if (!entries.length) return '';
     var sorted = entries.slice().sort(function(a, b) { return new Date(a.createdAt) - new Date(b.createdAt); });
@@ -4382,9 +4855,12 @@ function initExerciseDetail() {
       };
     });
     var max = Math.max.apply(null, points.map(function(point) { return point.value; }));
-    var min = Math.min.apply(null, points.map(function(point) { return point.value; }));
-    var paddedMin = Math.max(0, Math.floor((min - (isWeighted ? 10 : 2)) / (isWeighted ? 10 : 2)) * (isWeighted ? 10 : 2));
-    var paddedMax = Math.ceil((max + (isWeighted ? 5 : 2)) / (isWeighted ? 10 : 2)) * (isWeighted ? 10 : 2);
+    var paddedMax = isWeighted
+      ? Math.max(100, Math.ceil(max / 20) * 20)
+      : Math.max(20, Math.ceil(max / 5) * 5);
+    var paddedMin = isWeighted
+      ? Math.max(0, paddedMax - 60)
+      : Math.max(0, paddedMax - 15);
     var range = Math.max(1, paddedMax - paddedMin);
     var graphWidth = 430;
     var graphHeight = 140;
@@ -4392,14 +4868,15 @@ function initExerciseDetail() {
     var stepX = points.length > 1 ? (graphWidth - 64) / (points.length - 1) : 0;
     var polyline = points.map(function(point, index) {
       var x = baseX + (stepX * index);
-      var y = graphHeight - (((point.value - paddedMin) / range) * 88) - 18;
+      var normalizedValue = Math.max(paddedMin, Math.min(paddedMax, point.value));
+      var y = graphHeight - (((normalizedValue - paddedMin) / range) * 88) - 18;
       point.x = x;
       point.y = y;
       return x + ',' + y;
     }).join(' ');
-    var yTicks = [0, 1, 2].map(function(step) {
-      var value = paddedMax - ((range / 2) * step);
-      var y = 18 + (44 * step);
+    var yTicks = [0, 1, 2, 3].map(function(step) {
+      var value = paddedMax - ((range / 3) * step);
+      var y = 18 + (31 * step);
       return {
         value: Math.round(value),
         y: y
@@ -4407,9 +4884,9 @@ function initExerciseDetail() {
     });
     return '' +
       '<section class="wk-ex-history-section">' +
-        '<h3>Progress</h3>' +
-        '<div class="wk-ex-history-chart-card">' +
-          '<div class="wk-ex-history-chart-head">' +
+        '<h3>Recent Progress</h3>' +
+        '<div class="wk-ex-history-chart-card wk-ex-progress-card">' +
+          '<div class="wk-ex-history-chart-head wk-ex-progress-head">' +
             '<strong>' + (isWeighted ? 'Weight Progress' : 'Rep Progress') + '</strong>' +
             '<span>' + (isWeighted ? 'kg' : 'reps') + '</span>' +
           '</div>' +
@@ -4432,8 +4909,11 @@ function initExerciseDetail() {
       '</section>';
   }
 
-  var diffLabel = String(ex.difficulty || 'intermediate');
-  var equipmentLabel = String(ex.equipment || '').toLowerCase();
+  var displayName = getExerciseDisplayName(ex);
+  var diffLabel = getExerciseDifficultyLabel(ex);
+  var locationLabel = getExerciseLocationLabel(ex);
+  var targetMuscles = getExerciseTargetMuscles(ex);
+  var stepInstructions = getExerciseStepInstructions(ex);
   var notes = state.exerciseNotes[ex.id] || [];
   var history = ensureExerciseHistory(ex);
   var historyStats = getHistoryStats(history);
@@ -4448,58 +4928,89 @@ function initExerciseDetail() {
       '</section>' +
       '<section class="wk-ex-detail-section">' +
         '<h3>Target Muscles</h3>' +
-        '<div class="wk-ex-detail-target-list">' + ex.muscles.map(function(muscle) {
-          return '<div class="wk-ex-detail-target-item">' +
+        '<div class="wk-ex-detail-target-list">' + targetMuscles.map(function(muscle, index) {
+          return '<div class="wk-ex-detail-target-item' + (index === targetMuscles.length - 1 ? ' is-last' : '') + '">' +
             '<div class="wk-ex-detail-target-media"><img src="' + escapeHtml(getExerciseAnatomyImage(muscle)) + '" alt="' + escapeHtml(muscle) + '"></div>' +
-            '<div class="wk-ex-detail-target-copy">' +
-              '<strong>' + escapeHtml(muscle) + '</strong>' +
-              '<span>Primary area engaged in this movement</span>' +
+            '<div class="wk-ex-detail-target-copy-wrap">' +
+              '<div class="wk-ex-detail-target-copy">' +
+                '<strong>' + escapeHtml(muscle) + '</strong>' +
+                '<span>Primary area engaged in this movement</span>' +
+              '</div>' +
             '</div>' +
           '</div>';
         }).join('') + '</div>' +
       '</section>' +
-      (isAdded ? '<section class="wk-ex-detail-added-card"><strong>Added to workout</strong><p>' + escapeHtml(ex.name) + ' is now in your current custom workout list.</p></section>' : '');
+      '<section class="wk-ex-detail-section">' +
+        '<h3>Step By Step Instructions</h3>' +
+        '<div class="wk-ex-detail-step-list">' + stepInstructions.map(function(step, index) {
+          return '<div class="wk-ex-detail-step-item">' +
+            '<span class="wk-ex-detail-step-badge">' + (index + 1) + '</span>' +
+            '<p>' + escapeHtml(step) + '</p>' +
+          '</div>';
+        }).join('') + '</div>' +
+      '</section>';
   }
 
   function renderHistoryTab() {
     if (!history.length) {
-      return '<div class="wk-log-history-empty"><strong>No exercise history yet</strong><p>Your completed sets, technique logs, and progress notes for ' + escapeHtml(ex.name) + ' will appear here.</p></div>';
+      return '<div class="wk-log-history-empty"><strong>No exercise history yet</strong><p>Your completed sets, technique logs, and progress notes for ' + escapeHtml(displayName) + ' will appear here.</p></div>';
     }
+    var summaryCards = [
+      {
+        label: 'Last Done',
+        value: formatExerciseHistoryDate(historyStats.lastDone.createdAt),
+        icon: getExerciseHistoryIcon('lastDone')
+      },
+      {
+        label: 'Best Weight',
+        value: historyStats.bestWeight ? (historyStats.bestWeight + ' kg') : 'Bodyweight',
+        icon: getExerciseHistoryIcon('bestWeight')
+      },
+      {
+        label: 'Best Reps',
+        value: String(historyStats.bestReps) + ' Reps',
+        icon: getExerciseHistoryIcon('bestReps')
+      },
+      {
+        label: 'Total Sessions',
+        value: String(historyStats.totalSessions),
+        icon: getExerciseHistoryIcon('totalSessions')
+      }
+    ];
     return '' +
       '<section class="wk-ex-history-section">' +
         '<h3>Performance Summary</h3>' +
-        '<div class="wk-ex-history-summary-grid">' +
-          '<article class="wk-ex-history-summary-card">' +
-            '<div class="wk-ex-history-summary-icon"><iconify-icon icon="solar:calendar-bold-duotone" width="18"></iconify-icon></div>' +
-            '<div><span>Last done</span><strong>' + escapeHtml(formatExerciseHistoryDate(historyStats.lastDone.createdAt)) + '</strong></div>' +
-          '</article>' +
-          '<article class="wk-ex-history-summary-card">' +
-            '<div class="wk-ex-history-summary-icon"><iconify-icon icon="solar:cup-star-bold-duotone" width="18"></iconify-icon></div>' +
-            '<div><span>Best weight</span><strong>' + escapeHtml(historyStats.bestWeight ? (historyStats.bestWeight + ' kg') : 'Bodyweight') + '</strong></div>' +
-          '</article>' +
-          '<article class="wk-ex-history-summary-card">' +
-            '<div class="wk-ex-history-summary-icon"><iconify-icon icon="solar:repeat-bold-duotone" width="18"></iconify-icon></div>' +
-            '<div><span>Best reps</span><strong>' + escapeHtml(String(historyStats.bestReps) + ' reps') + '</strong></div>' +
-          '</article>' +
-          '<article class="wk-ex-history-summary-card">' +
-            '<div class="wk-ex-history-summary-icon"><iconify-icon icon="solar:chart-2-bold-duotone" width="18"></iconify-icon></div>' +
-            '<div><span>Total sessions</span><strong>' + escapeHtml(String(historyStats.totalSessions)) + '</strong></div>' +
-          '</article>' +
-        '</div>' +
+        '<div class="wk-ex-history-summary-grid">' + summaryCards.map(function(card) {
+          return '<article class="wk-ex-history-summary-card">' +
+            '<div class="wk-ex-history-summary-header">' +
+              '<span class="wk-ex-history-summary-label">' + escapeHtml(card.label) + '</span>' +
+              '<span class="icon wk-ex-history-summary-icon" style="--icon-url: url(\'' + card.icon.url + '\'); width: 18px; height: 18px; background-color: ' + card.icon.color + ';" aria-hidden="true"></span>' +
+            '</div>' +
+            '<strong class="wk-ex-history-summary-value">' + escapeHtml(card.value) + '</strong>' +
+          '</article>';
+        }).join('') + '</div>' +
       '</section>' +
       renderHistoryChart(history) +
       '<section class="wk-ex-history-section">' +
         '<h3>Recent Sessions</h3>' +
         '<div class="wk-ex-session-list">' + history.slice().sort(function(a, b) { return new Date(b.createdAt) - new Date(a.createdAt); }).map(function(entry) {
+          var sessionIcon = getExerciseHistoryIcon('recentSession');
           return '<article class="wk-ex-session-card">' +
-            '<div class="wk-ex-session-date">' +
-              '<div class="wk-ex-history-summary-icon"><iconify-icon icon="solar:calendar-bold-duotone" width="18"></iconify-icon></div>' +
-              '<div><strong>' + escapeHtml(formatExerciseHistoryLongDate(entry.createdAt)) + '</strong><span>' + escapeHtml(entry.workoutName) + '</span></div>' +
+            '<div class="wk-ex-session-head">' +
+              '<div class="wk-ex-session-icon-wrap">' +
+                '<span class="icon wk-ex-session-icon" style="--icon-url: url(\'' + sessionIcon.url + '\'); width: 18px; height: 18px; background-color: ' + sessionIcon.color + ';" aria-hidden="true"></span>' +
+              '</div>' +
+              '<div class="wk-ex-session-copy">' +
+                '<strong>' + escapeHtml(formatExerciseHistoryLongDate(entry.createdAt)) + '</strong>' +
+                '<span>' + escapeHtml(entry.workoutName) + '</span>' +
+              '</div>' +
             '</div>' +
             '<div class="wk-ex-session-sets">' + (entry.sets || []).map(function(set, setIndex) {
-              return '<div class="wk-ex-session-set"><span>Set ' + (setIndex + 1) + '</span><strong>' + escapeHtml((set.weight ? (set.weight + ' kg × ') : '') + set.reps) + '</strong></div>';
+              return '<div class="wk-ex-session-set">' +
+                '<span>Set ' + (setIndex + 1) + '</span>' +
+                '<strong>' + escapeHtml((set.weight ? (set.weight + ' kg × ') : '') + set.reps) + '</strong>' +
+              '</div>';
             }).join('') + '</div>' +
-            '<div class="wk-ex-session-arrow"><img src="../../assets/svg_icons/foward.svg" width="14" height="14" alt=""></div>' +
           '</article>';
         }).join('') + '</div>' +
       '</section>';
@@ -4509,21 +5020,19 @@ function initExerciseDetail() {
     return '' +
       '<section class="wk-ex-detail-notes-head">' +
         '<div>' +
-          '<h3>Exercise Notes</h3>' +
-          '<p>Keep cues, setup reminders, and progress observations for ' + escapeHtml(ex.name) + '.</p>' +
+          '<h3>Personal Notes</h3>' +
         '</div>' +
         '<button class="wk-ex-detail-note-trigger" type="button" onclick="openExerciseNoteSheet(\'compose\')">Add Note</button>' +
       '</section>' +
-      (notes.length ? '<div class="wk-log-history-list">' + notes.map(function(note) {
-        return '<button class="wk-log-history-item wk-ex-note-card" type="button" onclick="openExerciseNoteSheet(\'view\', \'' + escapeHtml(note.id) + '\')">' +
-          '<div class="wk-log-history-top">' +
-            '<div class="wk-log-history-title-wrap">' +
-              '<h3 class="wk-log-history-title">' + escapeHtml(ex.name + ' note') + '</h3>' +
-              '<p class="wk-log-history-subtitle">' + escapeHtml(formatExerciseHistoryDate(note.createdAt)) + ' · personal reminder</p>' +
-            '</div>' +
-            '<span class="wk-log-history-badge manual">Note</span>' +
+      (notes.length ? '<div class="wk-ex-note-list">' + notes.map(function(note) {
+        return '<button class="wk-ex-note-card" type="button" onclick="openExerciseNoteSheet(\'view\', \'' + escapeHtml(note.id) + '\')">' +
+          '<div class="wk-ex-note-card-icon-wrap">' +
+            '<span class="icon wk-ex-note-card-icon" style="--icon-url: url(\'../../assets/svg_icons/journal-alt.svg\'); width: 20px; height: 20px;" aria-hidden="true"></span>' +
           '</div>' +
-          '<p class="wk-log-history-note">' + escapeHtml(note.text.length > 96 ? (note.text.slice(0, 96) + '...') : note.text) + '</p>' +
+          '<div class="wk-ex-note-card-copy">' +
+            '<p class="wk-ex-note-card-text">' + escapeHtml(note.text) + '</p>' +
+            '<p class="wk-ex-note-card-date">Updated ' + escapeHtml(formatExerciseHistoryDate(note.createdAt)) + '</p>' +
+          '</div>' +
         '</button>';
       }).join('') + '</div>' : '<div class="wk-log-history-empty"><strong>No notes yet</strong><p>Add an exercise-specific note so you can remember cues, loads, or technique reminders next time.</p></div>');
   }
@@ -4538,13 +5047,19 @@ function initExerciseDetail() {
     '<div class="wk-ex-detail-figma-content">' +
       '<div class="wk-ex-detail-main">' +
         '<div class="wk-ex-detail-hero-media">' +
-          '<img src="' + getExerciseDetailImage(ex) + '" alt="' + escapeHtml(ex.name) + '">' +
+          '<img src="' + getExerciseDetailImage(ex) + '" alt="' + escapeHtml(displayName) + '">' +
         '</div>' +
         '<div class="wk-ex-detail-copy">' +
-          '<h2 class="wk-ex-detail-title">' + escapeHtml(ex.name) + '</h2>' +
+          '<h2 class="wk-ex-detail-title">' + escapeHtml(displayName) + '</h2>' +
           '<div class="wk-ex-detail-meta-inline">' +
-            '<span class="wk-ex-detail-difficulty ' + escapeHtml(diffLabel) + '">' + escapeHtml(diffLabel) + '</span>' +
-            '<span class="wk-ex-detail-equipment"><iconify-icon icon="solar:dumbbell-bold-duotone" width="16"></iconify-icon>' + escapeHtml(equipmentLabel) + '</span>' +
+            '<span class="wk-ex-detail-meta-item">' +
+              '<span class="icon wk-ex-detail-meta-icon" style="--icon-url: url(\'../../assets/svg_icons/gym.svg\'); width: 12px; height: 12px;" aria-hidden="true"></span>' +
+              '<span>' + escapeHtml(locationLabel) + '</span>' +
+            '</span>' +
+            '<span class="wk-ex-detail-meta-item">' +
+              '<span class="icon wk-ex-detail-meta-icon" style="--icon-url: url(\'../../assets/svg_icons/chart-simple.svg\'); width: 12px; height: 12px;" aria-hidden="true"></span>' +
+              '<span>' + escapeHtml(diffLabel) + '</span>' +
+            '</span>' +
           '</div>' +
         '</div>' +
         '<div class="tab-bar-wrap wk-ex-detail-tabs-wrap">' +
@@ -4556,18 +5071,18 @@ function initExerciseDetail() {
         '</div>' +
         '<div class="wk-ex-detail-tab-panel">' + tabContent + '</div>' +
       '</div>' +
+    '</div>';
+
+  if (footer) {
+    footer.innerHTML =
       '<div class="wk-ex-detail-cta-wrap">' +
         '<button class="wk-ex-detail-cta-btn' + (isAdded ? ' is-added' : '') + '" type="button" onclick="addExerciseDetailToWorkout()">' + (isAdded ? 'Added to Workout' : 'Add to Workout') + '</button>' +
-      '</div>' +
-    '</div>';
+      '</div>';
+  }
 
   var favBtn = document.getElementById('wkExDetailFav');
   if (favBtn) {
-    var icon = favBtn.querySelector('iconify-icon');
-    if (icon) {
-      icon.setAttribute('icon', isFav ? 'solar:heart-bold-duotone' : 'solar:heart-bold');
-      icon.style.color = isFav ? 'var(--navy)' : '';
-    }
+    favBtn.classList.toggle('is-favorite', isFav);
   }
 
   renderExerciseNoteSheet();
@@ -4599,12 +5114,20 @@ function renderExerciseNoteSheet() {
   state.exerciseNoteSheet = state.exerciseNoteSheet || { mode: 'compose', noteId: null };
   var notes = state.exerciseNotes[ex.id] || [];
   var selectedNote = notes.find(function(note) { return note.id === state.exerciseNoteSheet.noteId; }) || null;
+  var displayName = (function(en) {
+    var n = String(en || '').toLowerCase();
+    if (n === 'bench press') return 'Barbell Bench Press';
+    if (n === 'ohp') return 'Overhead Press';
+    return en || 'Exercise Detail';
+  })(ex.name);
 
   if (state.exerciseNoteSheet.mode === 'view' && selectedNote) {
     sheetTitle.textContent = 'View Note';
+    var noteDate = new Date(selectedNote.createdAt);
+    var dateStr = isNaN(noteDate.getTime()) ? 'Recent' : noteDate.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
     sheetBody.innerHTML =
       '<div class="wk-ex-note-view">' +
-        '<div class="wk-ex-note-view-meta">' + escapeHtml(formatExerciseHistoryLongDate(selectedNote.createdAt)) + ' · ' + escapeHtml(ex.name) + '</div>' +
+        '<div class="wk-ex-note-view-meta">Updated ' + escapeHtml(dateStr) + '</div>' +
         '<p>' + escapeHtml(selectedNote.text) + '</p>' +
       '</div>';
     sheetActions.innerHTML = '<button class="sheet-btn-primary" type="button" onclick="closeExerciseNoteSheet()">Done</button>';
@@ -4614,8 +5137,8 @@ function renderExerciseNoteSheet() {
   sheetTitle.textContent = 'Add Note';
   sheetBody.innerHTML =
     '<div class="wk-ex-note-editor">' +
-      '<p class="wk-ex-note-editor-copy">Add an exercise-specific reminder for ' + escapeHtml(ex.name) + '.</p>' +
-      '<textarea class="form-input wk-log-textarea" id="wkExerciseNoteInput" rows="5" placeholder="Example: Keep elbows tucked and pause one second at the bottom for better control."></textarea>' +
+      '<p class="wk-ex-note-editor-copy">Add an exercise-specific reminder for ' + escapeHtml(displayName) + '.</p>' +
+      '<textarea class="wk-ex-note-input" id="wkExerciseNoteInput" rows="5" placeholder="Example: Keep elbows tucked and pause one second at the bottom for better control."></textarea>' +
     '</div>';
   sheetActions.innerHTML = '' +
     '<button class="sheet-btn-secondary" type="button" onclick="closeExerciseNoteSheet()">Cancel</button>' +
@@ -5320,11 +5843,33 @@ function initWorkoutComplete() {
 // ======================================================================
 // LOG ACTIVITY SCREEN
 // ======================================================================
+
+var snackbarTimer = null;
+
+function showSnackbar(message) {
+  var bar = document.getElementById('wkSnackbar');
+  var msg = document.getElementById('wkSnackbarMsg');
+  if (!bar || !msg) return;
+  clearTimeout(snackbarTimer);
+  msg.textContent = message;
+  bar.classList.add('is-visible');
+  snackbarTimer = setTimeout(function() {
+    hideSnackbar();
+  }, 3000);
+}
+
+window.hideSnackbar = function() {
+  var bar = document.getElementById('wkSnackbar');
+  if (!bar) return;
+  bar.classList.remove('is-visible');
+  clearTimeout(snackbarTimer);
+};
+
 window.saveLoggedActivity = function saveLoggedActivity() {
-  var selectedBtn = document.querySelector('#wkLogTypeGrid .wk-log-type-btn.selected');
+  var selectedBtn = document.querySelector('#wkLogTypeGrid [data-type].selected');
   var type = selectedBtn ? selectedBtn.dataset.type : '';
   var customType = document.getElementById('wkLogCustomType') ? document.getElementById('wkLogCustomType').value.trim() : '';
-  var duration = document.getElementById('wkLogDuration') ? parseInt(document.getElementById('wkLogDuration').value) || 0 : 0;
+  var duration = selectedWorkoutDuration;
   var distance = document.getElementById('wkLogDistance') ? parseFloat(document.getElementById('wkLogDistance').value) || 0 : 0;
   var calories = document.getElementById('wkLogCalories') ? parseInt(document.getElementById('wkLogCalories').value) || 0 : 0;
   var notes = document.getElementById('wkLogNotes') ? document.getElementById('wkLogNotes').value.trim() : '';
@@ -5345,70 +5890,245 @@ window.saveLoggedActivity = function saveLoggedActivity() {
     return;
   }
 
-  var entry = {
-    date: new Date().toISOString(),
-    type: type,
-    label: label,
-    customType: customType,
-    duration: duration,
-    distance: distance,
-    calories: calories,
-    notes: notes,
-    source: 'manual'
-  };
-  state.activityLog = state.activityLog || [];
-  state.activityLog.unshift(entry);
-  if (state.activityLog.length > 50) state.activityLog = state.activityLog.slice(0, 50);
+  var editTimestamp = state.pendingEditEntryTimestamp;
+  if (editTimestamp) {
+    // Modify existing manual log
+    var foundIndex = -1;
+    state.activityLog = state.activityLog || [];
+    for (var i = 0; i < state.activityLog.length; i++) {
+      if (new Date(state.activityLog[i].date).getTime() === editTimestamp) {
+        foundIndex = i;
+        break;
+      }
+    }
+    if (foundIndex !== -1) {
+      state.activityLog[foundIndex].type = type;
+      state.activityLog[foundIndex].label = label;
+      state.activityLog[foundIndex].customType = customType;
+      state.activityLog[foundIndex].duration = duration;
+      state.activityLog[foundIndex].distance = distance;
+      state.activityLog[foundIndex].calories = calories;
+      state.activityLog[foundIndex].notes = notes;
+    } else {
+      // Check in workout history
+      state.workoutHistory = state.workoutHistory || [];
+      for (var j = 0; j < state.workoutHistory.length; j++) {
+        if (new Date(state.workoutHistory[j].date).getTime() === editTimestamp) {
+          state.workoutHistory[j].workoutName = label;
+          state.workoutHistory[j].totalTime = duration * 60;
+          state.workoutHistory[j].calories = calories;
+          state.workoutHistory[j].notes = notes;
+          break;
+        }
+      }
+    }
+    state.pendingEditEntryTimestamp = null;
+  } else {
+    var entry = {
+      date: new Date().toISOString(),
+      type: type,
+      label: label,
+      customType: customType,
+      duration: duration,
+      distance: distance,
+      calories: calories,
+      notes: notes,
+      source: 'manual'
+    };
+    state.activityLog = state.activityLog || [];
+    state.activityLog.unshift(entry);
+    if (state.activityLog.length > 50) state.activityLog = state.activityLog.slice(0, 50);
+  }
+
   try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
 
   renderWorkoutLogEntries();
   closeWorkoutLogForm();
-  setWorkoutLogNotice((label || 'Activity') + ' added to recent activity.');
+  showSnackbar(editTimestamp ? 'Changes saved.' : (label || 'Activity') + ' added.');
 };
 
 // ======================================================================
 // WORKOUT SETTINGS SCREEN
 // ======================================================================
 function initWorkoutSettings() {
-  // Load saved settings
-  var settings = state.workoutSettings || { restDuration: 90, countdownDuration: 3, units: 'metric' };
+  var settings = state.workoutSettings || { restDuration: 90, countdownDuration: 3, units: 'metric', scheduledDate: null };
+  state.workoutSettings = settings;
 
-  // Rest duration radios
-  var restRadios = document.querySelectorAll('#wkRestDuration input[name="restDur"]');
-  restRadios.forEach(function(r) {
-    if (parseInt(r.value) === settings.restDuration) r.checked = true;
-    r.addEventListener('change', function() {
-      if (this.checked) {
-        state.workoutSettings.restDuration = parseInt(this.value);
-        try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
-      }
+  var restValues = [0, 30, 60, 90, 150];
+  var cdValues = [0, 30, 60, 90, 150];
+  var settingsDirty = false;
+  var settingsScheduleDate = settings.scheduledDate || null;
+  var settingsDatePickerMonth = new Date().getMonth();
+  var settingsDatePickerYear = new Date().getFullYear();
+  var settingsDatePickerSelected = null;
+
+  function getRestSliderIndex(val) {
+    for (var i = restValues.length - 1; i >= 0; i--) { if (val >= restValues[i]) return i; }
+    return 0;
+  }
+
+  function getCdSliderIndex(val) {
+    for (var i = cdValues.length - 1; i >= 0; i--) { if (val >= cdValues[i]) return i; }
+    return 0;
+  }
+
+  function markDirty() { settingsDirty = true; updateSaveBtn(); }
+
+  function updateSaveBtn() {
+    var btn = document.getElementById('wkSettingsSaveBtn');
+    if (btn) {
+      btn.disabled = !settingsDirty;
+    }
+  }
+
+  function updateScheduleLink() {
+    var btn = document.getElementById('wkSettingsScheduleBtn');
+    if (btn && settingsScheduleDate) {
+      var d = new Date(settingsScheduleDate);
+      btn.textContent = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+  }
+
+  // Rest Timer slider
+  var restSlider = document.getElementById('wkSettingsRestSlider');
+  if (restSlider) {
+    restSlider.value = getRestSliderIndex(settings.restDuration);
+    restSlider.addEventListener('input', function() {
+      settings.restDuration = restValues[parseInt(this.value)];
+      markDirty();
     });
+  }
+
+  // Countdown slider
+  var cdSlider = document.getElementById('wkSettingsCountdownSlider');
+  if (cdSlider) {
+    cdSlider.value = getCdSliderIndex(settings.countdownDuration);
+    cdSlider.addEventListener('input', function() {
+      settings.countdownDuration = cdValues[parseInt(this.value)];
+      markDirty();
+    });
+  }
+
+  // Unit toggle
+  var unitBtn = document.getElementById('wkSettingsUnitBtn');
+  if (unitBtn) {
+    unitBtn.textContent = settings.units === 'metric' ? 'kg' : 'lbs';
+  }
+  window.toggleSettingsUnit = function() {
+    settings.units = settings.units === 'metric' ? 'imperial' : 'metric';
+    if (unitBtn) unitBtn.textContent = settings.units === 'metric' ? 'kg' : 'lbs';
+    markDirty();
+  };
+
+  // Save button
+  window.saveWorkoutSettings = function() {
+    if (!settingsDirty) return;
+    if (settingsScheduleDate !== null) settings.scheduledDate = settingsScheduleDate;
+    state.workoutSettings = settings;
+    try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+    settingsDirty = false;
+    updateSaveBtn();
+    if (typeof showSnackbar === 'function') showSnackbar('Settings saved');
+  };
+
+  // Datepicker
+  function renderSettingsDatePicker() {
+    var grid = document.getElementById('wkSettingsDatePickerGrid');
+    var title = document.getElementById('wkSettingsDatePickerTitle');
+    var applyBtn = document.getElementById('wkSettingsDatePickerApplyBtn');
+    if (!grid || !title) return;
+
+    var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    title.textContent = monthNames[settingsDatePickerMonth] + ' ' + settingsDatePickerYear;
+
+    var firstDay = new Date(settingsDatePickerYear, settingsDatePickerMonth, 1).getDay();
+    var daysInMonth = new Date(settingsDatePickerYear, settingsDatePickerMonth + 1, 0).getDate();
+    var today = new Date();
+    var todayStr = today.getFullYear() + '-' + (today.getMonth()) + '-' + today.getDate();
+    var cells = [];
+    var adjustedFirst = firstDay === 0 ? 6 : firstDay - 1;
+
+    for (var i = 0; i < adjustedFirst; i++) {
+      cells.push('<div class="wk-date-cell empty"></div>');
+    }
+
+    for (var d = 1; d <= daysInMonth; d++) {
+      var dateObj = new Date(settingsDatePickerYear, settingsDatePickerMonth, d);
+      var dateStr = dateObj.getFullYear() + '-' + dateObj.getMonth() + '-' + dateObj.getDate();
+      var cls = 'wk-date-cell';
+      var isPast = dateObj < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      if (dateStr === todayStr) cls += ' wk-date-today';
+      if (isPast) cls += ' wk-date-disabled';
+      else cls += ' wk-date-selectable';
+      if (settingsDatePickerSelected && dateObj.getTime() === settingsDatePickerSelected.getTime()) cls += ' wk-date-selected';
+      cells.push('<div class="' + cls + '" data-day="' + d + '">' + d + '</div>');
+    }
+
+    grid.innerHTML = cells.join('');
+
+    if (applyBtn) applyBtn.disabled = !settingsDatePickerSelected;
+
+    grid.onclick = function(e) {
+      var cell = e.target.closest('.wk-date-selectable');
+      if (!cell) return;
+      var day = parseInt(cell.getAttribute('data-day'));
+      settingsDatePickerSelected = new Date(settingsDatePickerYear, settingsDatePickerMonth, day);
+      if (applyBtn) applyBtn.disabled = false;
+      grid.querySelectorAll('.wk-date-selected').forEach(function(c) { c.classList.remove('wk-date-selected'); });
+      cell.classList.add('wk-date-selected');
+    };
+  }
+
+  window.openSettingsDatePicker = function() {
+    settingsDatePickerSelected = settingsScheduleDate ? new Date(settingsScheduleDate) : null;
+    var backdrop = document.getElementById('wkSettingsDatePickerBackdrop');
+    var sheet = document.getElementById('wkSettingsDatePickerSheet');
+    if (!backdrop || !sheet) return;
+    backdrop.hidden = false;
+    sheet.setAttribute('aria-hidden', 'false');
+    renderSettingsDatePicker();
+    requestAnimationFrame(function() {
+      backdrop.classList.add('is-visible');
+      sheet.classList.add('is-open');
+    });
+  };
+
+  window.closeSettingsDatePicker = function() {
+    var backdrop = document.getElementById('wkSettingsDatePickerBackdrop');
+    var sheet = document.getElementById('wkSettingsDatePickerSheet');
+    if (!backdrop || !sheet) return;
+    backdrop.classList.remove('is-visible');
+    sheet.classList.remove('is-open');
+    setTimeout(function() { backdrop.hidden = true; sheet.setAttribute('aria-hidden', 'true'); }, 180);
+  };
+
+  var applyBtn = document.getElementById('wkSettingsDatePickerApplyBtn');
+  if (applyBtn) {
+    applyBtn.addEventListener('click', function() {
+      if (settingsDatePickerSelected) {
+        settingsScheduleDate = settingsDatePickerSelected.getTime();
+        updateScheduleLink();
+        markDirty();
+      }
+      closeSettingsDatePicker();
+    });
+  }
+
+  var prevBtn = document.getElementById('wkSettingsPrevMonth');
+  var nextBtn = document.getElementById('wkSettingsNextMonth');
+  if (prevBtn) prevBtn.addEventListener('click', function() {
+    settingsDatePickerMonth--;
+    if (settingsDatePickerMonth < 0) { settingsDatePickerMonth = 11; settingsDatePickerYear--; }
+    renderSettingsDatePicker();
+  });
+  if (nextBtn) nextBtn.addEventListener('click', function() {
+    settingsDatePickerMonth++;
+    if (settingsDatePickerMonth > 11) { settingsDatePickerMonth = 0; settingsDatePickerYear++; }
+    renderSettingsDatePicker();
   });
 
-  // Countdown radios
-  var cdRadios = document.querySelectorAll('#wkCountdownDur input[name="countdownDur"]');
-  cdRadios.forEach(function(r) {
-    if (parseInt(r.value) === settings.countdownDuration) r.checked = true;
-    r.addEventListener('change', function() {
-      if (this.checked) {
-        state.workoutSettings.countdownDuration = parseInt(this.value);
-        state.workoutCountdownDuration = parseInt(this.value);
-        try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
-      }
-    });
-  });
-
-  // Units radios
-  var unitRadios = document.querySelectorAll('#wkUnits input[name="wkUnits"]');
-  unitRadios.forEach(function(r) {
-    if (r.value === settings.units) r.checked = true;
-    r.addEventListener('change', function() {
-      if (this.checked) {
-        state.workoutSettings.units = this.value;
-        try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
-      }
-    });
-  });
+  updateScheduleLink();
+  updateSaveBtn();
 }
 
 // ======================================================================
@@ -5836,6 +6556,293 @@ function respondAsCoach(question) {
   }, 900);
 }
 
+// ======================================================================
+// ALL ACTIVITIES SCREEN
+// ======================================================================
+var currentWorkoutLogAllSearchQuery = '';
+var currentWorkoutLogAllTimeFilter = 'All Time';
+var currentWorkoutLogAllTypeFilter = 'All Activities';
+var currentWorkoutLogAllFilteredEntries = [];
+
+window.getCurrentFilteredAllEntries = function() {
+  return currentWorkoutLogAllFilteredEntries;
+};
+
+window.openTimeFilterSheet = function() {
+  var sheet = document.getElementById('wkLogAllTimeSheet');
+  if (!sheet) return;
+  sheet.setAttribute('aria-hidden', 'false');
+  sheet.classList.add('open');
+};
+
+window.closeTimeFilterSheet = function() {
+  var sheet = document.getElementById('wkLogAllTimeSheet');
+  if (!sheet) return;
+  sheet.classList.remove('open');
+  sheet.setAttribute('aria-hidden', 'true');
+};
+
+window.openTypeFilterSheet = function() {
+  var sheet = document.getElementById('wkLogAllTypeSheet');
+  if (!sheet) return;
+  sheet.setAttribute('aria-hidden', 'false');
+  sheet.classList.add('open');
+};
+
+window.closeTypeFilterSheet = function() {
+  var sheet = document.getElementById('wkLogAllTypeSheet');
+  if (!sheet) return;
+  sheet.classList.remove('open');
+  sheet.setAttribute('aria-hidden', 'true');
+};
+
+window.selectTimeFilter = function(timeOption) {
+  currentWorkoutLogAllTimeFilter = timeOption;
+  var label = document.getElementById('wkLogFilterTimeLabel');
+  if (label) label.textContent = timeOption;
+  closeTimeFilterSheet();
+  updateWorkoutLogAllList();
+};
+
+window.selectTypeFilter = function(typeOption) {
+  currentWorkoutLogAllTypeFilter = typeOption;
+  var label = document.getElementById('wkLogFilterTypeLabel');
+  if (label) label.textContent = typeOption;
+  closeTypeFilterSheet();
+  updateWorkoutLogAllList();
+};
+
+window.onWorkoutLogSearchInput = function() {
+  var searchInput = document.getElementById('wkLogSearchInput');
+  var clearBtn = document.getElementById('wkLogSearchClearBtn');
+  if (!searchInput) return;
+  currentWorkoutLogAllSearchQuery = searchInput.value.trim().toLowerCase();
+  if (clearBtn) {
+    clearBtn.style.display = currentWorkoutLogAllSearchQuery ? 'block' : 'none';
+  }
+  updateWorkoutLogAllList();
+};
+
+window.clearWorkoutLogSearch = function() {
+  var searchInput = document.getElementById('wkLogSearchInput');
+  var clearBtn = document.getElementById('wkLogSearchClearBtn');
+  if (searchInput) searchInput.value = '';
+  currentWorkoutLogAllSearchQuery = '';
+  if (clearBtn) clearBtn.style.display = 'none';
+  updateWorkoutLogAllList();
+};
+
+function updateWorkoutLogAllList() {
+  var list = document.getElementById('wkLogAllHistoryList');
+  if (!list) return;
+  var entries = getWorkoutLogEntries();
+  // 1. Time Filter
+  var now = new Date();
+  if (currentWorkoutLogAllTimeFilter === 'Last Week') {
+    var oneWeekAgo = now.getTime() - (7 * 24 * 60 * 60 * 1000);
+    entries = entries.filter(function(e) {
+      return e.timestamp >= oneWeekAgo;
+    });
+  } else if (currentWorkoutLogAllTimeFilter === 'Last Month') {
+    var oneMonthAgo = now.getTime() - (30 * 24 * 60 * 60 * 1000);
+    entries = entries.filter(function(e) {
+      return e.timestamp >= oneMonthAgo;
+    });
+  }
+  // 2. Type Filter
+  if (currentWorkoutLogAllTypeFilter !== 'All Activities') {
+    var filterTypeLower = currentWorkoutLogAllTypeFilter.toLowerCase();
+    entries = entries.filter(function(e) {
+      var entryType = String(e.type || '').toLowerCase();
+      var entryTitle = String(e.title || '').toLowerCase();
+      if (filterTypeLower === 'sport') {
+        return entryType === 'sport' || entryType === 'sports' || entryTitle.indexOf('basketball') !== -1 || entryTitle.indexOf('football') !== -1;
+      }
+      return entryType === filterTypeLower || entryTitle.indexOf(filterTypeLower) !== -1;
+    });
+  }
+  // 3. Search Query
+  if (currentWorkoutLogAllSearchQuery) {
+    entries = entries.filter(function(e) {
+      return String(e.title || '').toLowerCase().indexOf(currentWorkoutLogAllSearchQuery) !== -1 ||
+             String(e.type || '').toLowerCase().indexOf(currentWorkoutLogAllSearchQuery) !== -1;
+    });
+  }
+  currentWorkoutLogAllFilteredEntries = entries;
+  if (!entries.length) {
+    list.className = 'wk-log-history-state is-empty';
+    list.innerHTML =
+      '<div class="wk-log-history-empty">' +
+        '<img src="../../assets/svg_icons/not-found-alt.svg" width="36" height="36" alt="">' +
+        '<div class="wk-log-history-empty-copy">' +
+          '<strong>No Results Found</strong>' +
+          '<p>Try adjusting your filters or search keywords.</p>' +
+        '</div>' +
+      '</div>';
+    return;
+  }
+  list.className = 'wk-log-history-state has-entries';
+  list.innerHTML = entries.map(function(entry, i) {
+    var visual = getWorkoutLogVisual(entry);
+    return '' +
+      '<article class="wk-log-activity-row" onclick="viewWorkoutLogDetail(' + i + ', true)">' +
+        '<div class="wk-log-activity-icon ' + visual.bubbleClass + '">' +
+          '<span class="icon" style="--icon-url: url(\'' + visual.icon + '\'); width: 24px; height: 24px; background-color: ' + visual.iconColor + ';"></span>' +
+        '</div>' +
+        '<div class="wk-log-activity-copy">' +
+          '<h3 class="wk-log-activity-title">' + escapeHtml(entry.title) + '</h3>' +
+          '<p class="wk-log-activity-meta">' + escapeHtml(buildWorkoutLogMeta(entry)) + '</p>' +
+        '</div>' +
+        '<span class="wk-log-activity-action">' +
+          '<span class="icon" style="--icon-url: url(\'../../assets/svg_icons/foward.svg\'); width: 16px; height: 16px; background-color: var(--color-primary, #0056D8);"></span>' +
+        '</span>' +
+      '</article>';
+  }).join('');
+}
+
+function initWorkoutLogAll() {
+  currentWorkoutLogAllSearchQuery = '';
+  currentWorkoutLogAllTimeFilter = 'All Time';
+  currentWorkoutLogAllTypeFilter = 'All Activities';
+  var searchInput = document.getElementById('wkLogSearchInput');
+  if (searchInput) searchInput.value = '';
+  var clearBtn = document.getElementById('wkLogSearchClearBtn');
+  if (clearBtn) clearBtn.style.display = 'none';
+  var timeLabel = document.getElementById('wkLogFilterTimeLabel');
+  if (timeLabel) timeLabel.textContent = 'Last Week';
+  var typeLabel = document.getElementById('wkLogFilterTypeLabel');
+  if (typeLabel) typeLabel.textContent = 'All Activities';
+  updateWorkoutLogAllList();
+}
+
+// ======================================================================
+// ACTIVITY DETAILS SCREEN
+// ======================================================================
+function initWorkoutLogDetail() {
+  var timestamp = state.selectedWorkoutLogEntryTimestamp;
+  var entries = getWorkoutLogEntries();
+  if (!timestamp && entries.length > 0) {
+    timestamp = entries[0].timestamp;
+    state.selectedWorkoutLogEntryTimestamp = timestamp;
+    try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  }
+  if (!timestamp) {
+    goBack();
+    return;
+  }
+  var entry = getWorkoutLogEntries().find(function(e) {
+    return e.timestamp === timestamp;
+  });
+  if (!entry) {
+    goBack();
+    return;
+  }
+  var titleEl = document.getElementById('wkLogDetailTitle');
+  if (titleEl) titleEl.textContent = 'Activity Details';
+  var featureTitleEl = document.getElementById('wkLogDetailFeatureTitle');
+  if (featureTitleEl) featureTitleEl.textContent = entry.title || 'Activity';
+  var featureMetaEl = document.querySelector('.wk-log-detail-feature-meta');
+  if (featureMetaEl && entry.dateValue) {
+    var dateStr = entry.dateValue.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    featureMetaEl.textContent = dateStr + '  \u00b7 ' + (entry.durationText || '0 min') + '  \u00b7  ' + (entry.caloriesText || '--');
+  }
+  var visual = getWorkoutLogVisual(entry);
+  // Feature row icon (64x64 container, 32x32 icon)
+  var featureIconWrap = document.getElementById('wkLogDetailFeatureIconContainer');
+  var featureIconEl = document.getElementById('wkLogDetailFeatureIcon');
+  if (featureIconWrap && featureIconEl) {
+    featureIconEl.style.setProperty('--icon-url', "url('" + visual.icon + "')");
+    featureIconEl.style.width = '32px';
+    featureIconEl.style.height = '32px';
+    featureIconEl.style.backgroundColor = visual.iconColor;
+    featureIconWrap.className = 'wk-log-detail-feature-icon';
+    var bubbleClass = visual.bubbleClass || '';
+    if (bubbleClass.indexOf('error') !== -1) {
+      featureIconWrap.style.backgroundColor = 'var(--color-on-error, #feeded)';
+    } else if (bubbleClass.indexOf('primary') !== -1) {
+      featureIconWrap.style.backgroundColor = 'var(--color-primary-container, #f1f0ff)';
+    } else if (bubbleClass.indexOf('secondary') !== -1) {
+      featureIconWrap.style.backgroundColor = 'var(--color-secondary-container, #FFEDD5)';
+    } else if (bubbleClass.indexOf('tertiary') !== -1) {
+      featureIconWrap.style.backgroundColor = '#dbeafe';
+    } else {
+      featureIconWrap.style.backgroundColor = 'var(--color-primary-container, #f1f0ff)';
+    }
+  }
+  // Stats card icon (16x16 inline)
+  var statsIconEl = document.getElementById('wkLogDetailIcon');
+  if (statsIconEl) {
+    statsIconEl.style.setProperty('--icon-url', "url('" + visual.icon + "')");
+    statsIconEl.style.width = '16px';
+    statsIconEl.style.height = '16px';
+    statsIconEl.style.backgroundColor = visual.iconColor;
+  }
+  var typeTextEl = document.getElementById('wkLogDetailType');
+  if (typeTextEl) typeTextEl.textContent = entry.type || entry.label || 'Activity';
+  var durationEl = document.getElementById('wkLogDetailDuration');
+  if (durationEl) durationEl.textContent = entry.durationText || '0 min';
+  var caloriesEl = document.getElementById('wkLogDetailCalories');
+  if (caloriesEl) caloriesEl.textContent = entry.caloriesText || '--';
+  var notesEl = document.getElementById('wkLogDetailNotes');
+  if (notesEl) {
+    notesEl.textContent = entry.notes || 'No notes recorded for this activity.';
+    notesEl.classList.toggle('is-empty', !entry.notes);
+  }
+  var metaDate = document.getElementById('wkLogDetailMetaDate');
+  if (metaDate && entry.dateValue) {
+    var formattedDate = entry.dateValue.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    var formattedTime = entry.dateValue.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    metaDate.textContent = formattedDate + ', ' + formattedTime;
+  }
+  var metaTime = document.getElementById('wkLogDetailMetaTime');
+  if (metaTime && entry.dateValue) {
+    var editDate = entry.dateValue.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    var editTime = entry.dateValue.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    metaTime.textContent = editDate + ', ' + editTime;
+  }
+}
+
+window.onWorkoutLogDetailLogAgain = function() {
+  var timestamp = state.selectedWorkoutLogEntryTimestamp;
+  if (!timestamp) return;
+  var entry = getWorkoutLogEntries().find(function(e) { return e.timestamp === timestamp; });
+  if (!entry) return;
+  state.pendingLogAgain = entry;
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  navigateTo('workout-log');
+};
+
+window.onWorkoutLogDetailEdit = function() {
+  var timestamp = state.selectedWorkoutLogEntryTimestamp;
+  if (!timestamp) return;
+  var entry = getWorkoutLogEntries().find(function(e) { return e.timestamp === timestamp; });
+  if (!entry) return;
+  state.pendingEditEntryTimestamp = entry.timestamp;
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  navigateTo('workout-log');
+};
+
+window.onWorkoutLogDetailDelete = function() {
+  var timestamp = state.selectedWorkoutLogEntryTimestamp;
+  if (!timestamp) return;
+  var confirmed = confirm('Are you sure you want to delete this activity log? This cannot be undone.');
+  if (!confirmed) return;
+  var initialLength = (state.activityLog || []).length;
+  state.activityLog = (state.activityLog || []).filter(function(e) {
+    return new Date(e.date).getTime() !== timestamp;
+  });
+  if ((state.activityLog || []).length === initialLength) {
+    state.workoutHistory = (state.workoutHistory || []).filter(function(e) {
+      return new Date(e.date).getTime() !== timestamp;
+    });
+  }
+  state.deletedSeedTimestamps = state.deletedSeedTimestamps || [];
+  state.deletedSeedTimestamps.push(timestamp);
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  navigateTo('workout-log');
+  setTimeout(function() { showSnackbar('Activity deleted.'); }, 100);
+};
+
 // ===== PWA INITIALIZATION =====
 function initPWA() {
   if (typeof document === 'undefined') return;
@@ -5875,9 +6882,7 @@ function initPWA() {
 
   // 4. Register Service Worker
   if ('serviceWorker' in navigator) {
-    const isLocalhost = window.location.hostname === 'localhost' || 
-                        window.location.hostname === '127.0.0.1' || 
-                        window.location.hostname === '[::1]';
+    const isLocalhost = window.location.hostname === 'localhost' ||                        window.location.hostname === '127.0.0.1' ||                        window.location.hostname === '[::1]';
 
     if (isLocalhost) {
       // Unregister service worker on localhost to avoid caching issues during local development
@@ -6000,6 +7005,10 @@ if (typeof document !== 'undefined') {
       initWorkoutSchedule();
     } else if (currentPath.includes('workout-countdown')) {
       initWorkoutCountdown();
+    } else if (currentPath.includes('workout-log-all')) {
+      initWorkoutLogAll();
+    } else if (currentPath.includes('workout-log-detail')) {
+      initWorkoutLogDetail();
     } else if (currentPath.includes('workout-log')) {
       initWorkoutLog();
     } else if (currentPath.includes('coach-q6')) {

@@ -11,7 +11,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=15">
+  <link rel="stylesheet" href="../../styles.css?v=27">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 
@@ -61,7 +61,8 @@
               <span class="wk-nav-title">Workout Details</span>
             </div>
             <div class="wk-nav-header-right">
-              <button id="wkDetailConflictBtn" class="wk-action-icon" onclick="showConflictAlert()" aria-label="Conflict alert">
+              <button id="wkDetailConflictBtn" class="wk-action-icon" type="button" onclick="openReportWorkoutSheet()"
+                aria-label="Report workout">
                 <span class="wk-icon-wrapper wk-icon-alert">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_448_6227)">
@@ -268,13 +269,93 @@
             </div>
           </div>
 
+          <!-- ===== REPORT WORKOUT BOTTOM SHEET ===== -->
+          <div class="wk-bottom-sheet-backdrop" id="reportSheetBackdrop" onclick="closeReportWorkoutSheet()"></div>
+          <section class="wk-bottom-sheet wk-report-sheet" id="reportWorkoutSheet" aria-hidden="true">
+            <div class="wk-sheet-handle"></div>
+            <div class="wk-sheet-header wk-report-sheet-header">
+              <div class="wk-report-sheet-copy">
+                <h2 class="wk-sheet-title">Report Workout</h2>
+                <p class="wk-report-sheet-subtitle">Tell us what feels off so we can improve this plan.</p>
+              </div>
+              <button class="wk-sheet-close" type="button" onclick="closeReportWorkoutSheet()"
+                aria-label="Close report workout sheet">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path
+                    d="M15.75 8.25L8.25 15.75M8.25 8.25L15.75 15.75"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+
+            <div class="wk-report-sheet-body">
+              <div class="wk-report-reason-group" id="reportReasonGroup" role="radiogroup"
+                aria-label="Workout report reason">
+                <button class="wk-report-reason" type="button" data-reason="Too Difficult" role="radio"
+                  aria-checked="false" onclick="selectReportWorkoutReason('Too Difficult')">
+                  <span class="wk-report-reason-title">Too Difficult</span>
+                  <span class="wk-report-radio" aria-hidden="true">
+                    <span class="wk-report-radio-dot"></span>
+                  </span>
+                </button>
+                <button class="wk-report-reason" type="button" data-reason="Too Easy" role="radio"
+                  aria-checked="false" onclick="selectReportWorkoutReason('Too Easy')">
+                  <span class="wk-report-reason-title">Too Easy</span>
+                  <span class="wk-report-radio" aria-hidden="true">
+                    <span class="wk-report-radio-dot"></span>
+                  </span>
+                </button>
+                <button class="wk-report-reason" type="button" data-reason="Wrong Equipment" role="radio"
+                  aria-checked="false" onclick="selectReportWorkoutReason('Wrong Equipment')">
+                  <span class="wk-report-reason-title">Wrong Equipment</span>
+                  <span class="wk-report-radio" aria-hidden="true">
+                    <span class="wk-report-radio-dot"></span>
+                  </span>
+                </button>
+                <button class="wk-report-reason" type="button" data-reason="Unsafe Exercise" role="radio"
+                  aria-checked="false" onclick="selectReportWorkoutReason('Unsafe Exercise')">
+                  <span class="wk-report-reason-title">Unsafe Exercise</span>
+                  <span class="wk-report-radio" aria-hidden="true">
+                    <span class="wk-report-radio-dot"></span>
+                  </span>
+                </button>
+                <button class="wk-report-reason" type="button" data-reason="Other" role="radio"
+                  aria-checked="false" onclick="selectReportWorkoutReason('Other')">
+                  <span class="wk-report-reason-title">Other</span>
+                  <span class="wk-report-radio" aria-hidden="true">
+                    <span class="wk-report-radio-dot"></span>
+                  </span>
+                </button>
+              </div>
+
+              <label class="wk-report-note-label" for="reportWorkoutNote">Additional note (optional)</label>
+              <textarea id="reportWorkoutNote" class="wk-report-note-input"
+                placeholder="Share more details about the issue" rows="3"></textarea>
+            </div>
+
+            <div class="wk-sheet-footer wk-report-sheet-footer">
+              <button class="wk-sheet-action-btn wk-report-submit-btn" id="reportWorkoutSubmitBtn" type="button"
+                onclick="submitWorkoutReport()" disabled>
+                Submit report
+              </button>
+            </div>
+          </section>
+
+          <div class="wk-report-snackbar" id="reportWorkoutSnackbar" role="status" aria-live="polite" aria-atomic="true">
+            <span class="wk-report-snackbar-text" id="reportWorkoutSnackbarText">Report submitted</span>
+            <button class="wk-report-snackbar-action" type="button" onclick="dismissReportSnackbar()">OK</button>
+          </div>
+
         </div>
 
       </div>
     </div>
   </div>
 
-  <script src="../../app.js?v=15"></script>
+  <script src="../../app.js?v=27"></script>
   <script>
     (function () {
       // ── Local working variables ──
@@ -336,6 +417,8 @@
       var editActiveIndex = -1;
       var editCurrentState = { sets: 3, reps: 10, rest: 60 };
       var editOriginalState = { sets: 3, reps: 10, rest: 60 };
+      var reportWorkoutReason = '';
+      var reportSnackbarTimeout = null;
 
       // Helper: get exercise image
       function getExerciseImage(ex) {
@@ -751,7 +834,7 @@
       };
 
       window.openWorkoutSettings = function openWorkoutSettings() {
-        navigateTo('workout-edit');
+        navigateTo('workout-settings');
       };
 
       window.handleBackClick = function handleBackClick() {
@@ -873,9 +956,119 @@
         showToast(activeWorkout.favorite ? "Added to Favorites" : "Removed from Favorites");
       };
 
-      // ── Conflict Warning Alert ──
-      window.showConflictAlert = function showConflictAlert() {
-        alert("Warning: This customized upper body workout contains training conflicts with your scheduled rest day or target fatigue zones. Please adjust intensity or rest periods.");
+      function syncReportWorkoutReasonState() {
+        var reasonButtons = document.querySelectorAll('.wk-report-reason');
+        var submitBtn = document.getElementById('reportWorkoutSubmitBtn');
+
+        for (var i = 0; i < reasonButtons.length; i++) {
+          var button = reasonButtons[i];
+          var isSelected = button.getAttribute('data-reason') === reportWorkoutReason;
+          button.classList.toggle('is-selected', isSelected);
+          button.setAttribute('aria-checked', isSelected ? 'true' : 'false');
+        }
+
+        if (submitBtn) {
+          submitBtn.disabled = !reportWorkoutReason;
+          submitBtn.style.opacity = reportWorkoutReason ? '1' : '0.5';
+        }
+      }
+
+      function resetReportWorkoutForm() {
+        reportWorkoutReason = '';
+        var noteInput = document.getElementById('reportWorkoutNote');
+        if (noteInput) noteInput.value = '';
+        syncReportWorkoutReasonState();
+      }
+
+      function persistReportedWorkout(reason, note) {
+        if (!activeWorkout) return;
+        activeWorkout.lastReport = {
+          reason: reason,
+          note: note,
+          submittedAt: Date.now()
+        };
+
+        if (typeof state !== 'undefined') {
+          state.currentWorkout = activeWorkout;
+
+          if (Array.isArray(state.customWorkouts)) {
+            var reportIdx = state.customWorkouts.findIndex(function (item) { return item.id === activeWorkout.id; });
+            if (reportIdx >= 0) {
+              state.customWorkouts[reportIdx] = activeWorkout;
+            }
+          }
+
+          try {
+            localStorage.setItem('strivio_state', JSON.stringify(state));
+          } catch (e) { }
+        }
+      }
+
+      function showReportSnackbar(message) {
+        var snackbar = document.getElementById('reportWorkoutSnackbar');
+        var text = document.getElementById('reportWorkoutSnackbarText');
+        if (!snackbar || !text) return;
+
+        if (reportSnackbarTimeout) {
+          clearTimeout(reportSnackbarTimeout);
+          reportSnackbarTimeout = null;
+        }
+
+        text.textContent = message;
+        snackbar.classList.add('is-visible');
+        reportSnackbarTimeout = setTimeout(function () {
+          window.dismissReportSnackbar();
+        }, 3200);
+      }
+
+      window.dismissReportSnackbar = function dismissReportSnackbar() {
+        var snackbar = document.getElementById('reportWorkoutSnackbar');
+        if (snackbar) {
+          snackbar.classList.remove('is-visible');
+        }
+        if (reportSnackbarTimeout) {
+          clearTimeout(reportSnackbarTimeout);
+          reportSnackbarTimeout = null;
+        }
+      };
+
+      // ── Report Workout Bottom Sheet ──
+      window.openReportWorkoutSheet = function openReportWorkoutSheet() {
+        window.dismissReportSnackbar();
+        resetReportWorkoutForm();
+        var backdrop = document.getElementById('reportSheetBackdrop');
+        var sheet = document.getElementById('reportWorkoutSheet');
+        if (backdrop) backdrop.classList.add('is-visible');
+        if (sheet) {
+          sheet.classList.add('is-open');
+          sheet.setAttribute('aria-hidden', 'false');
+        }
+      };
+
+      window.closeReportWorkoutSheet = function closeReportWorkoutSheet() {
+        var backdrop = document.getElementById('reportSheetBackdrop');
+        var sheet = document.getElementById('reportWorkoutSheet');
+        if (backdrop) backdrop.classList.remove('is-visible');
+        if (sheet) {
+          sheet.classList.remove('is-open');
+          sheet.setAttribute('aria-hidden', 'true');
+        }
+      };
+
+      window.selectReportWorkoutReason = function selectReportWorkoutReason(reason) {
+        reportWorkoutReason = reason;
+        syncReportWorkoutReasonState();
+      };
+
+      window.submitWorkoutReport = function submitWorkoutReport() {
+        if (!reportWorkoutReason) return;
+
+        var noteInput = document.getElementById('reportWorkoutNote');
+        var note = noteInput ? String(noteInput.value || '').trim() : '';
+        persistReportedWorkout(reportWorkoutReason, note);
+        closeReportWorkoutSheet();
+        resetReportWorkoutForm();
+        showReportSnackbar('Thanks, your report was submitted.');
       };
 
       // ── ADD EXERCISE BOTTOM SHEET LOGIC ──
@@ -1358,6 +1551,7 @@
           conflictBtn.hidden = false;
         }
 
+        syncReportWorkoutReasonState();
         renderDetail();
 
         // Initial setup for customize buttons display

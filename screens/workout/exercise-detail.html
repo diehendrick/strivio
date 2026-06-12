@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Strivio — Your Personalized Plan</title>
+  <title>Strivio — Exercise Detail</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
-  <link rel="stylesheet" href="../../styles.css?v=11">
+  <link rel="stylesheet" href="../../styles.css?v=33">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 <body>
@@ -41,22 +41,27 @@
             </div>
           </div>
           <div class="wk-nav-header">
-            <button class="wk-back-btn" onclick="goBack()" aria-label="Back"><img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt=""></button>
+            <button class="wk-back-btn" onclick="goBack()" aria-label="Back">
+              <span class="icon wk-ex-detail-nav-icon" style="--icon-url: url('../../assets/svg_icons/back.svg'); width: 22px; height: 22px;" aria-hidden="true"></span>
+            </button>
             <span class="wk-nav-title">Exercise Detail</span>
-            <button class="wk-action-icon wk-ex-detail-fav" id="wkExDetailFav" onclick="toggleFavorite()" aria-label="Toggle favorite"><iconify-icon icon="solar:heart-bold-duotone" width="22"></iconify-icon></button>
+            <button class="wk-action-icon wk-ex-detail-fav" id="wkExDetailFav" onclick="toggleFavorite()" aria-label="Toggle favorite">
+              <span class="icon wk-ex-detail-fav-icon" style="--icon-url: url('../../assets/svg_icons/love.svg'); width: 22px; height: 22px;" aria-hidden="true"></span>
+            </button>
           </div>
           <div class="wk-ex-detail-body" id="wkExDetailBody">
             <!-- Dynamically rendered -->
           </div>
+          <div class="wk-ex-detail-footer" id="wkExDetailFooter"></div>
 
           <div class="bottom-sheet wk-ex-note-sheet" id="wkExerciseNoteSheet" aria-hidden="true">
-            <div class="sheet-backdrop" data-close="wkExerciseNoteSheet"></div>
+            <div class="sheet-backdrop" onclick="closeExerciseNoteSheet()"></div>
             <div class="sheet-content wk-ex-note-sheet-content">
               <div class="sheet-handle"></div>
               <div class="sheet-header">
                 <h3 class="sheet-title" id="wkExerciseNoteSheetTitle">Exercise Note</h3>
-                <button class="sheet-close" type="button" data-close="wkExerciseNoteSheet" aria-label="Close">
-                  <img src="../../assets/svg_icons/cross-x.svg" class="icon" width="16" alt="">
+                <button class="sheet-close" type="button" onclick="closeExerciseNoteSheet()" aria-label="Close">
+                  <span class="icon wk-ex-detail-sheet-close-icon" style="--icon-url: url('../../assets/svg_icons/cross-x.svg'); width: 16px; height: 16px;" aria-hidden="true"></span>
                 </button>
               </div>
               <div class="sheet-body wk-ex-note-sheet-body" id="wkExerciseNoteSheetBody"></div>
@@ -68,6 +73,6 @@
       </div>
     </div>
   </div>
-  <script src="../../app.js?v=11"></script>
+  <script src="../../app.js?v=31"></script>
 </body>
 </html>
