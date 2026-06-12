@@ -5501,7 +5501,7 @@ body::before {
   width: 343px;
   height: 337px;
   border-radius: 50%;
-  background: radial-gradient(circle at 34% 52%, #f8f7fd 0%, #eeedf8 43%, rgba(255, 255, 255, 0) 72%);
+  background: linear-gradient(180deg, rgba(239, 245, 255, 0.95) 0%, rgba(248, 250, 255, 0.8) 100%);
   pointer-events: none;
 }
 
@@ -5509,8 +5509,8 @@ body::before {
   position: absolute;
   right: -6px;
   top: 12px;
-  width: 197px;
-  height: 197px;
+  width: 220px;
+  height: 220px;
   object-fit: contain;
   object-position: top center;
   opacity: 0.9;
@@ -5524,7 +5524,7 @@ body::before {
 }
 
 .wk-workout-card-content {
-  max-width: 176px;
+  max-width: 210px;
 }
 
 .wk-workout-card-date {
@@ -6331,12 +6331,14 @@ body::before {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: var(--spacing-s16) 0;
 }
 
 .wk-home-section-heading {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  padding-bottom: var(--spacing-s8);
 }
 
 .wk-home-section-row {
