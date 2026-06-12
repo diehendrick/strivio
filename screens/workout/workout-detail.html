@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Strivio — Workout Details</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../../styles.css?v=15">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
+
 <body>
   <div class="app-container">
     <div class="phone-frame">
@@ -17,10 +22,11 @@
       <div class="screens-wrapper" id="screensWrapper">
 
         <!-- ===== WORKOUT TAB: Workout Detail ===== -->
-        <div class="screen screen-workout-detail screen-workout-detail-figma active" data-screen="workout-detail" style="padding:0!important;overflow:hidden;display:flex;flex-direction:column;position:relative;height:100%;">
-          
+        <div class="screen screen-workout-detail screen-workout-detail-figma active" data-screen="workout-detail">
+
           <!-- Status Bar -->
-          <div class="status-bar" style="flex-shrink:0;">
+          <div class="status-bar">
+            <span class="status-time">9:41</span>
             <span class="status-time">9:41</span>
             <div class="status-icons">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -29,8 +35,12 @@
                 <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
               </svg>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="#0f172a" />
-                <path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="#0f172a" />
+                <path
+                  d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z"
+                  fill="#0f172a" />
+                <path
+                  d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z"
+                  fill="#0f172a" />
                 <circle cx="8" cy="11" r="2" fill="#0f172a" />
               </svg>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -43,45 +53,69 @@
           </div>
 
           <!-- Nav Header -->
-          <div class="wk-nav-header" style="justify-content: space-between; padding: 0 24px; flex-shrink:0;">
-            <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="wk-nav-header">
+            <div class="wk-nav-header-left">
               <button class="wk-back-btn" onclick="handleBackClick()" aria-label="Back">
                 <img src="../../assets/svg_icons/back.svg" class="icon" width="22" alt="">
               </button>
-              <span class="wk-nav-title" style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 24px; color: #1a1d26; line-height: 32px;">Workout Details</span>
+              <span class="wk-nav-title">Workout Details</span>
             </div>
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <button id="wkDetailConflictBtn" class="wk-action-icon" style="background:none; border:none; padding:0; cursor:pointer;" onclick="showConflictAlert()" hidden>
-                <img src="../../assets/svg_icons/alert.svg" width="24" height="24" alt="Conflict alert" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">
+            <div class="wk-nav-header-right">
+              <button id="wkDetailConflictBtn" class="wk-action-icon" onclick="showConflictAlert()" aria-label="Conflict alert">
+                <span class="wk-icon-wrapper wk-icon-alert">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_448_6227)">
+                      <path d="M22.536 8.46014L15.537 1.45914C14.592 0.515141 13.337 -0.00585938 12.001 -0.00585938C10.665 -0.00585938 9.409 0.515141 8.465 1.45914L1.466 8.46014C-0.483004 10.4091 -0.483004 13.5801 1.466 15.5291L8.465 22.5301C9.409 23.4741 10.665 23.9951 12.001 23.9951C13.337 23.9951 14.592 23.4741 15.537 22.5301L22.536 15.5291C23.48 14.5851 24 13.3301 24 11.9951C24 10.6601 23.48 9.40414 22.536 8.46014ZM21.122 14.1151L14.123 21.1161C12.989 22.2491 11.013 22.2491 9.879 21.1161L2.88 14.1151C1.711 12.9461 1.711 11.0431 2.88 9.87414L9.879 2.87314C10.446 2.30714 11.199 1.99414 12.001 1.99414C12.803 1.99414 13.556 2.30614 14.123 2.87314L21.122 9.87414C21.688 10.4401 22 11.1931 22 11.9951C22 12.7971 21.688 13.5491 21.122 14.1151ZM13.5 16.5001C13.5 17.3281 12.828 18.0001 12 18.0001C11.172 18.0001 10.5 17.3281 10.5 16.5001C10.5 15.6721 11.172 15.0001 12 15.0001C12.828 15.0001 13.5 15.6721 13.5 16.5001ZM11 12.5001V7.00014C11 6.44714 11.448 6.00014 12 6.00014C12.552 6.00014 13 6.44714 13 7.00014V12.5001C13 13.0531 12.552 13.5001 12 13.5001C11.448 13.5001 11 13.0531 11 12.5001Z" fill="currentColor"/>
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_448_6227">
+                        <rect width="24" height="24" fill="white"/>
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </span>
               </button>
-              <button id="wkDetailFavBtn" class="wk-action-icon" style="background:none; border:none; padding:0; cursor:pointer;" onclick="toggleFavoriteDetail()">
-                <img id="wkDetailFavIcon" src="../../assets/svg_icons/health.svg" width="24" height="24" alt="Favorite">
+              <button id="wkDetailFavBtn" class="wk-action-icon" onclick="toggleFavoriteDetail()" aria-label="Favorite">
+                <span class="wk-icon-wrapper wk-icon-favorite" id="wkDetailFavIconWrapper">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_488_3434)">
+                      <path d="M17.5 1.91699C16.374 1.93451 15.2725 2.24885 14.3068 2.82826C13.3411 3.40768 12.5454 4.23166 12 5.21699C11.4547 4.23166 10.659 3.40768 9.69326 2.82826C8.72756 2.24885 7.62607 1.93451 6.50002 1.91699C4.70496 1.99498 3.01373 2.78025 1.7958 4.10122C0.577879 5.4222 -0.0677312 7.17152 1.93259e-05 8.96699C1.93259e-05 13.514 4.78602 18.48 8.80002 21.847C9.69624 22.6001 10.8294 23.013 12 23.013C13.1707 23.013 14.3038 22.6001 15.2 21.847C19.214 18.48 24 13.514 24 8.96699C24.0678 7.17152 23.4222 5.4222 22.2042 4.10122C20.9863 2.78025 19.2951 1.99498 17.5 1.91699ZM13.915 20.317C13.379 20.7684 12.7008 21.0159 12 21.0159C11.2993 21.0159 10.621 20.7684 10.085 20.317C4.94702 16.006 2.00002 11.87 2.00002 8.96699C1.93166 7.70171 2.36639 6.46072 3.20938 5.51469C4.05238 4.56866 5.23525 3.99434 6.50002 3.91699C7.76479 3.99434 8.94766 4.56866 9.79066 5.51469C10.6337 6.46072 11.0684 7.70171 11 8.96699C11 9.23221 11.1054 9.48656 11.2929 9.6741C11.4804 9.86164 11.7348 9.96699 12 9.96699C12.2652 9.96699 12.5196 9.86164 12.7071 9.6741C12.8947 9.48656 13 9.23221 13 8.96699C12.9317 7.70171 13.3664 6.46072 14.2094 5.51469C15.0524 4.56866 16.2353 3.99434 17.5 3.91699C18.7648 3.99434 19.9477 4.56866 20.7907 5.51469C21.6337 6.46072 22.0684 7.70171 22 8.96699C22 11.87 19.053 16.006 13.915 20.313V20.317Z" fill="currentColor"/>
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_488_3434">
+                        <rect width="24" height="24" fill="white"/>
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </span>
               </button>
             </div>
           </div>
 
           <!-- Detail Body Content -->
-          <div class="wk-detail-body" id="wkDetailBody" style="padding-bottom: 96px;">
+          <div class="wk-detail-body" id="wkDetailBody">
             <!-- Dynamically populated -->
           </div>
 
           <!-- Bottom Action Bars -->
           <!-- Normal Mode Actions -->
-          <div class="wk-detail-actions wk-detail-actions-normal" id="wkDetailActionsNormal" style="position: absolute; bottom: 0; left: 0; right: 0; background: #fff; padding: 12px 24px; display: flex; gap: 16px; align-items: center; box-shadow: 0 -8px 24px rgba(0,0,0,0.05); z-index: 10;">
-            <button class="wk-start-btn" id="wkDetailStart" onclick="startWorkout()" style="flex: 1; height: 56px; border-radius: 9999px; background: var(--color-primary, #0056D8); color: #fff; border: none; font-size: 16px; font-weight: 800; font-family: 'Nunito', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; padding: 0;">
-              <img src="../../assets/svg_icons/play.svg" class="icon" width="18" alt="" style="filter: brightness(0) invert(1);"> Start
+          <div class="wk-detail-actions-normal" id="wkDetailActionsNormal">
+            <button class="wk-start-btn" id="wkDetailStart" onclick="startWorkout()">
+              <img src="../../assets/svg_icons/play.svg" class="icon" width="18" alt=""> Start
             </button>
-            <button class="wk-action-icon-settings" id="wkDetailSettings" onclick="openWorkoutSettings()" aria-label="Settings" style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-primary-container, #EFF5FF); display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; flex-shrink: 0; padding: 0;">
+            <button class="wk-action-icon-settings" id="wkDetailSettings" onclick="openWorkoutSettings()"
+              aria-label="Settings">
               <img src="../../assets/svg_icons/settings.svg" class="icon" width="24" height="24" alt="">
             </button>
           </div>
 
           <!-- Customize Mode Actions -->
-          <div class="wk-detail-actions-customize" id="wkDetailActionsCustomize" style="position: absolute; bottom: 0; left: 0; right: 0; background: #fff; padding: 12px 24px; display: none; gap: 16px; align-items: center; box-shadow: 0 -8px 24px rgba(0,0,0,0.05); z-index: 10;">
-            <button class="wk-sheet-action-btn" id="wkDetailSave" onclick="saveCustomizedWorkout()" style="flex: 1;">
-              <img src="../../assets/svg_icons/play.svg" class="icon" width="18" alt="" style="filter: brightness(0) invert(1);"> Save Changes
+          <div class="wk-detail-actions-customize" id="wkDetailActionsCustomize">
+            <button class="wk-sheet-action-btn" id="wkDetailSave" onclick="saveCustomizedWorkout()">
+              <img src="../../assets/svg_icons/play.svg" class="icon" width="18" alt=""> Save Changes
             </button>
-            <button class="wk-action-icon-cancel" id="wkDetailCancelCustomize" onclick="exitCustomizeMode(false)" aria-label="Cancel" style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-primary-container, #EFF5FF); display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; flex-shrink: 0; padding: 0;">
+            <button class="wk-action-icon-cancel" id="wkDetailCancelCustomize" onclick="exitCustomizeMode(false)"
+              aria-label="Cancel">
               <img src="../../assets/svg_icons/cross-x.svg" class="icon" width="20" height="20" alt="">
             </button>
           </div>
@@ -96,54 +130,52 @@
                 <img src="../../assets/svg_icons/cross-x.svg" alt="Close">
               </button>
             </div>
-            
+
             <!-- Search bar -->
             <div class="wk-sheet-search-wrap">
               <img src="../../assets/svg_icons/search.svg" class="wk-sheet-search-icon-img" alt="Search">
-              <input type="text" class="wk-sheet-search-input" placeholder="Search workouts..." id="addSheetSearch" oninput="handleAddSheetSearch(this.value)">
-              <button class="wk-sheet-search-clear" id="addSheetSearchClear" onclick="clearAddSheetSearch()" style="display:none">
+              <input type="text" class="wk-sheet-search-input" placeholder="Search workouts..." id="addSheetSearch"
+                oninput="handleAddSheetSearch(this.value)">
+              <button class="wk-sheet-search-clear" id="addSheetSearchClear" onclick="clearAddSheetSearch()"
+                style="display:none">
                 <img src="../../assets/svg_icons/cross-x.svg" alt="Clear">
               </button>
             </div>
 
-            <!-- Filters -->
-            <div class="wk-sheet-filter-row" id="addSheetFiltersContainer">
-              <button class="wk-sheet-adv-filter-btn" id="addSheetAdvFilterToggle" onclick="toggleAddSheetAdvFilter()" aria-label="Advanced filters">
-                <img src="../../assets/svg_icons/settings-1.svg" alt="Filters">
+            <!-- Filters (matching workout-library) -->
+            <div class="wk-filter-row" id="addSheetFilters">
+              <button class="wk-filter-trigger" id="addSheetMuscleChip" type="button" onclick="openAddSheetFilterSheet('muscle')" aria-haspopup="dialog" aria-expanded="false">
+                <span class="icon wk-default-icon" style="--icon-url: url('../../assets/svg_icons/muscle.svg'); width: 16px; height: 16px;"></span>
+                <span class="wk-filter-trigger-text" id="addSheetFilterValue-muscle">Muscle</span>
+                <span class="icon wk-default-icon wk-filter-chevron" style="--icon-url: url('../../assets/svg_icons/down.svg'); width: 16px; height: 16px;"></span>
               </button>
-              
-              <!-- Level Dropdown Chip -->
-              <div style="position: relative;">
-                <button class="wk-sheet-filter-chip" id="addSheetLevelChip" onclick="toggleDropdownMenu(event, 'level')">
-                  <span id="addSheetLevelText">Level</span>
-                  <img src="../../assets/svg_icons/down.svg" class="chevron" alt="">
-                </button>
-                <div class="wk-dropdown-menu" id="addSheetLevelMenu">
-                  <!-- Dynamically rendered -->
-                </div>
-              </div>
-
-              <!-- Location Dropdown Chip -->
-              <div style="position: relative;">
-                <button class="wk-sheet-filter-chip" id="addSheetLocationChip" onclick="toggleDropdownMenu(event, 'location')">
-                  <span id="addSheetLocationText">Location</span>
-                  <img src="../../assets/svg_icons/down.svg" class="chevron" alt="">
-                </button>
-                <div class="wk-dropdown-menu" id="addSheetLocationMenu">
-                  <!-- Dynamically rendered -->
-                </div>
-              </div>
+              <button class="wk-filter-trigger" id="addSheetLevelChip" type="button" onclick="openAddSheetFilterSheet('level')" aria-haspopup="dialog" aria-expanded="false">
+                <span class="wk-filter-trigger-text" id="addSheetFilterValue-level">Level</span>
+                <span class="icon wk-default-icon wk-filter-chevron" style="--icon-url: url('../../assets/svg_icons/down.svg'); width: 16px; height: 16px;"></span>
+              </button>
+              <button class="wk-filter-trigger" id="addSheetLocationChip" type="button" onclick="openAddSheetFilterSheet('location')" aria-haspopup="dialog" aria-expanded="false">
+                <span class="wk-filter-trigger-text" id="addSheetFilterValue-location">Location</span>
+                <span class="icon wk-default-icon wk-filter-chevron" style="--icon-url: url('../../assets/svg_icons/down.svg'); width: 16px; height: 16px;"></span>
+              </button>
             </div>
 
-            <!-- Advanced Filter muscle options row (initially hidden) -->
-            <div id="addSheetAdvFilterRow" style="display:none; padding:0 24px 12px; gap:8px; overflow-x:auto; scrollbar-width:none; flex-shrink:0;">
-              <!-- Dynamically populated muscle tags -->
+            <!-- Applied Filters (matching workout-library) -->
+            <div class="wk-library-applied-filters" id="addSheetAppliedFilters" hidden>
+              <div class="wk-library-applied-list" id="addSheetAppliedFilterList"></div>
+              <button class="wk-library-clear-all" type="button" id="addSheetClearAll" onclick="resetAddSheetFilters()">Clear All</button>
             </div>
 
             <!-- Exercise List -->
             <div class="wk-sheet-list" id="addSheetList">
               <!-- Dynamically populated -->
             </div>
+
+            <!-- Stacking Filter Bottom Sheet (matching workout-library) -->
+            <div class="wk-filter-sheet-backdrop" id="addSheetFilterBackdrop" onclick="closeAddSheetFilterSheet()"></div>
+            <section class="wk-filter-sheet" id="addSheetFilterSheet" aria-hidden="true">
+              <div class="wk-filter-sheet-handle" aria-hidden="true"></div>
+              <div class="wk-filter-sheet-content" id="addSheetFilterSheetContent"></div>
+            </section>
 
             <!-- Footer Action Button -->
             <div class="wk-sheet-footer">
@@ -165,12 +197,12 @@
             </div>
 
             <!-- Exercise Info Summary -->
-            <div style="display: flex; align-items: center; gap: 12px; padding: 12px 24px; border-bottom: 1px solid var(--color-border, #f4f4f4); flex-shrink:0;">
-              <div class="wk-sheet-item-img" id="editSheetExImg" style="width: 56px; height: 56px; border-radius: 12px;">
+            <div class="wk-edit-ex-info-row">
+              <div class="wk-sheet-item-img" id="editSheetExImg">
                 <!-- img tag -->
               </div>
               <div class="wk-sheet-item-text">
-                <div class="wk-sheet-item-name" id="editSheetExName" style="font-size: 16px;">Barbell Bench</div>
+                <div class="wk-sheet-item-name" id="editSheetExName">Barbell Bench</div>
                 <div class="wk-sheet-item-details" id="editSheetExParams">4 sets · 8 reps</div>
               </div>
             </div>
@@ -257,7 +289,48 @@
       var addSheetActiveLevel = 'all';
       var addSheetActiveLocation = 'all';
       var addSheetActiveMuscle = 'all';
-      var addSheetShowAdvFilters = false;
+      var addSheetActiveFilterSheet = null; // tracks which filter sheet is open
+      var addSheetFilterDraft = {
+        muscle: 'all',
+        level: 'all',
+        location: 'all'
+      };
+      var addSheetFilterSheetParent = null;
+
+      var addSheetFilterDefinitions = {
+        muscle: {
+          label: 'Muscle',
+          title: 'Muscle Group',
+          options: [
+            { value: 'all', label: 'All Muscle Groups' },
+            { value: 'chest', label: 'Chest', image: '../../assets/img/anatomical-muscles/anatomical-chest.png' },
+            { value: 'shoulders', label: 'Shoulders', image: '../../assets/img/anatomical-muscles/anatomical-shoulders.png' },
+            { value: 'back', label: 'Back', image: '../../assets/img/anatomical-muscles/anatomical-upper-back.png' },
+            { value: 'core', label: 'Core', image: '../../assets/img/anatomical-muscles/anatomical-lower-back.png' },
+            { value: 'legs', label: 'Legs', image: '../../assets/img/anatomical-muscles/anatomical-upper-back.png' },
+            { value: 'arms', label: 'Arms', image: '../../assets/img/anatomical-muscles/anatomical-bicep.png' }
+          ]
+        },
+        level: {
+          label: 'Level',
+          title: 'Level',
+          options: [
+            { value: 'all', label: 'All Levels', icon: '../../assets/svg_icons/sparkles.svg', iconColor: 'var(--color-default)' },
+            { value: 'beginner', label: 'Beginner', icon: '../../assets/svg_icons/meditation.svg', iconColor: 'var(--color-toq)' },
+            { value: 'intermediate', label: 'Intermediate', icon: '../../assets/svg_icons/user.svg', iconColor: 'var(--color-primary)' },
+            { value: 'advanced', label: 'Advanced', icon: '../../assets/svg_icons/dumbbell-ray.svg', iconColor: 'var(--color-secondary)' }
+          ]
+        },
+        location: {
+          label: 'Location',
+          title: 'Location',
+          options: [
+            { value: 'all', label: 'All Locations', icon: '../../assets/svg_icons/location.svg', iconColor: 'var(--color-default)' },
+            { value: 'home', label: 'Home', icon: '../../assets/svg_icons/house.svg', iconColor: 'var(--color-primary)' },
+            { value: 'gym', label: 'Gym', icon: '../../assets/svg_icons/gym.svg', iconColor: 'var(--color-tertiary)' }
+          ]
+        }
+      };
 
       // ── Edit Sheet variables ──
       var editActiveIndex = -1;
@@ -285,8 +358,8 @@
           if (savedState && savedState.currentWorkout) {
             return savedState.currentWorkout;
           }
-        } catch (error) {}
-        
+        } catch (error) { }
+
         // Fallback w1 Upper Body Strength
         return {
           id: 'w1',
@@ -363,16 +436,24 @@
         var w = activeWorkout;
         var difficultyLabel = String(w.difficulty || 'intermediate');
         difficultyLabel = difficultyLabel.charAt(0).toUpperCase() + difficultyLabel.slice(1);
-        
+
         // Favorite icon toggle state
-        var favIcon = document.getElementById('wkDetailFavIcon');
-        if (favIcon) {
+        var favWrapper = document.getElementById('wkDetailFavIconWrapper');
+        if (favWrapper) {
           if (w.favorite) {
-            // Active: primary blue color
-            favIcon.style.filter = 'brightness(0) saturate(100%) invert(16%) sepia(88%) saturate(3280%) hue-rotate(210deg) brightness(94%) contrast(101%)';
+            favWrapper.classList.add('is-favorite');
           } else {
-            // Inactive: dark textprimary
-            favIcon.style.filter = 'brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%)';
+            favWrapper.classList.remove('is-favorite');
+          }
+        }
+
+        // Conflict icon alert state
+        var alertWrapper = document.querySelector('#wkDetailConflictBtn .wk-icon-alert');
+        if (alertWrapper) {
+          if (w.conflict) {
+            alertWrapper.classList.add('has-conflict');
+          } else {
+            alertWrapper.classList.remove('has-conflict');
           }
         }
 
@@ -380,7 +461,7 @@
         var eqList = Array.isArray(w.equipment) ? w.equipment.join(', ') : (w.equipment || 'Bodyweight');
 
         // Dynamic target area badges
-        var badgeHtml = (w.muscles || ['Chest', 'Shoulders']).map(function(muscle) {
+        var badgeHtml = (w.muscles || ['Chest', 'Shoulders']).map(function (muscle) {
           var cleanName = muscle.toLowerCase().replace(/\s+/g, '-');
           var imgUrl = '../../assets/img/anatomical-muscles/anatomical-' + cleanName + '.png';
           // Check fallback for muscle names
@@ -403,145 +484,143 @@
           return '<div class="wk-muscle-badge">' +
             '<img src="' + imgUrl + '" alt="' + escapeText(muscle) + '">' +
             '<span>' + escapeText(muscle) + '</span>' +
-          '</div>';
+            '</div>';
         }).join('');
 
         // Exercise Rows
         var exerciseRowsHtml = currentExercises.map(function (ex, index) {
           var formattedReps = String(ex.reps).indexOf('sec') >= 0 || String(ex.reps).indexOf('s') >= 0 ? ex.reps : ex.reps + ' reps';
-          var isLast = index === currentExercises.length - 1;
-          var rowBorderStyle = isLast ? 'none' : '1px solid var(--color-border, #f4f4f4)';
 
           if (isCustomizeMode) {
-            return '<div class="wk-detail-ex-row" draggable="true" data-index="' + index + '" style="cursor: grab; display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; border-bottom: ' + rowBorderStyle + '; margin-bottom: ' + (isLast ? '0' : '12px') + ';">' +
-              '<div style="display:flex; align-items:center; gap: 8px; flex: 1; min-width: 0;">' +
-                '<div class="wk-ex-drag-handle" style="display: inline-flex; width: 24px; height: 24px; justify-content: center; align-items: center; flex-shrink: 0;">' +
-                  '<img src="../../assets/svg_icons/grid dot vertical.svg" alt="Drag" style="opacity: 0.4;">' +
-                '</div>' +
-                '<div style="display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0;">' +
-                  '<div style="width: 64px; height: 64px; border-radius: 12px; overflow: hidden; background: var(--color-primary-container, #EFF5FF); flex-shrink: 0; position: relative;">' +
-                    '<img src="' + getExerciseImage(ex) + '" alt="' + escapeText(ex.name) + '" style="width: 100%; height: 100%; object-fit: cover;">' +
-                  '</div>' +
-                  '<div onclick="openEditExerciseSheet(' + index + ')" style="flex: 1; min-width: 0; cursor: pointer;">' +
-                    '<span style="font-family: \'Nunito\', sans-serif; font-size: 14px; font-weight: 700; color: var(--color-text-primary, #0f172a); letter-spacing: 0.1px; line-height: 20px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + escapeText(ex.name) + '</span>' +
-                    '<span style="font-family: \'Nunito\', sans-serif; font-size: 12px; font-weight: 400; color: var(--color-text-tertiary, #64748b); letter-spacing: 0; line-height: 16px; display: block;">' + escapeText(ex.sets) + ' sets · ' + escapeText(formattedReps) + '</span>' +
-                  '</div>' +
-                '</div>' +
+            return '<div class="wk-detail-ex-row-customize" draggable="true" data-index="' + index + '">' +
+              '<div class="wk-detail-ex-row-left">' +
+              '<div class="wk-ex-drag-handle">' +
+              '<img src="../../assets/svg_icons/grid dot vertical.svg" alt="Drag">' +
               '</div>' +
-              '<button class="wk-ex-delete-btn" onclick="deleteExercise(' + index + ')" style="border: none; background: transparent; cursor: pointer; padding: 4px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; margin-left: 8px;">' +
-                '<img src="../../assets/svg_icons/minus.svg" alt="Delete" style="width: 24px; height: 24px; filter: invert(27%) sepia(98%) saturate(1200%) hue-rotate(337deg) brightness(90%);">' +
+              '<div class="wk-detail-ex-center">' +
+              '<div class="wk-detail-ex-img">' +
+              '<img src="' + getExerciseImage(ex) + '" alt="' + escapeText(ex.name) + '">' +
+              '</div>' +
+              '<div class="wk-detail-ex-info-clickable" onclick="openEditExerciseSheet(' + index + ')">' +
+              '<span class="wk-detail-ex-name">' + escapeText(ex.name) + '</span>' +
+              '<span class="wk-detail-ex-meta">' + escapeText(ex.sets) + ' sets · ' + escapeText(formattedReps) + '</span>' +
+              '</div>' +
+              '</div>' +
+              '</div>' +
+              '<button class="wk-ex-delete-btn" onclick="deleteExercise(' + index + ')">' +
+              '<img src="../../assets/svg_icons/minus.svg" alt="Delete">' +
               '</button>' +
-            '</div>';
+              '</div>';
           } else {
-            return '<div class="wk-detail-ex-row" style="display: flex; align-items: center; gap: 14px; padding-bottom: ' + (isLast ? '0' : '12px') + '; border-bottom: ' + rowBorderStyle + '; margin-bottom: ' + (isLast ? '0' : '12px') + ';">' +
-              '<div style="width: 64px; height: 64px; border-radius: 12px; overflow: hidden; background: var(--color-primary-container, #EFF5FF); flex-shrink: 0; position: relative;">' +
-                '<img src="' + getExerciseImage(ex) + '" alt="' + escapeText(ex.name) + '" style="width: 100%; height: 100%; object-fit: cover;">' +
+            return '<div class="wk-detail-ex-row">' +
+              '<div class="wk-detail-ex-img">' +
+              '<img src="' + getExerciseImage(ex) + '" alt="' + escapeText(ex.name) + '">' +
               '</div>' +
-              '<div style="flex: 1; min-width: 0; display: flex; flex-direction: row; align-items: center; gap: 14px;">' +
-                '<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;">' +
-                  '<span style="font-family: \'Nunito\', sans-serif; font-size: 14px; font-weight: 700; color: var(--color-text-primary, #0f172a); letter-spacing: 0.1px; line-height: 20px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + escapeText(ex.name) + '</span>' +
-                  '<span style="font-family: \'Nunito\', sans-serif; font-size: 12px; font-weight: 400; color: var(--color-text-tertiary, #64748b); letter-spacing: 0; line-height: 16px; display: block;">' + escapeText(ex.sets) + ' sets · ' + escapeText(formattedReps) + '</span>' +
-                '</div>' +
-                '<button type="button" onclick="startWorkoutExercise(' + index + ')" style="width: 24px; height: 24px; border-radius: 12px; background: var(--color-primary-container, #EFF5FF); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border: none; cursor: pointer; padding: 0;">' +
-                  '<img src="../../assets/svg_icons/foward.svg" width="16" height="16" alt="">' +
-                '</button>' +
+              '<div class="wk-detail-ex-info">' +
+              '<div class="wk-detail-ex-text">' +
+              '<span class="wk-detail-ex-name">' + escapeText(ex.name) + '</span>' +
+              '<span class="wk-detail-ex-meta">' + escapeText(ex.sets) + ' sets · ' + escapeText(formattedReps) + '</span>' +
               '</div>' +
-            '</div>';
+              '<button type="button" class="wk-detail-ex-forward" onclick="startWorkoutExercise(' + index + ')">' +
+              '<img src="../../assets/svg_icons/foward.svg" width="16" height="16" alt="">' +
+              '</button>' +
+              '</div>' +
+              '</div>';
           }
         }).join('');
 
         body.innerHTML =
-          '<section class="wk-detail-hero-card" style="margin-top: 0;">' +
-            '<div class="wk-detail-hero-bg"></div>' +
-            '<div style="display:flex; justify-content:space-between; align-items:flex-start; position:relative; z-index:1; margin-bottom: 12px;">' +
-              '<div style="display:inline-flex; align-items:center; gap:8px; font-family:\'Nunito\'; font-size:12px; font-weight:400; color:var(--color-text-tertiary, #64748b); letter-spacing:0; line-height:16px;">' +
-                '<img src="../../assets/svg_icons/calendar.svg" width="16" height="16" alt="" style="filter: brightness(0) saturate(100%) invert(46%) sepia(9%) saturate(1062%) hue-rotate(181deg) brightness(92%) contrast(87%);">' +
-                'Today, April 24' +
-              '</div>' +
-              '<div style="display:inline-flex; align-items:center; gap:8px; font-family:\'Nunito\'; font-size:12px; font-weight:400; color:var(--color-text-tertiary, #64748b);">' +
-                '<img src="../../assets/svg_icons/location.svg" width="16" height="16" alt="" style="filter: brightness(0) saturate(100%) invert(46%) sepia(9%) saturate(1062%) hue-rotate(181deg) brightness(92%) contrast(87%);">' +
-                'Gym' +
-              '</div>' +
-            '</div>' +
-            '<div style="position:relative; z-index:1; display:flex; align-items:flex-start; margin-bottom: 4px;">' +
-              '<div style="flex: 1; min-width: 0; padding-right: 8px;">' +
-                '<p style="font-family:\'Nunito\'; font-size:20px; font-weight:800; color:var(--color-text-primary, #0f172a); line-height:28px; margin: 0 0 4px 0; letter-spacing:0;">' + escapeText(w.name) + '</p>' +
-                '<p style="font-family:\'Nunito\'; font-size:12px; font-weight:400; color:var(--color-text-tertiary, #64748b); margin:0; line-height:16px; letter-spacing:0;">' + escapeText(w.desc || 'No description.') + '</p>' +
-              '</div>' +
-            '</div>' +
-            '<div class="wk-detail-hero-image" style="top: -10px;"><img src="../../assets/img/woman-upper-body.png" alt=""></div>' +
-            '<div style="position:relative; z-index:1; display:flex; align-items:center; gap:8px; font-family:\'Nunito\'; font-size:12px; font-weight:700; color:var(--color-text-primary, #0f172a); letter-spacing:0.5px; margin-top: 12px;">' +
-              '<img src="../../assets/svg_icons/dumbbell-ray.svg" width="16" height="16" alt="" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">' + escapeText(eqList) +
-            '</div>' +
+          '<section class="wk-detail-hero-card">' +
+          '<div class="wk-detail-hero-bg"></div>' +
+          '<div class="wk-detail-hero-meta-row">' +
+          '<div class="wk-detail-hero-meta-item">' +
+          '<img src="../../assets/svg_icons/calendar.svg" alt="">' +
+          'Today, April 24' +
+          '</div>' +
+          '<div class="wk-detail-hero-meta-item">' +
+          '<img src="../../assets/svg_icons/location.svg" alt="">' +
+          'Gym' +
+          '</div>' +
+          '</div>' +
+          '<div class="wk-detail-hero-title-area">' +
+          '<div class="wk-detail-hero-title-text">' +
+          '<p class="wk-detail-hero-name">' + escapeText(w.name) + '</p>' +
+          '<p class="wk-detail-hero-desc">' + escapeText(w.desc || 'No description.') + '</p>' +
+          '</div>' +
+          '</div>' +
+          '<div class="wk-detail-hero-image"><img src="../../assets/img/woman-upper-body.png" alt=""></div>' +
+          '<div class="wk-detail-hero-equipment">' +
+          '<img src="../../assets/svg_icons/gym.svg" alt="">' + escapeText(eqList) +
+          '</div>' +
           '</section>' +
 
-          '<section class="wk-detail-exercises-card" style="margin-top: 0; padding: 12px; display: flex; align-items: center; justify-content: space-between;">' +
-            '<div style="display:flex; align-items:center; gap:8px; height:40px;">' +
-              '<img src="../../assets/svg_icons/clock-five.svg" width="16" height="16" alt="" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">' +
-              '<div style="display:flex; flex-direction:column; justify-content:center;">' +
-                '<strong style="font-family:\'Nunito\'; font-size:12px; font-weight:700; color:var(--color-text-primary,#0f172a); line-height:16px; letter-spacing:0.5px;">' + escapeText(w.duration) + ' min</strong>' +
-                '<span style="font-family:\'Nunito\'; font-size:12px; font-weight:400; color:var(--color-text-tertiary,#64748b); line-height:16px;">Duration</span>' +
-              '</div>' +
-            '</div>' +
-            '<div style="width:1px; height:24px; background:var(--color-divider,#f4f4f4);"></div>' +
-            '<div style="display:flex; align-items:center; gap:8px; height:40px;">' +
-              '<img src="../../assets/svg_icons/chart-simple.svg" width="16" height="16" alt="" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">' +
-              '<div style="display:flex; flex-direction:column; justify-content:center;">' +
-                '<strong style="font-family:\'Nunito\'; font-size:12px; font-weight:700; color:var(--color-text-primary,#0f172a); line-height:16px; letter-spacing:0.5px;">' + escapeText(difficultyLabel) + '</strong>' +
-                '<span style="font-family:\'Nunito\'; font-size:12px; font-weight:400; color:var(--color-text-tertiary,#64748b); line-height:16px;">Level</span>' +
-              '</div>' +
-            '</div>' +
-            '<div style="width:1px; height:24px; background:var(--color-divider,#f4f4f4);"></div>' +
-            '<div style="display:flex; align-items:center; gap:8px; height:40px;">' +
-              '<img src="../../assets/svg_icons/flame.svg" width="16" height="16" alt="" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">' +
-              '<div style="display:flex; flex-direction:column; justify-content:center;">' +
-                '<strong style="font-family:\'Nunito\'; font-size:12px; font-weight:700; color:var(--color-text-primary,#0f172a); line-height:16px; letter-spacing:0.5px;">' + escapeText(w.calories || 280) + ' kcal</strong>' +
-                '<span style="font-family:\'Nunito\'; font-size:12px; font-weight:400; color:var(--color-text-tertiary,#64748b); line-height:16px;">Est. Calories</span>' +
-              '</div>' +
-            '</div>' +
+          '<section class="wk-detail-stats-card">' +
+          '<div class="wk-detail-stat">' +
+          '<img src="../../assets/svg_icons/clock-five.svg" class="wk-detail-stat-icon wk-detail-stat-icon--primary" alt="">' +
+          '<div class="wk-detail-stat-text">' +
+          '<strong class="wk-detail-stat-value">' + escapeText(w.duration) + ' min</strong>' +
+          '<span class="wk-detail-stat-label">Duration</span>' +
+          '</div>' +
+          '</div>' +
+          '<div class="wk-detail-stat-divider"></div>' +
+          '<div class="wk-detail-stat">' +
+          '<img src="../../assets/svg_icons/chart-simple.svg" class="wk-detail-stat-icon" alt="">' +
+          '<div class="wk-detail-stat-text">' +
+          '<strong class="wk-detail-stat-value">' + escapeText(difficultyLabel) + '</strong>' +
+          '<span class="wk-detail-stat-label">Level</span>' +
+          '</div>' +
+          '</div>' +
+          '<div class="wk-detail-stat-divider"></div>' +
+          '<div class="wk-detail-stat">' +
+          '<img src="../../assets/svg_icons/flame.svg" class="wk-detail-stat-icon wk-detail-stat-icon--secondary" alt="">' +
+          '<div class="wk-detail-stat-text">' +
+          '<strong class="wk-detail-stat-value">' + escapeText(w.calories || 280) + ' kcal</strong>' +
+          '<span class="wk-detail-stat-label">Est. Calories</span>' +
+          '</div>' +
+          '</div>' +
           '</section>' +
 
-          '<div style="display:flex; flex-direction:column; gap:12px;">' +
-            '<p style="font-family:\'Nunito\'; font-size:16px; font-weight:800; color:#1a1d26; line-height:24px; letter-spacing:0.15px; margin: 0;">Target Area</p>' +
-            '<div class="wk-target-badges" style="margin:0;">' + badgeHtml + '</div>' +
+          '<div class="wk-detail-section">' +
+          '<p class="wk-detail-section-title">Target Area</p>' +
+          '<div class="wk-target-badges">' + badgeHtml + '</div>' +
           '</div>' +
 
-          '<div style="display:flex; flex-direction:column; gap:12px;">' +
-            '<p style="font-family:\'Nunito\'; font-size:16px; font-weight:800; color:#1a1d26; line-height:24px; letter-spacing:0.15px; margin: 0;">What to Expect</p>' +
-            '<div class="wk-expect-cards">' +
-              '<div class="wk-expect-card">' +
-                '<img src="../../assets/svg_icons/bullseye-arrow.svg" alt="" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">' +
-                '<p>Strength-Focused upper body session</p>' +
-              '</div>' +
-              '<div class="wk-expect-card">' +
-                '<img src="../../assets/svg_icons/exchange.svg" alt="" style="filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);">' +
-                '<p>Mixed of push and pull exercises</p>' +
-              '</div>' +
-            '</div>' +
+          '<div class="wk-detail-section">' +
+          '<p class="wk-detail-section-title">What to Expect</p>' +
+          '<div class="wk-expect-cards">' +
+          '<div class="wk-expect-card">' +
+          '<img src="../../assets/svg_icons/bullseye-arrow.svg" alt="">' +
+          '<p>Strength-Focused upper body session</p>' +
+          '</div>' +
+          '<div class="wk-expect-card">' +
+          '<img src="../../assets/svg_icons/exchange.svg" alt="">' +
+          '<p>Mixed of push and pull exercises</p>' +
+          '</div>' +
+          '</div>' +
           '</div>' +
 
-          '<div style="display:flex; flex-direction:column; gap:12px;">' +
-            '<div style="display:flex; align-items:center; justify-content:space-between;">' +
-              '<div style="display:flex; align-items:center; gap:8px;">' +
-                '<p style="margin:0; font-family:\'Nunito\'; font-size:16px; font-weight:800; color:#1a1d26; line-height:24px; letter-spacing:0.15px;">Exercises</p>' +
-                '<div style="background:var(--color-surface-variant,#f8f8f8); color:var(--color-text-tertiary,#64748b); font-family:\'Nunito\'; font-size:14px; font-weight:400; line-height:20px; padding:6px 10px; border-radius:20px;" id="wkDetailExCountBadge">' + currentExercises.length + ' Exercise' + (currentExercises.length === 1 ? '' : 's') + '</div>' +
-              '</div>' +
-              '<button type="button" onclick="toggleCustomizeMode()" style="border:none; background:transparent; color:var(--color-tertiary,#7F7CF0); font-family:\'Nunito\'; font-size:14px; font-weight:800; cursor:pointer; line-height:20px; letter-spacing:0.1px; padding:0;" id="wkDetailCustomizeBtn">' +
-                (isCustomizeMode ? 'Done' : 'Customize') +
-              '</button>' +
-            '</div>' +
-            '<div class="wk-detail-exercises-card" id="wkDetailExercisesListContainer" style="background: var(--color-background, #fff); border-radius: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 24px 16px;">' +
-              exerciseRowsHtml +
-            '</div>' +
+          '<div class="wk-detail-section">' +
+          '<div class="wk-detail-ex-header">' +
+          '<div class="wk-detail-ex-header-left">' +
+          '<p class="wk-detail-section-title">Exercises</p>' +
+          '<div class="wk-detail-ex-count" id="wkDetailExCountBadge">' + currentExercises.length + ' Exercise' + (currentExercises.length === 1 ? '' : 's') + '</div>' +
+          '</div>' +
+          '<button type="button" class="wk-detail-customize-btn" onclick="toggleCustomizeMode()" id="wkDetailCustomizeBtn">' +
+          (isCustomizeMode ? 'Done' : 'Customize') +
+          '</button>' +
+          '</div>' +
+          '<div class="wk-detail-ex-list" id="wkDetailExercisesListContainer">' +
+          exerciseRowsHtml +
+          '</div>' +
           '</div>' +
 
           '<button class="wk-customize-add-btn" onclick="openAddExerciseSheet()">' +
-            '<img src="../../assets/svg_icons/plus.svg" alt="" style="filter: invert(16%) sepia(88%) saturate(3280%) hue-rotate(210deg) brightness(94%) contrast(101%);"> Add Exercise' +
+          '<img src="../../assets/svg_icons/plus.svg" alt=""> Add Exercise' +
           '</button>' +
 
           '<div class="wk-customize-infobox">' +
-            '<img src="../../assets/svg_icons/info.svg" alt="" style="filter: invert(16%) sepia(88%) saturate(3280%) hue-rotate(210deg) brightness(94%) contrast(101%);">' +
-            '<p>Tip: drag and drop the order exercises. tap an exercise to adjust sets, reps or rest time</p>' +
+          '<img src="../../assets/svg_icons/info.svg" alt="">' +
+          '<p>Tip: drag and drop the order exercises. tap an exercise to adjust sets, reps or rest time</p>' +
           '</div>';
 
         // Add drag & drop event listeners in customize mode
@@ -572,7 +651,7 @@
         document.querySelector('.screen-workout-detail-figma').classList.remove('is-customizing');
         document.getElementById('wkDetailActionsNormal').style.display = 'flex';
         document.getElementById('wkDetailActionsCustomize').style.display = 'none';
-        
+
         if (!save) {
           // Revert changes
           currentExercises = getWorkoutExerciseList(activeWorkout);
@@ -588,7 +667,7 @@
       };
 
       function setupDragAndDrop() {
-        var rows = document.querySelectorAll('#wkDetailExercisesListContainer .wk-detail-ex-row');
+        var rows = document.querySelectorAll('#wkDetailExercisesListContainer .wk-detail-ex-row-customize');
         rows.forEach(function (row) {
           row.addEventListener('dragstart', handleDragStart, false);
           row.addEventListener('dragenter', handleDragEnter, false);
@@ -626,12 +705,12 @@
         if (e.stopPropagation) {
           e.stopPropagation();
         }
-        
+
         this.classList.remove('drag-over');
-        
+
         var sourceIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
         var targetIndex = parseInt(this.dataset.index, 10);
-        
+
         if (sourceIndex !== targetIndex) {
           // Reorder array
           var movedItem = currentExercises.splice(sourceIndex, 1)[0];
@@ -644,7 +723,7 @@
 
       function handleDragEnd(e) {
         this.classList.remove('is-dragging');
-        var rows = document.querySelectorAll('#wkDetailExercisesListContainer .wk-detail-ex-row');
+        var rows = document.querySelectorAll('#wkDetailExercisesListContainer .wk-detail-ex-row-customize');
         rows.forEach(function (row) {
           row.classList.remove('drag-over');
         });
@@ -685,7 +764,7 @@
 
       // ── Save Changes to LocalStorage ──
       window.saveCustomizedWorkout = function saveCustomizedWorkout() {
-        activeWorkout.exercises = currentExercises.map(function(ex) {
+        activeWorkout.exercises = currentExercises.map(function (ex) {
           return {
             id: ex.id,
             name: ex.name,
@@ -702,20 +781,20 @@
         // Save back to global state
         if (typeof state !== 'undefined') {
           state.currentWorkout = activeWorkout;
-          
+
           // Also update in customWorkouts list if exists there
           if (Array.isArray(state.customWorkouts)) {
-            var idx = state.customWorkouts.findIndex(function(cw) { return cw.id === activeWorkout.id; });
+            var idx = state.customWorkouts.findIndex(function (cw) { return cw.id === activeWorkout.id; });
             if (idx >= 0) {
               state.customWorkouts[idx] = activeWorkout;
             }
           }
-          
+
           try {
             localStorage.setItem('strivio_state', JSON.stringify(state));
-          } catch(e) {}
+          } catch (e) { }
         }
-        
+
         exitCustomizeMode(true);
         showToast("Workout customized successfully!");
       };
@@ -725,24 +804,24 @@
         // Mockup dictates "by default botton akan ke disabled, jika ada ubahan baru botton akan enabled."
         var saveBtn = document.getElementById('wkDetailSave');
         if (!saveBtn) return;
-        
+
         var originalExs = getWorkoutExerciseList(activeWorkout);
         var isChanged = false;
-        
+
         if (currentExercises.length !== originalExs.length) {
           isChanged = true;
         } else {
           for (var i = 0; i < currentExercises.length; i++) {
             if (currentExercises[i].id !== originalExs[i].id ||
-                currentExercises[i].sets !== originalExs[i].sets ||
-                currentExercises[i].reps !== originalExs[i].reps ||
-                currentExercises[i].rest !== originalExs[i].rest) {
+              currentExercises[i].sets !== originalExs[i].sets ||
+              currentExercises[i].reps !== originalExs[i].reps ||
+              currentExercises[i].rest !== originalExs[i].rest) {
               isChanged = true;
               break;
             }
           }
         }
-        
+
         if (isChanged) {
           saveBtn.disabled = false;
           saveBtn.style.opacity = '1';
@@ -768,14 +847,14 @@
         toast.style.zIndex = '10000';
         toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
         toast.textContent = msg;
-        
+
         var screen = document.querySelector('.screen-workout-detail');
         if (screen) {
           screen.appendChild(toast);
-          setTimeout(function() {
+          setTimeout(function () {
             toast.style.transition = 'opacity 0.5s ease';
             toast.style.opacity = '0';
-            setTimeout(function() { toast.remove(); }, 500);
+            setTimeout(function () { toast.remove(); }, 500);
           }, 2000);
         }
       }
@@ -783,12 +862,12 @@
       // ── Favorite Toggle ──
       window.toggleFavoriteDetail = function toggleFavoriteDetail() {
         activeWorkout.favorite = !activeWorkout.favorite;
-        
+
         if (typeof state !== 'undefined') {
           state.currentWorkout = activeWorkout;
           try {
             localStorage.setItem('strivio_state', JSON.stringify(state));
-          } catch(e) {}
+          } catch (e) { }
         }
         renderDetail();
         showToast(activeWorkout.favorite ? "Added to Favorites" : "Removed from Favorites");
@@ -810,9 +889,8 @@
         addSheetActiveMuscle = 'all';
         document.getElementById('addSheetSearch').value = '';
         document.getElementById('addSheetSearchClear').style.display = 'none';
-        
-        renderAddSheetDropdowns();
-        renderAddSheetMuscleRow();
+
+        updateFilterChips();
         renderAddSheetList();
         updateAddSheetApplyButton();
       };
@@ -820,7 +898,6 @@
       window.closeAddExerciseSheet = function closeAddExerciseSheet() {
         document.getElementById('addSheetBackdrop').classList.remove('is-visible');
         document.getElementById('addExerciseSheet').classList.remove('is-open');
-        hideAllDropdowns();
       };
 
       window.handleAddSheetSearch = function handleAddSheetSearch(val) {
@@ -834,102 +911,210 @@
         handleAddSheetSearch('');
       };
 
-      window.toggleAddSheetAdvFilter = function toggleAddSheetAdvFilter() {
-        addSheetShowAdvFilters = !addSheetShowAdvFilters;
-        var advRow = document.getElementById('addSheetAdvFilterRow');
-        var toggleBtn = document.getElementById('addSheetAdvFilterToggle');
-        if (addSheetShowAdvFilters) {
-          advRow.style.display = 'flex';
-          toggleBtn.classList.add('is-active');
-        } else {
-          advRow.style.display = 'none';
-          toggleBtn.classList.remove('is-active');
-          addSheetActiveMuscle = 'all';
-          renderAddSheetList();
+      // ── Stacked Filter Sheet Rendering (matching workout-library) ──
+      function renderAddSheetFilterSheet() {
+        var content = document.getElementById('addSheetFilterSheetContent');
+        if (!content) return;
+
+        if (!addSheetActiveFilterSheet) {
+          content.innerHTML = '';
+          return;
         }
+
+        if (addSheetActiveFilterSheet === 'muscle') {
+          content.innerHTML = renderAddSheetMuscleSheet();
+          return;
+        }
+
+        content.innerHTML = renderAddSheetSingleFilterSheet(addSheetActiveFilterSheet);
+      }
+
+      function renderAddSheetMuscleSheet() {
+        var activeVal = addSheetActiveMuscle;
+        var options = addSheetFilterDefinitions.muscle.options.filter(function(opt) { return opt.value !== 'all'; });
+        return '<div class="wk-filter-sheet-panel wk-filter-sheet-panel-muscle">' +
+          '<div class="wk-filter-sheet-header wk-filter-sheet-header-muscle">' +
+            '<h2 class="wk-filter-sheet-title wk-filter-sheet-title-muscle">Muscle Group</h2>' +
+            '<button class="wk-filter-sheet-link" type="button" onclick="resetAddSheetMuscleFilter()">Reset</button>' +
+          '</div>' +
+          '<div class="wk-filter-muscle-list">' +
+            options.map(function(option, index) {
+              var isSelected = activeVal === option.value;
+              return '<button class="wk-filter-muscle-option' + (isSelected ? ' is-selected' : '') + '" type="button" onclick="selectAddSheetMuscleValue(\'' + option.value + '\')">' +
+                '<span class="wk-filter-muscle-option-image"><img src="' + option.image + '" alt="' + option.label + '"></span>' +
+                '<span class="wk-filter-muscle-option-label">' + option.label + '</span>' +
+                '<span class="wk-filter-muscle-option-check" aria-hidden="true">' + (isSelected ? '&#10003;' : '') + '</span>' +
+              '</button>' + (index === options.length - 1 ? '' : '<div class="wk-filter-muscle-divider"></div>');
+            }).join('') +
+          '</div>' +
+        '</div>';
+      }
+
+      function renderAddSheetSingleFilterSheet(filterType) {
+        var config = addSheetFilterDefinitions[filterType];
+        if (!config) return '';
+        var activeVal = filterType === 'level' ? addSheetActiveLevel : addSheetActiveLocation;
+        return '<div class="wk-filter-sheet-panel wk-filter-sheet-panel-select">' +
+          '<div class="wk-filter-sheet-header wk-filter-sheet-header-select">' +
+            '<h2 class="wk-filter-sheet-title wk-filter-sheet-title-grouped">' + config.title + '</h2>' +
+            '<button class="wk-filter-sheet-link" type="button" onclick="resetAddSheetSingleFilter(\'' + filterType + '\')">Reset</button>' +
+          '</div>' +
+          '<div class="wk-filter-select-list">' +
+            config.options.map(function(option) {
+              var isActive = activeVal === option.value;
+              var iconMarkup = option.icon
+                ? '<span class="icon wk-filter-select-icon" style="--icon-url: url(\'' + option.icon + '\'); background-color: ' + (option.iconColor || 'var(--color-default)') + ';"></span>'
+                : (option.image ? '<span class="wk-filter-select-icon-image"><img src="' + option.image + '" alt="' + option.label + '"></span>' : '<span class="wk-filter-select-icon wk-filter-select-icon-empty"></span>');
+              return '<button class="wk-filter-select-card' + (isActive ? ' is-selected' : '') + '" type="button" onclick="selectAddSheetSingleFilterValue(\'' + filterType + '\', \'' + option.value + '\')">' +
+                iconMarkup +
+                '<span class="wk-filter-select-label">' + option.label + '</span>' +
+                '<span class="wk-filter-select-check" aria-hidden="true">' + (isActive ? '&#10003;' : '') + '</span>' +
+              '</button>';
+            }).join('') +
+          '</div>' +
+        '</div>';
+      }
+
+      window.openAddSheetFilterSheet = function openAddSheetFilterSheet(type) {
+        addSheetActiveFilterSheet = type;
+        addSheetFilterSheetParent = null;
+
+        var sheet = document.getElementById('addSheetFilterSheet');
+        var backdrop = document.getElementById('addSheetFilterBackdrop');
+        backdrop.style.display = 'block';
+        sheet.setAttribute('aria-hidden', 'false');
+        renderAddSheetFilterSheet();
+        updateFilterChips();
+        requestAnimationFrame(function() {
+          backdrop.classList.add('is-visible');
+          sheet.classList.add('is-open');
+        });
       };
 
-      // Render custom dropdown popup options
-      function renderAddSheetDropdowns() {
-        var levels = [
-          { value: 'all', label: 'All Levels' },
-          { value: 'beginner', label: 'Beginner' },
-          { value: 'intermediate', label: 'Intermediate' },
-          { value: 'advanced', label: 'Advanced' }
-        ];
+      window.closeAddSheetFilterSheet = function closeAddSheetFilterSheet() {
+        addSheetActiveFilterSheet = null;
+        addSheetFilterSheetParent = null;
 
-        var locations = [
-          { value: 'all', label: 'All Locations' },
-          { value: 'home', label: 'Home' },
-          { value: 'gym', label: 'Gym' }
-        ];
+        var sheet = document.getElementById('addSheetFilterSheet');
+        var backdrop = document.getElementById('addSheetFilterBackdrop');
+        if (sheet) {
+          sheet.classList.remove('is-open');
+          sheet.setAttribute('aria-hidden', 'true');
+        }
+        if (backdrop) {
+          backdrop.classList.remove('is-visible');
+          setTimeout(function() {
+            if (!addSheetActiveFilterSheet) backdrop.style.display = 'none';
+          }, 180);
+        }
+        updateFilterChips();
+      };
 
-        document.getElementById('addSheetLevelMenu').innerHTML = levels.map(function(item) {
-          var selClass = addSheetActiveLevel === item.value ? ' is-selected' : '';
-          return '<button class="wk-dropdown-item' + selClass + '" onclick="selectFilterOption(\'level\', \'' + item.value + '\', \'' + item.label + '\')">' + item.label + '</button>';
-        }).join('');
-
-        document.getElementById('addSheetLocationMenu').innerHTML = locations.map(function(item) {
-          var selClass = addSheetActiveLocation === item.value ? ' is-selected' : '';
-          return '<button class="wk-dropdown-item' + selClass + '" onclick="selectFilterOption(\'location\', \'' + item.value + '\', \'' + item.label + '\')">' + item.label + '</button>';
-        }).join('');
-
-        // Set chip text
-        document.getElementById('addSheetLevelText').textContent = addSheetActiveLevel === 'all' ? 'Level' : capitalize(addSheetActiveLevel);
-        document.getElementById('addSheetLocationText').textContent = addSheetActiveLocation === 'all' ? 'Location' : capitalize(addSheetActiveLocation);
-        
-        // Chip highlight state
-        document.getElementById('addSheetLevelChip').classList.toggle('is-active', addSheetActiveLevel !== 'all');
-        document.getElementById('addSheetLocationChip').classList.toggle('is-active', addSheetActiveLocation !== 'all');
-      }
-
-      function renderAddSheetMuscleRow() {
-        var muscles = ['Chest', 'Shoulders', 'Back', 'Core', 'Legs', 'Arms'];
-        var advRow = document.getElementById('addSheetAdvFilterRow');
-        
-        advRow.innerHTML = '<button class="wk-sheet-filter-chip' + (addSheetActiveMuscle === 'all' ? ' is-active' : '') + '" onclick="selectMuscleFilter(\'all\')">All muscles</button>' +
-          muscles.map(function(m) {
-            var val = m.toLowerCase();
-            var active = addSheetActiveMuscle === val ? ' is-active' : '';
-            return '<button class="wk-sheet-filter-chip' + active + '" onclick="selectMuscleFilter(\'' + val + '\')">' + m + '</button>';
-          }).join('');
-      }
-
-      window.selectMuscleFilter = function selectMuscleFilter(muscle) {
-        addSheetActiveMuscle = muscle;
-        renderAddSheetMuscleRow();
+      window.selectAddSheetMuscleValue = function selectAddSheetMuscleValue(value) {
+        addSheetActiveMuscle = value;
+        closeAddSheetFilterSheet();
         renderAddSheetList();
       };
 
-      window.toggleDropdownMenu = function toggleDropdownMenu(e, type) {
-        e.stopPropagation();
-        var menu = document.getElementById('addSheet' + capitalize(type) + 'Menu');
-        var isActive = menu.classList.contains('is-active');
-        hideAllDropdowns();
-        if (!isActive) {
-          menu.classList.add('is-active');
-        }
+      window.resetAddSheetMuscleFilter = function resetAddSheetMuscleFilter() {
+        addSheetActiveMuscle = 'all';
+        closeAddSheetFilterSheet();
+        renderAddSheetList();
       };
 
-      window.selectFilterOption = function selectFilterOption(type, value, label) {
-        if (type === 'level') {
+      window.selectAddSheetSingleFilterValue = function selectAddSheetSingleFilterValue(filterType, value) {
+        if (filterType === 'level') {
           addSheetActiveLevel = value;
-        } else {
+        } else if (filterType === 'location') {
           addSheetActiveLocation = value;
         }
-        hideAllDropdowns();
-        renderAddSheetDropdowns();
+        closeAddSheetFilterSheet();
         renderAddSheetList();
       };
 
-      function hideAllDropdowns() {
-        document.getElementById('addSheetLevelMenu').classList.remove('is-active');
-        document.getElementById('addSheetLocationMenu').classList.remove('is-active');
+      window.resetAddSheetSingleFilter = function resetAddSheetSingleFilter(filterType) {
+        if (filterType === 'level') {
+          addSheetActiveLevel = 'all';
+        } else if (filterType === 'location') {
+          addSheetActiveLocation = 'all';
+        }
+        closeAddSheetFilterSheet();
+        renderAddSheetList();
+      };
+
+      window.resetAddSheetFilters = function resetAddSheetFilters() {
+        addSheetActiveMuscle = 'all';
+        addSheetActiveLevel = 'all';
+        addSheetActiveLocation = 'all';
+        updateFilterChips();
+        renderAddSheetList();
+      };
+
+      function renderAddSheetAppliedFilters() {
+        var row = document.getElementById('addSheetAppliedFilters');
+        var list = document.getElementById('addSheetAppliedFilterList');
+        if (!row || !list) return;
+
+        var activeFilters = [];
+        if (addSheetActiveMuscle !== 'all') {
+          var opt = addSheetFilterDefinitions.muscle.options.find(function(o) { return o.value === addSheetActiveMuscle; });
+          activeFilters.push({ type: 'muscle', label: opt ? opt.label : addSheetActiveMuscle });
+        }
+        if (addSheetActiveLevel !== 'all') {
+          var opt = addSheetFilterDefinitions.level.options.find(function(o) { return o.value === addSheetActiveLevel; });
+          activeFilters.push({ type: 'level', label: opt ? opt.label : addSheetActiveLevel });
+        }
+        if (addSheetActiveLocation !== 'all') {
+          var opt = addSheetFilterDefinitions.location.options.find(function(o) { return o.value === addSheetActiveLocation; });
+          activeFilters.push({ type: 'location', label: opt ? opt.label : addSheetActiveLocation });
+        }
+
+        list.innerHTML = activeFilters.map(function(item) {
+          return '<button class="wk-filter-pill" type="button" onclick="removeAddSheetFilterPill(\'' + item.type + '\')">' +
+            '<span>' + escapeText(item.label) + '</span>' +
+            '<span class="wk-filter-pill-remove" aria-hidden="true">&times;</span>' +
+          '</button>';
+        }).join('');
+
+        var hasAnyFilters = activeFilters.length > 0;
+        row.hidden = !hasAnyFilters;
+        row.classList.toggle('is-empty', activeFilters.length === 0);
       }
 
-      document.addEventListener('click', function() {
-        hideAllDropdowns();
-      });
+      window.removeAddSheetFilterPill = function removeAddSheetFilterPill(type) {
+        if (type === 'muscle') addSheetActiveMuscle = 'all';
+        if (type === 'level') addSheetActiveLevel = 'all';
+        if (type === 'location') addSheetActiveLocation = 'all';
+        updateFilterChips();
+        renderAddSheetList();
+      };
+
+      function updateFilterChips() {
+        ['muscle', 'level', 'location'].forEach(function(filterType) {
+          var valueEl = document.getElementById('addSheetFilterValue-' + filterType);
+          var trigger = document.getElementById('addSheet' + capitalize(filterType) + 'Chip');
+          var isValActive = (filterType === 'muscle' ? addSheetActiveMuscle : (filterType === 'level' ? addSheetActiveLevel : addSheetActiveLocation)) !== 'all';
+
+          if (valueEl) {
+            valueEl.textContent = isValActive
+              ? getAddSheetFilterLabel(filterType, filterType === 'muscle' ? addSheetActiveMuscle : (filterType === 'level' ? addSheetActiveLevel : addSheetActiveLocation))
+              : addSheetFilterDefinitions[filterType].label;
+          }
+          if (trigger) {
+            trigger.classList.toggle('is-active', isValActive);
+            trigger.setAttribute('aria-expanded', addSheetActiveFilterSheet === filterType ? 'true' : 'false');
+          }
+        });
+
+        renderAddSheetAppliedFilters();
+      }
+
+      function getAddSheetFilterLabel(filterType, value) {
+        var config = addSheetFilterDefinitions[filterType];
+        if (!config) return 'All';
+        var match = config.options.find(function(option) { return option.value === value; });
+        return match ? match.label : config.options[0].label;
+      }
 
       function capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
@@ -941,13 +1126,13 @@
         if (!container || typeof exerciseLibrary === 'undefined') return;
 
         // Filter list
-        var list = exerciseLibrary.filter(function(ex) {
+        var list = exerciseLibrary.filter(function (ex) {
           // Search
           if (addSheetSearchVal) {
             var q = addSheetSearchVal.toLowerCase();
             var matchedSearch = ex.name.toLowerCase().indexOf(q) >= 0 ||
-                                (ex.equipment && ex.equipment.toLowerCase().indexOf(q) >= 0) ||
-                                (ex.muscle && ex.muscle.toLowerCase().indexOf(q) >= 0);
+              (ex.equipment && ex.equipment.toLowerCase().indexOf(q) >= 0) ||
+              (ex.muscle && ex.muscle.toLowerCase().indexOf(q) >= 0);
             if (!matchedSearch) return false;
           }
           // Level
@@ -962,7 +1147,7 @@
           }
           // Muscle (Advanced filter)
           if (addSheetActiveMuscle !== 'all') {
-            if (ex.muscle !== addSheetActiveMuscle && (ex.muscles || []).map(function(m) { return m.toLowerCase(); }).indexOf(addSheetActiveMuscle) === -1) {
+            if (ex.muscle !== addSheetActiveMuscle && (ex.muscles || []).map(function (m) { return m.toLowerCase(); }).indexOf(addSheetActiveMuscle) === -1) {
               return false;
             }
           }
@@ -970,44 +1155,45 @@
         });
 
         if (!list.length) {
-          container.innerHTML = '<div style="text-align:center; padding: 40px 20px; color:#64748b; font-family:\'Nunito\';">No exercises found match these filters.</div>';
+          container.innerHTML = '<div class="wk-sheet-empty-msg">No exercises found match these filters.</div>';
           return;
         }
 
-        container.innerHTML = list.map(function(ex) {
+        container.innerHTML = list.map(function (ex) {
           // Check if already selected or already in workout
-          var isDraftSelected = addSheetSelected.some(function(item) { return item.id === ex.id; });
-          var isAlreadyInWorkout = currentExercises.some(function(item) { return item.id === ex.id; });
-          
+          var isDraftSelected = addSheetSelected.some(function (item) { return item.id === ex.id; });
+          var isAlreadyInWorkout = currentExercises.some(function (item) { return item.id === ex.id; });
+
           var isSelectedState = isDraftSelected || isAlreadyInWorkout;
           var iconUrl = isSelectedState ? '../../assets/svg_icons/minus.svg' : '../../assets/svg_icons/plus.svg';
           var filterStyle = isSelectedState ? '' : 'filter: invert(36%) sepia(85%) saturate(2283%) hue-rotate(205deg) brightness(91%) contrast(101%);';
+          var toggleClass = isSelectedState ? ' wk-sheet-item-toggle is-selected' : ' wk-sheet-item-toggle';
 
           return '<div class="wk-sheet-item">' +
             '<div class="wk-sheet-item-left">' +
-              '<div class="wk-sheet-item-img">' +
-                '<img src="' + getExerciseImage(ex) + '" alt="">' +
-              '</div>' +
-              '<div class="wk-sheet-item-text">' +
-                '<div class="wk-sheet-item-name">' + escapeText(ex.name) + '</div>' +
-                '<div class="wk-sheet-item-details">' + escapeText(ex.sets || 3) + ' sets · ' + escapeText(ex.reps || '10') + ' reps · ' + escapeText(ex.equipment || 'Bodyweight') + '</div>' +
-              '</div>' +
+            '<div class="wk-sheet-item-img">' +
+            '<img src="' + getExerciseImage(ex) + '" alt="">' +
             '</div>' +
-            '<button class="wk-sheet-item-toggle" onclick="toggleAddSheetExercise(' + JSON.stringify(ex).replace(/"/g, '&quot;') + ')">' +
-              '<img src="' + iconUrl + '" alt="" style="' + filterStyle + '">' +
+            '<div class="wk-sheet-item-text">' +
+            '<div class="wk-sheet-item-name">' + escapeText(ex.name) + '</div>' +
+            '<div class="wk-sheet-item-details">' + escapeText(ex.sets || 3) + ' sets · ' + escapeText(ex.reps || '10') + ' reps · ' + escapeText(ex.equipment || 'Bodyweight') + '</div>' +
+            '</div>' +
+            '</div>' +
+            '<button class="' + toggleClass + '" onclick="toggleAddSheetExercise(' + JSON.stringify(ex).replace(/"/g, '&quot;') + ')">' +
+            '<img src="' + iconUrl + '" alt="" style="' + filterStyle + '">' +
             '</button>' +
-          '</div>';
+            '</div>';
         }).join('');
       }
 
       window.toggleAddSheetExercise = function toggleAddSheetExercise(ex) {
         // Find if in selected draft
-        var idx = addSheetSelected.findIndex(function(item) { return item.id === ex.id; });
-        var isAlreadyInWorkout = currentExercises.some(function(item) { return item.id === ex.id; });
-        
+        var idx = addSheetSelected.findIndex(function (item) { return item.id === ex.id; });
+        var isAlreadyInWorkout = currentExercises.some(function (item) { return item.id === ex.id; });
+
         if (isAlreadyInWorkout) {
           // If already in workout, clicking minus deletes it directly from currentExercises
-          var workIdx = currentExercises.findIndex(function(item) { return item.id === ex.id; });
+          var workIdx = currentExercises.findIndex(function (item) { return item.id === ex.id; });
           if (workIdx >= 0) {
             currentExercises.splice(workIdx, 1);
             showToast("Removed " + ex.name);
@@ -1029,7 +1215,7 @@
             });
           }
         }
-        
+
         renderAddSheetList();
         updateAddSheetApplyButton();
         renderDetail(); // Keep main page detail updated
@@ -1040,7 +1226,7 @@
         if (!btn) return;
         var count = addSheetSelected.length;
         btn.textContent = 'Add Selected (' + count + ')';
-        
+
         if (count > 0) {
           btn.disabled = false;
           btn.style.opacity = '1';
@@ -1052,7 +1238,7 @@
 
       window.applyAddExercises = function applyAddExercises() {
         if (!addSheetSelected.length) return;
-        
+
         // Append selections
         currentExercises = currentExercises.concat(addSheetSelected);
         renderDetail();
@@ -1068,16 +1254,16 @@
         if (!ex) return;
 
         // Setup image & text
-        document.getElementById('editSheetExImg').innerHTML = '<img src="' + getExerciseImage(ex) + '" style="width:100%; height:100%; object-fit:cover;">';
+        document.getElementById('editSheetExImg').innerHTML = '<img src="' + getExerciseImage(ex) + '">';
         document.getElementById('editSheetExName').textContent = ex.name;
-        
+
         var formattedReps = String(ex.reps).indexOf('sec') >= 0 || String(ex.reps).indexOf('s') >= 0 ? ex.reps : ex.reps + ' reps';
         document.getElementById('editSheetExParams').textContent = ex.sets + ' sets · ' + formattedReps;
 
         // Parse reps number
         var parsedReps = parseInt(ex.reps, 10);
         if (isNaN(parsedReps)) parsedReps = 10;
-        
+
         var isSeconds = String(ex.reps).indexOf('sec') >= 0 || String(ex.reps).indexOf('s') >= 0;
         document.getElementById('editSheetRepsTitle').textContent = isSeconds ? 'Seconds' : 'Reps';
 
@@ -1107,10 +1293,10 @@
 
       function renderEditSheetSteppers() {
         document.getElementById('editSheetSetsVal').textContent = editCurrentState.sets;
-        
+
         var repsLabel = editCurrentState.isSeconds ? editCurrentState.reps + 's' : editCurrentState.reps;
         document.getElementById('editSheetRepsVal').textContent = repsLabel;
-        
+
         document.getElementById('editSheetRestVal').textContent = editCurrentState.rest + ' sec';
 
         // Badge pill
@@ -1120,9 +1306,9 @@
         // Disable/enable Save button
         var saveBtn = document.getElementById('editSheetSaveBtn');
         var isModified = editCurrentState.sets !== editOriginalState.sets ||
-                           editCurrentState.reps !== editOriginalState.reps ||
-                           editCurrentState.rest !== editOriginalState.rest;
-        
+          editCurrentState.reps !== editOriginalState.reps ||
+          editCurrentState.rest !== editOriginalState.rest;
+
         if (isModified) {
           saveBtn.disabled = false;
           saveBtn.style.opacity = '1';
@@ -1165,21 +1351,21 @@
         activeWorkout = getSavedWorkout();
         currentExercises = getWorkoutExerciseList(activeWorkout);
         isCustomizeMode = false;
-        
-        // Show conflict icon if warning active
+
+        // Show conflict icon and make it always visible
         var conflictBtn = document.getElementById('wkDetailConflictBtn');
         if (conflictBtn) {
-          conflictBtn.hidden = activeWorkout.conflict ? false : true;
+          conflictBtn.hidden = false;
         }
 
         renderDetail();
-        
+
         // Initial setup for customize buttons display
         document.getElementById('wkDetailActionsNormal').style.display = 'flex';
         document.getElementById('wkDetailActionsCustomize').style.display = 'none';
-        
+
         // Override global initWorkoutDetail in app.js
-        window.initWorkoutDetail = function() {
+        window.initWorkoutDetail = function () {
           activeWorkout = getSavedWorkout();
           currentExercises = getWorkoutExerciseList(activeWorkout);
           renderDetail();
@@ -1195,4 +1381,5 @@
     })();
   </script>
 </body>
+
 </html>

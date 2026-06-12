@@ -72,21 +72,21 @@
   --typography-display-large-line-height: 64px;
   --typography-display-large-letter-spacing: -0.25px;
   --typography-display-large-font-family: 'Nunito', sans-serif;
-  --typography-display-large-font-weight: 700;
+  --typography-display-large-font-weight: 800;
   --typography-display-large-font-style: normal;
 
   --typography-display-medium-font-size: 45px;
   --typography-display-medium-line-height: 52px;
   --typography-display-medium-letter-spacing: 0;
   --typography-display-medium-font-family: 'Nunito', sans-serif;
-  --typography-display-medium-font-weight: 700;
+  --typography-display-medium-font-weight: 800;
   --typography-display-medium-font-style: normal;
 
   --typography-display-small-font-size: 36px;
   --typography-display-small-line-height: 44px;
   --typography-display-small-letter-spacing: 0;
   --typography-display-small-font-family: 'Nunito', sans-serif;
-  --typography-display-small-font-weight: 700;
+  --typography-display-small-font-weight: 800;
   --typography-display-small-font-style: normal;
 
   /* Headline */
@@ -94,21 +94,21 @@
   --typography-headline-large-line-height: 40px;
   --typography-headline-large-letter-spacing: 0;
   --typography-headline-large-font-family: 'Nunito', sans-serif;
-  --typography-headline-large-font-weight: 700;
+  --typography-headline-large-font-weight: 800;
   --typography-headline-large-font-style: normal;
 
   --typography-headline-medium-font-size: 28px;
   --typography-headline-medium-line-height: 36px;
   --typography-headline-medium-letter-spacing: 0;
   --typography-headline-medium-font-family: 'Nunito', sans-serif;
-  --typography-headline-medium-font-weight: 600;
+  --typography-headline-medium-font-weight: 800;
   --typography-headline-medium-font-style: normal;
 
   --typography-headline-small-font-size: 24px;
   --typography-headline-small-line-height: 32px;
   --typography-headline-small-letter-spacing: 0;
   --typography-headline-small-font-family: 'Nunito', sans-serif;
-  --typography-headline-small-font-weight: 600;
+  --typography-headline-small-font-weight: 800;
   --typography-headline-small-font-style: normal;
 
   /* Title */

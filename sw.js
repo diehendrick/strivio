@@ -74,6 +74,11 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
 
+  // Bypass service worker cache for local development on localhost/127.0.0.1
+  if (self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1' || self.location.hostname === '[::1]') {
+    return;
+  }
+
   const requestUrl = event.request.url;
   const isLocal = requestUrl.startsWith(self.location.origin);
   const isExternalCacheable = isCacheableExternal(requestUrl);

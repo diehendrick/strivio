@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=16">
+  <link rel="stylesheet" href="../../styles.css?v=23">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 
@@ -42,7 +42,7 @@
 
           <header class="wg-generator-header">
             <button type="button" class="wg-generator-back" onclick="goBack()" aria-label="Back">
-              <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/back.svg'); width: 24px; height: 24px;"></span>
+              <span class="icon icon-dark" style="--icon-url: url('../../assets/svg_icons/back.svg'); width: 24px; height: 24px;"></span>
             </button>
             <h1>Workout Generator</h1>
           </header>
@@ -51,7 +51,7 @@
             <section class="wg-generator-hero">
               <div class="wg-generator-hero-art">
                 <div class="wg-generator-hero-shape"></div>
-                <img src="../../assets/img/workout-generator-coach.png" alt="Coach Marcus">
+                <img src="../../assets/img/coach_ai_transparent.png" alt="AI Coach">
               </div>
               <div class="wg-generator-hero-content">
                 <div class="wg-generator-pill">
@@ -61,10 +61,10 @@
                 <p class="wg-generator-hero-title">Hi, <span id="wgCoachFirstName">Mike</span>, I’ll build your workout based on your choices.</p>
                 <p class="wg-generator-hero-copy">Coach is tailoring your session in real time</p>
                 <div class="wg-generator-hero-meta">
-                  <span><span class="icon" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>30 min</span>
-                  <span><span class="icon" style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>Intermediate</span>
-                  <span><span class="icon" style="--icon-url: url('../../assets/svg_icons/location.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>Gym</span>
-                  <span><span class="icon" style="--icon-url: url('../../assets/svg_icons/leg.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>Legs, Glutes</span>
+                  <span id="wgHeroDuration"><span class="icon" style="--icon-url: url('../../assets/svg_icons/clock-five.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>30 min</span>
+                  <span id="wgHeroLevel"><span class="icon" style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>Intermediate</span>
+                  <span id="wgHeroLocation"><span class="icon" style="--icon-url: url('../../assets/svg_icons/location.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>Gym</span>
+                  <span id="wgHeroTargets"><span class="icon" style="--icon-url: url('../../assets/svg_icons/location.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>Legs, Glutes</span>
                 </div>
               </div>
             </section>
@@ -91,40 +91,58 @@
               </div>
               <div class="wg-generator-target-grid">
                 <button type="button" class="wg-target-chip" data-wg-target="chest">
-                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/muscle.svg'); --wg-chip-icon-color: var(--color-secondary);"></span>
-                  <span>Chest</span>
+                  <span class="wg-target-chip-media">
+                    <img src="../../assets/img/anatomical-muscles/anatomical-chest.png" alt="">
+                  </span>
+                  <span class="wg-target-chip-label">Chest</span>
                 </button>
                 <button type="button" class="wg-target-chip" data-wg-target="shoulders">
-                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/shoulder.svg'); --wg-chip-icon-color: var(--color-tertiary);"></span>
-                  <span>Shoulders</span>
+                  <span class="wg-target-chip-media">
+                    <img src="../../assets/img/anatomical-muscles/anatomical-shoulders.png" alt="">
+                  </span>
+                  <span class="wg-target-chip-label">Shoulders</span>
                 </button>
                 <button type="button" class="wg-target-chip" data-wg-target="upper-back">
-                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/body.svg'); --wg-chip-icon-color: var(--color-toq);"></span>
-                  <span>Upper Back</span>
+                  <span class="wg-target-chip-media">
+                    <img src="../../assets/img/anatomical-muscles/anatomical-upper-back.png" alt="">
+                  </span>
+                  <span class="wg-target-chip-label">Upper Back</span>
                 </button>
                 <button type="button" class="wg-target-chip" data-wg-target="bicep">
-                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); --wg-chip-icon-color: var(--color-greenish);"></span>
-                  <span>Bicep</span>
+                  <span class="wg-target-chip-media">
+                    <img src="../../assets/img/anatomical-muscles/anatomical-bicep.png" alt="">
+                  </span>
+                  <span class="wg-target-chip-label">Bicep</span>
                 </button>
                 <button type="button" class="wg-target-chip" data-wg-target="triceps">
-                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); --wg-chip-icon-color: var(--color-tertiary);"></span>
-                  <span>Triceps</span>
+                  <span class="wg-target-chip-media">
+                    <img src="../../assets/img/anatomical-muscles/anatomical-tricep.png" alt="">
+                  </span>
+                  <span class="wg-target-chip-label">Triceps</span>
                 </button>
                 <button type="button" class="wg-target-chip" data-wg-target="glutes">
-                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/body.svg'); --wg-chip-icon-color: var(--color-secondary);"></span>
-                  <span>Glutes</span>
+                  <span class="wg-target-chip-media">
+                    <img src="../../assets/img/anatomical-muscles/anatomical-lower-back.png" alt="">
+                  </span>
+                  <span class="wg-target-chip-label">Glutes</span>
                 </button>
                 <button type="button" class="wg-target-chip" data-wg-target="legs">
-                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/leg.svg'); --wg-chip-icon-color: var(--color-secondary);"></span>
-                  <span>Legs</span>
+                  <span class="wg-target-chip-media">
+                    <img src="../../assets/img/anatomical-muscles/anatomical-lower-back.png" alt="">
+                  </span>
+                  <span class="wg-target-chip-label">Legs</span>
                 </button>
                 <button type="button" class="wg-target-chip" data-wg-target="core">
-                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/core.svg'); --wg-chip-icon-color: var(--color-primary);"></span>
-                  <span>Core</span>
+                  <span class="wg-target-chip-media">
+                    <img src="../../assets/img/anatomical-muscles/anatomical-lats.png" alt="">
+                  </span>
+                  <span class="wg-target-chip-label">Core</span>
                 </button>
                 <button type="button" class="wg-target-chip" data-wg-target="forearms">
-                  <span class="wg-target-chip-icon icon" style="--icon-url: url('../../assets/svg_icons/weight.svg'); --wg-chip-icon-color: var(--color-tertiary);"></span>
-                  <span>Forearms</span>
+                  <span class="wg-target-chip-media">
+                    <img src="../../assets/img/anatomical-muscles/anatomical-forearm.png" alt="">
+                  </span>
+                  <span class="wg-target-chip-label">Forearms</span>
                 </button>
               </div>
             </section>
@@ -143,15 +161,15 @@
               </div>
               <div class="wg-generator-choice-row">
                 <button type="button" class="wg-choice-chip" data-wg-level="beginner">
-                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/low.svg'); width: 16px; height: 16px;"></span>
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/meditation.svg'); width: 16px; height: 16px;"></span>
                   <span>Beginer</span>
                 </button>
                 <button type="button" class="wg-choice-chip" data-wg-level="intermediate">
-                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/chart-simple.svg'); width: 16px; height: 16px;"></span>
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/confident.svg'); width: 16px; height: 16px;"></span>
                   <span>Intermediate</span>
                 </button>
                 <button type="button" class="wg-choice-chip" data-wg-level="advanced">
-                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/bolt.svg'); width: 16px; height: 16px;"></span>
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 16px; height: 16px;"></span>
                   <span>Advanced</span>
                 </button>
               </div>
@@ -192,14 +210,14 @@
                 <button type="button" class="wg-generator-toggle-option" data-wg-binary="cooldown" data-value="false">No</button>
               </div>
             </section>
-          </main>
 
-          <div class="wg-generator-actions">
-            <button id="wgGenerateBtn" class="wg-generate-btn" type="button" onclick="generateWorkoutFromGenerator()" disabled>
-              <span class="icon" style="--icon-url: url('../../assets/svg_icons/sparkles.svg'); width: 18px; height: 18px;"></span>
-              <span>Generate with Coach</span>
-            </button>
-          </div>
+            <div class="wg-generator-actions">
+              <button id="wgGenerateBtn" class="wg-generate-btn" type="button" onclick="generateWorkoutFromGenerator()" disabled>
+                <span class="icon" style="--icon-url: url('../../assets/svg_icons/sparkles.svg'); width: 18px; height: 18px;"></span>
+                <span>Generate with Coach</span>
+              </button>
+            </div>
+          </main>
         </div>
       </div>
     </div>

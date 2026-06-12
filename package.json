@@ -1,0 +1,11 @@
+{
+  "name": "strivio",
+  "private": true,
+  "description": "Strivio — Mobile-first fitness & nutrition web application",
+  "scripts": {
+    "dev": "live-server --port=8000 --no-browser"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

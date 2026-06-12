@@ -2390,40 +2390,146 @@ function initCoachReview() {
   if (!body || !state.coachWorkout) return;
   var w = state.coachWorkout;
   var exList = (w.exercises || []).map(function(eid) { return getEx(eid); }).filter(Boolean);
-  var diffLabel = w.difficulty.charAt(0).toUpperCase() + w.difficulty.slice(1);
-  var diffClass = 'cr-diff--' + w.difficulty;
+  var diffKey = String(w.difficulty || 'intermediate');
+  var diffLabel = diffKey.charAt(0).toUpperCase() + diffKey.slice(1);
+  var workoutName = w.name && w.name !== 'Coach Workout' ? w.name : 'Monday Exercise';
+  var originCopy = w.location ? 'Generated from your workout generator selections' : 'Generated from your intake preferences';
+  var targetBadges = getCoachReviewTargets(w);
+  var expectationCards = getCoachReviewExpectations(w);
 
-  var exHTML = exList.map(function(ex, i) {
-    return '<div class="cr-exercise">' +
-      '<div class="cr-ex-num">' + (i + 1) + '</div>' +
-      '<div class="cr-ex-body">' +
-        '<span class="cr-ex-name">' + ex.name + '</span>' +
-        '<span class="cr-ex-spec">' + ex.sets + ' sets <span class="cr-ex-dot">&middot;</span> ' + ex.reps + '</span>' +
+  var targetHTML = targetBadges.map(function(target) {
+    var visual = target.visualType === 'image'
+      ? '<span class="cr-target-media"><img src="' + target.asset + '" alt=""></span>'
+      : '<span class="cr-target-media cr-target-media--icon"><span class="icon icon-default" style="--icon-url: url(\'' + target.asset + '\'); width: 16px; height: 16px;"></span></span>';
+    return '<span class="cr-target-badge">' + visual + '<span class="cr-target-label">' + escapeHtml(target.label) + '</span></span>';
+  }).join('');
+
+  var expectationHTML = expectationCards.map(function(card) {
+    return '<article class="cr-expect-card">' +
+      '<span class="cr-expect-icon"><span class="icon icon-default" style="--icon-url: url(\'' + card.icon + '\'); width: 20px; height: 20px;"></span></span>' +
+      '<p>' + escapeHtml(card.copy) + '</p>' +
+    '</article>';
+  }).join('');
+
+  var exHTML = exList.map(function(ex) {
+    return '<article class="cr-exercise-row">' +
+      '<div class="cr-exercise-thumb"><img src="' + getCoachReviewExerciseImage(ex) + '" alt=""></div>' +
+      '<div class="cr-exercise-copy">' +
+        '<span class="cr-exercise-name">' + escapeHtml(ex.name) + '</span>' +
+        '<span class="cr-exercise-meta">' + escapeHtml(String(ex.sets) + ' Sets · ' + String(ex.reps)) + '</span>' +
       '</div>' +
-      '<span class="cr-ex-equip">' + ex.equipment + '</span>' +
-    '</div>';
+      '<span class="cr-exercise-arrow"><span class="icon icon-default" style="--icon-url: url(\'../../assets/svg_icons/foward.svg\'); width: 16px; height: 16px;"></span></span>' +
+    '</article>';
   }).join('');
 
   body.innerHTML =
     '<section class="cr-plan-card">' +
       '<div class="cr-plan-pattern"></div>' +
       '<div class="cr-workout-header">' +
-        '<h2 class="cr-workout-name">' + w.name + '</h2>' +
-        '<p class="cr-workout-origin">' + (w.location ? 'Generated from your workout generator selections' : 'Generated from your intake preferences') + '</p>' +
+        '<h2 class="cr-workout-name">' + escapeHtml(workoutName) + '</h2>' +
+        '<p class="cr-workout-origin">' + escapeHtml(originCopy) + '</p>' +
       '</div>' +
       '<div class="cr-badges">' +
-        '<div class="cr-badge"><img src="../../assets/svg_icons/clock-five.svg" width="16" alt=""><span>' + w.duration + ' min</span></div>' +
-        '<div class="cr-badge ' + diffClass + '"><img src="../../assets/svg_icons/chart-simple.svg" width="16" alt=""><span>' + diffLabel + '</span></div>' +
-        '<div class="cr-badge"><img src="../../assets/svg_icons/flame.svg" width="16" alt=""><span>' + (w.calories || (w.duration * 5)) + ' cal</span></div>' +
+        '<div class="cr-badge"><span class="icon icon-default" style="--icon-url: url(\'../../assets/svg_icons/clock-five.svg\'); width: 16px; height: 16px;"></span><span>' + escapeHtml(String(w.duration) + ' min') + '</span></div>' +
+        '<div class="cr-badge"><span class="icon icon-default" style="--icon-url: url(\'../../assets/svg_icons/chart-simple.svg\'); width: 16px; height: 16px;"></span><span>' + escapeHtml(diffLabel) + '</span></div>' +
+        '<div class="cr-badge"><span class="icon icon-default" style="--icon-url: url(\'../../assets/svg_icons/flame.svg\'); width: 16px; height: 16px;"></span><span>' + escapeHtml(String(w.calories || (w.duration * 5)) + ' cal') + '</span></div>' +
       '</div>' +
+    '</section>' +
+    '<section class="cr-section">' +
+      '<div class="cr-section-head">' +
+        '<h3 class="cr-section-title">Target Area</h3>' +
+      '</div>' +
+      '<div class="cr-target-list">' + targetHTML + '</div>' +
+    '</section>' +
+    '<section class="cr-section">' +
+      '<div class="cr-section-head">' +
+        '<h3 class="cr-section-title">What to Expect</h3>' +
+      '</div>' +
+      '<div class="cr-expect-grid">' + expectationHTML + '</div>' +
     '</section>' +
     '<section class="cr-ex-section">' +
       '<div class="cr-exercises-head">' +
         '<h3 class="cr-exercises-title">Exercises</h3>' +
-        '<span class="cr-exercises-count">' + exList.length + '</span>' +
+        '<span class="cr-exercises-count">' + escapeHtml(String(exList.length) + ' Exercise') + '</span>' +
       '</div>' +
       '<div class="cr-exercises-list">' + exHTML + '</div>' +
     '</section>';
+}
+
+function getCoachReviewTargets(workout) {
+  var source = Array.isArray(workout.muscles) && workout.muscles.length ? workout.muscles : [workout.muscle || 'Chest'];
+  var seen = {};
+  return source.map(function(label) {
+    var target = getCoachReviewTargetVisual(label);
+    var key = target.label.toLowerCase();
+    if (seen[key]) return null;
+    seen[key] = true;
+    return target;
+  }).filter(Boolean).slice(0, 3);
+}
+
+function getCoachReviewTargetVisual(label) {
+  var raw = String(label || '').trim().toLowerCase();
+  if (raw.indexOf('chest') !== -1) {
+    return { label: 'Chest', visualType: 'image', asset: '../../assets/img/anatomical-muscles/anatomical-chest.png' };
+  }
+  if (raw.indexOf('shoulder') !== -1 || raw.indexOf('delt') !== -1) {
+    return { label: 'Shoulders', visualType: 'image', asset: '../../assets/img/anatomical-muscles/anatomical-shoulders.png' };
+  }
+  if (raw.indexOf('back') !== -1) {
+    return { label: 'Upper Back', visualType: 'image', asset: '../../assets/img/anatomical-muscles/anatomical-upper-back.png' };
+  }
+  if (raw.indexOf('bicep') !== -1) {
+    return { label: 'Bicep', visualType: 'image', asset: '../../assets/img/anatomical-muscles/anatomical-bicep.png' };
+  }
+  if (raw.indexOf('tricep') !== -1) {
+    return { label: 'Triceps', visualType: 'image', asset: '../../assets/img/anatomical-muscles/anatomical-tricep.png' };
+  }
+  if (raw.indexOf('arm') !== -1 || raw.indexOf('forearm') !== -1) {
+    return { label: 'Forearm', visualType: 'image', asset: '../../assets/img/anatomical-muscles/anatomical-forearm.png' };
+  }
+  if (raw.indexOf('glute') !== -1) {
+    return { label: 'Glutes', visualType: 'icon', asset: '../../assets/svg_icons/dumbbell-ray.svg' };
+  }
+  if (raw.indexOf('leg') !== -1 || raw.indexOf('quad') !== -1 || raw.indexOf('hamstring') !== -1 || raw.indexOf('calf') !== -1) {
+    return { label: 'Legs', visualType: 'icon', asset: '../../assets/svg_icons/leg.svg' };
+  }
+  if (raw.indexOf('core') !== -1 || raw.indexOf('abs') !== -1 || raw.indexOf('oblique') !== -1) {
+    return { label: 'Core', visualType: 'icon', asset: '../../assets/svg_icons/core.svg' };
+  }
+  return { label: label || 'Full Body', visualType: 'icon', asset: '../../assets/svg_icons/muscle.svg' };
+}
+
+function getCoachReviewExpectations(workout) {
+  var primary = String(workout.muscle || '').toLowerCase();
+  var focusCopy = 'Strength-Focused full body session';
+  var mixCopy = 'Balanced compound and accessory exercises';
+  if (primary === 'chest' || primary === 'back' || primary === 'shoulders' || primary === 'arms' || primary === 'triceps' || primary === 'bicep') {
+    focusCopy = 'Strength-Focused upper body session';
+    mixCopy = 'Mixed of push and pull exercises';
+  } else if (primary === 'legs' || primary === 'glutes') {
+    focusCopy = 'Strength-Focused lower body session';
+    mixCopy = 'Mixed of power and stability exercises';
+  } else if (primary === 'core') {
+    focusCopy = 'Strength-Focused core training session';
+    mixCopy = 'Mixed of strength and control exercises';
+  }
+  return [
+    { icon: '../../assets/svg_icons/bullseye-arrow.svg', copy: focusCopy },
+    { icon: '../../assets/svg_icons/exchange.svg', copy: mixCopy }
+  ];
+}
+
+function getCoachReviewExerciseImage(exercise) {
+  var name = String(exercise && exercise.name || '').toLowerCase();
+  if (name.indexOf('bench') !== -1) return '../../assets/img/workouts/barbell_bench.png';
+  if (name.indexOf('row') !== -1) return '../../assets/img/workouts/barbel_row.png';
+  if (name.indexOf('overhead') !== -1 || name.indexOf('shoulder press') !== -1 || name.indexOf('press') !== -1) return '../../assets/img/workouts/overhead_press.png';
+  if (name.indexOf('pull') !== -1 || name.indexOf('lat') !== -1) return '../../assets/img/workouts/Pull-Ups.png';
+  if (name.indexOf('curl') !== -1) return '../../assets/img/workouts/barbell_curl.png';
+  if (name.indexOf('squat') !== -1 || name.indexOf('lunge') !== -1) return '../../assets/img/workouts/barber_squat.png';
+  if (name.indexOf('plank') !== -1) return '../../assets/img/workouts/plank.png';
+  return '../../assets/img/workouts/strength_building.png';
 }
 
 window.saveCoachWorkout = function saveCoachWorkout() {
@@ -2550,6 +2656,29 @@ function updateWorkoutGeneratorUI() {
   if (durationBadge) durationBadge.textContent = draft.duration + ' min';
   if (durationSlider) durationSlider.value = String(draft.duration);
   if (coachName) coachName.textContent = (state.name || 'Mike Michel').split(' ')[0] || 'Mike';
+
+  var heroDuration = document.getElementById('wgHeroDuration');
+  var heroLevel = document.getElementById('wgHeroLevel');
+  var heroLocation = document.getElementById('wgHeroLocation');
+  var heroTargets = document.getElementById('wgHeroTargets');
+
+  if (heroDuration) {
+    heroDuration.innerHTML = '<span class="icon" style="--icon-url: url(\'../../assets/svg_icons/clock-five.svg\'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>' + draft.duration + ' min';
+  }
+  if (heroLevel) {
+    var lvl = draft.level || 'Intermediate';
+    var lvlLabel = lvl.charAt(0).toUpperCase() + lvl.slice(1);
+    heroLevel.innerHTML = '<span class="icon" style="--icon-url: url(\'../../assets/svg_icons/chart-simple.svg\'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>' + lvlLabel;
+  }
+  if (heroLocation) {
+    var loc = draft.location || 'Home';
+    var locLabel = loc.charAt(0).toUpperCase() + loc.slice(1);
+    heroLocation.innerHTML = '<span class="icon" style="--icon-url: url(\'../../assets/svg_icons/location.svg\'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>' + locLabel;
+  }
+  if (heroTargets) {
+    var targetsLabel = selectedTargets.map(function(t) { return t.label; }).join(', ') || 'Legs, Glutes';
+    heroTargets.innerHTML = '<span class="icon" style="--icon-url: url(\'../../assets/svg_icons/location.svg\'); width: 16px; height: 16px; background-color: var(--color-text-tertiary);"></span>' + targetsLabel;
+  }
 
   document.querySelectorAll('[data-wg-target]').forEach(function(button) {
     var key = button.getAttribute('data-wg-target');
@@ -5746,21 +5875,46 @@ function initPWA() {
 
   // 4. Register Service Worker
   if ('serviceWorker' in navigator) {
-    const registerSW = () => {
-      const swUrl = BASE_PATH + '/sw.js';
-      navigator.serviceWorker.register(swUrl)
-        .then(reg => {
-          console.log('[PWA] Service Worker registered with scope:', reg.scope);
-        })
-        .catch(err => {
-          console.error('[PWA] Service Worker registration failed:', err);
-        });
-    };
+    const isLocalhost = window.location.hostname === 'localhost' || 
+                        window.location.hostname === '127.0.0.1' || 
+                        window.location.hostname === '[::1]';
 
-    if (document.readyState === 'complete') {
-      registerSW();
+    if (isLocalhost) {
+      // Unregister service worker on localhost to avoid caching issues during local development
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        if (registrations.length > 0) {
+          Promise.all(registrations.map(reg => reg.unregister()))
+            .then(results => {
+              const anySuccess = results.some(success => success);
+              if (anySuccess) {
+                console.log('[PWA] Unregistered active service worker for local development.');
+                caches.keys().then(keys => {
+                  return Promise.all(keys.map(key => caches.delete(key)));
+                }).then(() => {
+                  console.log('[PWA] Cleared service worker caches.');
+                  window.location.reload();
+                });
+              }
+            });
+        }
+      });
     } else {
-      window.addEventListener('load', registerSW);
+      const registerSW = () => {
+        const swUrl = BASE_PATH + '/sw.js';
+        navigator.serviceWorker.register(swUrl)
+          .then(reg => {
+            console.log('[PWA] Service Worker registered with scope:', reg.scope);
+          })
+          .catch(err => {
+            console.error('[PWA] Service Worker registration failed:', err);
+          });
+      };
+
+      if (document.readyState === 'complete') {
+        registerSW();
+      } else {
+        window.addEventListener('load', registerSW);
+      }
     }
   }
 }

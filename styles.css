@@ -415,6 +415,10 @@ body::before {
   background-color: var(--color-primary);
 }
 
+.icon-dark {
+  background-color: var(--color-text-primary);
+}
+
 /* Selected card: use primary color */
 .option-card.selected .icon {
   background-color: var(--color-primary);
@@ -6862,8 +6866,8 @@ body::before {
 }
 
 .wk-action-icon {
-  width: 44px;
-  height: 44px;
+  /* width: 44px;
+  height: 44px; */
   border-radius: 50%;
   background: var(--navy-muted);
   color: var(--text-secondary);
@@ -6897,15 +6901,23 @@ body::before {
 }
 
 .screen-workout-library-figma .wk-nav-header,
-.screen-workout-detail-figma .wk-nav-header,
 .screen-exercise-library-figma .wk-nav-header {
   position: static;
   background: transparent;
   padding: 8px 24px 14px;
 }
 
+.screen-workout-detail-figma .wk-nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px 16px;
+  flex-shrink: 0;
+  position: static;
+  background: transparent;
+}
+
 .screen-workout-library-figma .wk-nav-title,
-.screen-workout-detail-figma .wk-nav-title,
 .screen-exercise-library-figma .wk-nav-title {
   font-family: 'Nunito', var(--font-display);
   font-size: 24px;
@@ -7789,10 +7801,10 @@ body::before {
 
 .screen-workout-detail-figma .wk-detail-hero-image {
   position: absolute;
-  right: 0;
-  top: 10px;
-  width: 128px;
-  height: 128px;
+  right: 10px;
+  top: 18px !important;
+  width: 132px;
+  height: 132px;
 }
 
 .screen-workout-detail-figma .wk-detail-hero-image img {
@@ -10229,28 +10241,16 @@ body::before {
 /* Main card */
 
 .cr-card {
-  background: #1a1a2e;
   border-radius: 20px;
   padding: 28px 24px 24px;
   display: flex;
   flex-direction: column;
   gap: 0;
   position: relative;
-  overflow: hidden;
   animation: crCardIn 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.cr-card::before {
-  content: '';
-  position: absolute;
-  top: -60px;
-  right: -60px;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 86, 216, 0.15) 0%, transparent 70%);
-  pointer-events: none;
-}
+
 
 @keyframes crCardIn {
   from {
@@ -10383,8 +10383,8 @@ body::before {
 }
 
 .cr-exercises-count {
-  width: 24px;
-  height: 24px;
+  /* width: 24px;
+  height: 24px; */
   border-radius: 50%;
   background: rgba(0, 86, 216, 0.25);
   color: #b4b0f8;
@@ -20761,7 +20761,8 @@ body::before {
 }
 
 .screen-coach-review {
-  background: #fff;
+  background: var(--color-background, #fff);
+  color: var(--color-text-primary, #0f172a);
   padding: 0 15px;
   overflow-y: auto;
   scrollbar-width: none;
@@ -20771,39 +20772,57 @@ body::before {
   display: none;
 }
 
-.screen-coach-review .cr-header {
+.screen-coach-review .status-bar {
   width: 345px;
   margin: 0 auto;
-  padding: 60px 0 0;
+  color: var(--color-text-primary, #0f172a);
+}
+
+.screen-coach-review .cr-header {
+  display: flex;
+  align-items: center;
+  width: 345px;
+  margin: 0 auto;
+  padding: 18px 0 0;
   gap: 12px;
 }
 
 .screen-coach-review .cr-back {
+  display: grid;
+  place-items: center;
   width: 32px;
   height: 32px;
-  border-radius: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
   background: transparent;
   box-shadow: none;
+  cursor: pointer;
 }
 
-.screen-coach-review .cr-back img {
-  width: 32px;
-  height: 32px;
+.screen-coach-review .cr-back .icon {
+  width: 24px;
+  height: 24px;
 }
 
 .screen-coach-review .cr-header-title {
-  color: #1a1d26;
-  font-family: 'Nunito', var(--font-display), sans-serif;
-  font-size: 24px;
-  font-weight: 800;
-  line-height: 32px;
-  letter-spacing: 0;
+  color: var(--color-text-primary, #0f172a);
+  font-family: var(--typography-headline-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-headline-small-font-size, 24px);
+  font-weight: var(--typography-headline-small-font-weight, 800);
+  line-height: var(--typography-headline-small-line-height, 32px);
+}
+
+.screen-coach-review .cr-header-spacer {
+  flex: 1;
 }
 
 .screen-coach-review .cr-scroll {
+  display: flex;
+  flex-direction: column;
   width: 345px;
   margin: 0 auto;
-  padding: 16px 0 16px;
+  padding: 16px 0 24px;
   gap: 16px;
   flex: 0 0 auto;
   overflow: visible;
@@ -20815,69 +20834,63 @@ body::before {
 }
 
 .screen-coach-review .cr-banner {
+  display: flex;
+  align-items: center;
   width: 345px;
   gap: 16px;
   padding: 12px;
   border-radius: 20px;
-  background: #d1fae5;
-  box-shadow: 0 0 38px rgba(0, 0, 0, 0.06);
+  background: var(--color-on-success, #d1fae5);
+  box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
 }
 
 .screen-coach-review .cr-banner-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
   width: 28px;
   height: 28px;
-  border-radius: 0;
   background: transparent;
 }
 
 .screen-coach-review .cr-banner-icon img {
   width: 28px;
   height: 28px;
+  filter: brightness(0) saturate(100%) invert(24%) sepia(58%) saturate(1085%) hue-rotate(95deg) brightness(92%) contrast(91%);
 }
 
 .screen-coach-review .cr-banner span {
   color: #166534;
-  font-family: 'Nunito', var(--font-display), sans-serif;
-  font-size: 14px;
-  font-weight: 800;
-  line-height: 20px;
-  letter-spacing: 0.1px;
+  font-family: var(--typography-title-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-title-small-font-size, 14px);
+  font-weight: var(--typography-title-small-font-weight, 800);
+  line-height: var(--typography-title-small-line-height, 20px);
 }
 
 .screen-coach-review .cr-card {
   width: 345px;
-  padding: 0;
   gap: 16px;
-  overflow: visible;
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.screen-coach-review .cr-card::before {
-  display: none;
+  padding: 0;
 }
 
 .cr-plan-card {
   position: relative;
-  overflow: hidden;
   width: 344px;
   padding: 16px;
   border-radius: 20px;
-  background: #fff;
+  background: var(--color-surface, #fff);
   box-shadow: 0 0 38px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
 }
 
 .cr-plan-pattern {
   position: absolute;
-  top: -44px;
-  right: -158px;
-  width: 343px;
-  height: 337px;
+  top: -48px;
+  right: -136px;
+  width: 280px;
+  height: 280px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 86, 216, 0.1) 0 1px, transparent 2px);
-  background-size: 16px 16px;
-  opacity: 0.8;
+  background: linear-gradient(180deg, rgba(239, 245, 255, 0.95) 0%, rgba(248, 250, 255, 0.8) 100%);
 }
 
 .screen-coach-review .cr-workout-header {
@@ -20888,149 +20901,267 @@ body::before {
 
 .screen-coach-review .cr-workout-name {
   margin: 0 0 4px;
-  color: #0f172a;
-  font-family: 'Nunito', var(--font-display), sans-serif;
-  font-size: 24px;
-  font-weight: 800;
-  line-height: 32px;
-  letter-spacing: 0;
+  color: var(--color-text-primary, #0f172a);
+  font-family: var(--typography-headline-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-headline-small-font-size, 24px);
+  font-weight: var(--typography-headline-small-font-weight, 800);
+  line-height: var(--typography-headline-small-line-height, 32px);
 }
 
 .screen-coach-review .cr-workout-origin {
-  color: #64748b;
-  font-family: 'Inter', var(--font-body), sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
+  margin: 0;
+  color: var(--color-text-tertiary, #64748b);
+  font-family: var(--typography-body-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-body-small-font-size, 12px);
+  font-weight: var(--typography-body-small-font-weight, 400);
+  line-height: var(--typography-body-small-line-height, 16px);
 }
 
 .screen-coach-review .cr-badges {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   margin-bottom: 0;
 }
 
 .screen-coach-review .cr-badge {
+  display: inline-flex;
+  align-items: center;
   gap: 6px;
   padding: 0;
   border: 0;
   background: transparent;
-  color: #64748b;
-  font-family: 'Inter', var(--font-body), sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
+  color: var(--color-text-tertiary, #64748b);
+  font-family: var(--typography-body-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-body-small-font-size, 12px);
+  font-weight: 600;
+  line-height: var(--typography-body-small-line-height, 16px);
 }
 
-.screen-coach-review .cr-badge img {
+.screen-coach-review .cr-badge .icon {
   width: 16px;
   height: 16px;
+  background-color: var(--color-default, #64748B);
 }
 
-.cr-ex-section {
+.screen-coach-review .cr-section {
   width: 344px;
 }
 
+.screen-coach-review .cr-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.screen-coach-review .cr-ex-section {
+  width: 344px;
+}
+
+.screen-coach-review .cr-section-title {
+  margin: 0;
+  color: var(--color-text-primary, #0f172a);
+  font-family: var(--typography-title-medium-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-title-medium-font-size, 16px);
+  font-weight: var(--typography-title-medium-font-weight, 800);
+  line-height: var(--typography-title-medium-line-height, 24px);
+}
+
+.screen-coach-review .cr-target-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.screen-coach-review .cr-target-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 12px;
+  border-radius: 9999px;
+  background: var(--color-primary-container, #eff5ff);
+  color: var(--color-primary, #0056D8);
+}
+
+.screen-coach-review .cr-target-media {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.screen-coach-review .cr-target-media img {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+}
+
+.screen-coach-review .cr-target-media--icon {
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.screen-coach-review .cr-target-label {
+  font-family: var(--typography-title-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-title-small-font-size, 14px);
+  font-weight: var(--typography-title-small-font-weight, 800);
+  line-height: var(--typography-title-small-line-height, 20px);
+}
+
+.screen-coach-review .cr-expect-grid {
+  display: flex;
+  gap: 8px;
+}
+
+.screen-coach-review .cr-expect-card {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 14px;
+  border-radius: 16px;
+  background: var(--color-surface, #fff);
+  box-shadow: 0 0 38px rgba(0, 0, 0, 0.06);
+}
+
+.screen-coach-review .cr-expect-icon {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+}
+
+.screen-coach-review .cr-expect-icon .icon {
+  background-color: var(--color-primary);
+}
+
+.screen-coach-review .cr-expect-card p {
+  margin: 0;
+  color: var(--color-text-primary, #0f172a);
+  font-family: var(--typography-body-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-body-small-font-size, 12px);
+  font-weight: 400;
+  line-height: var(--typography-body-small-line-height, 16px);
+}
+
 .screen-coach-review .cr-exercises-head {
-  justify-content: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 8px;
   margin: 0 0 12px;
 }
 
 .screen-coach-review .cr-exercises-title {
-  color: #1a1d26;
-  font-family: 'Nunito', var(--font-display), sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  line-height: 28px;
+  margin: 0;
+  color: var(--color-text-primary, #0f172a);
+  font-family: var(--typography-title-medium-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-title-medium-font-size, 16px);
+  font-weight: var(--typography-title-medium-font-weight, 800);
+  line-height: var(--typography-title-medium-line-height, 24px);
 }
 
 .screen-coach-review .cr-exercises-count {
-  width: 24px;
-  height: 24px;
-  border-radius: 12px;
-  background: #EAF2FF;
-  color: #0056D8;
-  font-family: 'Nunito', var(--font-display), sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: var(--color-surface-variant, #f8f8f8);
+  color: var(--color-text-tertiary, #64748b);
+  font-family: var(--typography-body-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-body-small-font-size, 12px);
+  font-weight: 600;
+  line-height: var(--typography-body-small-line-height, 16px);
 }
 
 .screen-coach-review .cr-exercises-list {
+  display: flex;
+  flex-direction: column;
   gap: 0;
-  padding: 24px 16px;
+  padding: 16px;
   border-radius: 24px;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: var(--color-surface, #fff);
+  box-shadow: 0 0 38px rgba(0, 0, 0, 0.06);
 }
 
-.screen-coach-review .cr-exercise {
+.screen-coach-review .cr-exercise-row {
+  display: flex;
+  align-items: center;
   gap: 14px;
-  padding: 0 0 16px;
-  border-radius: 0;
+  padding: 8px 0 8px
 }
 
-.screen-coach-review .cr-exercise+.cr-exercise {
-  padding-top: 8px;
+.screen-coach-review .cr-exercise-row:not(:last-child) {
+  border-bottom: 1px solid var(--color-divider, #f4f4f4);
 }
 
-.screen-coach-review .cr-exercise:not(:last-child) {
-  border-bottom: 1px solid #f4f4f4;
+.screen-coach-review .cr-exercise-thumb {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--color-primary-container, #eff5ff);
 }
 
-.screen-coach-review .cr-ex-num {
+.screen-coach-review .cr-exercise-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.screen-coach-review .cr-exercise-copy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.screen-coach-review .cr-exercise-name {
+  color: var(--color-text-primary, #0f172a);
+  font-family: var(--typography-label-large-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-label-large-font-size, 14px);
+  font-weight: var(--typography-label-large-font-weight, 600);
+  line-height: var(--typography-label-large-line-height, 20px);
+}
+
+.screen-coach-review .cr-exercise-meta {
+  color: var(--color-text-tertiary, #64748b);
+  font-family: var(--typography-body-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-body-small-font-size, 12px);
+  font-weight: var(--typography-body-small-font-weight, 400);
+  line-height: var(--typography-body-small-line-height, 16px);
+}
+
+.screen-coach-review .cr-exercise-arrow {
   display: grid;
   place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 24px;
-  background: #EAF2FF;
-  color: #0056D8;
-  font-family: 'Nunito', var(--font-display), sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  line-height: 28px;
-}
-
-.screen-coach-review .cr-ex-name {
-  color: #0f172a;
-  font-family: 'Nunito', var(--font-display), sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 20px;
-  letter-spacing: 0.1px;
-}
-
-.screen-coach-review .cr-ex-spec {
-  color: #64748b;
-  font-family: 'Inter', var(--font-body), sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-}
-
-.screen-coach-review .cr-ex-equip {
-  padding: 4px 10px;
-  border-radius: 20px;
-  background: #EAF2FF;
-  color: #0056D8;
-  font-family: 'Nunito', var(--font-display), sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16px;
-  letter-spacing: 0.5px;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background: var(--color-primary-container, #eff5ff);
 }
 
 .screen-coach-review .cr-actions {
   position: static;
   width: 349px;
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
   padding: 0 0 24px;
   gap: 8px;
   transform: none;
-  background: #fff;
+  background: var(--color-background, #fff);
   flex: 0 0 auto;
 }
 
@@ -21038,24 +21169,26 @@ body::before {
 .screen-coach-review .cr-btn-discard {
   width: 349px;
   height: 56px;
+  border: 1px solid transparent;
   border-radius: 9999px;
-  font-family: 'Nunito', var(--font-display), sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 24px;
-  letter-spacing: 0.15px;
+  font-family: var(--typography-title-medium-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-title-medium-font-size, 16px);
+  font-weight: var(--typography-title-medium-font-weight, 800);
+  line-height: var(--typography-title-medium-line-height, 24px);
+  letter-spacing: var(--typography-title-medium-letter-spacing, 0.15px);
+  cursor: pointer;
 }
 
 .screen-coach-review .cr-btn-save {
-  background: #0056D8;
-  color: #fff;
+  background: var(--color-primary, #0056D8);
+  color: var(--color-on-primary, #fff);
   box-shadow: none;
 }
 
 .screen-coach-review .cr-btn-discard {
-  border: 1px solid #0056D8;
-  background: #fff;
-  color: #0056D8;
+  border-color: var(--color-primary, #0056D8);
+  background: var(--color-surface, #fff);
+  color: var(--color-primary, #0056D8);
 }
 
 /* Workout save confirmation */
@@ -21348,9 +21481,8 @@ body::before {
 /* Workout generator */
 .screen-workout-generator {
   --wg-duration-progress: 50%;
-  background: color-mix(in srgb, var(--color-surface-variant) 70%, var(--color-background) 30%);
+  background: var(--color-background);
   color: var(--color-text-primary);
-  overflow: hidden;
 }
 
 .screen-workout-generator .status-bar {
@@ -21390,24 +21522,17 @@ body::before {
 
 .wg-generator-scroll {
   width: 344px;
-  height: calc(100% - 132px);
   margin: 0 auto;
-  padding: 0 0 156px;
-  overflow-y: auto;
-  scrollbar-width: none;
-}
-
-.wg-generator-scroll::-webkit-scrollbar {
-  display: none;
+  padding: 0 0 24px;
 }
 
 .wg-generator-hero {
   position: relative;
   display: flex;
-  align-items: stretch;
-  min-height: 214px;
+  align-items: center;
+  min-height: 220px;
   margin-bottom: var(--spacing-s24);
-  padding: var(--spacing-s10) var(--spacing-s12) var(--spacing-s14);
+  padding: var(--spacing-s16) var(--spacing-s12) var(--spacing-s16) 156px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-r20, 20px);
   background: var(--color-surface);
@@ -21417,9 +21542,11 @@ body::before {
 
 .wg-generator-hero-art {
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 150px;
-  overflow: hidden;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 156px;
+  overflow: visible;
 }
 
 .wg-generator-hero-art::after {
@@ -21430,37 +21557,40 @@ body::before {
     linear-gradient(90deg, color-mix(in srgb, var(--color-text-primary) 18%, transparent) 0%, transparent 52%),
     linear-gradient(180deg, color-mix(in srgb, var(--color-background) 12%, transparent) 0%, transparent 38%);
   pointer-events: none;
+  z-index: 3;
 }
 
 .wg-generator-hero-shape {
   position: absolute;
-  left: -48px;
-  top: -4px;
-  width: 228px;
-  height: 214px;
+  left: -50px;
+  top: -10px;
+  width: 230px;
+  height: 230px;
   border-radius: 50%;
   background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface) 90%);
+  z-index: 1;
 }
 
 .wg-generator-hero-art img {
   position: absolute;
-  left: -18px;
+  left: -10px;
   bottom: 0;
-  width: 194px;
-  height: 206px;
+  width: 165px;
+  height: 220px;
   object-fit: contain;
   object-position: left bottom;
   border-radius: 0;
+  z-index: 2;
 }
 
 .wg-generator-hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 4;
   display: flex;
   flex: 1;
   flex-direction: column;
   gap: var(--spacing-s12);
-  margin-left: 136px;
+  margin-left: 0;
 }
 
 .wg-generator-pill {
@@ -21643,23 +21773,43 @@ body::before {
   justify-content: flex-start;
   gap: var(--spacing-s4);
   min-width: 0;
-  min-height: 32px;
-  padding: var(--spacing-s6) var(--spacing-s10);
+  min-height: 36px;
+  padding: var(--spacing-s4) var(--spacing-s8) var(--spacing-s4) var(--spacing-s6);
   border-radius: 9999px;
   background: var(--color-surface-variant);
   color: var(--color-text-tertiary);
 }
 
-.wg-target-chip .wg-target-chip-icon {
-  width: 20px;
-  height: 20px;
-  background-color: var(--wg-chip-icon-color);
+.wg-target-chip-media {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-background) 92%, var(--color-border) 8%);
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
-.wg-target-chip span:last-child {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.wg-target-chip-media img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.wg-target-chip-media--mask .icon {
+  width: 14px;
+  height: 14px;
+  background-color: var(--color-secondary);
+}
+
+.wg-target-chip-label {
+  min-width: 0;
+  overflow: visible !important;
+  white-space: nowrap !important;
+  text-overflow: clip !important;
   font-family: var(--typography-body-small-font-family);
   font-size: var(--typography-body-small-font-size);
   font-style: var(--typography-body-small-font-style);
@@ -21672,6 +21822,14 @@ body::before {
   border-color: var(--color-primary);
   background: var(--color-primary-container);
   color: var(--color-primary);
+}
+
+.wg-target-chip.is-selected .wg-target-chip-label {
+  font-weight: 700;
+}
+
+.wg-target-chip.is-selected .wg-target-chip-media {
+  background: color-mix(in srgb, var(--color-primary-container) 70%, var(--color-background) 30%);
 }
 
 .wg-generator-recommendation {
@@ -21719,16 +21877,18 @@ body::before {
   flex: 1;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-s4);
-  min-height: 30px;
+  gap: var(--spacing-s6);
+  min-height: 38px;
   min-width: 0;
-  padding: var(--spacing-s6) var(--spacing-s10);
+  padding: var(--spacing-s8) var(--spacing-s12);
   border-radius: 9999px;
   background: var(--color-surface-variant);
   color: var(--color-text-tertiary);
 }
 
 .wg-choice-chip .icon {
+  width: 16px;
+  height: 16px;
   background-color: currentColor;
 }
 
@@ -21748,6 +21908,11 @@ body::before {
   background: var(--color-primary);
   color: var(--color-on-primary);
   box-shadow: 0 8px 18px color-mix(in srgb, var(--color-primary) 28%, transparent);
+  font-weight: 700;
+}
+
+.wg-choice-chip.is-selected span:last-child {
+  font-weight: 700;
 }
 
 .wg-generator-toggle-row {
@@ -21773,12 +21938,9 @@ body::before {
   border-radius: var(--radius-r8);
   background: transparent;
   color: var(--color-text-tertiary);
-  font-family: var(--typography-label-medium-font-family);
-  font-size: var(--typography-label-medium-font-size);
-  font-style: var(--typography-label-medium-font-style);
-  font-weight: var(--typography-label-medium-font-weight);
-  letter-spacing: var(--typography-label-medium-letter-spacing);
-  line-height: var(--typography-label-medium-line-height);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .wg-generator-toggle-option.is-selected {
@@ -21787,12 +21949,9 @@ body::before {
 }
 
 .wg-generator-actions {
-  position: absolute;
-  left: 50%;
-  bottom: 24px;
-  z-index: 4;
-  width: 344px;
-  transform: translateX(-50%);
+  width: 100%;
+  margin-top: var(--spacing-s8);
+  padding-bottom: 24px;
 }
 
 .wg-generate-btn {
@@ -25527,8 +25686,8 @@ body::before {
 }
 
 .screen-workout-detail-figma .wk-muscle-badge {
-  background: var(--color-tertiary-container, #EDEDFF);
-  color: var(--color-tertiary, #7F7CF0);
+  background: var(--color-primary-container, #EFF5FF);
+  color: var(--color-primary, #0056D8);
   border-radius: var(--radius-rFull, 9999px);
   padding: 6px 12px 6px 6px;
   display: inline-flex;
@@ -25569,6 +25728,7 @@ body::before {
   height: 20px;
   object-fit: contain;
   flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(16%) sepia(88%) saturate(3280%) hue-rotate(210deg) brightness(94%) contrast(101%);
 }
 
 .screen-workout-detail-figma .wk-expect-card p {
@@ -25633,6 +25793,7 @@ body::before {
 .screen-workout-detail-figma .wk-ex-delete-btn img {
   width: 24px;
   height: 24px;
+  filter: invert(27%) sepia(98%) saturate(1200%) hue-rotate(337deg) brightness(90%);
 }
 
 .screen-workout-detail-figma .wk-customize-add-btn {
@@ -25649,7 +25810,9 @@ body::before {
   font-size: 16px;
   font-weight: 800;
   cursor: pointer;
-  margin: var(--spacing-s12, 12px) 0;
+  margin: var(--spacing-s12, 12px) 0 0 0;
+  padding: var(--spacing-s16);
+
 }
 
 .screen-workout-detail-figma .wk-customize-add-btn img {
@@ -25682,13 +25845,15 @@ body::before {
 }
 
 /* Dragging visual classes */
-.screen-workout-detail-figma .wk-detail-ex-row.is-dragging {
+.screen-workout-detail-figma .wk-detail-ex-row.is-dragging,
+.screen-workout-detail-figma .wk-detail-ex-row-customize.is-dragging {
   opacity: 0.4;
   background: #f1f5f9;
   border-style: dashed;
 }
 
-.screen-workout-detail-figma .wk-detail-ex-row.drag-over {
+.screen-workout-detail-figma .wk-detail-ex-row.drag-over,
+.screen-workout-detail-figma .wk-detail-ex-row-customize.drag-over {
   border-top: 2px solid var(--color-primary, #0056D8);
 }
 
@@ -25862,6 +26027,11 @@ body::before {
   height: 18px;
 }
 
+.screen-workout-detail-figma .wk-sheet-adv-filter-btn.is-active {
+  border-color: var(--color-primary, #0056D8);
+  background: var(--color-primary-container, #EFF5FF);
+}
+
 .screen-workout-detail-figma .wk-sheet-filter-chip {
   border: 1px solid #cbd5e1;
   border-radius: 9999px;
@@ -25971,6 +26141,11 @@ body::before {
   height: 24px;
 }
 
+/* Minus icon in selected state — error/red */
+.screen-workout-detail-figma .wk-sheet-item-toggle.is-selected img {
+  filter: brightness(0) saturate(100%) invert(27%) sepia(98%) saturate(1200%) hue-rotate(337deg) brightness(90%);
+}
+
 .screen-workout-detail-figma .wk-sheet-footer {
   padding: 12px 24px;
   border-top: 1px solid var(--color-border, #f4f4f4);
@@ -25997,8 +26172,8 @@ body::before {
 }
 
 .screen-workout-detail-figma .wk-sheet-action-btn:disabled {
-  background: #EFF5FF;
-  color: #94A3B8;
+  background: var(--color-primary-container, #EFF5FF);
+  color: var(--color-text-muted, #94A3B8);
   cursor: not-allowed;
 }
 
@@ -26099,12 +26274,16 @@ body::before {
 }
 
 /* Inline dropdown menu inside Add Exercise sheet */
+.screen-workout-detail-figma .wk-dropdown-wrapper {
+  position: relative;
+}
+
 .screen-workout-detail-figma .wk-dropdown-menu {
   position: absolute;
   top: 42px;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
   border: 1px solid #cbd5e1;
   z-index: 1005;
   min-width: 160px;
@@ -26135,4 +26314,1156 @@ body::before {
   color: var(--color-primary, #0056D8);
   font-weight: 800;
   background: var(--color-primary-container, #EFF5FF);
+}
+
+/* ====================================================================
+   WORKOUT DETAIL — Refactored CSS Classes (design-token based)
+   Replaces all previous inline styles in renderDetail()
+   ==================================================================== */
+
+/* ── Hero Card Internal Layout ── */
+.screen-workout-detail-figma .wk-detail-hero-card {
+  border-radius: 20px;
+  background: var(--color-background, #fff);
+  box-shadow: 0 0 38px rgba(0, 0, 0, 0.06);
+  padding: var(--spacing-s16, 16px);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-top: 0;
+}
+
+.screen-workout-detail-figma .wk-detail-hero-bg {
+  position: absolute;
+  right: -78px;
+  top: -58px;
+  width: 342px;
+  height: 336px;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(circle at center, #eeedf8 0%, #f6f5fd 56%, rgba(255, 255, 255, 0) 74%);
+}
+
+/* Date + Location row */
+.screen-workout-detail-figma .wk-detail-hero-meta-row {
+  display: flex;
+  justify-content: unset;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+  margin-bottom: var(--spacing-s12, 12px);
+  gap: var(--spacing-s12, 12px);
+}
+
+.screen-workout-detail-figma .wk-detail-hero-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-s8, 8px);
+  font-family: var(--typography-body-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-body-small-font-size, 12px);
+  font-weight: var(--typography-body-small-font-weight, 400);
+  color: var(--color-text-tertiary, #64748b);
+  letter-spacing: var(--typography-body-small-letter-spacing, 0);
+  line-height: var(--typography-body-small-line-height, 16px);
+}
+
+.screen-workout-detail-figma .wk-detail-hero-meta-item img {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) saturate(100%) invert(46%) sepia(9%) saturate(1062%) hue-rotate(181deg) brightness(92%) contrast(87%);
+}
+
+/* Title + Description area */
+.screen-workout-detail-figma .wk-detail-hero-title-area {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+
+.screen-workout-detail-figma .wk-detail-hero-title-text {
+  flex: 1;
+  min-width: 0;
+  padding-right: 8px;
+}
+
+.screen-workout-detail-figma .wk-detail-hero-name {
+  font-family: var(--typography-title-large-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-title-large-font-size, 20px);
+  font-weight: var(--typography-title-large-font-weight, 800);
+  color: var(--color-text-primary, #0f172a);
+  line-height: var(--typography-title-large-line-height, 28px);
+  letter-spacing: var(--typography-title-large-letter-spacing, 0);
+  margin: 0 0 4px 0;
+}
+
+.screen-workout-detail-figma .wk-detail-hero-desc {
+  font-family: var(--typography-body-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-body-small-font-size, 12px);
+  font-weight: var(--typography-body-small-font-weight, 400);
+  color: var(--color-text-tertiary, #64748b);
+  margin: 0;
+  line-height: var(--typography-body-small-line-height, 16px);
+  letter-spacing: var(--typography-body-small-letter-spacing, 0);
+}
+
+/* Hero image */
+.screen-workout-detail-figma .wk-detail-hero-image {
+  position: absolute;
+  right: 0;
+  top: -10px;
+  width: 118px;
+  height: 128px;
+  z-index: 1;
+}
+
+.screen-workout-detail-figma .wk-detail-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Equipment row */
+.screen-workout-detail-figma .wk-detail-hero-equipment {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-s8, 8px);
+  font-family: var(--typography-label-medium-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-label-medium-font-size, 12px);
+  font-weight: var(--typography-label-medium-font-weight, 700);
+  color: var(--color-text-primary, #0f172a);
+  letter-spacing: var(--typography-label-medium-letter-spacing, 0.5px);
+  margin-top: 12px;
+}
+
+.screen-workout-detail-figma .wk-detail-hero-equipment img {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) saturate(100%) invert(46%) sepia(9%) saturate(1062%) hue-rotate(181deg) brightness(92%) contrast(87%);
+}
+
+/* ── Stats Card (Duration / Level / Calories) ── */
+.screen-workout-detail-figma .wk-detail-stats-card {
+  margin-top: 0;
+  padding: var(--spacing-s12, 12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-background, #fff);
+  border-radius: 20px;
+  box-shadow: 0 0 38px rgba(0, 0, 0, 0.06);
+}
+
+.screen-workout-detail-figma .wk-detail-stat {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-s8, 8px);
+  height: 40px;
+}
+
+.screen-workout-detail-figma .wk-detail-stat-icon {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) saturate(100%) invert(7%) sepia(19%) saturate(5119%) hue-rotate(191deg) brightness(92%) contrast(98%);
+}
+
+.screen-workout-detail-figma .wk-detail-stat-icon--primary {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) saturate(100%) invert(16%) sepia(88%) saturate(3280%) hue-rotate(210deg) brightness(94%) contrast(101%);
+}
+
+.screen-workout-detail-figma .wk-detail-stat-icon--secondary {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) saturate(100%) invert(56%) sepia(84%) saturate(2939%) hue-rotate(345deg) brightness(99%) contrast(97%);
+}
+
+.screen-workout-detail-figma .wk-detail-stat-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.screen-workout-detail-figma .wk-detail-stat-value {
+  font-family: var(--typography-label-medium-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-label-medium-font-size, 12px);
+  font-weight: var(--typography-label-medium-font-weight, 700);
+  color: var(--color-text-primary, #0f172a);
+  line-height: var(--typography-label-medium-line-height, 16px);
+  letter-spacing: var(--typography-label-medium-letter-spacing, 0.5px);
+}
+
+.screen-workout-detail-figma .wk-detail-stat-label {
+  font-family: var(--typography-body-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-body-small-font-size, 12px);
+  font-weight: var(--typography-body-small-font-weight, 400);
+  color: var(--color-text-tertiary, #64748b);
+  line-height: var(--typography-body-small-line-height, 16px);
+}
+
+.screen-workout-detail-figma .wk-detail-stat-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--color-divider, #f4f4f4);
+}
+
+/* ── Section Wrappers ── */
+.screen-workout-detail-figma .wk-detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s12, 12px);
+}
+
+.screen-workout-detail-figma .wk-detail-section-title {
+  font-family: var(--typography-title-medium-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-title-medium-font-size, 16px);
+  font-weight: var(--typography-title-medium-font-weight, 800);
+  color: #1a1d26;
+  line-height: var(--typography-title-medium-line-height, 24px);
+  letter-spacing: var(--typography-title-medium-letter-spacing, 0.15px);
+  margin: 0;
+}
+
+/* ── Exercises Section ── */
+.screen-workout-detail-figma .wk-detail-ex-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-s8, 8px);
+}
+
+.screen-workout-detail-figma .wk-detail-ex-count {
+  background: var(--color-surface-variant, #f8f8f8);
+  color: var(--color-text-tertiary, #64748b);
+  font-family: var(--typography-body-medium-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-body-medium-font-size, 14px);
+  font-weight: var(--typography-body-medium-font-weight, 400);
+  line-height: var(--typography-body-medium-line-height, 20px);
+  padding: var(--spacing-s6, 6px) var(--spacing-s10, 10px);
+  border-radius: 20px;
+}
+
+.screen-workout-detail-figma .wk-detail-customize-btn {
+  border: none;
+  background: transparent;
+  color: var(--color-primary, #0056D8);
+  font-family: var(--typography-title-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-title-small-font-size, 14px);
+  font-weight: var(--typography-title-small-font-weight, 800);
+  cursor: pointer;
+  line-height: var(--typography-title-small-line-height, 20px);
+  letter-spacing: var(--typography-title-small-letter-spacing, 0.1px);
+  padding: 0;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-list {
+  background: var(--color-background, #fff);
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 24px 16px;
+}
+
+/* ── Exercise Row (Normal Mode) ── */
+.screen-workout-detail-figma .wk-detail-ex-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border, #f4f4f4);
+  margin-bottom: 12px;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row .wk-detail-ex-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-primary-container, #EFF5FF);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row .wk-detail-ex-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row .wk-detail-ex-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row .wk-detail-ex-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row .wk-detail-ex-name {
+  font-family: var(--typography-label-large-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-label-large-font-size, 14px);
+  font-weight: var(--typography-label-large-font-weight, 700);
+  color: var(--color-text-primary, #0f172a);
+  letter-spacing: var(--typography-label-large-letter-spacing, 0.1px);
+  line-height: var(--typography-label-large-line-height, 20px);
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row .wk-detail-ex-meta {
+  font-family: var(--typography-body-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-body-small-font-size, 12px);
+  font-weight: var(--typography-body-small-font-weight, 400);
+  color: var(--color-text-tertiary, #64748b);
+  letter-spacing: var(--typography-body-small-letter-spacing, 0);
+  line-height: var(--typography-body-small-line-height, 16px);
+  display: block;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row .wk-detail-ex-forward {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background: var(--color-primary-container, #EFF5FF);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row .wk-detail-ex-forward img {
+  width: 16px;
+  height: 16px;
+}
+
+/* ── Exercise Row (Customize Mode) ── */
+.screen-workout-detail-figma .wk-detail-ex-row-customize {
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border, #f4f4f4);
+  margin-bottom: 12px;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row-customize:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row-customize .wk-detail-ex-row-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row-customize .wk-detail-ex-center {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row-customize .wk-detail-ex-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-primary-container, #EFF5FF);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row-customize .wk-detail-ex-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row-customize .wk-detail-ex-info-clickable {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row-customize .wk-detail-ex-name {
+  font-family: var(--typography-label-large-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-label-large-font-size, 14px);
+  font-weight: var(--typography-label-large-font-weight, 700);
+  color: var(--color-text-primary, #0f172a);
+  letter-spacing: var(--typography-label-large-letter-spacing, 0.1px);
+  line-height: var(--typography-label-large-line-height, 20px);
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.screen-workout-detail-figma .wk-detail-ex-row-customize .wk-detail-ex-meta {
+  font-family: var(--typography-body-small-font-family, 'Nunito'), sans-serif;
+  font-size: var(--typography-body-small-font-size, 12px);
+  font-weight: var(--typography-body-small-font-weight, 400);
+  color: var(--color-text-tertiary, #64748b);
+  letter-spacing: var(--typography-body-small-letter-spacing, 0);
+  line-height: var(--typography-body-small-line-height, 16px);
+  display: block;
+}
+
+.screen-workout-detail-figma .wk-ex-drag-handle {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-ex-drag-handle img {
+  opacity: 0.4;
+}
+
+/* ── Bottom Action Buttons ── */
+.screen-workout-detail-figma .wk-detail-actions-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-background, #fff);
+  padding: 12px 24px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+
+.screen-workout-detail-figma .wk-start-btn {
+  flex: 1;
+  height: 56px;
+  border-radius: 9999px;
+  background: var(--color-primary, #0056D8);
+  color: var(--color-on-primary, #fff);
+  border: none;
+  font-size: 16px;
+  font-weight: 800;
+  font-family: var(--typography-title-medium-font-family, 'Nunito'), sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.screen-workout-detail-figma .wk-start-btn img {
+  filter: brightness(0) invert(1);
+}
+
+.screen-workout-detail-figma .wk-action-icon-settings {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-primary-container, #EFF5FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.screen-workout-detail-figma .wk-action-icon-cancel {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-primary-container, #EFF5FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+/* ── Action Icon (alert, favorite) in header ── */
+.screen-workout-detail-figma .wk-action-icon {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* ── Nav Header updated ── */
+.screen-workout-detail-figma .wk-nav-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.screen-workout-detail-figma .wk-nav-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.screen-workout-detail-figma .wk-nav-title {
+  font-family: var(--typography-headline-small-font-family, 'Nunito'), sans-serif;
+  font-weight: var(--typography-headline-small-font-weight, 800);
+  font-size: var(--typography-headline-small-font-size, 24px);
+  color: #1a1d26;
+  line-height: var(--typography-headline-small-line-height, 32px);
+}
+
+/* ── Detail Body ── */
+.screen-workout-detail-figma .wk-detail-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 24px 96px 24px;
+}
+
+/* ── Bottom Bar (shared) ── */
+.screen-workout-detail-figma .wk-detail-actions-normal,
+.screen-workout-detail-figma .wk-detail-actions-customize {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-background, #fff);
+  padding: 12px 24px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+
+.screen-workout-detail-figma .wk-detail-actions-customize {
+  display: none;
+}
+
+.screen-workout-detail-figma .wk-detail-actions-customize .wk-sheet-action-btn {
+  flex: 1;
+  background: var(--color-primary, #0056D8);
+  color: var(--color-on-primary, #fff);
+}
+
+.screen-workout-detail-figma .wk-detail-actions-customize .wk-sheet-action-btn img {
+  filter: brightness(0) invert(1);
+}
+
+/* ── Back Button ── */
+.screen-workout-detail-figma .wk-back-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Edit Sheet Exercise Info Row ── */
+.screen-workout-detail-figma .wk-edit-ex-info-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--color-border, #f4f4f4);
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-edit-ex-info-row .wk-sheet-item-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+}
+
+.screen-workout-detail-figma .wk-edit-ex-info-row .wk-sheet-item-name {
+  font-size: 16px;
+}
+
+/* ── Advanced Filter Row ── */
+.screen-workout-detail-figma .wk-sheet-adv-filter-row {
+  display: none;
+  padding: 0 24px 12px;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+
+/* ── Empty List Message ── */
+.screen-workout-detail-figma .wk-sheet-empty-msg {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748b;
+  font-family: 'Nunito', sans-serif;
+}
+
+/* ── Workout Detail Page Header Action Icons ── */
+.screen-workout-detail-figma .wk-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--color-text-tertiary, #64748B);
+  /* Default inactive color */
+  transition: color 200ms ease;
+}
+
+.screen-workout-detail-figma .wk-icon-wrapper svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+/* Alert Icon color */
+.screen-workout-detail-figma .wk-icon-alert {
+  color: var(--color-default);
+}
+
+.screen-workout-detail-figma .wk-icon-alert.has-conflict {
+  color: var(--color-warning, #F59E0B);
+  /* Highlighting conflicts using warning (amber) color from tokens */
+}
+
+/* Favorite Icon color */
+.screen-workout-detail-figma .wk-icon-favorite {
+  color: var(--color-default);
+}
+
+.screen-workout-detail-figma .wk-icon-favorite.is-favorite {
+  color: var(--color-default);
+  /* Active blue primary color from tokens */
+}
+
+/* ====================================================================
+   WORKOUT DETAIL — Stacked Bottom Sheet (for Add Exercise filters)
+   ==================================================================== */
+
+.screen-workout-detail-figma .wk-filter-row {
+  display: flex;
+  gap: 8px;
+  padding: 0 24px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+}
+
+.screen-workout-detail-figma .wk-filter-trigger {
+  min-height: 32px;
+  border: 1px solid var(--color-divider);
+  border-radius: 20px;
+  background: var(--color-surface);
+  padding: 7px 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  flex: 1;
+  box-shadow: 0 0 38px rgba(0, 0, 0, 0.06);
+}
+
+.screen-workout-detail-figma .wk-filter-trigger-filters {
+  flex: 0 0 auto;
+  padding-right: 10px;
+}
+
+.screen-workout-detail-figma .wk-filter-trigger.is-active {
+  border-color: var(--color-primary);
+  background: var(--color-primary-container);
+}
+
+.screen-workout-detail-figma .wk-filter-trigger-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'Nunito', var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  color: var(--color-text-tertiary);
+}
+
+.screen-workout-detail-figma .wk-filter-trigger.is-active .wk-filter-trigger-text {
+  color: var(--color-primary);
+}
+
+.screen-workout-detail-figma .wk-filter-trigger-badge {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Nunito', var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
+.screen-workout-detail-figma .wk-filter-chevron {
+  flex-shrink: 0;
+}
+
+/* Stacking Filter Sheets */
+.screen-workout-detail-figma .wk-filter-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.34);
+  z-index: 1100;
+  opacity: 0;
+  transition: opacity 180ms ease;
+  display: none;
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-backdrop.is-visible {
+  display: block;
+  opacity: 1;
+}
+
+.screen-workout-detail-figma .wk-filter-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-background);
+  border-radius: var(--radius-r28) var(--radius-r28) 0 0;
+  padding: 16px 0 24px;
+  z-index: 1101;
+  transform: translateY(104%);
+  transition: transform 180ms ease;
+  box-shadow: 0 -16px 40px rgba(15, 23, 42, 0.16);
+}
+
+.screen-workout-detail-figma .wk-filter-sheet.is-open {
+  transform: translateY(0);
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-handle {
+  width: 52px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--color-progress-track);
+  margin: 0 auto 14px;
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-content {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 0 24px 14px;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-header-grouped,
+.screen-workout-detail-figma .wk-filter-sheet-header-muscle {
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-title {
+  margin: 0;
+  font-family: var(--typography-title-large-font-family);
+  font-size: var(--typography-title-large-font-size);
+  font-weight: var(--typography-title-large-font-weight);
+  line-height: var(--typography-title-large-line-height);
+  letter-spacing: var(--typography-title-large-letter-spacing);
+  color: var(--color-text-primary);
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-title-grouped,
+.screen-workout-detail-figma .wk-filter-sheet-title-muscle {
+  font-family: var(--typography-title-large-font-family);
+  font-size: var(--typography-title-large-font-size);
+  font-weight: var(--typography-title-large-font-weight);
+  line-height: var(--typography-title-large-line-height);
+  letter-spacing: var(--typography-title-large-letter-spacing);
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-link {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-family: var(--typography-title-small-font-family);
+  font-size: var(--typography-title-small-font-size);
+  font-weight: var(--typography-title-small-font-weight);
+  line-height: var(--typography-title-small-line-height);
+  letter-spacing: var(--typography-title-small-letter-spacing);
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.screen-workout-detail-figma .wk-filter-select-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 24px 0;
+}
+
+.screen-workout-detail-figma .wk-filter-select-card {
+  width: 100%;
+  min-height: 56px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-r12);
+  background: var(--color-surface);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.screen-workout-detail-figma .wk-filter-select-card.is-selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-container);
+}
+
+.screen-workout-detail-figma .wk-filter-select-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen-workout-detail-figma .wk-filter-select-icon-image {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-filter-select-icon-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.screen-workout-detail-figma .wk-filter-select-icon-empty {
+  background-color: transparent;
+}
+
+.screen-workout-detail-figma .wk-filter-select-label {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--typography-label-large-font-family);
+  font-size: var(--typography-label-large-font-size);
+  font-weight: var(--typography-label-large-font-weight);
+  line-height: var(--typography-label-large-line-height);
+  letter-spacing: var(--typography-label-large-letter-spacing);
+  color: var(--color-text-primary);
+}
+
+.screen-workout-detail-figma .wk-filter-select-check {
+  width: 20px;
+  text-align: center;
+  font-family: 'Inter', var(--font-body);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.screen-workout-detail-figma .wk-filter-select-card:not(.is-selected) .wk-filter-select-check {
+  color: transparent;
+}
+
+.screen-workout-detail-figma .wk-filter-select-card.is-selected .wk-filter-select-label {
+  color: var(--color-primary);
+}
+
+/* Muscle Filter Styles */
+.screen-workout-detail-figma .wk-filter-muscle-list {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 24px 0;
+}
+
+.screen-workout-detail-figma .wk-filter-muscle-option {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.screen-workout-detail-figma .wk-filter-muscle-option-image {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: var(--color-primary-container);
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-filter-muscle-option-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.screen-workout-detail-figma .wk-filter-muscle-option-label {
+  flex: 1;
+  min-width: 0;
+  font-family: 'Outfit', var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  color: var(--color-text-primary);
+}
+
+.screen-workout-detail-figma .wk-filter-muscle-option-check {
+  width: 20px;
+  text-align: center;
+  font-family: 'Inter', var(--font-body);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.screen-workout-detail-figma .wk-filter-muscle-option:not(.is-selected) .wk-filter-muscle-option-check {
+  color: transparent;
+}
+
+.screen-workout-detail-figma .wk-filter-muscle-option.is-selected .wk-filter-muscle-option-label {
+  color: var(--color-primary);
+}
+
+.screen-workout-detail-figma .wk-filter-muscle-divider {
+  height: 1px;
+  background: var(--color-divider);
+  margin: 4px 0;
+}
+
+/* ── Workout Detail Grouped/Applied Filters ── */
+
+.screen-workout-detail-figma .wk-library-applied-filters {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 24px 6px;
+}
+
+.screen-workout-detail-figma .wk-library-applied-filters.is-empty {
+  justify-content: flex-end;
+}
+
+.screen-workout-detail-figma .wk-library-applied-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 34px;
+}
+
+.screen-workout-detail-figma .wk-filter-pill {
+  border: 1px solid var(--color-primary);
+  border-radius: 20px;
+  background: var(--color-primary-container);
+  padding: 7px 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Nunito', var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  color: var(--color-primary);
+}
+
+.screen-workout-detail-figma .wk-filter-pill-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.screen-workout-detail-figma .wk-library-clear-all {
+  border: none;
+  background: transparent;
+  padding: 7px 0 0;
+  font-family: 'Nunito', var(--font-body);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 20px;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 12px 24px 0;
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-section-title {
+  margin: 0;
+  font-family: 'Outfit', var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  color: var(--color-text-primary);
+}
+
+.screen-workout-detail-figma .wk-filter-choice-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.screen-workout-detail-figma .wk-filter-choice-grid-muscle {
+  gap: 8px;
+}
+
+.screen-workout-detail-figma .wk-filter-choice-chip {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: #f8f8f8;
+  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+}
+
+.screen-workout-detail-figma .wk-filter-choice-chip.is-selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-container);
+}
+
+.screen-workout-detail-figma .wk-filter-choice-chip-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.screen-workout-detail-figma .wk-filter-choice-chip-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.screen-workout-detail-figma .wk-filter-choice-chip-label {
+  font-family: 'Inter', var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  color: var(--color-text-tertiary);
+}
+
+.screen-workout-detail-figma .wk-filter-choice-chip.is-selected .wk-filter-choice-chip-label {
+  color: var(--color-primary);
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-footer {
+  padding: 20px 24px 0;
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-apply {
+  width: 100%;
+  min-height: 56px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-primary);
+  font-family: 'Outfit', var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  color: #fff;
+}
+
+.screen-workout-detail-figma .wk-filter-sheet-apply.is-disabled,
+.screen-workout-detail-figma .wk-filter-sheet-apply:disabled {
+  background: var(--color-primary-container);
+  color: #94a3b8;
 }
