@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=7">
+  <link rel="stylesheet" href="../../styles.css?v=8">
 </head>
 <body>
   <div class="app-container">
@@ -15,63 +15,167 @@
       <div class="phone-notch"></div>
       <div class="screens-wrapper" id="screensWrapper">
 
-        <!-- ===== WORKOUT TAB: Execution - Exercise Counter ===== -->
-        <div class="screen screen-exec-dark screen-exec-counter active" data-screen="workout-exercise">
-          <div class="wk-live-bg wk-live-bg-exercise"></div>
-          <div class="wk-live-overlay wk-live-overlay-strong"></div>
+        <!-- ===== WORKOUT TAB: Exercise Execution ===== -->
+        <div class="screen screen-exercise-figma active" data-screen="workout-exercise">
 
-          <div class="status-bar wk-live-status">
+          <!-- Status Bar -->
+          <div class="ex-fg-status-bar">
             <span class="status-time">9:41</span>
             <div class="status-icons">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="10" width="3" height="5" rx="0.5" fill="#fff"/><rect x="6" y="7" width="3" height="8" rx="0.5" fill="#fff"/><rect x="11" y="3" width="3" height="12" rx="0.5" fill="#fff"/></svg>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="#fff"/><path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="#fff"/><circle cx="8" cy="11" r="2" fill="#fff"/></svg>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="5" width="2" height="6" rx="0.5" fill="#fff"/><rect x="5" y="3" width="2" height="8" rx="0.5" fill="#fff"/><rect x="9" y="1" width="2" height="10" rx="0.5" fill="#fff"/><rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#fff"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a"/><rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a"/><rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="#0f172a"/><path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="#0f172a"/><circle cx="8" cy="11" r="2" fill="#0f172a"/></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a"/><rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a"/><rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a"/><rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a"/></svg>
             </div>
           </div>
 
-          <button class="wk-live-back" onclick="exitWorkout()" aria-label="Exit workout">
-            <img src="../../assets/svg_icons/back.svg" class="icon" width="24" alt="">
-          </button>
+          <!-- Snackbar -->
+          <div class="wk-snackbar" id="wkSnackbar">
+            <span class="wk-snackbar-msg" id="wkSnackbarMsg"></span>
+            <button class="wk-snackbar-action" onclick="hideSnackbar()">Dismiss</button>
+          </div>
 
-          <main class="wk-live-wrap" id="wkLiveExerciseSurface" onclick="toggleWorkoutPause(event)">
-            <section class="wk-live-progress">
-              <div class="wk-live-progress-head wk-live-progress-head-left">
-                <strong id="wkExecProgress">0:00 &bull; 0%</strong>
+          <!-- Main Content -->
+          <main class="ex-fg-main">
+            <!-- Header: close + title + caption + info -->
+            <section class="ex-fg-header">
+              <button class="ex-fg-close-btn" onclick="exitWorkout()" aria-label="Close exercise">
+                <span class="icon" style="--icon-url: url('../../assets/svg_icons/cross-x.svg'); width: 24px; height: 24px; background-color: var(--color-text-primary, #0F172A);" aria-hidden="true"></span>
+              </button>
+              <div class="ex-fg-title-wrap">
+                <p class="ex-fg-caption" id="wkExecCaption">1 of 6 Exercises</p>
+                <h1 class="ex-fg-title" id="wkExecExerciseName">Barbell Bench</h1>
               </div>
-              <div class="wk-live-segments" id="wkExecProgressSegments" aria-hidden="true"></div>
+              <button class="ex-fg-info-btn" onclick="openExerciseInfoPopup()" aria-label="Exercise info">
+                <span class="icon" style="--icon-url: url('../../assets/svg_icons/info.svg'); width: 24px; height: 24px; background-color: var(--color-default, #64748B);" aria-hidden="true"></span>
+              </button>
             </section>
 
-            <section class="wk-exercise-live-content">
-              <p id="wkExecSetLabel">Set 1 of 1</p>
-              <h1 id="wkExecExerciseName">Knee Hug</h1>
+            <!-- Progress -->
+            <section class="ex-fg-progress">
+              <div class="ex-fg-progress-head">
+                <strong id="wkExecProgress">2:40 &bull; 0%</strong>
+                <button type="button" onclick="skipExercise()" class="ex-fg-skip">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 20px; height: 20px; background-color: var(--color-primary, #0056D8);" aria-hidden="true"></span>
+                  <span>Skip exercise</span>
+                </button>
+              </div>
+              <div class="ex-fg-segments" id="wkExecProgressSegments" aria-hidden="true"></div>
             </section>
 
-            <section class="wk-pause-cta" id="wkPauseCta" aria-live="polite">
-              <strong id="wkPauseTitle"></strong>
-              <span class="wk-pause-button" id="wkPauseButton" aria-hidden="true">
-                <i></i>
-                <i></i>
-              </span>
-              <em id="wkPauseLabel">Pause</em>
-            </section>
+            <!-- Timer -->
+            <div class="ex-fg-timer">
+              <strong id="wkExecTimer">0:60</strong>
+              <p>Pre-Workout Countdown</p>
+            </div>
 
-            <section class="wk-gauge-wrap" aria-label="Exercise timer">
-              <div class="wk-gauge-bars" id="wkExecGaugeBars"></div>
-              <strong id="wkExecGaugeTime">0:20</strong>
-            </section>
+            <!-- Bottom section: rep info + track progress + video -->
+            <div class="ex-fg-bottom">
+              <div class="ex-fg-actions">
+                <div class="ex-fg-rep-info" id="wkRepInfo">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary, #64748B);" aria-hidden="true"></span>
+                  <span id="wkRepInfoText">1/4 Sets &bull; 8 Reps</span>
+                </div>
+                <button class="ex-fg-track-btn" onclick="openTrackProgress()" aria-label="Track progress">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/journal-alt.svg'); width: 18px; height: 18px; background-color: var(--color-primary, #0056D8);" aria-hidden="true"></span>
+                </button>
+              </div>
 
-            <section class="wk-warmup-success" id="wkWarmupSuccess">
-              <div class="wk-success-mark">&#10003;</div>
-              <h2>Warmup Complete</h2>
-              <p id="wkWarmupSuccessCopy">You are ready for your first exercise.</p>
-              <button type="button" onclick="continueAfterWarmup(event)">Start Workout</button>
-            </section>
+              <!-- Video Player -->
+              <div class="ex-fg-video">
+                <div class="ex-fg-video-frame" id="wkVideoFrame">
+                  <iframe id="wkExerciseIframe"
+                    src="https://www.youtube.com/embed/By6GXzcldGY?autoplay=1&mute=1&rel=0&playsinline=1&controls=0&modestbranding=1&enablejsapi=1"
+                    title="Exercise demo video"
+                    allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+                  <button class="ex-fg-video-control" id="wkPauseButton" type="button" onclick="toggleExerciseVideo()" aria-label="Pause video"></button>
+                  <div class="ex-fg-video-progress">
+                    <span id="wkExecProgressFill"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </main>
+
+          <!-- Full-Screen Exercise Info Popup -->
+          <div class="ex-fg-info-popup-overlay" id="exerciseInfoOverlay"></div>
+          <div class="ex-fg-info-popup" id="exerciseInfoPopup">
+            <!-- Top Nav -->
+            <div class="wk-nav-header">
+              <button onclick="closeExerciseInfoPopup()" aria-label="Close">
+                <span class="icon wk-ex-detail-nav-icon" style="--icon-url: url('../../assets/svg_icons/cross-x.svg'); width: 22px; height: 22px; background-color: var(--color-text-primary, #0F172A);" aria-hidden="true"></span>
+              </button>
+              <span class="wk-nav-title" id="infoPopupTitle">Exercise Info</span>
+              <div style="width:32px"></div>
+            </div>
+            <!-- Body -->
+            <div class="wk-ex-detail-body" id="infoPopupBody"></div>
+            <!-- Footer (empty, no Add to Workout) -->
+            <div class="wk-ex-detail-footer" id="infoPopupFooter"></div>
+            <!-- Note Sheet -->
+            <div class="bottom-sheet wk-ex-note-sheet" id="infoPopupNoteSheet" aria-hidden="true">
+              <div class="sheet-backdrop" onclick="closeInfoPopupNoteSheet()"></div>
+              <div class="sheet-content wk-ex-note-sheet-content">
+                <div class="sheet-handle"></div>
+                <div class="sheet-header">
+                  <h3 class="sheet-title" id="infoPopupNoteSheetTitle">Exercise Note</h3>
+                  <button class="sheet-close" type="button" onclick="closeInfoPopupNoteSheet()" aria-label="Close">
+                    <span class="icon wk-ex-detail-sheet-close-icon" style="--icon-url: url('../../assets/svg_icons/cross-x.svg'); width: 16px; height: 16px; background-color: var(--color-text-primary, #0F172A);" aria-hidden="true"></span>
+                  </button>
+                </div>
+                <div class="sheet-body wk-ex-note-sheet-body" id="infoPopupNoteSheetBody"></div>
+                <div class="sheet-actions wk-ex-note-sheet-actions" id="infoPopupNoteSheetActions"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track Progress Bottom Sheet -->
+          <div class="ex-fg-sheet-overlay" id="trackProgressOverlay" onclick="closeTrackProgress()"></div>
+          <div class="ex-fg-sheet" id="trackProgressSheet">
+            <div class="ex-fg-sheet-handle"></div>
+            <div class="ex-fg-sheet-header">
+              <h2 class="ex-fg-sheet-title">Track Progress</h2>
+              <button class="ex-fg-sheet-close" onclick="closeTrackProgress()" aria-label="Close sheet">
+                <span class="icon" style="--icon-url: url('../../assets/svg_icons/cross-x.svg'); width: 24px; height: 24px; background-color: var(--color-text-primary, #0F172A);" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="ex-fg-sheet-body" id="trackProgressBody">
+              <!-- Total Sets and Reps -->
+              <div class="ex-fg-track-total">
+                <p class="ex-fg-track-label">Total Sets and Reps</p>
+                <div class="ex-fg-track-badge" id="trackTotalBadge">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 16px; height: 16px; background-color: var(--color-primary, #0056D8);" aria-hidden="true"></span>
+                  <span id="trackTotalText">4 Sets 8 Reps</span>
+                </div>
+              </div>
+
+              <div class="ex-fg-track-sets" id="trackSetsContainer">
+                <!-- Sets input row -->
+                <div class="ex-fg-track-sets-row">
+                  <p class="ex-fg-track-label">Sets</p>
+                  <div class="ex-fg-track-input-wrap ex-fg-track-input-sm">
+                    <input type="number" class="ex-fg-track-input" id="trackSetsInput" value="4" min="1" max="20" onchange="updateTrackTotalBadge()">
+                    <span class="ex-fg-track-input-unit">Sets</span>
+                  </div>
+                </div>
+
+                <!-- Per-set rows injected by JS -->
+                <div id="trackSetRows"></div>
+              </div>
+
+              <!-- Add Another Repetition -->
+              <button class="ex-fg-track-add" onclick="addTrackRepetition()">Add Another Repetition</button>
+
+              <!-- Done Button -->
+              <button class="ex-fg-track-done" id="trackDoneBtn" onclick="submitTrackProgress()" disabled>Done</button>
+            </div>
+          </div>
+
         </div>
 
       </div>
     </div>
   </div>
-  <script src="../../app.js?v=7"></script>
+  <script src="../../app.js?v=8"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=10">
+  <link rel="stylesheet" href="../../styles.css?v=13">
 </head>
 
 <body>
@@ -44,7 +44,7 @@
             <header class="lb-figma-header">
               <h1>Log Book</h1>
               <button class="lb-calendar-button" id="calendarBtn" aria-label="Open calendar">
-                <img src="../../assets/svg_icons/calendar.svg" alt="">
+                <span class="icon lb-calendar-button-icon" style="--icon-url: url('../../assets/svg_icons/calendar.svg'); width: 24px; height: 24px;" aria-hidden="true"></span>
               </button>
             </header>
 
@@ -100,62 +100,79 @@
             </section>
 
             <h2 class="lb-section-title">Meals</h2>
-            <section class="logbook-card lb-meals-card">
-              <button class="lb-meal-row" type="button" data-meal="breakfast">
-                <span class="lb-meal-icon lb-meal-breakfast"><img src="../../assets/svg_icons/morning.svg" alt=""></span>
-                <span class="lb-meal-copy">
-                  <strong>Breakfast</strong>
-                  <em>420 kcal · P 28g · C 42g · F 12g</em>
-                </span>
-                <span class="lb-forward"><img src="../../assets/svg_icons/foward.svg" alt=""></span>
-              </button>
-              <button class="lb-meal-row" type="button" data-meal="lunch">
-                <span class="lb-meal-icon lb-meal-lunch"><img src="../../assets/svg_icons/day.svg" alt=""></span>
-                <span class="lb-meal-copy">
-                  <strong>Lunch</strong>
-                  <em>650 kcal · P 35g · C 70g · F 18g</em>
-                </span>
-                <span class="lb-forward"><img src="../../assets/svg_icons/foward.svg" alt=""></span>
-              </button>
-              <button class="lb-meal-row" type="button" data-meal="dinner">
-                <span class="lb-meal-icon lb-meal-dinner"><img src="../../assets/svg_icons/night.svg" alt=""></span>
-                <span class="lb-meal-copy">
-                  <strong>Dinner</strong>
-                  <em>580 kcal · P 22g · C 38g · F 20g</em>
-                </span>
-                <span class="lb-forward"><img src="../../assets/svg_icons/foward.svg" alt=""></span>
-              </button>
-              <button class="lb-meal-row" type="button" data-meal="snacks">
-                <span class="lb-meal-icon lb-meal-snacks"><img src="../../assets/svg_icons/snack.svg" alt=""></span>
-                <span class="lb-meal-copy">
-                  <strong>Snacks</strong>
-                  <em>580 kcal · P 8g · C 10g · F 5g</em>
-                </span>
-                <span class="lb-forward"><img src="../../assets/svg_icons/foward.svg" alt=""></span>
-              </button>
-            </section>
+            <section class="logbook-card lb-meals-card" id="lbMealsCard"></section>
 
             <h2 class="lb-section-title">Action</h2>
             <section class="logbook-card lb-action-card">
               <button class="lb-action-row" type="button" id="copyPrevBtn">
-                <span><img src="../../assets/svg_icons/copy.svg" alt="">Copy Yesterday</span>
-                <img src="../../assets/svg_icons/foward.svg" alt="">
+                <span class="lb-action-main">
+                  <span class="lb-action-icon-wrap">
+                    <span class="icon lb-action-icon" style="--icon-url: url('../../assets/svg_icons/copy.svg'); width: 18px; height: 18px;" aria-hidden="true"></span>
+                  </span>
+                  <span class="lb-action-copy">
+                    <strong>Copy Yesterday</strong>
+                    <em>Reuse yesterday’s meals instantly</em>
+                  </span>
+                </span>
+                <span class="lb-action-trailing" aria-hidden="true">
+                  <span class="icon lb-action-chevron" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 16px; height: 16px;"></span>
+                </span>
               </button>
               <button class="lb-action-row" type="button" id="nutrientsCard">
-                <span><img src="../../assets/svg_icons/salad.svg" alt="">Full Nutrients</span>
-                <em>Premium</em>
+                <span class="lb-action-main">
+                  <span class="lb-action-icon-wrap">
+                    <span class="icon lb-action-icon" style="--icon-url: url('../../assets/svg_icons/salad.svg'); width: 18px; height: 18px;" aria-hidden="true"></span>
+                  </span>
+                  <span class="lb-action-copy">
+                    <strong>Full Nutrients</strong>
+                    <em>Micros, vitamins, and minerals</em>
+                  </span>
+                </span>
+                <span class="lb-action-trailing" aria-hidden="true">
+                  <span class="icon lb-action-chevron" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 16px; height: 16px;"></span>
+                </span>
               </button>
               <button class="lb-action-row" type="button" id="macroOverviewAction">
-                <span><img src="../../assets/svg_icons/chart-pie-alt.svg" alt="">Macro Overview</span>
-                <img src="../../assets/svg_icons/foward.svg" alt="">
+                <span class="lb-action-main">
+                  <span class="lb-action-icon-wrap">
+                    <span class="icon lb-action-icon" style="--icon-url: url('../../assets/svg_icons/chart-pie-alt.svg'); width: 18px; height: 18px;" aria-hidden="true"></span>
+                  </span>
+                  <span class="lb-action-copy">
+                    <strong>Macro Overview</strong>
+                    <em>Review today’s macro balance</em>
+                  </span>
+                </span>
+                <span class="lb-action-trailing" aria-hidden="true">
+                  <span class="icon lb-action-chevron" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 16px; height: 16px;"></span>
+                </span>
               </button>
               <button class="lb-action-row" type="button" id="manualEntryBtn">
-                <span><img src="../../assets/svg_icons/edit.svg" alt="">Add Manually</span>
-                <img src="../../assets/svg_icons/foward.svg" alt="">
+                <span class="lb-action-main">
+                  <span class="lb-action-icon-wrap">
+                    <span class="icon lb-action-icon" style="--icon-url: url('../../assets/svg_icons/edit.svg'); width: 18px; height: 18px;" aria-hidden="true"></span>
+                  </span>
+                  <span class="lb-action-copy">
+                    <strong>Add Manually</strong>
+                    <em>Log a food without searching</em>
+                  </span>
+                </span>
+                <span class="lb-action-trailing" aria-hidden="true">
+                  <span class="icon lb-action-chevron" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 16px; height: 16px;"></span>
+                </span>
               </button>
               <button class="lb-action-row" type="button" id="myMealsBtn">
-                <span><img src="../../assets/svg_icons/turkey.svg" alt="">My Meals</span>
-                <img src="../../assets/svg_icons/foward.svg" alt="">
+                <span class="lb-action-main">
+                  <span class="lb-action-icon-wrap">
+                    <span class="icon lb-action-icon" style="--icon-url: url('../../assets/svg_icons/turkey.svg'); width: 18px; height: 18px;" aria-hidden="true"></span>
+                  </span>
+                  <span class="lb-action-copy">
+                    <strong>My Meals</strong>
+                    <em>Open your saved meal library</em>
+                  </span>
+                </span>
+                <span class="lb-action-trailing" aria-hidden="true">
+                  <span class="icon lb-action-chevron" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 16px; height: 16px;"></span>
+                </span>
               </button>
             </section>
           </div>
@@ -221,6 +238,40 @@
             </div>
           </div>
 
+          <div class="bottom-sheet lb-quick-edit-sheet" id="lbQuickEditSheet" aria-hidden="true">
+            <div class="sheet-backdrop" data-close-quick-edit></div>
+            <div class="sheet-content">
+              <div class="sheet-handle"></div>
+              <div class="lb-quick-edit-header">
+                <h3>Quick Edit</h3>
+                <button class="lb-quick-edit-close" type="button" data-close-quick-edit aria-label="Close quick edit">
+                  <span class="icon lb-quick-edit-close-icon" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="lb-quick-edit-body">
+                <div class="lb-quick-edit-item" id="lbQuickEditItem"></div>
+                <div class="lb-quick-edit-serving">
+                  <div class="lb-quick-edit-serving-copy">
+                    <strong>Serving</strong>
+                    <span id="lbQuickEditServingMeta">0 kcal per serving</span>
+                  </div>
+                  <div class="lb-quick-edit-counter">
+                    <button type="button" id="lbQuickEditMinus" aria-label="Decrease serving">−</button>
+                    <span id="lbQuickEditServingValue">1</span>
+                    <button type="button" id="lbQuickEditPlus" aria-label="Increase serving">+</button>
+                  </div>
+                </div>
+                <div class="lb-quick-edit-actions">
+                  <button class="lb-quick-edit-save" type="button" id="lbQuickEditSaveBtn">Save Changes</button>
+                  <button class="lb-quick-edit-delete" type="button" id="lbQuickEditDeleteBtn" aria-label="Delete food">
+                    <span class="icon lb-quick-edit-delete-icon" style="--icon-url: url('../../assets/svg_icons/trash.svg'); width: 24px; height: 24px;" aria-hidden="true"></span>
+                  </button>
+                </div>
+                <p class="lb-quick-edit-note">*Add this food again with the same serving.</p>
+              </div>
+            </div>
+          </div>
+
           <div class="toast-container" id="toastContainer"></div>
         </div>
 
@@ -234,8 +285,16 @@
     (function() {
       const content = document.getElementById('logbookContent');
       const isPremium = window.__strivio_state?.isPremium || false;
+      const mealsCard = document.getElementById('lbMealsCard');
+      const quickEditSheet = document.getElementById('lbQuickEditSheet');
+      const quickEditItemEl = document.getElementById('lbQuickEditItem');
+      const quickEditServingMetaEl = document.getElementById('lbQuickEditServingMeta');
+      const quickEditServingValueEl = document.getElementById('lbQuickEditServingValue');
       let touchStartX = 0;
       let touchEndX = 0;
+      const expandedMeals = new Set(['breakfast']);
+      let currentDateKey = '2026-05-07';
+      let quickEditState = null;
 
       function showToast(message) {
         const container = document.getElementById('toastContainer');
@@ -259,6 +318,275 @@
           content.style.transform = 'translateX(0)';
           showToast(direction > 0 ? 'Next day' : 'Previous day');
         }, 200);
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      const mealMeta = {
+        breakfast: { label: 'Breakfast', iconClass: 'lb-meal-breakfast' },
+        lunch: { label: 'Lunch', iconClass: 'lb-meal-lunch' },
+        dinner: { label: 'Dinner', iconClass: 'lb-meal-dinner' },
+        snacks: { label: 'Snacks', iconClass: 'lb-meal-snacks' }
+      };
+
+      const mealTemplateState = {
+        breakfast: {
+          items: [
+            { id: 'breakfast-oatmeal', name: 'Oatmeal (1 bowl)', image: 'https://images.unsplash.com/photo-1517673400267-0251440c45dc?auto=format&fit=crop&w=200&q=80', perServingKcal: 350, perServingMacros: { protein: 12, carbs: 55, fat: 8 }, servings: 1 },
+            { id: 'breakfast-yogurt', name: 'Greek Yogurt (1 cup)', image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=200&q=80', perServingKcal: 120, perServingMacros: { protein: 20, carbs: 10, fat: 0 }, servings: 1 },
+            { id: 'breakfast-toast', name: 'Avocado Toast (1 slice)', image: 'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=200&q=80', perServingKcal: 250, perServingMacros: { protein: 5, carbs: 20, fat: 15 }, servings: 1 }
+          ]
+        },
+        lunch: {
+          items: [
+            { id: 'lunch-bowl', name: 'Chicken Rice Bowl', image: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=200&q=80', perServingKcal: 410, perServingMacros: { protein: 28, carbs: 42, fat: 11 }, servings: 1 },
+            { id: 'lunch-fruit', name: 'Fruit Cup', image: 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?auto=format&fit=crop&w=200&q=80', perServingKcal: 140, perServingMacros: { protein: 2, carbs: 28, fat: 1 }, servings: 1 }
+          ]
+        },
+        dinner: {
+          items: [
+            { id: 'dinner-salmon', name: 'Salmon Plate', image: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=200&q=80', perServingKcal: 430, perServingMacros: { protein: 30, carbs: 18, fat: 24 }, servings: 1 },
+            { id: 'dinner-yogurt', name: 'Yogurt Parfait', image: 'https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&w=200&q=80', perServingKcal: 150, perServingMacros: { protein: 9, carbs: 20, fat: 3 }, servings: 1 }
+          ]
+        },
+        snacks: {
+          items: [
+            { id: 'snack-banana', name: 'Banana Smoothie', image: 'https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?auto=format&fit=crop&w=200&q=80', perServingKcal: 180, perServingMacros: { protein: 8, carbs: 24, fat: 4 }, servings: 1 }
+          ]
+        }
+      };
+
+      const mealStatesByDate = {};
+
+      function cloneData(data) {
+        return JSON.parse(JSON.stringify(data));
+      }
+
+      function getFoodMacros(food, servings) {
+        const safeServings = Math.max(1, servings || food.servings || 1);
+        return {
+          protein: food.perServingMacros.protein * safeServings,
+          carbs: food.perServingMacros.carbs * safeServings,
+          fat: food.perServingMacros.fat * safeServings
+        };
+      }
+
+      function getFoodCalories(food, servings) {
+        const safeServings = Math.max(1, servings || food.servings || 1);
+        return food.perServingKcal * safeServings;
+      }
+
+      function formatMacrosLine(macros) {
+        return `P ${macros.protein}g · C ${macros.carbs}g · F ${macros.fat}g`;
+      }
+
+      function computeMealSummaryText(meal) {
+        const totals = (meal.items || []).reduce((acc, food) => {
+          const macros = getFoodMacros(food);
+          acc.kcal += getFoodCalories(food);
+          acc.protein += macros.protein;
+          acc.carbs += macros.carbs;
+          acc.fat += macros.fat;
+          return acc;
+        }, { kcal: 0, protein: 0, carbs: 0, fat: 0 });
+
+        return `${totals.kcal} kcal · P ${totals.protein}g · C ${totals.carbs}g · F ${totals.fat}g`;
+      }
+
+      function ensureMealState(key, mealSummaries) {
+        if (!mealStatesByDate[key]) {
+          mealStatesByDate[key] = cloneData(mealTemplateState);
+        }
+
+        Object.keys(mealMeta).forEach(mealKey => {
+          const meal = mealStatesByDate[key][mealKey] || { items: [] };
+          if (typeof meal.summaryLocked !== 'boolean') {
+            meal.summaryLocked = true;
+          }
+          if (meal.summaryLocked !== false) {
+            meal.summaryText = mealSummaries?.[mealKey] || meal.summaryText || '0 kcal · P 0g · C 0g · F 0g';
+          }
+          mealStatesByDate[key][mealKey] = meal;
+        });
+
+        return mealStatesByDate[key];
+      }
+
+      function getActiveDayData() {
+        return logbookData[currentDateKey] || logbookData['2026-05-07'];
+      }
+
+      function getActiveMeals() {
+        return ensureMealState(currentDateKey, getActiveDayData().meals);
+      }
+
+      function getActiveMeal(mealKey) {
+        return getActiveMeals()[mealKey];
+      }
+
+      function getFoodById(mealKey, foodId) {
+        const meal = getActiveMeal(mealKey);
+        return meal?.items?.find(item => item.id === foodId) || null;
+      }
+
+      function setMealEdited(mealKey) {
+        const meal = getActiveMeal(mealKey);
+        if (!meal) return;
+        meal.summaryLocked = false;
+        meal.summaryText = computeMealSummaryText(meal);
+      }
+
+      function setLogbookSelection(mealKey, foodId) {
+        window.__strivio_state = window.__strivio_state || {};
+        window.__strivio_state.logbookSelectedMeal = mealKey;
+        window.__strivio_state.logbookSelectedFoodId = foodId || null;
+        try { localStorage.setItem('strivio_state', JSON.stringify(window.__strivio_state)); } catch (e) {}
+      }
+
+      function renderMeals() {
+        if (!mealsCard) return;
+        const meals = getActiveMeals();
+        const keys = Object.keys(mealMeta);
+
+        mealsCard.innerHTML = keys.map((mealKey, index) => {
+          const meta = mealMeta[mealKey];
+          const meal = meals[mealKey];
+          const isExpanded = expandedMeals.has(mealKey);
+          const summaryText = meal.summaryLocked !== false ? meal.summaryText : computeMealSummaryText(meal);
+          const itemsHtml = (meal.items && meal.items.length)
+            ? meal.items.map(food => {
+              const macrosText = formatMacrosLine(getFoodMacros(food));
+              return '' +
+                `<article class="lb-food-card">` +
+                  `<button class="lb-food-detail" type="button" data-food-detail="${mealKey}" data-food-id="${food.id}">` +
+                    `<span class="lb-food-thumb"><img src="${food.image}" alt="${escapeHtml(food.name)}"></span>` +
+                    `<span class="lb-food-copy">` +
+                      `<strong>${escapeHtml(food.name)}</strong>` +
+                      `<em>${escapeHtml(macrosText)}</em>` +
+                      `<b>${getFoodCalories(food)} kcal</b>` +
+                    `</span>` +
+                  `</button>` +
+                  `<button class="lb-food-edit" type="button" data-food-edit="${mealKey}" data-food-id="${food.id}" aria-label="Quick edit ${escapeHtml(food.name)}">` +
+                    `<span class="icon lb-food-edit-icon" style="--icon-url: url('../../assets/svg_icons/edit.svg'); width: 16px; height: 16px;" aria-hidden="true"></span>` +
+                  `</button>` +
+                `</article>`;
+            }).join('')
+            : `<div class="lb-meal-empty">No foods logged yet. Add food to this meal.</div>`;
+
+          return '' +
+            `<section class="lb-meal-group${isExpanded ? ' is-expanded' : ''}${index < keys.length - 1 ? ' has-divider' : ''}">` +
+              `<button class="lb-meal-head" type="button" data-meal-toggle="${mealKey}" aria-expanded="${isExpanded ? 'true' : 'false'}">` +
+                `<span class="lb-meal-icon ${meta.iconClass}"><img src="../../assets/svg_icons/morning.svg" alt=""></span>` +
+                `<span class="lb-meal-copy">` +
+                  `<strong>${meta.label}</strong>` +
+                  `<em>${escapeHtml(summaryText)}</em>` +
+                `</span>` +
+                `<span class="lb-meal-chevron-wrap">` +
+                  `<span class="icon lb-meal-chevron" style="--icon-url: url('../../assets/svg_icons/down.svg'); width: 14px; height: 14px;" aria-hidden="true"></span>` +
+                `</span>` +
+              `</button>` +
+              (isExpanded
+                ? `<div class="lb-meal-panel">${itemsHtml}<button class="lb-meal-add-btn" type="button" data-add-food="${mealKey}"><span class="icon lb-meal-add-icon" style="--icon-url: url('../../assets/svg_icons/plus.svg'); width: 18px; height: 18px;" aria-hidden="true"></span><span>Add Food</span></button></div>`
+                : '') +
+            `</section>`;
+        }).join('');
+      }
+
+      function getQuickEditFood() {
+        if (!quickEditState) return null;
+        return getFoodById(quickEditState.mealKey, quickEditState.foodId);
+      }
+
+      function syncQuickEditSheet() {
+        const food = getQuickEditFood();
+        if (!food || !quickEditItemEl || !quickEditServingMetaEl || !quickEditServingValueEl) return;
+
+        quickEditItemEl.innerHTML = '' +
+          `<div class="lb-quick-edit-food-card">` +
+            `<span class="lb-food-thumb lb-quick-edit-thumb"><img src="${food.image}" alt="${escapeHtml(food.name)}"></span>` +
+            `<div class="lb-quick-edit-copy">` +
+              `<strong>${escapeHtml(food.name)}</strong>` +
+              `<em>${escapeHtml(formatMacrosLine(getFoodMacros(food, 1)))}</em>` +
+              `<b>${food.perServingKcal} kcal</b>` +
+            `</div>` +
+            `<button class="lb-quick-edit-log-again" type="button" id="lbQuickEditLogAgain">Log Again</button>` +
+          `</div>`;
+
+        quickEditServingMetaEl.textContent = `${food.perServingKcal} kcal per serving`;
+        quickEditServingValueEl.textContent = String(quickEditState.servings);
+        quickEditItemEl.querySelector('#lbQuickEditLogAgain')?.addEventListener('click', logAgainQuickEditFood);
+      }
+
+      function openQuickEdit(mealKey, foodId) {
+        const food = getFoodById(mealKey, foodId);
+        if (!food) return;
+        quickEditState = {
+          mealKey,
+          foodId,
+          servings: Math.max(1, food.servings || 1)
+        };
+        syncQuickEditSheet();
+        quickEditSheet?.setAttribute('aria-hidden', 'false');
+        if (typeof openSheet === 'function') {
+          openSheet('lbQuickEditSheet');
+        } else {
+          quickEditSheet?.classList.add('open');
+        }
+      }
+
+      function closeQuickEdit(skipReset) {
+        quickEditSheet?.setAttribute('aria-hidden', 'true');
+        if (typeof closeSheet === 'function') {
+          closeSheet('lbQuickEditSheet');
+        } else {
+          quickEditSheet?.classList.remove('open');
+        }
+        if (!skipReset) {
+          quickEditState = null;
+        }
+      }
+
+      function saveQuickEditChanges() {
+        const food = getQuickEditFood();
+        if (!food || !quickEditState) return;
+        food.servings = Math.max(1, quickEditState.servings);
+        setMealEdited(quickEditState.mealKey);
+        renderMeals();
+        closeQuickEdit();
+        showToast('Changes saved');
+      }
+
+      function deleteQuickEditFood() {
+        if (!quickEditState) return;
+        const meal = getActiveMeal(quickEditState.mealKey);
+        if (!meal) return;
+        meal.items = (meal.items || []).filter(item => item.id !== quickEditState.foodId);
+        setMealEdited(quickEditState.mealKey);
+        renderMeals();
+        closeQuickEdit();
+        showToast('Food removed');
+      }
+
+      function logAgainQuickEditFood() {
+        const food = getQuickEditFood();
+        if (!food || !quickEditState) return;
+        const meal = getActiveMeal(quickEditState.mealKey);
+        if (!meal) return;
+        const clonedFood = cloneData(food);
+        clonedFood.id = `${food.id}-copy-${Date.now()}`;
+        clonedFood.servings = Math.max(1, quickEditState.servings);
+        meal.items.push(clonedFood);
+        setMealEdited(quickEditState.mealKey);
+        renderMeals();
+        closeQuickEdit();
+        showToast('Food added again');
       }
 
       const calendarSheet = document.getElementById('logbookCalendarSheet');
@@ -327,11 +655,6 @@
         return ['S', 'M', 'T', 'W', 'T', 'F', 'S'][date.getDay()];
       }
 
-      function updateMeal(meal, text) {
-        const row = document.querySelector(`.lb-meal-row[data-meal="${meal}"] .lb-meal-copy em`);
-        if (row) row.textContent = text;
-      }
-
       function updateMacro(index, label, macro) {
         const item = document.querySelectorAll('.lb-macro-mini')[index];
         if (!item || !macro) return;
@@ -349,6 +672,7 @@
         selectedDate = new Date(date);
         calendarDate = new Date(selectedDate);
         const key = dateKey(selectedDate);
+        currentDateKey = key;
         const dayData = logbookData[key] || logbookData['2026-05-07'];
         const consumed = dayData.consumed;
         const target = dayData.target;
@@ -364,7 +688,9 @@
         updateMacro(0, 'Protein', dayData.macros.protein);
         updateMacro(1, 'Carbs', dayData.macros.carbs);
         updateMacro(2, 'Fat', dayData.macros.fat);
-        Object.keys(dayData.meals).forEach(meal => updateMeal(meal, dayData.meals[meal]));
+        ensureMealState(key, dayData.meals);
+        renderMeals();
+        closeQuickEdit();
 
         const weekStart = new Date(selectedDate);
         weekStart.setDate(selectedDate.getDate() - 3);
@@ -473,9 +799,60 @@
         closeLogbookCalendar();
         showToast(`May ${selectedDate.getDate()} selected`);
       });
-      document.querySelectorAll('[data-meal]').forEach(row => {
-        row.addEventListener('click', () => navigateTo('meal-detail'));
+
+      mealsCard?.addEventListener('click', event => {
+        const toggleBtn = event.target.closest('[data-meal-toggle]');
+        if (toggleBtn) {
+          const mealKey = toggleBtn.getAttribute('data-meal-toggle');
+          if (expandedMeals.has(mealKey)) {
+            expandedMeals.delete(mealKey);
+          } else {
+            expandedMeals.add(mealKey);
+          }
+          renderMeals();
+          return;
+        }
+
+        const editBtn = event.target.closest('[data-food-edit]');
+        if (editBtn) {
+          event.preventDefault();
+          event.stopPropagation();
+          openQuickEdit(editBtn.getAttribute('data-food-edit'), editBtn.getAttribute('data-food-id'));
+          return;
+        }
+
+        const detailBtn = event.target.closest('[data-food-detail]');
+        if (detailBtn) {
+          const mealKey = detailBtn.getAttribute('data-food-detail');
+          const foodId = detailBtn.getAttribute('data-food-id');
+          setLogbookSelection(mealKey, foodId);
+          navigateTo('meal-detail');
+          return;
+        }
+
+        const addBtn = event.target.closest('[data-add-food]');
+        if (addBtn) {
+          const mealKey = addBtn.getAttribute('data-add-food');
+          setLogbookSelection(mealKey, null);
+          navigateTo('add-food-home');
+        }
       });
+
+      document.querySelectorAll('[data-close-quick-edit]').forEach(item => {
+        item.addEventListener('click', () => closeQuickEdit());
+      });
+      document.getElementById('lbQuickEditMinus')?.addEventListener('click', () => {
+        if (!quickEditState) return;
+        quickEditState.servings = Math.max(1, quickEditState.servings - 1);
+        syncQuickEditSheet();
+      });
+      document.getElementById('lbQuickEditPlus')?.addEventListener('click', () => {
+        if (!quickEditState) return;
+        quickEditState.servings += 1;
+        syncQuickEditSheet();
+      });
+      document.getElementById('lbQuickEditSaveBtn')?.addEventListener('click', saveQuickEditChanges);
+      document.getElementById('lbQuickEditDeleteBtn')?.addEventListener('click', deleteQuickEditFood);
       document.getElementById('macroOverviewCard')?.addEventListener('click', () => showToast('Macro overview shown'));
       document.getElementById('copyPrevBtn')?.addEventListener('click', () => navigateTo('copy-previous-day'));
       document.getElementById('nutrientsCard')?.addEventListener('click', () => navigateTo(isPremium ? 'nutrients-full' : 'nutrients-locked'));
