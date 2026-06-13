@@ -362,6 +362,42 @@
             </div>
           </div>
 
+          <div class="bottom-sheet lb-add-food-sheet" id="lbAddFoodSheet" aria-hidden="true">
+            <div class="sheet-backdrop" data-close-add-food></div>
+            <div class="sheet-content lb-add-food-sheet-content" role="dialog" aria-modal="true" aria-labelledby="lbAddFoodSheetTitle">
+              <div class="sheet-handle"></div>
+              <div class="lb-add-food-sheet-header">
+                <h2 id="lbAddFoodSheetTitle">Add Food</h2>
+                <button class="lb-add-food-close" type="button" data-close-add-food aria-label="Close add food options">
+                  <span class="icon lb-add-food-close-icon" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="lb-add-food-options">
+                <button class="lb-add-food-option" type="button" data-add-food-option="manual-entry">
+                  <span class="icon lb-add-food-option-icon" style="--icon-url: url('../../assets/svg_icons/edit.svg'); width: 22px; height: 22px;" aria-hidden="true"></span>
+                  <span class="lb-add-food-option-copy">
+                    <strong>Manual Entry</strong>
+                    <em>Add custom food manually</em>
+                  </span>
+                </button>
+                <button class="lb-add-food-option" type="button" data-add-food-option="barcode-scanner">
+                  <span class="icon lb-add-food-option-icon" style="--icon-url: url('../../assets/svg_icons/barcode-read.svg'); width: 22px; height: 22px;" aria-hidden="true"></span>
+                  <span class="lb-add-food-option-copy">
+                    <strong>Scan Barcode</strong>
+                    <em>Instant nutrition data</em>
+                  </span>
+                </button>
+                <button class="lb-add-food-option" type="button" data-add-food-option="add-food-home">
+                  <span class="icon lb-add-food-option-icon" style="--icon-url: url('../../assets/svg_icons/salad.svg'); width: 22px; height: 22px;" aria-hidden="true"></span>
+                  <span class="lb-add-food-option-copy">
+                    <strong>Food Library</strong>
+                    <em>Browse foods and saved meals</em>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div class="meal-edit-sheet" id="lbQuickEditSheet" aria-hidden="true" hidden>
             <button class="meal-edit-overlay" type="button" data-close-quick-edit aria-label="Close quick edit"></button>
             <section class="meal-edit-panel" role="dialog" aria-modal="true" aria-labelledby="lbQuickEditTitle">
@@ -439,11 +475,13 @@
       const quickEditCaloriesEl = document.getElementById('lbQuickEditCalories');
       const quickEditServingMetaEl = document.getElementById('lbQuickEditServingMeta');
       const quickEditServingValueEl = document.getElementById('lbQuickEditServingValue');
+      const addFoodSheet = document.getElementById('lbAddFoodSheet');
       let touchStartX = 0;
       let touchEndX = 0;
       const expandedMeals = new Set(['breakfast']);
       let currentDateKey = '2026-05-07';
       let quickEditState = null;
+      let addFoodMealKey = null;
 
       function showToast(message) {
         const container = document.getElementById('toastContainer');
@@ -621,6 +659,31 @@
         window.__strivio_state.logbookSelectedMeal = mealKey;
         window.__strivio_state.logbookSelectedFoodId = foodId || null;
         try { localStorage.setItem('strivio_state', JSON.stringify(window.__strivio_state)); } catch (e) {}
+      }
+
+      function openAddFoodSheet(mealKey) {
+        addFoodMealKey = mealKey || null;
+        if (!addFoodSheet) return;
+        addFoodSheet.hidden = false;
+        addFoodSheet.setAttribute('aria-hidden', 'false');
+        requestAnimationFrame(() => addFoodSheet.classList.add('open'));
+      }
+
+      function closeAddFoodSheet() {
+        if (!addFoodSheet) return;
+        addFoodSheet.setAttribute('aria-hidden', 'true');
+        addFoodSheet.classList.remove('open');
+        addFoodMealKey = null;
+        setTimeout(() => {
+          if (addFoodSheet && !addFoodSheet.classList.contains('open')) addFoodSheet.hidden = true;
+        }, 220);
+      }
+
+      function handleAddFoodOption(screenId) {
+        const selectedMealKey = addFoodMealKey;
+        if (selectedMealKey) setLogbookSelection(selectedMealKey, null);
+        closeAddFoodSheet();
+        navigateTo(screenId);
       }
 
       function renderMeals() {
@@ -1001,13 +1064,18 @@
         const addBtn = event.target.closest('[data-add-food]');
         if (addBtn) {
           const mealKey = addBtn.getAttribute('data-add-food');
-          setLogbookSelection(mealKey, null);
-          navigateTo('add-food-home');
+          openAddFoodSheet(mealKey);
         }
       });
 
       document.querySelectorAll('[data-close-quick-edit]').forEach(item => {
         item.addEventListener('click', () => closeQuickEdit());
+      });
+      document.querySelectorAll('[data-close-add-food]').forEach(item => {
+        item.addEventListener('click', closeAddFoodSheet);
+      });
+      document.querySelectorAll('[data-add-food-option]').forEach(item => {
+        item.addEventListener('click', () => handleAddFoodOption(item.getAttribute('data-add-food-option')));
       });
       document.getElementById('lbQuickEditMinus')?.addEventListener('click', () => {
         if (!quickEditState) return;
@@ -1044,6 +1112,116 @@
       renderWaterCard();
     })();
   </script>
+  <style>
+    .lb-add-food-sheet-content {
+      padding: 8px 0 24px;
+      border-radius: var(--radius-r28) var(--radius-r28) 0 0;
+      background: var(--color-surface);
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
+      max-height: min(64%, calc(100% - 132px));
+    }
+
+    .lb-add-food-sheet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 52px;
+      padding: 12px 24px;
+    }
+
+    .lb-add-food-sheet-header h2 {
+      margin: 0;
+      color: var(--color-text-primary);
+      font-family: var(--typography-title-large-font-family);
+      font-size: var(--typography-title-large-font-size);
+      font-style: var(--typography-title-large-font-style);
+      font-weight: var(--typography-title-large-font-weight);
+      line-height: var(--typography-title-large-line-height);
+      letter-spacing: var(--typography-title-large-letter-spacing);
+    }
+
+    .lb-add-food-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: 0;
+      border-radius: var(--radius-r16);
+      background: transparent;
+      color: var(--color-default);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .lb-add-food-close-icon {
+      background-color: currentColor;
+    }
+
+    .lb-add-food-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px 24px 0;
+    }
+
+    .lb-add-food-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      min-height: 70px;
+      padding: 16px 18px;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-r12);
+      background: var(--color-surface);
+      text-align: left;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    .lb-add-food-option:active {
+      border-color: var(--color-primary);
+      background: var(--color-primary-container);
+      transform: scale(0.992);
+    }
+
+    .lb-add-food-option-icon {
+      flex: 0 0 22px;
+      background-color: var(--color-primary);
+    }
+
+    .lb-add-food-option-copy {
+      display: flex;
+      flex: 1 1 auto;
+      min-width: 0;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .lb-add-food-option-copy strong {
+      color: var(--color-text-primary);
+      font-family: var(--typography-label-large-font-family);
+      font-size: var(--typography-label-large-font-size);
+      font-style: var(--typography-label-large-font-style);
+      font-weight: var(--typography-label-large-font-weight);
+      line-height: var(--typography-label-large-line-height);
+      letter-spacing: var(--typography-label-large-letter-spacing);
+    }
+
+    .lb-add-food-option-copy em {
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+    }
+  </style>
 </body>
 
 </html>

@@ -6,71 +6,253 @@
   <title>Strivio — My Meals</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css?v=17">
 </head>
 <body>
   <div class="app-container">
     <div class="phone-frame">
       <div class="phone-notch"></div>
       <div class="screens-wrapper">
-        <div class="screen screen-custom-meals active">
-          <div class="custom-header">
-            <button class="back-btn" onclick="navigateTo('logbook')">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"><polyline points="15,18 9,12 15,6"></polyline></svg>
-            </button>
-            <span class="custom-title">My Meals</span>
-            <div style="width:40px"></div>
-          </div>
-          <div class="custom-content">
-            <div class="custom-meal-card" onclick="logCustomMeal('Morning Smoothie')">
-              <h3 class="custom-meal-name">Morning Smoothie</h3>
-              <div class="custom-meal-macros">420 kcal • P 28g • C 42g • F 10g</div>
+        <div class="screen screen-custom-meals active" data-screen="custom-meals-list">
+          <section class="meal-food-library meal-food-page custom-meals-page" aria-label="My Meals">
+            <div class="status-bar">
+              <span class="status-time">9:41</span>
+              <div class="status-icons">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a"/><rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a"/><rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a"/></svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="#0f172a"/><path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="#0f172a"/><circle cx="8" cy="11" r="2" fill="#0f172a"/></svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a"/><rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a"/><rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a"/><rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a"/></svg>
+              </div>
             </div>
-            <div class="custom-meal-card" onclick="logCustomMeal('Post-Workout Bowl')">
-              <h3 class="custom-meal-name">Post-Workout Bowl</h3>
-              <div class="custom-meal-macros">650 kcal • P 40g • C 72g • F 18g</div>
+
+            <header class="meal-detail-topbar custom-meals-topbar">
+              <button class="meal-detail-nav-btn" type="button" onclick="navigateTo('logbook')" aria-label="Back to logbook">
+                <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/back.svg'); width: 24px; height: 24px;"></span>
+              </button>
+              <h1>My Meals</h1>
+              <span class="meal-detail-nav-btn custom-meals-topbar-spacer" aria-hidden="true"></span>
+            </header>
+
+            <div class="custom-meals-copy">
+              <p>Access your saved custom foods and reusable meal entries.</p>
             </div>
-          </div>
-          <button class="btn-create-meal" onclick="createCustomMeal()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-            Create Custom Meal
-          </button>
+
+            <div class="meal-library-results custom-meals-results" id="customMealsResults"></div>
+            <div class="meal-library-empty custom-meals-empty" id="customMealsEmpty" hidden>
+              <img src="../../assets/svg_icons/not-found-alt.svg" alt="">
+              <h3>No custom meals yet.</h3>
+              <p>Create your first meal to start building your personal food library.</p>
+            </div>
+
+            <footer class="custom-meals-footer">
+              <button class="custom-meals-create-btn" type="button" onclick="createCustomMeal()">
+                <span class="icon custom-meals-create-icon" style="--icon-url: url('../../assets/svg_icons/plus.svg'); width: 18px; height: 18px;"></span>
+                <span>Create New Meal</span>
+              </button>
+            </footer>
+          </section>
         </div>
       </div>
     </div>
   </div>
   <script src="../../app.js?v=3"></script>
   <script>
-    const isPremium = window.__strivio_state?.isPremium || false;
-    let customMealCount = 2;
-    
-    function logCustomMeal(name) {
-      navigateTo('log-food');
-    }
-    
-    function createCustomMeal() {
-      if (!isPremium && customMealCount >= 1) {
-        navigateTo('custom-meal-paywall');
-      } else {
-        navigateTo('create-custom-meal');
+    (function() {
+      const healthIcon = '<svg viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      const genericFoodPhoto = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80';
+      const baseMeals = [
+        { id: 'greek-parfait', name: 'Greek Yogurt Parfait', meta: 'P 12g · C 25g · F 5g', kcal: 210, favorite: true, image: 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?auto=format&fit=crop&w=900&q=80', fallback: genericFoodPhoto },
+        { id: 'almond-banana-wrap', name: 'Almond Butter Banana Wrap', meta: 'P 6g · C 30g · F 14g', kcal: 290, image: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&w=900&q=80', fallback: genericFoodPhoto },
+        { id: 'chia-pudding', name: 'Chia Seed Pudding', meta: 'P 7g · C 18g · F 12g', kcal: 220, image: 'https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?auto=format&fit=crop&w=900&q=80', fallback: genericFoodPhoto }
+      ];
+      const favorites = new Set(baseMeals.filter(function(food) { return food.favorite; }).map(function(food) { return food.id; }));
+      const resultsEl = document.getElementById('customMealsResults');
+      const emptyEl = document.getElementById('customMealsEmpty');
+      let foods = [];
+
+      function pickManualFoodPhoto(name) {
+        const normalized = String(name || '').toLowerCase();
+        if (normalized.indexOf('toast') >= 0 || normalized.indexOf('avocado') >= 0) return 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=900&q=80';
+        if (normalized.indexOf('yogurt') >= 0 || normalized.indexOf('parfait') >= 0) return 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?auto=format&fit=crop&w=900&q=80';
+        if (normalized.indexOf('smoothie') >= 0) return 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=900&q=80';
+        if (normalized.indexOf('oat') >= 0 || normalized.indexOf('porridge') >= 0) return 'https://images.unsplash.com/photo-1517673400267-0251440c45dc?auto=format&fit=crop&w=900&q=80';
+        if (normalized.indexOf('chia') >= 0 || normalized.indexOf('pudding') >= 0) return 'https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?auto=format&fit=crop&w=900&q=80';
+        return genericFoodPhoto;
       }
-    }
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function(char) {
+          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char];
+        });
+      }
+
+      function imageErrorAttr(fallback) {
+        return "this.onerror=null;this.src='" + fallback + "';";
+      }
+
+      function readCustomMeals() {
+        try {
+          const parsed = JSON.parse(localStorage.getItem('strivio_custom_meals') || '[]');
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function mapCustomMeal(saved) {
+        const protein = Number(saved.protein) || 0;
+        const carbs = Number(saved.carbs) || 0;
+        const fat = Number(saved.fat) || 0;
+        const servingLabel = (saved.servingAmount || '1') + ' ' + (saved.servingUnit || 'Serving');
+        return {
+          id: saved.id || ('manual-' + Date.now()),
+          name: (saved.name || 'Custom Food') + ' (' + servingLabel + ')',
+          meta: 'P ' + protein + 'g · C ' + carbs + 'g · F ' + fat + 'g',
+          kcal: Number(saved.kcal) || 0,
+          image: saved.image || pickManualFoodPhoto(saved.name),
+          fallback: genericFoodPhoto
+        };
+      }
+
+      function refreshMeals() {
+        foods = readCustomMeals().map(mapCustomMeal).concat(baseMeals);
+      }
+
+      function renderMeals() {
+        refreshMeals();
+        const hasMeals = foods.length > 0;
+        resultsEl.hidden = !hasMeals;
+        emptyEl.hidden = hasMeals;
+
+        resultsEl.innerHTML = foods.map(function(food) {
+          return '<article class="meal-library-card">' +
+            '<button class="meal-library-card-main" type="button" data-open-food="' + escapeHtml(food.id) + '">' +
+              '<img src="' + food.image + '" alt="' + escapeHtml(food.name) + '" onerror="' + imageErrorAttr(food.fallback) + '">' +
+              '<span><strong>' + escapeHtml(food.name) + '</strong><em>' + escapeHtml(food.meta) + '</em><b>' + food.kcal + ' kcal</b></span>' +
+            '</button>' +
+            '<button class="meal-library-favorite ' + (favorites.has(food.id) ? 'active' : '') + '" type="button" data-favorite="' + escapeHtml(food.id) + '" aria-label="Toggle favorite">' + healthIcon + '</button>' +
+          '</article>';
+        }).join('');
+      }
+
+      function openMeal(foodId) {
+        sessionStorage.setItem('strivio_food_library_focus', JSON.stringify({ tab: 'meals', foodId: foodId }));
+        navigateTo('add-food-home');
+      }
+
+      window.createCustomMeal = function createCustomMeal() {
+        navigateTo('manual-entry');
+      };
+
+      resultsEl.addEventListener('click', function(event) {
+        const favoriteButton = event.target.closest('[data-favorite]');
+        if (favoriteButton) {
+          const foodId = favoriteButton.dataset.favorite;
+          if (favorites.has(foodId)) favorites.delete(foodId);
+          else favorites.add(foodId);
+          renderMeals();
+          return;
+        }
+
+        const openButton = event.target.closest('[data-open-food]');
+        if (!openButton) return;
+        openMeal(openButton.dataset.openFood);
+      });
+
+      renderMeals();
+    })();
   </script>
   <style>
-    .screen-custom-meals { background:#F5F6FA; display:flex; flex-direction:column; height:100%; }
-    .custom-header { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:white; border-bottom:1px solid #F4F4F4; }
-    .custom-title { font-family:'Nunito',sans-serif; font-size:18px; font-weight:600; color:#0f172a; }
-    .custom-content { flex:1; padding:20px; overflow-y:auto; }
-    .custom-meal-card { background:white; border-radius:20px; padding:20px; margin-bottom:14px; box-shadow:0 2px 12px rgba(15,23,42,0.04); cursor:pointer; transition:transform 0.2s; }
-    .custom-meal-card:active { transform:scale(0.99); }
-    .custom-meal-name { font-family:'Nunito',sans-serif; font-size:16px; font-weight:600; color:#0f172a; margin:0 0 8px; }
-    .custom-meal-macros { font-family:'Inter',sans-serif; font-size:13px; color:#64748b; }
-    .btn-create-meal { position:fixed; bottom:20px; left:20px; right:20px; height:56px; background:#0056D8; border:none; border-radius:9999px; color:white; font-family:'Inter',sans-serif; font-size:16px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 10px 24px rgba(0,86,216,0.28); z-index:100; }
-    .btn-create-meal:active { transform:scale(0.98); background:#3B82F6; }
+    .screen-custom-meals {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: var(--color-background);
+    }
+
+    .custom-meals-page {
+      position: relative;
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .custom-meals-topbar {
+      padding: 12px 24px 0;
+      flex-shrink: 0;
+    }
+
+    .custom-meals-topbar-spacer {
+      display: block;
+      width: 40px;
+      height: 40px;
+      flex: 0 0 40px;
+    }
+
+    .custom-meals-copy {
+      padding: 12px 24px 0;
+      flex-shrink: 0;
+    }
+
+    .custom-meals-copy p {
+      margin: 0;
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+    }
+
+    .custom-meals-results {
+      padding: 16px 24px 116px;
+    }
+
+    .custom-meals-empty {
+      padding-bottom: 116px;
+    }
+
+    .custom-meals-footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 12px 24px 16px;
+      background: var(--color-surface);
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
+    }
+
+    .custom-meals-create-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      min-height: 56px;
+      padding: 16px;
+      border: 0;
+      border-radius: var(--radius-rFull);
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-style: var(--typography-title-medium-font-style);
+      font-weight: var(--typography-title-medium-font-weight);
+      line-height: var(--typography-title-medium-line-height);
+      letter-spacing: var(--typography-title-medium-letter-spacing);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .custom-meals-create-icon {
+      background-color: currentColor;
+    }
+
+    .custom-meals-create-btn:active {
+      transform: scale(0.985);
+    }
   </style>
 </body>
 </html>

@@ -10,7 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=8">
+  <link rel="stylesheet" href="../../styles.css?v=9">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 
@@ -60,14 +60,43 @@
 
           <main class="custom-workouts-list" id="customWorkoutList"></main>
 
-          <button class="custom-workouts-fab" type="button" onclick="navigateTo('workout-generator')" aria-label="Create custom workout">
+          <button class="custom-workouts-fab" type="button" id="customWorkoutsFab" aria-label="Create custom workout">
             <span class="icon" style="--icon-url: url('../../assets/svg_icons/plus.svg'); width: 30px; height: 30px; background-color: #fff;"></span>
           </button>
+
+          <div class="bottom-sheet" id="sheetCreateWorkout">
+            <div class="sheet-backdrop" data-close="sheetCreateWorkout"></div>
+            <div class="sheet-content cw-sheet-content">
+              <div class="sheet-handle cw-sheet-handle"></div>
+              <div class="cw-sheet-header">
+                <h3 class="cw-sheet-title">Create Workout</h3>
+                <button class="cw-sheet-close" type="button" data-close="sheetCreateWorkout" aria-label="Close">
+                  <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;"></span>
+                </button>
+              </div>
+              <div class="cw-sheet-list">
+                <button class="track-list-card cw-option-card" data-action="workout-generator">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/sparkles.svg'); width: 22px; height: 22px; background-color: #0056d8;"></span>
+                  <div class="track-card-text">
+                    <span class="track-card-title">Workout Generator</span>
+                    <span class="track-card-desc">Automatically build a routine tailored to you.</span>
+                  </div>
+                </button>
+                <button class="track-list-card cw-option-card" data-action="custom-workout">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 22px; height: 22px; background-color: #0056d8;"></span>
+                  <div class="track-card-text">
+                    <span class="track-card-title">Custom Workout</span>
+                    <span class="track-card-desc">Start from scratch and add exercises.</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <script src="../../app.js?v=21"></script>
+  <script src="../../app.js?v=22"></script>
 </body>
 
 </html>

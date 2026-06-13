@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Strivio - Coach</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,6 +12,2209 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="../../styles.css?v=16">
+  <style>
+    .screen-coach-main {
+      background: var(--color-background);
+    }
+
+    .screen-coach-main .coach-main-scroll {
+      padding: 0 24px 120px;
+    }
+
+    .screen-coach-main .coach-main-header {
+      padding: 8px 0 12px;
+      align-items: center;
+    }
+
+    .screen-coach-main .coach-main-title {
+      font-family: var(--typography-headline-small-font-family);
+      font-size: var(--typography-headline-small-font-size);
+      font-style: var(--typography-headline-small-font-style);
+      font-weight: var(--typography-headline-small-font-weight);
+      line-height: var(--typography-headline-small-line-height);
+      letter-spacing: var(--typography-headline-small-letter-spacing);
+      color: var(--color-text-primary);
+    }
+
+    .screen-coach-main .coach-health-btn {
+      min-height: 32px;
+      padding: 8px 10px;
+      border-radius: var(--radius-r20);
+      background: var(--color-primary-container);
+      color: var(--color-primary);
+      font-family: var(--typography-label-large-font-family);
+      font-size: var(--typography-label-large-font-size);
+      font-style: var(--typography-label-large-font-style);
+      font-weight: 700;
+      line-height: var(--typography-label-large-line-height);
+      letter-spacing: var(--typography-label-large-letter-spacing);
+      gap: 4px;
+    }
+
+    .screen-coach-main .coach-health-btn i {
+      background-color: currentColor;
+      flex: 0 0 16px;
+    }
+
+    .screen-coach-main .coach-health-sync-state {
+      display: none;
+    }
+
+    .screen-coach-main .coach-health-btn strong {
+      font: inherit;
+      color: currentColor;
+    }
+
+    .screen-coach-main .coach-day-strip {
+      margin-bottom: 14px;
+    }
+
+    .screen-coach-main .coach-day-pill {
+      gap: 8px;
+      color: #9ca3af;
+    }
+
+    .screen-coach-main .coach-day-pill span {
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+    }
+
+    .screen-coach-main .coach-day-pill strong {
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+    }
+
+    .screen-coach-main .coach-day-pill.active {
+      background: var(--color-primary);
+    }
+
+    .screen-coach-main .coach-tab-bar {
+      padding: 6px;
+      margin-bottom: 14px;
+      background: var(--color-surface);
+      border-radius: var(--radius-rFull);
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
+    }
+
+    .screen-coach-main .coach-tab {
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+      color: var(--color-text-tertiary);
+    }
+
+    .screen-coach-main .coach-tab.active {
+      background: var(--color-primary-container);
+      color: var(--color-primary);
+    }
+
+    .screen-coach-main .coach-panel {
+      gap: 14px;
+    }
+
+    .screen-coach-main .coach-card {
+      padding: 17px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-r20);
+      background: var(--color-surface);
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
+      gap: 14px;
+    }
+
+    .screen-coach-main .coach-card h2 {
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-style: var(--typography-title-medium-font-style);
+      font-weight: var(--typography-title-medium-font-weight);
+      line-height: var(--typography-title-medium-line-height);
+      letter-spacing: var(--typography-title-medium-letter-spacing);
+      color: var(--color-text-primary);
+    }
+
+    .screen-coach-main .coach-card p {
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+      color: var(--color-text-tertiary);
+    }
+
+    .screen-coach-main .coach-status-pill {
+      padding: 6px 10px;
+      border-radius: var(--radius-r20);
+      background: var(--color-on-success);
+      color: var(--color-success);
+      font-family: var(--typography-label-medium-font-family);
+      font-size: var(--typography-label-medium-font-size);
+      font-style: var(--typography-label-medium-font-style);
+      font-weight: 700;
+      line-height: var(--typography-label-medium-line-height);
+      letter-spacing: var(--typography-label-medium-letter-spacing);
+    }
+
+    .screen-coach-main .coach-score-card {
+      gap: 16px;
+    }
+
+    .screen-coach-main .coach-score-body {
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .screen-coach-main .coach-gauge {
+      width: 124px;
+      height: 124px;
+      cursor: default;
+    }
+
+    .screen-coach-main .coach-gauge-track {
+      stroke: var(--color-primary-container);
+    }
+
+    .screen-coach-main .coach-gauge-fill {
+      stroke: var(--color-success);
+    }
+
+    .screen-coach-main .coach-gauge-center strong {
+      font-family: var(--typography-numerical-medium-font-family);
+      font-size: 30px;
+      line-height: 34px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .screen-coach-main .coach-gauge-center span {
+      font-family: var(--typography-label-small-font-family);
+      font-size: var(--typography-label-small-font-size);
+      font-style: var(--typography-label-small-font-style);
+      font-weight: 700;
+      line-height: 14px;
+      letter-spacing: var(--typography-label-small-letter-spacing);
+      color: var(--color-text-tertiary);
+    }
+
+    .screen-coach-main .coach-score-copy {
+      gap: 7px;
+    }
+
+    .screen-coach-main .coach-score-copy h3,
+    .screen-coach-main .coach-recovery-chat-title,
+    .screen-coach-main .coach-chat-try-title {
+      margin: 0;
+      color: var(--color-text-primary);
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-style: var(--typography-title-medium-font-style);
+      font-weight: var(--typography-title-medium-font-weight);
+      line-height: var(--typography-title-medium-line-height);
+      letter-spacing: var(--typography-title-medium-letter-spacing);
+    }
+
+    .screen-coach-main .coach-score-copy h3 {
+      max-width: 156px;
+    }
+
+    .screen-coach-main .coach-score-breakdown {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 16px;
+      padding: 0 16px;
+    }
+
+    .screen-coach-main .coach-score-stat {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .screen-coach-main .coach-score-stat .icon {
+      flex: 0 0 18px;
+      width: 18px;
+      height: 18px;
+      background-color: currentColor;
+    }
+
+    .screen-coach-main .coach-score-stat.sleep {
+      color: var(--color-dark);
+    }
+
+    .screen-coach-main .coach-score-stat.mood {
+      color: var(--color-secondary);
+    }
+
+    .screen-coach-main .coach-score-stat.nutrition {
+      color: var(--color-success);
+    }
+
+    .screen-coach-main .coach-score-stat.steps {
+      color: var(--color-tertiary);
+    }
+
+    .screen-coach-main .coach-score-stat strong,
+    .screen-coach-main .coach-sleep-metric strong,
+    .screen-coach-main .coach-health-grid strong {
+      display: block;
+      color: var(--color-text-primary);
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-style: var(--typography-title-medium-font-style);
+      font-weight: var(--typography-title-medium-font-weight);
+      line-height: var(--typography-title-medium-line-height);
+      letter-spacing: var(--typography-title-medium-letter-spacing);
+    }
+
+    .screen-coach-main .coach-score-stat span,
+    .screen-coach-main .coach-health-grid em,
+    .screen-coach-main .coach-sleep-metric span {
+      display: block;
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+    }
+
+    .screen-coach-main .coach-recovery-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      border-radius: var(--radius-r12);
+      background: var(--color-surface-variant);
+      color: var(--color-text-tertiary);
+    }
+
+    .screen-coach-main .coach-recovery-note .icon {
+      flex: 0 0 20px;
+      width: 20px;
+      height: 20px;
+      background-color: var(--color-default);
+    }
+
+    .screen-coach-main .coach-recovery-chat-card {
+      background-image: linear-gradient(180deg, rgba(0, 86, 216, 0.08) 0%, rgba(255, 255, 255, 0) 56%), linear-gradient(90deg, #ffffff 0%, #ffffff 100%);
+    }
+
+    .screen-coach-main .coach-recovery-chat-subtitle {
+      color: var(--color-text-secondary);
+    }
+
+    .screen-coach-main .coach-recovery-chat-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .screen-coach-main .coach-recovery-chat-bubble {
+      flex: 1 1 auto;
+      min-width: 0;
+      padding: 16px;
+      border-radius: 24px 24px 24px 0;
+      background: var(--color-surface);
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
+    }
+
+    .screen-coach-main .coach-recovery-chat-bubble p {
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+      color: #111827;
+    }
+
+    .screen-coach-main .coach-recovery-avatar {
+      flex: 0 0 84px;
+      width: 84px;
+      height: 84px;
+      padding: 6px;
+      border: 2px solid var(--color-on-primary);
+      border-radius: 50%;
+      background: var(--color-surface);
+      box-shadow: 0 0 11.2px rgba(0, 0, 0, 0.19);
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .screen-coach-main .coach-recovery-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .screen-coach-main .coach-chat-suggestions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .screen-coach-main .coach-chat-suggestion {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      border-radius: var(--radius-r12);
+      background: var(--color-surface);
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
+      color: var(--color-text-primary);
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+      text-align: left;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .screen-coach-main .coach-chat-suggestion .icon {
+      flex: 0 0 18px;
+      width: 18px;
+      height: 18px;
+      background-color: var(--color-default);
+    }
+
+    .screen-coach-main .coach-recovery-chat-card .coach-primary-btn {
+      min-height: 38px;
+      border: 1px solid var(--color-primary);
+      background: var(--color-surface);
+      color: var(--color-primary);
+      box-shadow: none;
+    }
+
+    .screen-coach-main .coach-recovery-chat-card .coach-primary-btn .icon {
+      width: 18px;
+      height: 18px;
+      background-color: currentColor;
+    }
+
+    .screen-coach-main .coach-sleep-card-v2 {
+      box-shadow: 0 16px 19px rgba(0, 86, 216, 0.08);
+    }
+
+    .screen-coach-main .coach-sleep-metric {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      text-align: right;
+    }
+
+    .screen-coach-main .coach-progress-row {
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+    }
+
+    .screen-coach-main .coach-progress-row strong {
+      color: var(--color-text-primary);
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+    }
+
+    .screen-coach-main .coach-progress-track {
+      height: 8px;
+      background: var(--color-primary-container);
+    }
+
+    .screen-coach-main .coach-progress-track div {
+      background: var(--color-primary);
+    }
+
+    .screen-coach-main .coach-sleep-legend-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 16px;
+    }
+
+    .screen-coach-main .coach-sleep-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .screen-coach-main .coach-sleep-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      flex: 0 0 10px;
+    }
+
+    .screen-coach-main .coach-sleep-legend-item.deep .coach-sleep-legend-dot {
+      background: var(--color-dark);
+    }
+
+    .screen-coach-main .coach-sleep-legend-item.light .coach-sleep-legend-dot {
+      background: var(--color-primary);
+    }
+
+    .screen-coach-main .coach-sleep-legend-item.rem .coach-sleep-legend-dot {
+      background: var(--color-tertiary);
+    }
+
+    .screen-coach-main .coach-sleep-legend-item.awake .coach-sleep-legend-dot {
+      background: var(--color-secondary);
+    }
+
+    .screen-coach-main .coach-sleep-legend-copy strong {
+      display: block;
+      color: var(--color-text-primary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: normal;
+      font-weight: 700;
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+    }
+
+    .screen-coach-main .coach-sleep-legend-copy span {
+      display: block;
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+    }
+
+    .screen-coach-main .coach-sleep-actions {
+      gap: 12px;
+    }
+
+    .screen-coach-main .coach-sleep-actions .coach-secondary-pill {
+      flex: 1 1 0;
+      min-width: 0;
+      min-height: 38px;
+      padding: 9px 16px;
+      border-radius: var(--radius-rFull);
+      border: 1px solid var(--color-primary);
+      background: var(--color-surface);
+      color: var(--color-primary);
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+      justify-content: center;
+    }
+
+    .screen-coach-main .coach-sleep-actions .coach-secondary-pill.ghost {
+      border: 0;
+      background: var(--color-primary-container);
+    }
+
+    .screen-coach-main .coach-mood-card .coach-change-mood {
+      min-height: 38px;
+      padding: 8px 16px;
+      border-radius: var(--radius-rFull);
+      background: var(--color-primary-container);
+      color: var(--color-primary);
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+    }
+
+    .screen-coach-main .coach-mood-row {
+      gap: 7px;
+    }
+
+    .screen-coach-main .coach-mood-row button {
+      gap: 5px;
+      min-height: 74px;
+      padding: 8px;
+      border: 1px solid #eef2f7;
+      border-radius: var(--radius-r16);
+      background: var(--color-surface);
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+      box-shadow: none;
+    }
+
+    .screen-coach-main .coach-mood-row button .icon {
+      background-color: currentColor;
+    }
+
+    .screen-coach-main .coach-mood-row button[data-mood="Great"] {
+      color: var(--color-success);
+    }
+
+    .screen-coach-main .coach-mood-row button[data-mood="Good"] {
+      color: var(--color-primary);
+    }
+
+    .screen-coach-main .coach-mood-row button[data-mood="Okay"] {
+      color: var(--color-warning);
+    }
+
+    .screen-coach-main .coach-mood-row button[data-mood="Bad"] {
+      color: var(--color-error);
+    }
+
+    .screen-coach-main .coach-mood-row button[data-mood="Low"] {
+      color: var(--color-default);
+    }
+
+    .screen-coach-main .coach-mood-row button.selected {
+      border-color: #c7d2fe;
+      background: #eaf2ff;
+      box-shadow: none;
+    }
+
+    .screen-coach-main .coach-mood-row button.selected span:last-child {
+      color: currentColor;
+    }
+
+    .screen-coach-main .coach-saved-mood {
+      font-family: var(--typography-body-small-font-family);
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 19px;
+      letter-spacing: 0;
+      color: var(--color-success);
+    }
+
+    .screen-coach-main .coach-health-connected {
+      background-image: linear-gradient(180deg, rgba(34, 197, 94, 0.08) 0%, rgba(255, 255, 255, 0) 56%), linear-gradient(90deg, #ffffff 0%, #ffffff 100%);
+    }
+
+    .screen-coach-main .coach-health-grid {
+      gap: 8px;
+    }
+
+    .screen-coach-main .coach-health-grid span {
+      padding: 11px;
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      background: var(--color-surface);
+    }
+
+    .screen-coach-main .coach-health-grid strong {
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+    }
+
+    .screen-coach-main .coach-card.coach-health-connected .coach-card-copy {
+      color: var(--color-text-tertiary);
+    }
+
+    .screen-coach-main .coach-chat-head h2 {
+      font-family: var(--typography-title-large-font-family);
+      font-size: var(--typography-title-large-font-size);
+      font-style: var(--typography-title-large-font-style);
+      font-weight: 800;
+      line-height: var(--typography-title-large-line-height);
+      letter-spacing: var(--typography-title-large-letter-spacing);
+      color: var(--color-text-primary);
+    }
+
+    .screen-coach-main .coach-message-avatar {
+      background: url('../../assets/img/marcus.jpg') center/cover no-repeat;
+      color: transparent;
+      font-size: 0;
+      border: 2px solid var(--color-on-primary);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
+    }
+
+    .screen-coach-main .coach-small-sheet {
+      padding: 20px 24px 20px;
+      box-shadow: 0 -22px 26px rgba(15, 23, 42, 0.18);
+    }
+
+    .screen-coach-main .coach-chat-handle {
+      width: 44px;
+      height: 5px;
+      margin-top: 0;
+      background: #cbd5e1;
+      border-radius: var(--radius-rFull);
+    }
+
+    .screen-coach-main .coach-small-sheet-head {
+      margin: 0 0 16px;
+      align-items: flex-start;
+    }
+
+    .screen-coach-main .coach-small-sheet-head h2 {
+      font-family: var(--typography-title-large-font-family);
+      font-size: var(--typography-title-large-font-size);
+      font-style: var(--typography-title-large-font-style);
+      font-weight: var(--typography-title-large-font-weight);
+      line-height: var(--typography-title-large-line-height);
+      letter-spacing: var(--typography-title-large-letter-spacing);
+      color: var(--color-text-primary);
+    }
+
+    .screen-coach-main .coach-small-sheet-head p {
+      max-width: 292px;
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+      color: var(--color-text-tertiary);
+    }
+
+    .screen-coach-main .coach-small-sheet-head button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-rFull);
+      background: var(--color-surface-variant);
+      color: var(--color-default);
+      padding: 0;
+    }
+
+    .screen-coach-main .coach-sheet-close-icon {
+      width: 14px;
+      height: 14px;
+      background-color: currentColor;
+    }
+
+    .screen-coach-main .coach-time-grid {
+      gap: 18px;
+    }
+
+    .screen-coach-main .coach-time-grid label {
+      gap: 6px;
+      color: var(--color-text-primary);
+      font-family: var(--typography-label-medium-font-family);
+      font-size: var(--typography-label-medium-font-size);
+      font-style: var(--typography-label-medium-font-style);
+      font-weight: var(--typography-label-medium-font-weight);
+      line-height: var(--typography-label-medium-line-height);
+      letter-spacing: var(--typography-label-medium-letter-spacing);
+    }
+
+    .screen-coach-main .coach-time-input-wrap {
+      position: relative;
+    }
+
+    .screen-coach-main .coach-time-input-wrap input {
+      width: 100%;
+      height: 48px;
+      padding: 0 42px 0 14px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-r10);
+      background: var(--color-surface);
+      color: var(--color-text-muted);
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+      box-sizing: border-box;
+    }
+
+    .screen-coach-main .coach-time-input-wrap input::-webkit-calendar-picker-indicator {
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      width: 40px;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .screen-coach-main .coach-time-input-icon {
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      width: 20px;
+      height: 20px;
+      transform: translateY(-50%);
+      background-color: var(--color-default);
+      pointer-events: none;
+    }
+
+    .screen-coach-main .coach-sheet-save {
+      margin-top: 16px;
+      min-height: 48px;
+      border-radius: var(--radius-rFull);
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+    }
+
+    /* ===== Nutrition tab – Figma 2439:34627 ===== */
+
+    /* Outline primary button (shared) */
+    .screen-coach-main .coach-outline-primary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      min-height: 38px;
+      padding: 9px 17px;
+      border: 1px solid var(--color-primary);
+      border-radius: var(--radius-rFull);
+      background: var(--color-surface);
+      color: var(--color-primary);
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+      cursor: pointer;
+    }
+
+    /* Today's Nutrition card */
+    .screen-coach-main .coach-nutrition-today-card {
+      gap: 14px;
+    }
+
+    .coach-nutrition-today-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .coach-nutrition-today-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .coach-nutrition-today-label {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      width: 131px;
+      flex-shrink: 0;
+    }
+
+    .coach-nutrition-today-label .icon {
+      flex-shrink: 0;
+    }
+
+    .coach-nutrition-today-label div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .coach-nutrition-today-label strong {
+      color: var(--color-text-primary);
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+      white-space: nowrap;
+    }
+
+    .coach-nutrition-today-label span {
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+      white-space: nowrap;
+    }
+
+    .coach-nutrition-today-bar {
+      display: flex;
+      flex: 1 1 auto;
+      gap: 4px;
+      align-items: center;
+      justify-content: flex-end;
+      min-width: 0;
+    }
+
+    .coach-nutrition-today-bar strong {
+      color: var(--color-text-primary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .coach-nutrition-today-track {
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--color-primary-container);
+      overflow: hidden;
+    }
+
+    .coach-nutrition-today-fill {
+      height: 8px;
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+
+    .coach-nutrition-today-fill.is-primary {
+      background: var(--color-primary);
+    }
+
+    .coach-nutrition-today-fill.is-success {
+      background: var(--color-success);
+    }
+
+    .coach-nutrition-today-chat {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .coach-nutrition-today-bubble {
+      flex: 1 1 auto;
+      min-width: 0;
+      padding: 16px;
+      border-radius: 0 24px 24px 24px;
+      background: var(--color-surface);
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
+    }
+
+    .coach-nutrition-today-bubble p {
+      margin: 0;
+      color: #111827;
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+    }
+
+    .coach-nutrition-today-avatar {
+      flex: 0 0 64px;
+      width: 64px;
+      height: 64px;
+      border: 4px solid var(--color-on-primary);
+      border-radius: 50%;
+      background: var(--color-primary);
+      box-shadow: 0 0 11.2px rgba(0, 0, 0, 0.19);
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .coach-nutrition-today-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    /* Weekly Nutrition Score card */
+    .screen-coach-main .coach-nutrition-score-card {
+      gap: 14px;
+    }
+
+    .coach-nutrition-score-body {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .coach-nutrition-score-gauge {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 124px;
+      height: 124px;
+      flex-shrink: 0;
+    }
+
+    .coach-nutrition-score-gauge svg {
+      position: absolute;
+      inset: 0;
+      width: 124px;
+      height: 124px;
+    }
+
+    .coach-nutrition-score-track {
+      fill: none;
+      stroke: var(--color-primary-container);
+      stroke-width: 8;
+    }
+
+    .coach-nutrition-score-fill {
+      fill: none;
+      stroke: var(--color-success);
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 264.6 339.3;
+      stroke-dashoffset: 0;
+      transform: rotate(-90deg);
+      transform-origin: center;
+    }
+
+    .coach-nutrition-score-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .coach-nutrition-score-center strong {
+      font-family: 'Nunito', sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 34px;
+      color: var(--color-text-primary);
+    }
+
+    .coach-nutrition-score-center span {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 14px;
+      color: var(--color-text-tertiary);
+      text-transform: uppercase;
+    }
+
+    .coach-nutrition-score-label {
+      position: relative;
+      z-index: 1;
+      margin-top: 4px;
+      color: var(--color-success);
+      font-family: var(--typography-label-medium-font-family);
+      font-size: var(--typography-label-medium-font-size);
+      font-style: var(--typography-label-medium-font-style);
+      font-weight: var(--typography-label-medium-font-weight);
+      line-height: var(--typography-label-medium-line-height);
+      letter-spacing: var(--typography-label-medium-letter-spacing);
+    }
+
+    .coach-nutrition-score-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 0 16px;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .coach-nutrition-score-stat {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .coach-nutrition-score-stat .icon {
+      flex-shrink: 0;
+    }
+
+    .coach-nutrition-score-stat div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .coach-nutrition-score-stat strong {
+      color: var(--color-text-primary);
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-style: var(--typography-title-medium-font-style);
+      font-weight: var(--typography-title-medium-font-weight);
+      line-height: var(--typography-title-medium-line-height);
+      letter-spacing: var(--typography-title-medium-letter-spacing);
+    }
+
+    .coach-nutrition-score-stat span {
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+      white-space: nowrap;
+    }
+
+    /* Info note (shared) */
+    .coach-nutrition-info-note {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      width: 100%;
+      padding: 12px;
+      border-radius: var(--radius-r12);
+      background: var(--color-surface-variant);
+      box-sizing: border-box;
+    }
+
+    .coach-nutrition-info-note .icon {
+      flex-shrink: 0;
+    }
+
+    .coach-nutrition-info-note p {
+      margin: 0;
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+    }
+
+    /* Ask your Nutrition Coach card */
+    .screen-coach-main .coach-nutrition-coach-card {
+      background-image: linear-gradient(180deg, var(--color-primary-container) 24.881%, rgba(255, 255, 255, 0) 52.054%), linear-gradient(90deg, #fff 0%, #fff 100%);
+      gap: 16px;
+    }
+
+    .coach-nutrition-coach-chat {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .coach-nutrition-coach-bubble {
+      flex: 1 1 auto;
+      min-width: 0;
+      padding: 16px;
+      border-radius: 24px 24px 24px 0;
+      background: var(--color-surface);
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
+    }
+
+    .coach-nutrition-coach-bubble p {
+      margin: 0;
+      color: #111827;
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+    }
+
+    .coach-nutrition-coach-avatar {
+      flex: 0 0 84px;
+      width: 84px;
+      height: 84px;
+      border: 6px solid var(--color-on-primary);
+      border-radius: 50%;
+      background: var(--color-primary);
+      box-shadow: 0 0 11.2px rgba(0, 0, 0, 0.19);
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .coach-nutrition-coach-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .coach-nutrition-coach-suggestions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .coach-nutrition-coach-try-title {
+      margin: 0;
+      color: var(--color-text-primary);
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+    }
+
+    .coach-nutrition-coach-suggestion {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      border-radius: var(--radius-r12);
+      background: var(--color-surface);
+      box-shadow: 0 0 38px rgba(0, 0, 0, 0.06);
+      cursor: pointer;
+      text-align: left;
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+      color: var(--color-text-primary);
+    }
+
+    .coach-nutrition-coach-suggestion .icon {
+      flex-shrink: 0;
+    }
+
+    .screen-coach-main .coach-outline-primary-btn-icon .icon {
+      background-color: currentColor;
+    }
+
+    /* 7-Day Calories card */
+    .screen-coach-main .coach-nutrition-weekly-card {
+      gap: 14px;
+    }
+
+    .coach-nutrition-weekly-avg {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .coach-nutrition-weekly-avg strong {
+      color: var(--color-text-primary);
+      font-family: var(--typography-headline-small-font-family);
+      font-size: var(--typography-headline-small-font-size);
+      font-style: var(--typography-headline-small-font-style);
+      font-weight: var(--typography-headline-small-font-weight);
+      line-height: var(--typography-headline-small-line-height);
+      letter-spacing: var(--typography-headline-small-letter-spacing);
+    }
+
+    .coach-nutrition-weekly-avg span {
+      color: var(--color-text-secondary);
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+    }
+
+    .coach-nutrition-weekly-trend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .coach-nutrition-weekly-trend span:last-child {
+      color: var(--color-primary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+    }
+
+    .coach-nutrition-weekly-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      width: 100%;
+      padding: 14px 6px 1px;
+      border-bottom: 1px dashed #cbd5e1;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .coach-nutrition-weekly-bar {
+      flex: 1 1 0;
+      min-width: 0;
+      background: var(--color-primary);
+      border-radius: 9999px 9999px 4px 4px;
+      position: relative;
+    }
+
+    .coach-nutrition-weekly-bar.is-over {
+      background: var(--color-error);
+    }
+
+    .coach-nutrition-weekly-bar span {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--color-text-secondary);
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      line-height: normal;
+      white-space: nowrap;
+    }
+
+    .coach-nutrition-weekly-labels {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      padding: 2px 6px 0;
+      box-sizing: border-box;
+    }
+
+    .coach-nutrition-weekly-labels span {
+      flex: 1 1 0;
+      text-align: center;
+      color: var(--color-text-secondary);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      line-height: normal;
+    }
+
+    /* Weekly Macro Overview card */
+    .screen-coach-main .coach-nutrition-macro-weekly-card {
+      gap: 16px;
+      box-shadow: 0 0 38px rgba(0, 0, 0, 0.06);
+      border: 0;
+    }
+
+    .coach-nutrition-macro-weekly-avg-label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .coach-nutrition-macro-weekly-avg-label span {
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-label-medium-font-family);
+      font-size: var(--typography-label-medium-font-size);
+      font-style: var(--typography-label-medium-font-style);
+      font-weight: var(--typography-label-medium-font-weight);
+      line-height: 16px;
+      letter-spacing: var(--typography-label-medium-letter-spacing);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .coach-nutrition-macro-weekly-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .coach-nutrition-macro-weekly-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .coach-nutrition-macro-weekly-label {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      width: 130px;
+      flex-shrink: 0;
+    }
+
+    .coach-nutrition-macro-weekly-label .icon {
+      flex-shrink: 0;
+    }
+
+    .coach-nutrition-macro-weekly-label div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .coach-nutrition-macro-weekly-label strong {
+      color: var(--color-text-primary);
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+    }
+
+    .coach-nutrition-macro-weekly-label span {
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+    }
+
+    .coach-nutrition-macro-weekly-bar-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1 1 auto;
+      min-width: 0;
+      align-items: flex-end;
+    }
+
+    .coach-nutrition-macro-weekly-status {
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+      text-align: right;
+      width: 100%;
+    }
+
+    .coach-nutrition-macro-weekly-status.is-warning {
+      color: var(--color-secondary);
+    }
+
+    .coach-nutrition-macro-weekly-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--color-primary-container);
+      overflow: hidden;
+    }
+
+    .coach-nutrition-macro-weekly-fill {
+      height: 8px;
+      border-radius: 4px;
+    }
+
+    .coach-nutrition-macro-weekly-fill.is-protein {
+      background: var(--color-chart-protein);
+    }
+
+    .coach-nutrition-macro-weekly-fill.is-carbs {
+      background: var(--color-default);
+    }
+
+    .coach-nutrition-macro-weekly-fill.is-fat {
+      background: var(--color-success);
+    }
+
+    /* No meals logged card */
+    .screen-coach-main .coach-nutrition-empty-card {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Log Book source card */
+    .screen-coach-main .coach-nutrition-logbook-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .coach-nutrition-empty-icon,
+    .coach-nutrition-logbook-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 24px;
+      flex-shrink: 0;
+    }
+
+    .coach-nutrition-empty-icon {
+      background: var(--color-secondary-container);
+    }
+
+    .coach-nutrition-logbook-icon {
+      background: var(--color-tertiary-container);
+    }
+
+    .coach-nutrition-logbook-head {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .coach-nutrition-logbook-head h2 {
+      margin: 0 0 2px;
+      color: var(--color-text-primary);
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-style: var(--typography-title-medium-font-style);
+      font-weight: var(--typography-title-medium-font-weight);
+      line-height: var(--typography-title-medium-line-height);
+      letter-spacing: var(--typography-title-medium-letter-spacing);
+    }
+
+    .coach-nutrition-logbook-head p,
+    .coach-nutrition-empty-card h2,
+    .coach-nutrition-empty-card p {
+      margin: 0;
+    }
+
+    .coach-nutrition-empty-card h2,
+    .coach-nutrition-logbook-head h2 {
+      color: var(--color-text-primary);
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-style: var(--typography-title-medium-font-style);
+      font-weight: var(--typography-title-medium-font-weight);
+      line-height: var(--typography-title-medium-line-height);
+      letter-spacing: var(--typography-title-medium-letter-spacing);
+    }
+
+    .coach-nutrition-empty-card p,
+    .coach-nutrition-logbook-head p {
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+    }
+
+    /* ── Activity Tab ── */
+
+    .coach-activity-next-workout {
+      background-image: linear-gradient(0deg, rgba(0, 86, 216, 0.08) 0%, rgba(0, 86, 216, 0.08) 100%), linear-gradient(90deg, #fff 0%, #fff 100%);
+      gap: 8px;
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
+    }
+
+    .coach-activity-next-workout .coach-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .coach-activity-next-workout .coach-card-head h2 {
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+      color: var(--color-text-primary);
+      margin: 0;
+    }
+
+    .coach-activity-next-workout .coach-card-head p {
+      font-size: 13px;
+      line-height: 19px;
+      color: var(--color-text-tertiary);
+      margin: 0;
+    }
+
+    .coach-activity-badge {
+      padding: 6px 10px;
+      border-radius: var(--radius-r20);
+      background: var(--color-primary-container);
+      color: var(--color-on-primary-container);
+      font-family: var(--typography-label-medium-font-family);
+      font-size: var(--typography-label-medium-font-size);
+      font-style: var(--typography-label-medium-font-style);
+      font-weight: 600;
+      line-height: var(--typography-label-medium-line-height);
+      letter-spacing: var(--typography-label-medium-letter-spacing);
+      white-space: nowrap;
+      align-self: flex-start;
+    }
+
+    .coach-activity-next-workout h3 {
+      font-family: var(--typography-title-large-font-family);
+      font-size: var(--typography-title-large-font-size);
+      font-style: var(--typography-title-large-font-style);
+      font-weight: var(--typography-title-large-font-weight);
+      line-height: var(--typography-title-large-line-height);
+      letter-spacing: var(--typography-title-large-letter-spacing);
+      color: var(--color-text-primary);
+      margin: 0;
+    }
+
+    .coach-activity-next-workout>p {
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+      margin: 0;
+    }
+
+    .coach-activity-solid-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      width: 100%;
+      padding: 12px 16px;
+      border: 0;
+      border-radius: var(--radius-rFull);
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-style: var(--typography-title-medium-font-style);
+      font-weight: var(--typography-title-medium-font-weight);
+      line-height: var(--typography-title-medium-line-height);
+      letter-spacing: var(--typography-title-medium-letter-spacing);
+      text-align: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .coach-activity-outline-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 38px;
+      width: 100%;
+      padding: 9px 16px;
+      border: 1px solid var(--color-primary);
+      border-radius: var(--radius-rFull);
+      background: var(--color-surface);
+      color: var(--color-primary);
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+      text-align: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .coach-activity-outline-btn .icon {
+      flex: 0 0 18px;
+      width: 18px;
+      height: 18px;
+      background-color: currentColor;
+    }
+
+    /* Activity Coach Card */
+    .coach-activity-coach-card {
+      background-image: linear-gradient(180deg, var(--color-primary-container) 24.881%, rgba(255, 255, 255, 0) 52.054%), linear-gradient(90deg, #fff 0%, #fff 100%);
+      gap: 16px;
+      box-shadow: 0 0 38px rgba(0, 0, 0, 0.06);
+    }
+
+    .coach-activity-coach-card .coach-card-head {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .coach-activity-coach-card .coach-card-head h2 {
+      margin: 0;
+    }
+
+    .coach-activity-coach-card .coach-card-head p {
+      margin: 0;
+      color: var(--color-text-secondary);
+    }
+
+    .coach-activity-coach-chat {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .coach-activity-coach-bubble {
+      flex: 1 1 auto;
+      min-width: 0;
+      padding: 16px;
+      border-radius: 24px 24px 24px 0;
+      background: var(--color-surface);
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
+    }
+
+    .coach-activity-coach-bubble p {
+      margin: 0;
+      color: #111827;
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+    }
+
+    .coach-activity-coach-avatar {
+      flex: 0 0 84px;
+      width: 84px;
+      height: 84px;
+      border: 6px solid var(--color-on-primary);
+      border-radius: 50%;
+      background: var(--color-primary);
+      box-shadow: 0 0 11.2px rgba(0, 0, 0, 0.19);
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .coach-activity-coach-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .coach-activity-coach-suggestions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .coach-activity-suggestion {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      border-radius: var(--radius-r12);
+      background: var(--color-surface);
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
+      color: var(--color-text-primary);
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+      text-align: left;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .coach-activity-suggestion .icon {
+      flex: 0 0 18px;
+      width: 18px;
+      height: 18px;
+      background-color: var(--color-default);
+    }
+
+    /* Weekly Workout Goal Card */
+    .coach-activity-weekly-goal {
+      padding: 24px;
+      gap: 24px;
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
+      border: 0;
+    }
+
+    .coach-activity-weekly-goal h2 {
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-style: var(--typography-title-medium-font-style);
+      font-weight: var(--typography-title-medium-font-weight);
+      line-height: var(--typography-title-medium-line-height);
+      letter-spacing: var(--typography-title-medium-letter-spacing);
+      color: var(--color-text-primary);
+      margin: 0;
+    }
+
+    .coach-activity-goal-main {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .coach-activity-goal-details {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .coach-activity-goal-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .coach-activity-goal-info h3 {
+      margin: 0;
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-style: var(--typography-title-medium-font-style);
+      font-weight: var(--typography-title-medium-font-weight);
+      line-height: var(--typography-title-medium-line-height);
+      letter-spacing: var(--typography-title-medium-letter-spacing);
+      color: var(--color-text-primary);
+    }
+
+    .coach-activity-goal-info p {
+      margin: 0;
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+      color: var(--color-text-tertiary);
+    }
+
+    .coach-activity-day-tracker {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .coach-activity-day-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .coach-activity-day-item .day-label {
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+    }
+
+    .coach-activity-day-item.done .day-label {
+      color: var(--color-success);
+    }
+
+    .coach-activity-day-item.today .day-label {
+      color: var(--color-primary);
+    }
+
+    .coach-activity-day-item.pending .day-label {
+      color: var(--color-text-tertiary);
+    }
+
+    .coach-activity-day-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 14px;
+      background: var(--color-primary-container);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .coach-activity-day-item.today .coach-activity-day-check {
+      border: 1.5px solid var(--color-primary);
+      background: var(--color-primary-container);
+    }
+
+    .coach-activity-day-check img {
+      width: 14px;
+      height: 14px;
+    }
+
+    .coach-activity-upcoming {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .coach-activity-schedule-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-r12);
+      background: var(--color-primary-container);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    .coach-activity-schedule-item.rest {
+      background: var(--color-surface);
+    }
+
+    .coach-activity-schedule-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      min-width: 0;
+    }
+
+    .coach-activity-schedule-left strong {
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+      color: var(--color-text-primary);
+    }
+
+    .coach-activity-schedule-left span {
+      font-size: 13px;
+      line-height: 19px;
+      color: var(--color-text-tertiary);
+    }
+
+    .coach-activity-schedule-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .coach-activity-schedule-badge {
+      padding: 6px 10px;
+      border-radius: var(--radius-r20);
+      background: var(--color-primary-container);
+      font-family: var(--typography-label-medium-font-family);
+      font-size: var(--typography-label-medium-font-size);
+      font-style: var(--typography-label-medium-font-style);
+      font-weight: 600;
+      line-height: var(--typography-label-medium-line-height);
+      letter-spacing: var(--typography-label-medium-letter-spacing);
+      color: var(--color-on-primary-container);
+    }
+
+    .coach-activity-schedule-item.rest .coach-activity-schedule-badge {
+      background: var(--color-surface-variant);
+      color: var(--color-text-tertiary);
+    }
+
+    /* Weekly Steps / Active Calories shared */
+    .coach-activity-metric-card .coach-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .coach-activity-metric-card .coach-card-head h2 {
+      margin: 0;
+    }
+
+    .coach-activity-on-track-pill {
+      padding: 6px 10px;
+      border-radius: var(--radius-r20);
+      background: var(--color-on-success);
+      color: var(--color-success);
+      font-family: var(--typography-label-medium-font-family);
+      font-size: var(--typography-label-medium-font-size);
+      font-style: var(--typography-label-medium-font-style);
+      font-weight: 600;
+      line-height: var(--typography-label-medium-line-height);
+      letter-spacing: var(--typography-label-medium-letter-spacing);
+    }
+
+    .coach-activity-value-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .coach-activity-value-row .big {
+      font-family: var(--typography-headline-small-font-family);
+      font-size: var(--typography-headline-small-font-size);
+      font-style: var(--typography-headline-small-font-style);
+      font-weight: var(--typography-headline-small-font-weight);
+      line-height: var(--typography-headline-small-line-height);
+      letter-spacing: var(--typography-headline-small-letter-spacing);
+      color: var(--color-text-primary);
+    }
+
+    .coach-activity-value-row .unit {
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+      color: var(--color-text-secondary);
+    }
+
+    .coach-activity-progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .coach-activity-progress-track {
+      flex: 1;
+      height: 8px;
+      border-radius: var(--radius-rFull);
+      background: var(--color-primary-container);
+      overflow: hidden;
+    }
+
+    .coach-activity-progress-fill {
+      height: 100%;
+      border-radius: var(--radius-rFull);
+      background: var(--color-primary);
+    }
+
+    .coach-activity-progress-pct {
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+      color: var(--color-text-primary);
+      flex-shrink: 0;
+    }
+
+    .coach-activity-stats-row {
+      display: flex;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .coach-activity-stat {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: left;
+      gap: 10px;
+    }
+
+    .coach-activity-stat .icon {
+      flex: 0 0 24px;
+      width: 24px;
+      height: 24px;
+      background-color: var(--color-default);
+    }
+
+    .coach-activity-stat-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .coach-activity-stat-text strong {
+      font-family: var(--typography-label-large-font-family);
+      font-size: var(--typography-label-large-font-size);
+      font-style: var(--typography-label-large-font-style);
+      font-weight: 600;
+      line-height: var(--typography-label-large-line-height);
+      letter-spacing: var(--typography-label-large-letter-spacing);
+      color: var(--color-text-primary);
+    }
+
+    .coach-activity-stat-text span {
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+      color: var(--color-text-tertiary);
+    }
+
+    .coach-activity-bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 104px;
+      padding: 14px 6px 1px;
+      border-bottom: 1px dashed #cbd5e1;
+      box-sizing: border-box;
+    }
+
+    .coach-activity-bar {
+      flex: 1;
+      min-width: 0;
+      border-radius: 4px 4px 9999px 9999px;
+      background: var(--color-default);
+    }
+
+    .coach-activity-bar.accent {
+      background: var(--color-primary);
+    }
+
+    .coach-activity-bar.success {
+      background: var(--color-success);
+    }
+
+    .coach-activity-bar.faint {
+      background: var(--color-primary-container);
+    }
+
+    .coach-activity-day-labels {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .coach-activity-day-label {
+      flex: 1;
+      text-align: center;
+      padding: 2px 0 0;
+      font-size: 11px;
+      color: var(--color-text-secondary);
+    }
+
+    .coach-activity-day-label.active {
+      color: var(--color-primary);
+    }
+
+    .coach-activity-info-banner {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 12px;
+      border-radius: var(--radius-r12);
+      background: var(--color-surface-variant);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .coach-activity-info-banner .icon {
+      flex: 0 0 20px;
+      width: 20px;
+      height: 20px;
+      background-color: var(--color-default);
+    }
+
+    .coach-activity-info-banner p {
+      margin: 0;
+      flex: 1;
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+    }
+
+    /* Active Calories trend */
+    .coach-activity-trend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .coach-activity-trend .icon {
+      width: 16px;
+      height: 16px;
+      background-color: var(--color-primary);
+    }
+
+    .coach-activity-trend span {
+      font-family: var(--typography-body-small-font-family);
+      font-size: var(--typography-body-small-font-size);
+      font-style: var(--typography-body-small-font-style);
+      font-weight: var(--typography-body-small-font-weight);
+      line-height: var(--typography-body-small-line-height);
+      letter-spacing: var(--typography-body-small-letter-spacing);
+      color: var(--color-primary);
+    }
+
+    /* Weight Progress */
+    .coach-activity-weight-change {
+      color: var(--color-success);
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+    }
+
+    .coach-activity-gauge-track {
+      stroke: var(--color-primary-container);
+    }
+
+    .coach-activity-gauge-fill {
+      stroke: var(--color-success);
+    }
+
+    .coach-activity-weight-chart {
+      height: 119px;
+      position: relative;
+    }
+
+    .coach-activity-weight-chart svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .coach-activity-calorie-stats {
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-end;
+    }
+  </style>
 </head>
 
 <body>
@@ -30,8 +2234,12 @@
                   <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
                 </svg>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="#0f172a" />
-                  <path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="#0f172a" />
+                  <path
+                    d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z"
+                    fill="#0f172a" />
+                  <path
+                    d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z"
+                    fill="#0f172a" />
                   <circle cx="8" cy="11" r="2" fill="#0f172a" />
                 </svg>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -48,12 +2256,12 @@
                 <h1 class="coach-main-title">Coach</h1>
               </div>
               <div class="coach-header-actions">
-                <button class="coach-premium-toggle" type="button" id="coachPremiumToggle" aria-pressed="false">
-                  Premium
-                </button>
                 <button class="coach-health-btn" type="button" data-coach-edge="health">
-                  <img src="../../assets/svg_icons/health-1.svg" alt="">
-                  <span>Synced</span>
+                  <i class="icon coach-health-btn-icon"
+                    style="--icon-url: url('../../assets/svg_icons/love.svg'); width: 16px; height: 16px;"
+                    aria-hidden="true"></i>
+                  <span class="coach-health-sync-state" hidden>Health</span>
+                  <strong>Health</strong>
                 </button>
               </div>
             </header>
@@ -90,13 +2298,15 @@
             </div>
 
             <div class="coach-tab-bar" role="tablist" aria-label="Coach sections">
-              <button class="coach-tab active" type="button" role="tab" aria-selected="true" data-coach-tab="recovery">Recovery</button>
-              <button class="coach-tab" type="button" role="tab" aria-selected="false" data-coach-tab="nutrition">Nutrition</button>
-              <button class="coach-tab" type="button" role="tab" aria-selected="false" data-coach-tab="activity">Activity</button>
+              <button class="coach-tab active" type="button" role="tab" aria-selected="true"
+                data-coach-tab="recovery">Recovery</button>
+              <button class="coach-tab" type="button" role="tab" aria-selected="false"
+                data-coach-tab="nutrition">Nutrition</button>
+              <button class="coach-tab" type="button" role="tab" aria-selected="false"
+                data-coach-tab="activity">Activity</button>
             </div>
 
             <section class="coach-panel active" data-coach-panel="recovery">
-              <!-- Recovery Score Card - Locked State -->
               <article class="coach-card coach-score-card">
                 <div class="coach-card-head">
                   <div>
@@ -105,18 +2315,8 @@
                   </div>
                   <span class="coach-status-pill good">Good</span>
                 </div>
-                <div class="coach-locked-section" data-coach-edge="paywall" data-premium-lock>
-                  <div class="coach-locked-icon">
-                    <img src="../../assets/svg_icons/lock.svg" alt="">
-                  </div>
-                  <p>Unlock the sleep, mood, HRV, and activity composite score with Premium.</p>
-                  <button class="coach-secondary-pill" type="button" data-coach-edge="premium">
-                    <img src="../../assets/svg_icons/plus.svg" alt="">
-                    Get Premium
-                  </button>
-                </div>
-                <div class="coach-score-body" data-premium-content hidden>
-                  <button class="coach-gauge" type="button" data-coach-edge="breakdown" aria-label="Show recovery score breakdown">
+                <div class="coach-score-body">
+                  <button class="coach-gauge" type="button" aria-label="Recovery score">
                     <svg viewBox="0 0 148 148">
                       <circle cx="74" cy="74" r="60" class="coach-gauge-track" />
                       <circle cx="74" cy="74" r="60" class="coach-gauge-fill" />
@@ -128,60 +2328,175 @@
                   </button>
                   <div class="coach-score-copy">
                     <h3>Ready to train hard today.</h3>
-                    <p>Your sleep duration and recent workload point to a strong session. Keep the warm-up deliberate.</p>
+                    <p>Your sleep duration and recent workload point to a strong session. Keep the warm-up deliberate.
+                    </p>
                   </div>
                 </div>
-                <div class="coach-edge-note" id="coachBreakdownNote" data-premium-content hidden>
-                  Sleep 36 pts, mood 18 pts, activity balance 14 pts, HRV preview 10 pts.
+
+                <div class="coach-score-breakdown">
+                  <div class="coach-score-stat sleep">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/night.svg');"
+                      aria-hidden="true"></span>
+                    <div>
+                      <strong>30 pts</strong>
+                      <span>Sleep</span>
+                    </div>
+                  </div>
+                  <div class="coach-score-stat mood">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/okay.svg');"
+                      aria-hidden="true"></span>
+                    <div>
+                      <strong>18 pts</strong>
+                      <span>Mood</span>
+                    </div>
+                  </div>
+                  <div class="coach-score-stat nutrition">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/wheat.svg');"
+                      aria-hidden="true"></span>
+                    <div>
+                      <strong>14 pts</strong>
+                      <span>Nutrition</span>
+                    </div>
+                  </div>
+                  <div class="coach-score-stat steps">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/shoe-prints.svg');"
+                      aria-hidden="true"></span>
+                    <div>
+                      <strong>10 pts</strong>
+                      <span>Steps</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="coach-recovery-note visible" id="coachBreakdownNote">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/info.svg');"
+                    aria-hidden="true"></span>
+                  <p>Your sleep duration and recent habits support a strong session. Keep the warm up deliberate.</p>
                 </div>
               </article>
 
-              <!-- Sleep Card - Locked State -->
-              <article class="coach-card">
+              <article class="coach-card coach-recovery-chat-card">
+                <div>
+                  <h2 class="coach-recovery-chat-title">Ask your Recovery Coach</h2>
+                  <p class="coach-recovery-chat-subtitle">Get personalized guidance based on your data and goals.</p>
+                </div>
+
+                <div class="coach-recovery-chat-row">
+                  <div class="coach-recovery-chat-bubble">
+                    <p>Your recovery looks good today. Want help choosing training intensity?</p>
+                  </div>
+                  <div class="coach-recovery-avatar" aria-hidden="true">
+                    <img src="../../assets/img/marcus.jpg" alt="">
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="coach-chat-try-title">Try asking:</h3>
+                </div>
+
+                <div class="coach-chat-suggestions">
+                  <button class="coach-chat-suggestion" type="button" data-chat-question="Should I train hard today?">
+                    <span>Should I train hard today?</span>
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/foward.svg');"
+                      aria-hidden="true"></span>
+                  </button>
+                  <button class="coach-chat-suggestion" type="button"
+                    data-chat-question="How can I improve my recovery?">
+                    <span>How can I improve my recovery?</span>
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/foward.svg');"
+                      aria-hidden="true"></span>
+                  </button>
+                  <button class="coach-chat-suggestion" type="button" data-chat-question="Why is my sleep score low?">
+                    <span>Why is my sleep score low?</span>
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/foward.svg');"
+                      aria-hidden="true"></span>
+                  </button>
+                </div>
+
+                <button class="coach-primary-btn" type="button" data-open-coach-chat data-chat-context="recovery">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/sparkles.svg');"
+                    aria-hidden="true"></span>
+                  <span>Chat with Coach</span>
+                </button>
+              </article>
+
+              <article class="coach-card coach-sleep-card-v2">
                 <div class="coach-card-head">
                   <div>
                     <h2>Sleep</h2>
                     <p>Last night from connected health data</p>
                   </div>
-                  <span class="coach-metric-value" id="coachSleepMetric">7h 42m</span>
+                  <div class="coach-sleep-metric">
+                    <strong id="coachSleepMetric">7h 42m</strong>
+                    <span>Target: 8h</span>
+                  </div>
                 </div>
                 <div class="coach-progress-row">
                   <span>Ideal range</span>
-                  <div class="coach-progress-track"><div style="width: 85%"></div></div>
+                  <div class="coach-progress-track">
+                    <div style="width: 85%"></div>
+                  </div>
                   <strong>85%</strong>
                 </div>
-                <div class="coach-locked-section" data-coach-edge="paywall" data-premium-lock>
-                  <div class="coach-locked-icon">
-                    <img src="../../assets/svg_icons/lock.svg" alt="">
+                <div class="coach-sleep-legend-grid">
+                  <div class="coach-sleep-legend-item deep">
+                    <span class="coach-sleep-legend-dot"></span>
+                    <div class="coach-sleep-legend-copy">
+                      <strong>Deep</strong>
+                      <span>2h 08m repair</span>
+                    </div>
                   </div>
-                  <p>Premium unlocks deep, light, REM, awake, and manual sleep entry.</p>
-                  <button class="coach-secondary-pill" type="button" data-coach-edge="premium">
-                    <img src="../../assets/svg_icons/plus.svg" alt="">
-                    Get Premium
-                  </button>
+                  <div class="coach-sleep-legend-item light">
+                    <span class="coach-sleep-legend-dot"></span>
+                    <div class="coach-sleep-legend-copy">
+                      <strong>Light</strong>
+                      <span>3h 12m reset</span>
+                    </div>
+                  </div>
+                  <div class="coach-sleep-legend-item rem">
+                    <span class="coach-sleep-legend-dot"></span>
+                    <div class="coach-sleep-legend-copy">
+                      <strong>REM</strong>
+                      <span>1h 42m mood</span>
+                    </div>
+                  </div>
+                  <div class="coach-sleep-legend-item awake">
+                    <span class="coach-sleep-legend-dot"></span>
+                    <div class="coach-sleep-legend-copy">
+                      <strong>Awake</strong>
+                      <span>40m interruptions</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="coach-premium-content coach-sleep-detail" data-premium-content hidden>
-                  <div class="coach-stage-bars">
-                    <span style="width: 28%; background:#1e3a5f"></span>
-                    <span style="width: 42%; background:#60A5FA"></span>
-                    <span style="width: 22%; background:#A78BFA"></span>
-                    <span style="width: 8%; background:#FB923C"></span>
-                  </div>
-                  <div class="coach-stage-legend">
-                    <span class="deep"><b></b><strong>Deep</strong><em>2h 08m repair</em></span>
-                    <span class="light"><b></b><strong>Light</strong><em>3h 12m reset</em></span>
-                    <span class="rem"><b></b><strong>REM</strong><em>1h 42m mood</em></span>
-                    <span class="awake"><b></b><strong>Awake</strong><em>40m interruptions</em></span>
-                  </div>
-                  <p class="coach-stage-note">Darker blue means deeper recovery sleep. Orange marks awake time, which reduces sleep quality when it gets high.</p>
-                  <div class="coach-sleep-actions">
-                    <button class="coach-secondary-pill ghost" type="button" id="coachSleepFaqBtn">FAQ Stage</button>
-                    <button class="coach-secondary-pill" type="button" id="coachSleepManualBtn">Add Manually</button>
-                  </div>
+                <div class="coach-sleep-actions">
+                  <button class="coach-secondary-pill ghost" type="button" id="coachSleepFaqBtn">FAQ Stage</button>
+                  <button class="coach-secondary-pill" type="button" id="coachSleepManualBtn">Add Manually</button>
                 </div>
               </article>
 
-              <!-- Apple Health Card - Always Accessible -->
+              <article class="coach-card coach-mood-card">
+                <div class="coach-card-head">
+                  <div>
+                    <h2>Mood Check-in</h2>
+                    <p>How are you feeling today?</p>
+                  </div>
+                  <button class="coach-change-mood" type="button" id="coachMoodChange">Change</button>
+                </div>
+                <div class="coach-mood-row">
+                  <button type="button" data-mood="Great"><span class="icon icon-green"
+                      style="--icon-url: url('../../assets/svg_icons/great.svg'); width: 20px; height: 20px;"></span><span>Great</span></button>
+                  <button type="button" data-mood="Good" class="selected"><span class="icon icon-blue"
+                      style="--icon-url: url('../../assets/svg_icons/good.svg'); width: 20px; height: 20px;"></span><span>Good</span></button>
+                  <button type="button" data-mood="Okay"><span class="icon icon-amber"
+                      style="--icon-url: url('../../assets/svg_icons/okay.svg'); width: 20px; height: 20px;"></span><span>Okay</span></button>
+                  <button type="button" data-mood="Bad"><span class="icon icon-red"
+                      style="--icon-url: url('../../assets/svg_icons/bad.svg'); width: 20px; height: 20px;"></span><span>Bad</span></button>
+                  <button type="button" data-mood="Low"><span class="icon icon-default"
+                      style="--icon-url: url('../../assets/svg_icons/low.svg'); width: 20px; height: 20px;"></span><span>Low</span></button>
+                </div>
+                <p class="coach-saved-mood" id="coachSavedMood">Mood saved: Good</p>
+              </article>
+
               <article class="coach-card coach-health-connected" id="coachHealthConnected">
                 <div class="coach-card-head">
                   <div>
@@ -195,114 +2510,326 @@
                   <span><strong>64 ms</strong><em>HRV</em></span>
                   <span><strong>8,450</strong><em>Steps</em></span>
                 </div>
-                <p class="coach-card-copy">Last sample sync: Today, 7:12 AM. Tap Health again to switch back to disconnected state.</p>
-              </article>
-
-              <!-- Heart Rate Variability Card - Locked State -->
-              <article class="coach-card">
-                <div class="coach-card-head">
-                  <div>
-                    <h2>Heart Rate Variability</h2>
-                    <p>Recovery signal from wearables</p>
-                  </div>
-                  <span class="coach-status-pill coach-unlocked-pill" data-premium-content hidden>Unlocked</span>
-                </div>
-                <div class="coach-locked-section" data-coach-edge="paywall" data-premium-lock>
-                  <div class="coach-locked-icon">
-                    <img src="../../assets/svg_icons/lock.svg" alt="">
-                  </div>
-                  <p>Unlock HRV to see how well your body is recovering</p>
-                  <button class="coach-secondary-pill" type="button" data-coach-edge="premium">
-                    <img src="../../assets/svg_icons/plus.svg" alt="">
-                    Get Premium
-                  </button>
-                </div>
-                <div class="coach-premium-content coach-hrv-detail" data-premium-content hidden>
-                  <div><strong>64 ms</strong><span>Morning HRV</span></div>
-                  <div><strong>+8%</strong><span>vs 7-day baseline</span></div>
-                  <p>Your nervous system is trending recovered. Keep caffeine moderate after lunch to protect tonight's sleep.</p>
-                </div>
-              </article>
-
-              <!-- Mood Check-in Card - Always Accessible -->
-              <article class="coach-card coach-mood-card">
-                <div class="coach-card-head">
-                  <div>
-                    <h2>Mood Check-in</h2>
-                    <p>How are you feeling today?</p>
-                  </div>
-                  <button class="coach-change-mood" type="button" id="coachMoodChange">Change</button>
-                </div>
-                <div class="coach-mood-row">
-                  <button type="button" data-mood="Great"><span class="icon icon-green" style="--icon-url: url('../../assets/svg_icons/great.svg'); width: 20px; height: 20px;"></span><span>Great</span></button>
-                  <button type="button" data-mood="Good" class="selected"><span class="icon icon-blue" style="--icon-url: url('../../assets/svg_icons/good.svg'); width: 20px; height: 20px;"></span><span>Good</span></button>
-                  <button type="button" data-mood="Okay"><span class="icon icon-amber" style="--icon-url: url('../../assets/svg_icons/okay.svg'); width: 20px; height: 20px;"></span><span>Okay</span></button>
-                  <button type="button" data-mood="Bad"><span class="icon icon-red" style="--icon-url: url('../../assets/svg_icons/bad.svg'); width: 20px; height: 20px;"></span><span>Bad</span></button>
-                  <button type="button" data-mood="Low"><span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/low.svg'); width: 20px; height: 20px;"></span><span>Low</span></button>
-                </div>
-                <p class="coach-saved-mood" id="coachSavedMood">Mood saved: Good</p>
-              </article>
-
-              <!-- Talk to Coach Card - Always Accessible -->
-              <article class="coach-card coach-chat-entry coach-chat-entry-locked">
-                <div>
-                  <h2>Talk to Coach</h2>
-                  <p>Ask about recovery, sleep, or today's workout.</p>
-                </div>
-                <button class="coach-primary-btn" type="button" data-open-coach-chat data-chat-context="recovery">
-                  Chat with Coach
-                </button>
+                <p class="coach-card-copy">Last sample sync: Today, 7:12 AM. Tap Health again to switch back to
+                  disconnected state.</p>
               </article>
             </section>
 
             <section class="coach-panel" data-coach-panel="nutrition">
-              <article class="coach-card">
+              <!-- Today's Nutrition -->
+              <article class="coach-card coach-nutrition-today-card">
                 <div class="coach-card-head">
                   <div>
-                    <h2>Nutrition Readiness</h2>
-                    <p>Log Book trend summary</p>
+                    <h2>Today's Nutrition</h2>
+                    <p>You're hitting targets - great work</p>
                   </div>
-                  <span class="coach-status-pill good">On track</span>
+                  <span class="coach-status-pill">On Track</span>
                 </div>
-                <div class="coach-nutrition-grid coach-macro-summary">
-                  <div><strong>1,850 / 2,200</strong><span>Calories - 350 remaining</span><i><b style="width:84%"></b></i></div>
-                  <div><strong>85g / 120g</strong><span>Protein - 35g remaining</span><i><b style="width:71%"></b></i></div>
-                  <div><strong>210g / 260g</strong><span>Carbs - 50g remaining</span><i><b style="width:81%"></b></i></div>
-                  <div><strong>58g / 70g</strong><span>Fat - 12g remaining</span><i><b style="width:83%"></b></i></div>
+                <div class="coach-nutrition-today-rows">
+                  <div class="coach-nutrition-today-row">
+                    <div class="coach-nutrition-today-label">
+                      <span class="icon"
+                        style="--icon-url: url('../../assets/svg_icons/flame.svg'); width: 18px; height: 18px; background-color: var(--color-secondary);"
+                        aria-hidden="true"></span>
+                      <div>
+                        <strong>Calories</strong>
+                        <span>1950/ 2100 kcal</span>
+                      </div>
+                    </div>
+                    <div class="coach-nutrition-today-bar">
+                      <div class="coach-nutrition-today-track">
+                        <div class="coach-nutrition-today-fill is-primary" style="width:80%"></div>
+                      </div>
+                      <strong>80%</strong>
+                    </div>
+                  </div>
+                  <div class="coach-nutrition-today-row">
+                    <div class="coach-nutrition-today-label">
+                      <span class="icon"
+                        style="--icon-url: url('../../assets/svg_icons/steak.svg'); width: 20px; height: 20px; background-color: var(--color-tertiary);"
+                        aria-hidden="true"></span>
+                      <div>
+                        <strong>Protein</strong>
+                        <span>142g / 150g</span>
+                      </div>
+                    </div>
+                    <div class="coach-nutrition-today-bar">
+                      <div class="coach-nutrition-today-track">
+                        <div class="coach-nutrition-today-fill is-success" style="width:100%"></div>
+                      </div>
+                      <strong>100%</strong>
+                    </div>
+                  </div>
+                  <div class="coach-nutrition-today-row">
+                    <div class="coach-nutrition-today-label">
+                      <span class="icon"
+                        style="--icon-url: url('../../assets/svg_icons/wheat.svg'); width: 20px; height: 20px; background-color: var(--color-default);"
+                        aria-hidden="true"></span>
+                      <div>
+                        <strong>Carbs</strong>
+                        <span>210g / 210g</span>
+                      </div>
+                    </div>
+                    <div class="coach-nutrition-today-bar">
+                      <div class="coach-nutrition-today-track">
+                        <div class="coach-nutrition-today-fill is-success" style="width:100%"></div>
+                      </div>
+                      <strong>100%</strong>
+                    </div>
+                  </div>
+                  <div class="coach-nutrition-today-row">
+                    <div class="coach-nutrition-today-label">
+                      <span class="icon"
+                        style="--icon-url: url('../../assets/svg_icons/avocado.svg'); width: 20px; height: 20px; background-color: var(--color-success);"
+                        aria-hidden="true"></span>
+                      <div>
+                        <strong>Fat</strong>
+                        <span>72g / 72g</span>
+                      </div>
+                    </div>
+                    <div class="coach-nutrition-today-bar">
+                      <div class="coach-nutrition-today-track">
+                        <div class="coach-nutrition-today-fill is-success" style="width:100%"></div>
+                      </div>
+                      <strong>100%</strong>
+                    </div>
+                  </div>
                 </div>
-                <p class="coach-card-copy">Protein intake is on track. Prioritize a lean dinner with ample vegetables.</p>
+                <div class="coach-nutrition-today-chat">
+                  <div class="coach-nutrition-today-bubble">
+                    <p>To stay on plan, prioritize a protein-rich final meal.</p>
+                  </div>
+                  <div class="coach-nutrition-today-avatar" aria-hidden="true">
+                    <img src="../../assets/img/marcus.jpg" alt="">
+                  </div>
+                </div>
+                <button class="coach-outline-primary-btn" type="button">View meal ideas</button>
               </article>
 
-              <article class="coach-card">
+              <!-- Weekly Nutrition Score -->
+              <article class="coach-card coach-nutrition-score-card">
+                <div class="coach-card-head">
+                  <h2>Weekly Nutrition Score</h2>
+                  <span class="coach-status-pill">On Track</span>
+                </div>
+                <div class="coach-nutrition-score-body">
+                  <div class="coach-nutrition-score-gauge" aria-label="Nutrition score 78 out of 100">
+                    <svg viewBox="0 0 124 124">
+                      <circle cx="62" cy="62" r="54" class="coach-nutrition-score-track" />
+                      <circle cx="62" cy="62" r="54" class="coach-nutrition-score-fill" />
+                    </svg>
+                    <div class="coach-nutrition-score-center">
+                      <strong>78</strong>
+                      <span>/100</span>
+                    </div>
+                    <span class="coach-nutrition-score-label">Good</span>
+                  </div>
+                  <div class="coach-nutrition-score-stats">
+                    <div class="coach-nutrition-score-stat">
+                      <span class="icon"
+                        style="--icon-url: url('../../assets/svg_icons/checkmark.svg'); width: 18px; height: 18px; background-color: var(--color-success);"
+                        aria-hidden="true"></span>
+                      <div>
+                        <strong>5 Days</strong>
+                        <span>on calories</span>
+                      </div>
+                    </div>
+                    <div class="coach-nutrition-score-stat">
+                      <span class="icon"
+                        style="--icon-url: url('../../assets/svg_icons/alert.svg'); width: 18px; height: 18px; background-color: var(--color-warning);"
+                        aria-hidden="true"></span>
+                      <div>
+                        <strong>2 days</strong>
+                        <span>low-protein</span>
+                      </div>
+                    </div>
+                    <div class="coach-nutrition-score-stat">
+                      <span class="icon"
+                        style="--icon-url: url('../../assets/svg_icons/checkmark.svg'); width: 18px; height: 18px; background-color: var(--color-secondary);"
+                        aria-hidden="true"></span>
+                      <div>
+                        <strong>1 day</strong>
+                        <span>high-fat</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="coach-nutrition-info-note">
+                  <span class="icon"
+                    style="--icon-url: url('../../assets/svg_icons/info.svg'); width: 20px; height: 20px; background-color: var(--color-default);"
+                    aria-hidden="true"></span>
+                  <p>Score is based on calorie target, macro balance and daily consistency</p>
+                </div>
+              </article>
+
+              <!-- Ask your Nutrition Coach -->
+              <article class="coach-card coach-nutrition-coach-card">
+                <div class="coach-card-head">
+                  <div>
+                    <h2>Ask your Nutrition Coach</h2>
+                    <p>Get personalized nutrition guidance to fuel your goals and progress</p>
+                  </div>
+                </div>
+                <div class="coach-nutrition-coach-chat">
+                  <div class="coach-nutrition-coach-bubble">
+                    <p>I'm here to help you build better habits, one smart choice at a time</p>
+                  </div>
+                  <div class="coach-nutrition-coach-avatar" aria-hidden="true">
+                    <img src="../../assets/img/marcus.jpg" alt="">
+                  </div>
+                </div>
+                <div class="coach-nutrition-coach-suggestions">
+                  <p class="coach-nutrition-coach-try-title">Try asking:</p>
+                  <button class="coach-nutrition-coach-suggestion" type="button"
+                    data-chat-question="How can I hit my protein target">
+                    <span>How can I hit my protein target</span>
+                    <span class="icon"
+                      style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 18px; height: 18px; background-color: var(--color-default);"
+                      aria-hidden="true"></span>
+                  </button>
+                  <button class="coach-nutrition-coach-suggestion" type="button"
+                    data-chat-question="Which day went over calories">
+                    <span>Which day went over calories</span>
+                    <span class="icon"
+                      style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 18px; height: 18px; background-color: var(--color-default);"
+                      aria-hidden="true"></span>
+                  </button>
+                  <button class="coach-nutrition-coach-suggestion" type="button"
+                    data-chat-question="What should I eat tonight">
+                    <span>What should I eat tonight</span>
+                    <span class="icon"
+                      style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 18px; height: 18px; background-color: var(--color-default);"
+                      aria-hidden="true"></span>
+                  </button>
+                </div>
+                <button class="coach-outline-primary-btn coach-outline-primary-btn-icon" type="button"
+                  data-open-coach-chat data-chat-context="nutrition">
+                  <span class="icon"
+                    style="--icon-url: url('../../assets/svg_icons/sparkles.svg'); width: 18px; height: 18px; background-color: var(--color-primary);"
+                    aria-hidden="true"></span>
+                  <span>Chat with Coach</span>
+                </button>
+              </article>
+
+              <!-- 7-Day Calories -->
+              <article class="coach-card coach-nutrition-weekly-card">
                 <div class="coach-card-head">
                   <div>
                     <h2>7-Day Calories</h2>
-                    <p>Premium trend insight</p>
+                    <div class="coach-nutrition-weekly-avg">
+                      <strong>2,150</strong>
+                      <span>avg kcal</span>
+                    </div>
+                    <div class="coach-nutrition-weekly-trend">
+                      <span class="icon"
+                        style="--icon-url: url('../../assets/svg_icons/arrow-small-down.svg'); width: 16px; height: 16px; background-color: var(--color-primary);"
+                        aria-hidden="true"></span>
+                      <span>4% lower than last week</span>
+                    </div>
                   </div>
-                  <span class="coach-status-pill coach-unlocked-pill" data-premium-content hidden>Unlocked</span>
+                  <span class="coach-status-pill">Unlocked</span>
                 </div>
-                <div class="coach-locked-section" data-coach-edge="paywall" data-premium-lock>
-                  <div class="coach-locked-icon">
-                    <img src="../../assets/svg_icons/lock.svg" alt="">
-                  </div>
-                  <p>Unlock weekly patterns, over-target days, and meal timing coaching.</p>
-                  <button class="coach-secondary-pill" type="button" data-coach-edge="premium">Get Premium</button>
+                <div class="coach-nutrition-weekly-chart" aria-label="7 day calorie bar chart">
+                  <div class="coach-nutrition-weekly-bar" style="height:72px"><span>1.8k</span></div>
+                  <div class="coach-nutrition-weekly-bar" style="height:64px"><span>1.6k</span></div>
+                  <div class="coach-nutrition-weekly-bar" style="height:70px"><span>1.8k</span></div>
+                  <div class="coach-nutrition-weekly-bar is-over" style="height:89px"><span>2.2k</span></div>
+                  <div class="coach-nutrition-weekly-bar" style="height:58px"><span>1.4k</span></div>
+                  <div class="coach-nutrition-weekly-bar" style="height:75px"><span>1.9k</span></div>
+                  <div class="coach-nutrition-weekly-bar" style="height:82px"><span>2.0k</span></div>
                 </div>
-                <div class="coach-nutrition-chart" data-premium-content hidden>
-                  <span style="height:49px"></span>
-                  <span style="height:64px"></span>
-                  <span style="height:70px"></span>
-                  <span class="over" style="height:89px"></span>
-                  <span style="height:58px"></span>
-                  <span style="height:75px"></span>
-                  <span style="height:82px"></span>
+                <div class="coach-nutrition-weekly-labels">
+                  <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
                 </div>
-                <p class="coach-card-copy">Unlock weekly patterns, over-target days, and meal timing coaching.</p>
+                <div class="coach-nutrition-info-note">
+                  <span class="icon"
+                    style="--icon-url: url('../../assets/svg_icons/info.svg'); width: 20px; height: 20px; background-color: var(--color-default);"
+                    aria-hidden="true"></span>
+                  <p>Most days were consistent. Friday was your main over target day.</p>
+                </div>
               </article>
 
-              <article class="coach-card coach-empty-card coach-nutrition-empty-card">
-                <div class="coach-empty-icon amber coach-salad-icon">
-                  <span class="icon icon-amber" style="--icon-url: url('../../assets/svg_icons/salad.svg'); width: 18px; height: 18px;"></span>
+              <!-- Weekly Macro Overview -->
+              <article class="coach-card coach-nutrition-macro-weekly-card">
+                <div class="coach-card-head">
+                  <div>
+                    <h2>Weekly Macro Overview</h2>
+                    <p>vs. weekly targets</p>
+                  </div>
+                  <div class="coach-nutrition-macro-weekly-avg-label">
+                    <span>7-day</span>
+                    <span>avg</span>
+                  </div>
+                </div>
+                <div class="coach-nutrition-macro-weekly-rows">
+                  <div class="coach-nutrition-macro-weekly-row">
+                    <div class="coach-nutrition-macro-weekly-label">
+                      <span class="icon"
+                        style="--icon-url: url('../../assets/svg_icons/steak.svg'); width: 20px; height: 20px; background-color: var(--color-chart-protein);"
+                        aria-hidden="true"></span>
+                      <div>
+                        <strong>Protein</strong>
+                        <span>612g / 640g</span>
+                      </div>
+                    </div>
+                    <div class="coach-nutrition-macro-weekly-bar-wrap">
+                      <span class="coach-nutrition-macro-weekly-status is-warning">2 days short</span>
+                      <div class="coach-nutrition-macro-weekly-track">
+                        <div class="coach-nutrition-macro-weekly-fill is-protein" style="width:81%"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="coach-nutrition-macro-weekly-row">
+                    <div class="coach-nutrition-macro-weekly-label">
+                      <span class="icon"
+                        style="--icon-url: url('../../assets/svg_icons/wheat.svg'); width: 20px; height: 20px; background-color: var(--color-default);"
+                        aria-hidden="true"></span>
+                      <div>
+                        <strong>Carbs</strong>
+                        <span>1,340g / 1,400g</span>
+                      </div>
+                    </div>
+                    <div class="coach-nutrition-macro-weekly-bar-wrap">
+                      <span class="coach-nutrition-macro-weekly-status">On track</span>
+                      <div class="coach-nutrition-macro-weekly-track">
+                        <div class="coach-nutrition-macro-weekly-fill is-carbs" style="width:90%"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="coach-nutrition-macro-weekly-row">
+                    <div class="coach-nutrition-macro-weekly-label">
+                      <span class="icon"
+                        style="--icon-url: url('../../assets/svg_icons/avocado.svg'); width: 20px; height: 20px; background-color: var(--color-success);"
+                        aria-hidden="true"></span>
+                      <div>
+                        <strong>Fat</strong>
+                        <span>410g / 430g</span>
+                      </div>
+                    </div>
+                    <div class="coach-nutrition-macro-weekly-bar-wrap">
+                      <span class="coach-nutrition-macro-weekly-status is-warning">1 day over</span>
+                      <div class="coach-nutrition-macro-weekly-track">
+                        <div class="coach-nutrition-macro-weekly-fill is-fat" style="width:91%"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="coach-nutrition-info-note">
+                  <span class="icon"
+                    style="--icon-url: url('../../assets/svg_icons/info.svg'); width: 20px; height: 20px; background-color: var(--color-default);"
+                    aria-hidden="true"></span>
+                  <p>One off day is okay, weekly averages matter more</p>
+                </div>
+                <button class="coach-outline-primary-btn" type="button" onclick="navigateTo('daily-breakdown')">View
+                  Daily Breakdown</button>
+              </article>
+
+              <!-- No meals logged yet -->
+              <article class="coach-card coach-nutrition-empty-card">
+                <div class="coach-nutrition-empty-icon">
+                  <span class="icon"
+                    style="--icon-url: url('../../assets/svg_icons/salad.svg'); width: 18px; height: 18px; background-color: var(--color-secondary);"
+                    aria-hidden="true"></span>
                 </div>
                 <div>
                   <h2>No meals logged yet</h2>
@@ -310,133 +2837,342 @@
                 </div>
               </article>
 
-              <article class="coach-card coach-logbook-source-card">
-                <div class="coach-logbook-source-head">
-                  <div class="coach-empty-icon coach-logbook-source-icon">
-                    <span class="icon icon-navy" style="--icon-url: url('../../assets/svg_icons/journal-alt.svg'); width: 18px; height: 18px;"></span>
+              <!-- Log Book source -->
+              <article class="coach-card coach-nutrition-logbook-card">
+                <div class="coach-nutrition-logbook-head">
+                  <div class="coach-nutrition-logbook-icon">
+                    <span class="icon"
+                      style="--icon-url: url('../../assets/svg_icons/journal-alt.svg'); width: 18px; height: 18px; background-color: var(--color-tertiary);"
+                      aria-hidden="true"></span>
                   </div>
                   <div>
-                  <h2>Log Book source</h2>
-                  <p>Open today's food log for item-level details.</p>
+                    <h2>Log Book source</h2>
+                    <p>Open today's food log for item-level details.</p>
                   </div>
                 </div>
-                <button class="coach-outline-btn" type="button" onclick="navigateTo('logbook')">Open</button>
-              </article>
-
-              <article class="coach-card coach-chat-entry coach-chat-entry-locked">
-                <div>
-                  <h2>Talk to Coach</h2>
-                  <p>Ask about recovery, sleep, or today's workout.</p>
-                </div>
-                <button class="coach-primary-btn" type="button" data-open-coach-chat data-chat-context="nutrition">Chat with Coach</button>
+                <button class="coach-outline-primary-btn" type="button" onclick="navigateTo('logbook')">Open</button>
               </article>
             </section>
 
             <section class="coach-panel" data-coach-panel="activity">
-              <article class="coach-card coach-next-workout">
+              <!-- Next Workout -->
+              <article class="coach-card coach-activity-next-workout">
                 <div class="coach-card-head">
                   <div>
                     <h2>Next Workout</h2>
                     <p>Today at 6:00 PM</p>
                   </div>
-                  <span class="coach-status-pill">45 min</span>
+                  <span class="coach-activity-badge">45 Min</span>
                 </div>
                 <h3>Upper Body Strength</h3>
                 <p>Chest, back, shoulders. Recovery score supports normal volume.</p>
-                <button class="coach-primary-btn" type="button" onclick="navigateTo('workout')">Go to workout</button>
+                <button class="coach-activity-solid-btn" type="button" onclick="navigateTo('workout')">Go to
+                  workout</button>
               </article>
 
-              <article class="coach-card">
+              <!-- Ask your Activity Coach -->
+              <article class="coach-card coach-activity-coach-card">
                 <div class="coach-card-head">
-                  <div>
-                    <h2>2-Week Schedule</h2>
-                    <p>Upcoming training rhythm</p>
+                  <h2>Ask your Activity Coach</h2>
+                  <p>Ask your weekly training, activity or today's workout</p>
+                </div>
+                <div class="coach-activity-coach-chat">
+                  <div class="coach-activity-coach-bubble">
+                    <p>I'm here to help you build better habits, one smart choice at a time</p>
                   </div>
-                  <button class="coach-change-mood" type="button" onclick="navigateTo('workout-schedule')">View All</button>
-                </div>
-                <div class="coach-schedule-strip">
-                  <span class="done">M<br><b>04</b></span>
-                  <span class="today">T<br><b>05</b></span>
-                  <span>W<br><b>06</b></span>
-                  <span>T<br><b>07</b></span>
-                  <span>F<br><b>08</b></span>
-                  <span>S<br><b>09</b></span>
-                  <span>S<br><b>10</b></span>
-                </div>
-                <div class="coach-schedule-list coach-schedule-compact">
-                  <button type="button" onclick="navigateTo('workout')"><span class="done">Mon</span><strong>Upper Body</strong><em>Completed</em></button>
-                  <button type="button" onclick="navigateTo('workout')"><span class="today">Tue</span><strong>Lower Body</strong><em>Today</em></button>
-                  <button type="button"><span>Wed</span><strong>Rest Day</strong><em>Recovery</em></button>
-                </div>
-              </article>
-
-              <article class="coach-card coach-activity-stats-card">
-                <div class="coach-card-head">
-                  <div>
-                    <h2>Activity Stats</h2>
-                    <p>Last night from connected health data</p>
+                  <div class="coach-activity-coach-avatar">
+                    <img src="../../assets/img/marcus.jpg" alt="Coach" />
                   </div>
-                  <span class="coach-metric-value">8,450</span>
-                </div>
-                <div class="coach-progress-row">
-                  <span>8,450 / 10,000 steps</span>
-                  <div class="coach-progress-track"><div style="width: 84%"></div></div>
-                  <strong>84%</strong>
-                </div>
-                <div class="coach-locked-section" data-premium-lock>
-                  <span class="coach-locked-icon"><img src="../../assets/svg_icons/lock.svg" alt=""></span>
-                  <p>Premium shows trend lines and workout highlights.</p>
-                  <button class="coach-secondary-pill" type="button" onclick="window.togglePremiumCoachState(false)">Get Premium</button>
-                </div>
-                <div class="coach-premium-content coach-activity-stats-detail" data-premium-content hidden>
-                  <div class="coach-burn-chart">
-                    <span style="height:46px"></span>
-                    <span style="height:62px"></span>
-                    <span style="height:42px"></span>
-                    <span style="height:79px"></span>
-                    <span style="height:70px"></span>
-                    <span style="height:54px"></span>
-                    <span style="height:90px"></span>
-                  </div>
-                  <div class="coach-insight-strip">
-                    <span>Completion 4/5</span>
-                    <span>Consistency 5/7</span>
-                    <span>Volume +5%</span>
-                  </div>
-                </div>
-              </article>
-
-              <article class="coach-card coach-empty-card">
-                <div class="coach-empty-icon">
-                  <span class="icon icon-navy" style="--icon-url: url('../../assets/svg_icons/gym.svg'); width: 18px; height: 18px;"></span>
                 </div>
                 <div>
-                  <h2>No completed workouts yet</h2>
-                  <p>After the first completed session, Coach replaces this with recent activity and progress notes.</p>
+                  <p class="coach-chat-try-title" style="margin-bottom:6px;">Try asking:</p>
+                  <div class="coach-activity-coach-suggestions">
+                    <button class="coach-activity-suggestion" type="button" data-open-coach-chat
+                      data-chat-context="activity" data-chat-prompt="Should I take a rest day?">
+                      <span>Should I take a rest day?</span>
+                      <span class="icon"
+                        style="--icon-url:url('../../assets/svg_icons/foward.svg');width:18px;height:18px;background-color:var(--color-default);"></span>
+                    </button>
+                    <button class="coach-activity-suggestion" type="button" data-open-coach-chat
+                      data-chat-context="activity" data-chat-prompt="Am I on track this week?">
+                      <span>Am I on track this week?</span>
+                      <span class="icon"
+                        style="--icon-url:url('../../assets/svg_icons/foward.svg');width:18px;height:18px;background-color:var(--color-default);"></span>
+                    </button>
+                  </div>
                 </div>
+                <button class="coach-activity-outline-btn" type="button" data-open-coach-chat
+                  data-chat-context="activity">
+                  <span class="icon"
+                    style="--icon-url:url('../../assets/svg_icons/sparkles.svg');width:18px;height:18px;background-color:currentColor;"></span>
+                  Chat with Coach
+                </button>
               </article>
 
-              <article class="coach-card coach-past-workouts-card" data-premium-content hidden>
+              <!-- Weekly Workout Goal -->
+              <article class="coach-card coach-activity-weekly-goal">
+                <h2>Weekly Workout Goal</h2>
+                <div class="coach-activity-goal-main">
+                  <div
+                    style="position:relative;width:124px;height:124px;display:flex;align-items:center;justify-content:center;">
+                    <svg viewBox="0 0 124 124" style="position:absolute;inset:0;transform:rotate(-90deg);">
+                      <circle cx="62" cy="62" r="56" fill="none" class="coach-activity-gauge-track" stroke-width="8" />
+                      <circle cx="62" cy="62" r="56" fill="none" class="coach-activity-gauge-fill" stroke-width="8"
+                        stroke-linecap="round" stroke-dasharray="351.86" stroke-dashoffset="70.37" />
+                    </svg>
+                    <div style="text-align:center;position:relative;z-index:1;">
+                      <strong
+                        style="font-family:var(--typography-numerical-medium-font-family);font-size:30px;line-height:34px;font-weight:700;color:var(--color-text-primary);">4/5</strong>
+                      <span
+                        style="display:block;font-family:var(--typography-label-small-font-family);font-size:var(--typography-label-small-font-size);font-weight:600;line-height:14px;color:var(--color-text-tertiary);">Workouts</span>
+                    </div>
+                  </div>
+                  <div class="coach-activity-goal-details">
+                    <div class="coach-activity-goal-info">
+                      <h3>1 workout left this week</h3>
+                      <p>Consistency: 80%</p>
+                    </div>
+                    <div class="coach-activity-day-tracker">
+                      <div class="coach-activity-day-item done">
+                        <span class="day-label">Sun</span>
+                        <div class="coach-activity-day-check"><img src="../../assets/svg_icons/checkmark.svg" alt=""
+                            style="width:14px;height:14px;"></div>
+                      </div>
+                      <div class="coach-activity-day-item done">
+                        <span class="day-label">Mon</span>
+                        <div class="coach-activity-day-check"><img src="../../assets/svg_icons/checkmark.svg" alt=""
+                            style="width:14px;height:14px;"></div>
+                      </div>
+                      <div class="coach-activity-day-item done">
+                        <span class="day-label">Tue</span>
+                        <div class="coach-activity-day-check"><img src="../../assets/svg_icons/checkmark.svg" alt=""
+                            style="width:14px;height:14px;"></div>
+                      </div>
+                      <div class="coach-activity-day-item today">
+                        <span class="day-label">Wed</span>
+                        <div class="coach-activity-day-check"></div>
+                      </div>
+                      <div class="coach-activity-day-item pending">
+                        <span class="day-label">Thu</span>
+                        <div class="coach-activity-day-check"></div>
+                      </div>
+                      <div class="coach-activity-day-item pending">
+                        <span class="day-label">Fri</span>
+                        <div class="coach-activity-day-check"></div>
+                      </div>
+                      <div class="coach-activity-day-item pending">
+                        <span class="day-label">Sat</span>
+                        <div class="coach-activity-day-check"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="coach-activity-upcoming">
+                  <button class="coach-activity-schedule-item" type="button" onclick="navigateTo('workout')">
+                    <div class="coach-activity-schedule-left">
+                      <strong>Lower Body</strong>
+                      <span>45 min &middot; Strength</span>
+                    </div>
+                    <div class="coach-activity-schedule-right">
+                      <span class="coach-activity-schedule-badge">Today</span>
+                      <div class="coach-activity-schedule-arrow"></div>
+                    </div>
+                  </button>
+                  <button class="coach-activity-schedule-item rest" type="button">
+                    <div class="coach-activity-schedule-left">
+                      <strong>Rest Day</strong>
+                      <span>Tomorrow</span>
+                    </div>
+                    <div class="coach-activity-schedule-right">
+                      <span class="coach-activity-schedule-badge">Recovery</span>
+                      <div class="coach-activity-schedule-arrow"></div>
+                    </div>
+                  </button>
+                </div>
+                <button class="coach-activity-outline-btn" type="button">
+                  <span class="icon"
+                    style="--icon-url:url('../../assets/svg_icons/sparkles.svg');width:18px;height:18px;background-color:currentColor;"></span>
+                  View All
+                </button>
+              </article>
+
+              <!-- Weekly Steps -->
+              <article class="coach-card coach-activity-metric-card">
                 <div class="coach-card-head">
                   <div>
-                    <h2>Past Workouts</h2>
-                    <p>Recent completed sessions</p>
+                    <h2>Weekly Steps</h2>
+                    <div class="coach-activity-value-row">
+                      <span class="big">36,357</span>
+                      <span class="unit">/ 70,000</span>
+                    </div>
                   </div>
-                  <button class="coach-change-mood" type="button">7 days</button>
+                  <span class="coach-activity-on-track-pill">On Track</span>
                 </div>
-                <div class="coach-past-list">
-                  <button type="button" onclick="navigateTo('workout-log')"><strong>Upper Body Strength</strong><span>Mon - 44 min - 312 kcal</span></button>
-                  <button type="button" onclick="navigateTo('workout-log')"><strong>Full Body Circuit</strong><span>Sat - 38 min - 286 kcal</span></button>
-                  <button type="button" onclick="navigateTo('workout-log')"><strong>Lower Body Strength</strong><span>Thu - 47 min - 335 kcal</span></button>
+                <div class="coach-activity-progress-wrap">
+                  <div class="coach-activity-progress-track">
+                    <div class="coach-activity-progress-fill" style="width:52%;"></div>
+                  </div>
+                  <span class="coach-activity-progress-pct">52%</span>
+                </div>
+                <div class="coach-activity-stats-row">
+                  <div class="coach-activity-stat">
+                    <span class="icon"
+                      style="--icon-url:url('../../assets/svg_icons/shoe.svg');width:24px;height:24px;background-color:var(--color-primary);"></span>
+                    <div class="coach-activity-stat-text">
+                      <strong>5,424</strong>
+                      <span>Daily Avg</span>
+                    </div>
+                  </div>
+                  <div class="coach-activity-stat">
+                    <span class="icon"
+                      style="--icon-url:url('../../assets/svg_icons/bullseye-arrow.svg');width:24px;height:24px;background-color:var(--color-success);"></span>
+                    <div class="coach-activity-stat-text">
+                      <strong>52%</strong>
+                      <span>Completion Workout</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="coach-activity-bar-chart">
+                  <div class="coach-activity-bar" style="height:45px;"></div>
+                  <div class="coach-activity-bar" style="height:64px;"></div>
+                  <div class="coach-activity-bar" style="height:14px;"></div>
+                  <div class="coach-activity-bar success" style="height:64px;"></div>
+                  <div class="coach-activity-bar accent" style="height:14px;flex:33;"></div>
+                  <div class="coach-activity-bar faint" style="height:1px;flex:33;"></div>
+                  <div class="coach-activity-bar faint" style="height:1px;flex:33;"></div>
+                  <div class="coach-activity-bar faint" style="height:1px;flex:33;"></div>
+                </div>
+                <div class="coach-activity-day-labels">
+                  <span class="coach-activity-day-label">M</span>
+                  <span class="coach-activity-day-label">T</span>
+                  <span class="coach-activity-day-label active">W</span>
+                  <span class="coach-activity-day-label">T</span>
+                  <span class="coach-activity-day-label">F</span>
+                  <span class="coach-activity-day-label">S</span>
+                  <span class="coach-activity-day-label">S</span>
+                </div>
+                <div class="coach-activity-info-banner">
+                  <span class="icon"
+                    style="--icon-url:url('../../assets/svg_icons/info.svg');width:20px;height:20px;background-color:var(--color-default);"></span>
+                  <p>Need 8,411 steps per day for next 4 days. Most days consistently exceeded your daily target</p>
                 </div>
               </article>
 
-              <article class="coach-card coach-chat-entry coach-chat-entry-locked">
-                <div>
-                  <h2>Talk to Coach</h2>
-                  <p>Ask about recovery, sleep, or today's workout.</p>
+              <!-- Active Calories -->
+              <article class="coach-card coach-activity-metric-card">
+                <div class="coach-card-head">
+                  <div>
+                    <h2>Active Calories</h2>
+                    <div class="coach-activity-value-row">
+                      <span class="big">2,150</span>
+                      <span class="unit">avg kcal</span>
+                    </div>
+                    <div class="coach-activity-trend" style="margin-top:4px;">
+                      <span class="icon"
+                        style="--icon-url:url('../../assets/svg_icons/up.svg');width:16px;height:16px;background-color:var(--color-primary);"></span>
+                      <span>8% vs last 7 day avg</span>
+                    </div>
+                  </div>
+                  <div class="coach-activity-calorie-stats">
+                    <span class="coach-activity-badge">This Week</span>
+                    <div class="coach-activity-stat" style="gap:10px;">
+                      <span class="icon"
+                        style="--icon-url:url('../../assets/svg_icons/flame.svg');width:24px;height:24px;background-color:var(--color-secondary);"></span>
+                      <div class="coach-activity-stat-text">
+                        <strong>346 kcal</strong>
+                        <span>Daily Avg</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <button class="coach-primary-btn" type="button" data-open-coach-chat data-chat-context="activity">Chat with Coach</button>
+                <div class="coach-activity-bar-chart">
+                  <div class="coach-activity-bar" style="height:45px;"></div>
+                  <div class="coach-activity-bar" style="height:64px;"></div>
+                  <div class="coach-activity-bar" style="height:14px;"></div>
+                  <div class="coach-activity-bar success" style="height:64px;"></div>
+                  <div class="coach-activity-bar accent" style="height:14px;flex:33;"></div>
+                  <div class="coach-activity-bar faint" style="height:1px;flex:33;"></div>
+                  <div class="coach-activity-bar faint" style="height:1px;flex:33;"></div>
+                  <div class="coach-activity-bar faint" style="height:1px;flex:33;"></div>
+                </div>
+                <div class="coach-activity-day-labels">
+                  <span class="coach-activity-day-label">M</span>
+                  <span class="coach-activity-day-label">T</span>
+                  <span class="coach-activity-day-label active">W</span>
+                  <span class="coach-activity-day-label">T</span>
+                  <span class="coach-activity-day-label">F</span>
+                  <span class="coach-activity-day-label">S</span>
+                  <span class="coach-activity-day-label">S</span>
+                </div>
+                <div class="coach-activity-info-banner">
+                  <span class="icon"
+                    style="--icon-url:url('../../assets/svg_icons/info.svg');width:20px;height:20px;background-color:var(--color-default);"></span>
+                  <p>Tuesday remains your most productive window, keep leveraging the momentum.</p>
+                </div>
+              </article>
+
+              <!-- Weight Progress -->
+              <article class="coach-card coach-activity-metric-card">
+                <div class="coach-card-head">
+                  <div>
+                    <h2>Weight Progress</h2>
+                    <div class="coach-activity-value-row">
+                      <span class="big">72.4 kg</span>
+                    </div>
+                    <p class="coach-activity-weight-change" style="margin:0;">&darr; -0.6 kg this week</p>
+                  </div>
+                  <span class="coach-activity-badge">This Month</span>
+                </div>
+                <div class="coach-activity-stats-row">
+                  <div class="coach-activity-stat">
+                    <span class="icon"
+                      style="--icon-url:url('../../assets/svg_icons/weight.svg');width:24px;height:24px;background-color:var(--color-primary);"></span>
+                    <div class="coach-activity-stat-text">
+                      <strong>72 kg</strong>
+                      <span>Target</span>
+                    </div>
+                  </div>
+                  <div class="coach-activity-stat">
+                    <span class="icon"
+                      style="--icon-url:url('../../assets/svg_icons/flame.svg');width:24px;height:24px;background-color:var(--color-success);"></span>
+                    <div class="coach-activity-stat-text">
+                      <strong>23.1</strong>
+                      <span>BMI</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="coach-activity-weight-chart">
+                  <svg viewBox="0 0 311 119" preserveAspectRatio="none" style="width:100%;height:100%;">
+                    <defs>
+                      <linearGradient id="weightAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#0056D8" stop-opacity="0.12" />
+                        <stop offset="100%" stop-color="#0056D8" stop-opacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <polygon points="31,30 76,40 113,50 150,65 187,57 224,47 268,20 268,119 31,119"
+                      fill="url(#weightAreaGrad)" />
+                    <polyline points="31,30 76,40 113,50 150,65 187,57 224,47 268,20"
+                      style="fill:none;stroke:var(--color-primary);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;" />
+                    <circle cx="268" cy="20" r="4" style="fill:var(--color-primary);" />
+                    <circle cx="31" cy="30" r="4" style="fill:var(--color-text-tertiary);" />
+                    <text x="0" y="12" font-size="10" fill="var(--color-text-tertiary)" font-family="Nunito"
+                      font-weight="500">74.0</text>
+                    <text x="0" y="40" font-size="10" fill="var(--color-text-tertiary)" font-family="Nunito"
+                      font-weight="500">72.0</text>
+                    <text x="0" y="68" font-size="10" fill="var(--color-text-tertiary)" font-family="Nunito"
+                      font-weight="500">70.0</text>
+                    <text x="0" y="96" font-size="10" fill="var(--color-text-tertiary)" font-family="Nunito"
+                      font-weight="500">68.0</text>
+                    <text x="31" y="118" font-size="11" fill="var(--color-text-secondary)"
+                      text-anchor="middle">W1</text>
+                    <text x="113" y="118" font-size="11" style="fill:var(--color-primary);"
+                      text-anchor="middle">W2</text>
+                    <text x="187" y="118" font-size="11" fill="var(--color-text-secondary)"
+                      text-anchor="middle">W3</text>
+                    <text x="268" y="118" font-size="11" fill="var(--color-text-secondary)"
+                      text-anchor="middle">W4</text>
+                  </svg>
+                </div>
               </article>
             </section>
           </div>
@@ -474,7 +3210,8 @@
                 <p id="coachChatContext">Recovery context</p>
               </div>
               <button type="button" id="coachChatClose" aria-label="Close coach chat">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"
+                  stroke-linecap="round">
                   <line x1="18" y1="6" x2="6" y2="18" />
                   <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
@@ -494,7 +3231,8 @@
             <form class="coach-chat-input" id="coachChatForm">
               <input type="text" id="coachChatInput" placeholder="Ask your coach..." autocomplete="off">
               <button type="submit" aria-label="Send message">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round">
                   <line x1="22" y1="2" x2="11" y2="13" />
                   <polygon points="22 2 15 22 11 13 2 9 22 2" />
                 </svg>
@@ -510,16 +3248,27 @@
                 <h2>Add Sleep Data</h2>
                 <p>Prototype manual entry for nights without health data.</p>
               </div>
-              <button type="button" id="coachSleepClose" aria-label="Close sleep entry">Ã—</button>
+              <button type="button" id="coachSleepClose" aria-label="Close sleep entry">
+                <span class="icon coach-sheet-close-icon" style="--icon-url: url('../../assets/svg_icons/cross-x.svg');"
+                  aria-hidden="true"></span>
+              </button>
             </header>
             <div class="coach-time-grid">
               <label>
                 <span>Bedtime</span>
-                <input type="time" id="coachBedtime" value="22:45">
+                <div class="coach-time-input-wrap">
+                  <input type="time" id="coachBedtime" value="22:45">
+                  <span class="icon coach-time-input-icon" style="--icon-url: url('../../assets/svg_icons/clock.svg');"
+                    aria-hidden="true"></span>
+                </div>
               </label>
               <label>
                 <span>Wake time</span>
-                <input type="time" id="coachWakeTime" value="06:30">
+                <div class="coach-time-input-wrap">
+                  <input type="time" id="coachWakeTime" value="06:30">
+                  <span class="icon coach-time-input-icon" style="--icon-url: url('../../assets/svg_icons/clock.svg');"
+                    aria-hidden="true"></span>
+                </div>
               </label>
             </div>
             <button class="coach-primary-btn coach-sheet-save" type="button" id="coachSleepSave">Save Sleep</button>
@@ -533,13 +3282,18 @@
                 <h2>Sleep Stages</h2>
                 <p>Simple recovery guide, not medical advice.</p>
               </div>
-              <button type="button" id="coachFaqClose" aria-label="Close sleep stages FAQ">Ã—</button>
+              <button type="button" id="coachFaqClose" aria-label="Close sleep stages FAQ">
+                <span class="icon coach-sheet-close-icon" style="--icon-url: url('../../assets/svg_icons/cross-x.svg');"
+                  aria-hidden="true"></span>
+              </button>
             </header>
             <div class="coach-faq-list">
               <p class="deep"><b></b><strong>Deep</strong> supports physical repair and recovery.</p>
-              <p class="light"><b></b><strong>Light</strong> makes up most sleep and helps transition between stages.</p>
+              <p class="light"><b></b><strong>Light</strong> makes up most sleep and helps transition between stages.
+              </p>
               <p class="rem"><b></b><strong>REM</strong> supports memory, mood, and learning.</p>
-              <p class="awake"><b></b><strong>Awake</strong> time is normal in small amounts, but high awake time can lower readiness.</p>
+              <p class="awake"><b></b><strong>Awake</strong> time is normal in small amounts, but high awake time can
+                lower readiness.</p>
             </div>
           </section>
         </div>

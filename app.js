@@ -108,6 +108,7 @@ const screenPaths = {
   'conflicts': BASE_PATH + '/screens/onboarding/conflicts.html',
   'coach': BASE_PATH + '/screens/onboarding/coach.html',
   'coach-main': BASE_PATH + '/screens/coach/coach.html',
+  'daily-breakdown': BASE_PATH + '/screens/coach/daily-breakdown.html',
   'loading': BASE_PATH + '/screens/onboarding/loading.html',
   'reveal': BASE_PATH + '/screens/onboarding/reveal.html',
   // Home screen
@@ -3344,6 +3345,43 @@ function initCustomWorkouts() {
       renderCustomWorkouts(search.value.trim());
     });
   }
+
+  var fab = document.getElementById('customWorkoutsFab');
+  if (fab) {
+    fab.removeAttribute('onclick');
+    fab.addEventListener('click', function(e) {
+      e.preventDefault();
+      openCustomWorkoutSheet();
+    });
+  }
+
+  var optionCards = document.querySelectorAll('#sheetCreateWorkout .cw-option-card');
+  optionCards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      var action = card.dataset.action;
+      closeCustomWorkoutSheet();
+      if (action === 'workout-generator') {
+        navigateTo('workout-generator');
+      } else if (action === 'custom-workout') {
+        navigateTo('exercise-library');
+      }
+    });
+  });
+
+  var closeBtns = document.querySelectorAll('[data-close="sheetCreateWorkout"]');
+  closeBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      closeCustomWorkoutSheet();
+    });
+  });
+}
+
+function openCustomWorkoutSheet() {
+  openSheet('sheetCreateWorkout');
+}
+
+function closeCustomWorkoutSheet() {
+  closeSheet('sheetCreateWorkout');
 }
 
 function initNutrientsLocked() {
@@ -3360,6 +3398,30 @@ function initNutrientsLocked() {
   scroller.addEventListener('scroll', syncLockedScreenShadow, { passive: true });
   window.addEventListener('resize', syncLockedScreenShadow);
   window.requestAnimationFrame(syncLockedScreenShadow);
+}
+
+function initBarcodeScanner() {
+  var screen = document.querySelector('.screen-barcode-scanner');
+  if (!screen) return;
+
+  var paywall = document.getElementById('barcodePremiumGate');
+  var scannerShell = document.getElementById('barcodeScannerShell');
+  var startTrialBtn = document.getElementById('barcodeStartTrial');
+  var dismissBtns = screen.querySelectorAll('[data-barcode-dismiss]');
+
+  dismissBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      navigateTo('add-food-home');
+    });
+  });
+
+  if (!startTrialBtn) return;
+
+  startTrialBtn.addEventListener('click', function() {
+    screen.classList.add('is-scanner-active');
+    if (paywall) paywall.setAttribute('aria-hidden', 'true');
+    if (scannerShell) scannerShell.setAttribute('aria-hidden', 'false');
+  });
 }
 
 // ======================================================================
@@ -7728,6 +7790,8 @@ if (typeof document !== 'undefined') {
       initCoachGenerating();
     } else if (currentPath.includes('coach-review')) {
       initCoachReview();
+    } else if (currentPath.includes('barcode-scanner')) {
+      initBarcodeScanner();
     } else if (currentPath.includes('nutrients-locked')) {
       initNutrientsLocked();
     }

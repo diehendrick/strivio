@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=9">
+  <link rel="stylesheet" href="../../styles.css?v=12">
 </head>
 
 <body>
@@ -49,6 +49,7 @@
             </header>
 
             <div class="mo-date-row" id="moDateRow">
+              <span class="icon mo-date-cal-icon" style="--icon-url: url('../../assets/svg_icons/calendar.svg'); width: 16px; height: 16px; background-color: var(--color-text-tertiary, #64748B);"></span>
               <span class="mo-date-label">Wednesday, May 07</span>
             </div>
 
@@ -73,11 +74,7 @@
                   <span class="mo-calorie-side-label">Target</span>
                 </div>
               </div>
-              <div class="mo-pace-message" id="moPaceMessage">
-                <span class="mo-pace-icon">📊</span>
-                <span class="mo-pace-text">Half your calories left for dinner and snacks</span>
-              </div>
-              <div class="mo-tap-hint" id="moTapHint">Tap for details</div>
+              <div class="mo-tap-hint" id="moTapHint">Today's Nutrition Details</div>
             </section>
 
             <h2 class="mo-section-title">Macronutrients</h2>
@@ -92,6 +89,7 @@
                     <span>328 cal from protein</span>
                   </div>
                   <span class="mo-macro-percent" id="moProteinPercent">55%</span>
+                  <span class="icon mo-macro-arrow-icon" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 14px; height: 14px; background-color: var(--color-dark, #0F172A);"></span>
                 </div>
                 <div class="mo-macro-bar">
                   <div class="mo-macro-fill mo-macro-fill-protein" id="moProteinFill" style="width: 55%"></div>
@@ -112,6 +110,7 @@
                     <span>580 cal from carbs</span>
                   </div>
                   <span class="mo-macro-percent" id="moCarbsPercent">58%</span>
+                  <span class="icon mo-macro-arrow-icon" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 14px; height: 14px; background-color: var(--color-dark, #0F172A);"></span>
                 </div>
                 <div class="mo-macro-bar">
                   <div class="mo-macro-fill mo-macro-fill-carbs" id="moCarbsFill" style="width: 58%"></div>
@@ -132,6 +131,7 @@
                     <span>342 cal from fats</span>
                   </div>
                   <span class="mo-macro-percent" id="moFatsPercent">54%</span>
+                  <span class="icon mo-macro-arrow-icon" style="--icon-url: url('../../assets/svg_icons/foward.svg'); width: 14px; height: 14px; background-color: var(--color-dark, #0F172A);"></span>
                 </div>
                 <div class="mo-macro-bar">
                   <div class="mo-macro-fill mo-macro-fill-fats" id="moFatsFill" style="width: 54%"></div>
@@ -154,7 +154,7 @@
                   <span>380 cal</span>
                 </div>
                 <div class="mo-meal-percent">31%</div>
-                <div class="mo-meal-bar"><div class="mo-meal-fill" style="width: 31%"></div></div>
+                <div class="mo-meal-bar"><div class="mo-meal-fill mo-meal-fill-breakfast" style="width: 31%"></div></div>
               </div>
               <div class="mo-meal-item">
                 <span class="mo-meal-icon mo-meal-lunch">
@@ -165,7 +165,7 @@
                   <span>520 cal</span>
                 </div>
                 <div class="mo-meal-percent">42%</div>
-                <div class="mo-meal-bar"><div class="mo-meal-fill" style="width: 42%"></div></div>
+                <div class="mo-meal-bar"><div class="mo-meal-fill mo-meal-fill-lunch" style="width: 42%"></div></div>
               </div>
               <div class="mo-meal-item">
                 <span class="mo-meal-icon mo-meal-dinner">
@@ -176,7 +176,7 @@
                   <span>240 cal</span>
                 </div>
                 <div class="mo-meal-percent">19%</div>
-                <div class="mo-meal-bar"><div class="mo-meal-fill" style="width: 19%"></div></div>
+                <div class="mo-meal-bar"><div class="mo-meal-fill mo-meal-fill-dinner" style="width: 19%"></div></div>
               </div>
               <div class="mo-meal-item">
                 <span class="mo-meal-icon mo-meal-snacks">
@@ -187,7 +187,7 @@
                   <span>100 cal</span>
                 </div>
                 <div class="mo-meal-percent">8%</div>
-                <div class="mo-meal-bar"><div class="mo-meal-fill" style="width: 8%"></div></div>
+                <div class="mo-meal-bar"><div class="mo-meal-fill mo-meal-fill-snacks" style="width: 8%"></div></div>
               </div>
             </section>
 
@@ -377,7 +377,7 @@
   </div>
 
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
-  <script src="../../app.js?v=9"></script>
+  <script src="../../app.js?v=10"></script>
   <script>
     (function() {
       const isPremium = window.__strivio_state?.isPremium || false;
@@ -434,24 +434,7 @@
         return '#F59E0B';
       }
 
-      function getPaceMessage(hour, percent) {
-        if (hour < 12) {
-          if (percent < 50) return { icon: '\u2600\uFE0F', text: 'Good pace for morning' };
-          if (percent < 75) return { icon: '\u26A1', text: 'Ahead of typical pace \u2014 light lunch ahead?' };
-          return { icon: '\u26A0\uFE0F', text: 'Most of your budget used \u2014 consider a light lunch' };
-        }
-        if (hour < 17) {
-          if (percent < 55) return { icon: '\u{1F4AA}', text: 'Half your calories left for dinner and snacks' };
-          if (percent < 85) return { icon: '\u{1F44D}', text: 'On track for the day' };
-          return { icon: '\u26A0\uFE0F', text: 'Most of your budget used \u2014 consider a light dinner' };
-        }
-        if (percent < 95) return { icon: '\u{1F3AF}', text: 'Almost at your daily target' };
-        if (percent <= 100) return { icon: '\u{1F389}', text: 'Daily target reached!' };
-        const over = mockData.consumed - mockData.target;
-        return { icon: '\u{1F49C}', text: over + ' cal over target \u2014 that\u2019s okay, tomorrow is fresh!' };
-      }
-
-      function applyColorZones() {
+      function openDetailSheet() {
         const consumed = mockData.consumed;
         const target = mockData.target;
         const percent = Math.round((consumed / target) * 100);
@@ -461,12 +444,6 @@
 
         if (ring) ring.style.stroke = zone.color;
         if (remainingEl) remainingEl.style.color = zone.color;
-
-        const paceMessage = getPaceMessage(new Date().getHours(), percent);
-        const paceIcon = document.querySelector('.mo-pace-icon');
-        const paceText = document.querySelector('.mo-pace-text');
-        if (paceIcon) paceIcon.textContent = paceMessage.icon;
-        if (paceText) paceText.textContent = paceMessage.text;
 
         const ringLength = 326.73;
         const consumedRatio = Math.min(1, consumed / target);
@@ -522,8 +499,7 @@
         document.getElementById('moSheetDinner').textContent = d.meals.dinner.cal + ' cal (' + d.meals.dinner.percent + '%)';
         document.getElementById('moSheetSnacks').textContent = d.meals.snacks.cal + ' cal (' + d.meals.snacks.percent + '%)';
 
-        var paceMsg = getPaceMessage(new Date().getHours(), Math.round((d.consumed / d.target) * 100));
-        document.getElementById('moSheetPaceText').textContent = paceMsg.text;
+        document.getElementById('moSheetPaceText').textContent = 'You\'re on track! Typical at this time: 1,180 cal consumed';
 
         detailSheet.classList.add('open');
       }

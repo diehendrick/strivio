@@ -10,7 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=4">
+  <link rel="stylesheet" href="../../styles.css?v=10">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 
@@ -66,6 +66,7 @@
             <div class="macro-overview-scroll">
               <!-- Date Display -->
               <div class="macro-date-display" id="macroDateDisplay">
+                <img src="../../assets/svg_icons/calendar.svg" width="16" height="16" alt="" class="mo-date-cal-icon">
                 <span>Tuesday, Apr 25, 2026</span>
               </div>
 
@@ -86,7 +87,6 @@
                 <div class="calories-meta">
                   <span class="calories-target">of <strong id="calTargetLarge">2,200</strong></span>
                   <span class="calories-remaining" id="calRemainingLarge">350 kcal remaining</span>
-                  <span class="calories-status" id="calStatusLarge">On track — 84% of daily goal</span>
                 </div>
               </div>
 
@@ -99,7 +99,8 @@
                   <div class="macro-detail-header">
                     <div class="macro-detail-left">
                       <span class="macro-detail-name">Protein</span>
-                      <span class="macro-detail-percent" id="proteinPercent">71%</span>
+                      <span class="macro-detail-percent" id="proteinPercent">55%</span>
+                      <img src="../../assets/svg_icons/foward.svg" width="14" height="14" alt="" class="mo-macro-arrow-icon">
                       <span class="macro-detail-remaining" id="proteinRemaining">35g remaining</span>
                     </div>
                     <span class="macro-detail-value" id="proteinValue">85 / 120g</span>
@@ -114,7 +115,8 @@
                   <div class="macro-detail-header">
                     <div class="macro-detail-left">
                       <span class="macro-detail-name">Carbs</span>
-                      <span class="macro-detail-percent" id="carbsPercent">73%</span>
+                      <span class="macro-detail-percent" id="carbsPercent">58%</span>
+                      <img src="../../assets/svg_icons/foward.svg" width="14" height="14" alt="" class="mo-macro-arrow-icon">
                       <span class="macro-detail-remaining" id="carbsRemaining">60g remaining</span>
                     </div>
                     <span class="macro-detail-value" id="carbsValue">160 / 220g</span>
@@ -129,7 +131,8 @@
                   <div class="macro-detail-header">
                     <div class="macro-detail-left">
                       <span class="macro-detail-name">Fat</span>
-                      <span class="macro-detail-percent" id="fatPercent">85%</span>
+                      <span class="macro-detail-percent" id="fatPercent">54%</span>
+                      <img src="../../assets/svg_icons/foward.svg" width="14" height="14" alt="" class="mo-macro-arrow-icon">
                       <span class="macro-detail-remaining" id="fatRemaining">10g remaining</span>
                     </div>
                     <span class="macro-detail-value" id="fatValue">55 / 65g</span>
@@ -241,6 +244,9 @@
                 </div>
               </div>
 
+              <!-- Today's Nutrition Details Link -->
+              <a class="mo-nutrition-detail-link" onclick="navigateTo('nutrients-full')">Today's Nutrition Details</a>
+
               <!-- Bottom spacer -->
               <div class="macro-bottom-spacer"></div>
             </div>
@@ -250,7 +256,7 @@
     </div>
   </div>
 
-  <script src="../../app.js?v=4"></script>
+  <script src="../../app.js?v=5"></script>
   <script>
     // Load and display data from localStorage
     function loadMacroData() {
@@ -310,18 +316,13 @@
 
       const remaining = targets.cal - totalCal;
       const remainingEl = document.getElementById('calRemainingLarge');
-      const statusEl = document.getElementById('calStatusLarge');
 
       if (remaining >= 0) {
         remainingEl.textContent = remaining.toLocaleString() + ' kcal remaining';
         remainingEl.style.color = '#10B981';
-        statusEl.textContent = 'On track — ' + Math.round((totalCal / targets.cal) * 100) + '% of daily goal';
-        statusEl.style.color = '#10B981';
       } else {
         remainingEl.textContent = Math.abs(remaining).toLocaleString() + ' kcal over';
         remainingEl.style.color = '#EF4444';
-        statusEl.textContent = 'Over daily goal';
-        statusEl.style.color = '#EF4444';
       }
 
       // Update macro bars

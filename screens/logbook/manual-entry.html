@@ -6,7 +6,7 @@
   <title>Strivio — Manual Entry</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../styles.css?v=3">
 </head>
 <body>
@@ -15,113 +15,202 @@
       <div class="phone-notch"></div>
       <div class="screens-wrapper" id="screensWrapper">
 
-        <!-- Screen: Manual Food Entry -->
         <div class="screen screen-manual-entry active" data-screen="manual-entry">
-          
-          <!-- Header -->
-          <div class="manual-header">
-            <button class="back-btn" onclick="navigateTo('add-food-home')" aria-label="Go back">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15,18 9,12 15,6"></polyline>
+          <div class="manual-status-bar" aria-hidden="true">
+            <span>9:41</span>
+            <div class="manual-status-icons">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a" />
+                <rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a" />
+                <rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a" />
               </svg>
-            </button>
-            <h1 class="manual-title">Manual Food Entry</h1>
-            <div class="header-spacer"></div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="#0f172a" />
+                <path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="#0f172a" />
+                <circle cx="8" cy="11" r="2" fill="#0f172a" />
+              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a" />
+                <rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a" />
+                <rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a" />
+                <rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a" />
+              </svg>
+            </div>
           </div>
 
-          <div class="manual-scroll">
-            <!-- Form Fields -->
-            <div class="manual-form">
-              
-              <!-- Food Name -->
-              <div class="form-group">
-                <label class="form-label">Food Name <span class="required">*</span></label>
-                <input type="text" class="form-input" id="foodName" placeholder="e.g., Homemade Smoothie">
-              </div>
+          <header class="manual-entry-header">
+            <button class="manual-close-btn" type="button" onclick="navigateTo('add-food-home')" aria-label="Close manual entry">
+              <span class="icon manual-close-icon" style="--icon-url: url('../../assets/svg_icons/cross-x.svg'); width: 20px; height: 20px;"></span>
+            </button>
+            <h1 class="manual-entry-title">Manual Food Entry</h1>
+          </header>
 
-              <!-- Serving Size -->
-              <div class="form-group">
-                <label class="form-label">Serving Size <span class="required">*</span></label>
-                <input type="text" class="form-input" id="servingSize" placeholder="e.g., 1 cup, 100g">
-              </div>
+          <main class="manual-entry-scroll">
+            <div class="manual-entry-content">
+              <input type="file" id="manualCameraInput" accept="image/*" capture="environment" hidden>
 
-              <!-- Calories -->
-              <div class="form-group">
-                <label class="form-label">Calories <span class="required">*</span></label>
-                <div class="input-with-unit">
-                  <input type="number" class="form-input" id="calories" placeholder="0">
-                  <span class="input-unit">kcal</span>
-                </div>
-              </div>
-
-              <!-- Macros Header -->
-              <label class="form-label">Macronutrients</label>
-              
-              <!-- Protein -->
-              <div class="form-group">
-                <div class="input-with-unit">
-                  <input type="number" class="form-input" id="protein" placeholder="0">
-                  <span class="input-unit">g protein</span>
-                </div>
-              </div>
-
-              <!-- Carbs -->
-              <div class="form-group">
-                <div class="input-with-unit">
-                  <input type="number" class="form-input" id="carbs" placeholder="0">
-                  <span class="input-unit">g carbs</span>
-                </div>
-              </div>
-
-              <!-- Fat -->
-              <div class="form-group">
-                <div class="input-with-unit">
-                  <input type="number" class="form-input" id="fat" placeholder="0">
-                  <span class="input-unit">g fat</span>
-                </div>
-              </div>
-
-              <!-- Optional Nutrients Toggle -->
-              <button class="optional-toggle" onclick="toggleOptional()">
-                <span>Optional Nutrients</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="toggleIcon">
-                  <polyline points="6,9 12,15 18,9"></polyline>
-                </svg>
+              <button class="manual-photo-card" id="manualPhotoCard" type="button" onclick="openManualCamera()" aria-label="Take or choose a food photo">
+                <img class="manual-photo-preview" id="manualPhotoPreview" alt="Selected food preview" hidden>
+                <span class="icon manual-photo-icon" id="manualPhotoIcon" style="--icon-url: url('../../assets/svg_icons/camera.svg'); width: 24px; height: 24px;" aria-hidden="true"></span>
               </button>
 
-              <!-- Optional Fields (Collapsible) -->
-              <div class="optional-fields" id="optionalFields">
-                <div class="form-group">
-                  <div class="input-with-unit">
-                    <input type="number" class="form-input" id="fiber" placeholder="0">
-                    <span class="input-unit">g fiber</span>
-                  </div>
+              <section class="manual-form-section" aria-label="Food details">
+                <div class="manual-field">
+                  <label class="manual-label" for="foodName">Food Name</label>
+                  <input type="text" class="manual-text-input" id="foodName" placeholder="Enter food name...">
                 </div>
-                <div class="form-group">
-                  <div class="input-with-unit">
-                    <input type="number" class="form-input" id="sugar" placeholder="0">
-                    <span class="input-unit">g sugar</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-with-unit">
-                    <input type="number" class="form-input" id="sodium" placeholder="0">
-                    <span class="input-unit">mg sodium</span>
-                  </div>
-                </div>
-              </div>
 
+                <div class="manual-serving-row">
+                  <div class="manual-field manual-serving-amount">
+                    <label class="manual-label" for="servingAmount">Serving Size</label>
+                    <input type="number" class="manual-text-input" id="servingAmount" min="0" step="0.1" value="1">
+                  </div>
+
+                  <div class="manual-field manual-serving-unit">
+                    <label class="manual-label manual-label-hidden" for="servingUnit">Serving unit</label>
+                    <div class="manual-select-wrap">
+                      <input type="hidden" id="servingUnit" value="Serving">
+                      <button class="manual-text-input manual-select-trigger" id="manualServingTrigger" type="button" onclick="openServingSheet()" aria-haspopup="dialog" aria-expanded="false">
+                        <span id="manualServingValue">Serving</span>
+                      </button>
+                      <span class="icon manual-select-icon" style="--icon-url: url('../../assets/svg_icons/down.svg'); width: 20px; height: 20px;" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="manual-section" aria-labelledby="manualMacrosTitle">
+                <h2 class="manual-section-title" id="manualMacrosTitle">Macros</h2>
+                <div class="manual-card">
+                  <label class="manual-nutrient-row" for="calories">
+                    <span class="manual-nutrient-name">Calories</span>
+                    <span class="manual-nutrient-input">
+                      <input type="number" id="calories" min="0" step="1" placeholder="0">
+                      <span>kcal</span>
+                    </span>
+                  </label>
+
+                  <label class="manual-nutrient-row" for="protein">
+                    <span class="manual-nutrient-name">Protein</span>
+                    <span class="manual-nutrient-input">
+                      <input type="number" id="protein" min="0" step="0.1" placeholder="0">
+                      <span>g protein</span>
+                    </span>
+                  </label>
+
+                  <label class="manual-nutrient-row" for="carbs">
+                    <span class="manual-nutrient-name">Carbs</span>
+                    <span class="manual-nutrient-input">
+                      <input type="number" id="carbs" min="0" step="0.1" placeholder="0">
+                      <span>g carbs</span>
+                    </span>
+                  </label>
+
+                  <label class="manual-nutrient-row" for="fat">
+                    <span class="manual-nutrient-name">Fat</span>
+                    <span class="manual-nutrient-input">
+                      <input type="number" id="fat" min="0" step="0.1" placeholder="0">
+                      <span>g fat</span>
+                    </span>
+                  </label>
+                </div>
+              </section>
+
+              <section class="manual-section manual-accordion-section" aria-labelledby="manualMicronutrientsToggle">
+                <button class="manual-accordion-toggle" id="manualMicronutrientsToggle" type="button" aria-expanded="false" onclick="toggleMicronutrients()">
+                  <span class="manual-section-title">Micronutrients (Optional)</span>
+                  <span class="icon manual-accordion-icon" style="--icon-url: url('../../assets/svg_icons/down.svg'); width: 24px; height: 24px;" aria-hidden="true"></span>
+                </button>
+
+                <div class="manual-accordion-panel" id="manualMicronutrientsPanel">
+                  <div class="manual-card">
+                    <label class="manual-nutrient-row" for="fiber">
+                      <span class="manual-nutrient-name">Fiber</span>
+                      <span class="manual-nutrient-input">
+                        <input type="number" id="fiber" min="0" step="0.1" placeholder="0">
+                        <span>g</span>
+                      </span>
+                    </label>
+
+                    <label class="manual-nutrient-row" for="sugar">
+                      <span class="manual-nutrient-name">Sugar</span>
+                      <span class="manual-nutrient-input">
+                        <input type="number" id="sugar" min="0" step="0.1" placeholder="0">
+                        <span>g</span>
+                      </span>
+                    </label>
+
+                    <label class="manual-nutrient-row" for="sodium">
+                      <span class="manual-nutrient-name">Sodium</span>
+                      <span class="manual-nutrient-input">
+                        <input type="number" id="sodium" min="0" step="1" placeholder="0">
+                        <span>mg</span>
+                      </span>
+                    </label>
+
+                    <label class="manual-nutrient-row" for="cholesterol">
+                      <span class="manual-nutrient-name">Cholesterol</span>
+                      <span class="manual-nutrient-input">
+                        <input type="number" id="cholesterol" min="0" step="1" placeholder="0">
+                        <span>mg</span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </section>
+
+              <div class="manual-entry-spacer" aria-hidden="true"></div>
             </div>
+          </main>
 
-            <!-- Spacer -->
-            <div class="bottom-spacer"></div>
+          <footer class="manual-entry-footer">
+            <button class="manual-save-btn" id="manualSaveBtn" type="button" onclick="saveFood()" disabled>Save &amp; Log</button>
+          </footer>
+
+          <div class="bottom-sheet manual-serving-sheet" id="manualServingSheet" aria-hidden="true">
+            <div class="sheet-backdrop" onclick="closeServingSheet()"></div>
+            <div class="sheet-content manual-serving-sheet-content" role="dialog" aria-modal="true" aria-labelledby="manualServingSheetTitle">
+              <div class="sheet-handle"></div>
+              <div class="manual-serving-sheet-header">
+                <h2 id="manualServingSheetTitle">Serving Size</h2>
+                <button class="manual-serving-close" type="button" onclick="closeServingSheet()" aria-label="Close serving size options">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/cross-x.svg'); width: 18px; height: 18px;"></span>
+                </button>
+              </div>
+              <div class="manual-serving-options" role="listbox" aria-label="Serving size options">
+                <button class="manual-serving-option is-selected" type="button" data-value="Serving" onclick="selectServingUnit('Serving')">
+                  <span>Serving</span>
+                  <span class="manual-serving-option-check" aria-hidden="true">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/checkmark.svg'); width: 12px; height: 12px;"></span>
+                  </span>
+                </button>
+                <button class="manual-serving-option" type="button" data-value="g" onclick="selectServingUnit('g')">
+                  <span>Gram</span>
+                  <span class="manual-serving-option-check" aria-hidden="true">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/checkmark.svg'); width: 12px; height: 12px;"></span>
+                  </span>
+                </button>
+                <button class="manual-serving-option" type="button" data-value="ml" onclick="selectServingUnit('ml')">
+                  <span>Milliliter</span>
+                  <span class="manual-serving-option-check" aria-hidden="true">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/checkmark.svg'); width: 12px; height: 12px;"></span>
+                  </span>
+                </button>
+                <button class="manual-serving-option" type="button" data-value="cup" onclick="selectServingUnit('cup')">
+                  <span>Cup</span>
+                  <span class="manual-serving-option-check" aria-hidden="true">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/checkmark.svg'); width: 12px; height: 12px;"></span>
+                  </span>
+                </button>
+                <button class="manual-serving-option" type="button" data-value="tbsp" onclick="selectServingUnit('tbsp')">
+                  <span>Tablespoon</span>
+                  <span class="manual-serving-option-check" aria-hidden="true">
+                    <span class="icon" style="--icon-url: url('../../assets/svg_icons/checkmark.svg'); width: 12px; height: 12px;"></span>
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
-
-          <!-- Save Button -->
-          <button class="save-food-btn" onclick="saveFood()">
-            Save Food
-          </button>
-
         </div>
 
       </div>
@@ -130,242 +219,710 @@
 
   <script src="../../app.js?v=3"></script>
   <script>
-    let optionalExpanded = false;
-    
-    function toggleOptional() {
-      optionalExpanded = !optionalExpanded;
-      const fields = document.getElementById('optionalFields');
-      const icon = document.getElementById('toggleIcon');
-      
-      fields.classList.toggle('expanded', optionalExpanded);
-      icon.style.transform = optionalExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+    let micronutrientsExpanded = false;
+    let manualPhotoUrl = null;
+    let manualPhotoData = '';
+
+    function getManualElements() {
+      return {
+        screen: document.querySelector('.screen-manual-entry'),
+        panel: document.getElementById('manualMicronutrientsPanel'),
+        toggle: document.getElementById('manualMicronutrientsToggle'),
+        cameraInput: document.getElementById('manualCameraInput'),
+        photoCard: document.getElementById('manualPhotoCard'),
+        photoPreview: document.getElementById('manualPhotoPreview'),
+        photoIcon: document.getElementById('manualPhotoIcon'),
+        saveBtn: document.getElementById('manualSaveBtn'),
+        foodName: document.getElementById('foodName'),
+        servingAmount: document.getElementById('servingAmount'),
+        calories: document.getElementById('calories'),
+        servingUnit: document.getElementById('servingUnit'),
+        servingValue: document.getElementById('manualServingValue'),
+        servingTrigger: document.getElementById('manualServingTrigger'),
+        servingSheet: document.getElementById('manualServingSheet')
+      };
     }
-    
-    function saveFood() {
-      const name = document.getElementById('foodName').value;
-      const serving = document.getElementById('servingSize').value;
-      const calories = document.getElementById('calories').value;
-      
-      // Basic validation
-      if (!name || !serving || !calories) {
-        showToast('Please fill in all required fields');
+
+    function toggleMicronutrients(forceState) {
+      const { panel, toggle } = getManualElements();
+      micronutrientsExpanded = typeof forceState === 'boolean' ? forceState : !micronutrientsExpanded;
+
+      panel.classList.toggle('expanded', micronutrientsExpanded);
+      toggle.setAttribute('aria-expanded', String(micronutrientsExpanded));
+    }
+
+    function openManualCamera() {
+      const { cameraInput } = getManualElements();
+      if (cameraInput) cameraInput.click();
+    }
+
+    function openServingSheet() {
+      const { servingSheet, servingTrigger } = getManualElements();
+      if (!servingSheet) return;
+
+      servingSheet.classList.add('open');
+      servingSheet.setAttribute('aria-hidden', 'false');
+      document.querySelector('.screen-manual-entry').classList.add('sheet-open');
+      servingTrigger.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeServingSheet() {
+      const { servingSheet, servingTrigger } = getManualElements();
+      if (!servingSheet) return;
+
+      servingSheet.classList.remove('open');
+      servingSheet.setAttribute('aria-hidden', 'true');
+      document.querySelector('.screen-manual-entry').classList.remove('sheet-open');
+      servingTrigger.setAttribute('aria-expanded', 'false');
+    }
+
+    function selectServingUnit(value) {
+      const { servingUnit, servingValue } = getManualElements();
+      servingUnit.value = value;
+      servingValue.textContent = value === 'g' ? 'Gram' : value === 'ml' ? 'Milliliter' : value === 'cup' ? 'Cup' : value === 'tbsp' ? 'Tablespoon' : 'Serving';
+
+      document.querySelectorAll('.manual-serving-option').forEach(option => {
+        option.classList.toggle('is-selected', option.dataset.value === value);
+      });
+
+      updateSaveButtonState();
+      closeServingSheet();
+    }
+
+    function updateManualPhoto(file) {
+      const { screen, photoPreview } = getManualElements();
+      if (manualPhotoUrl) {
+        URL.revokeObjectURL(manualPhotoUrl);
+        manualPhotoUrl = null;
+      }
+
+      if (!file) {
+        manualPhotoData = '';
+        screen.classList.remove('has-photo');
+        photoPreview.hidden = true;
+        photoPreview.removeAttribute('src');
         return;
       }
-      
-      // Show success
-      showToast('Food saved successfully');
-      
-      setTimeout(() => {
-        navigateTo('add-food-home');
-      }, 1000);
+
+      manualPhotoUrl = URL.createObjectURL(file);
+      photoPreview.src = manualPhotoUrl;
+      photoPreview.hidden = false;
+      screen.classList.add('has-photo');
+
+      const reader = new FileReader();
+      reader.onload = function() {
+        manualPhotoData = typeof reader.result === 'string' ? reader.result : '';
+      };
+      reader.readAsDataURL(file);
     }
-    
+
+    function updateSaveButtonState() {
+      const { foodName, servingAmount, calories, servingUnit, saveBtn } = getManualElements();
+      const hasName = foodName.value.trim().length > 0;
+      const hasServingAmount = servingAmount.value.trim().length > 0;
+      const hasCalories = Number(calories.value) > 0;
+      const hasUnit = servingUnit.value.trim().length > 0;
+
+      saveBtn.disabled = !(hasName && hasServingAmount && hasCalories && hasUnit);
+    }
+
+    function saveFood() {
+      const { foodName, servingAmount, calories, servingUnit, protein, carbs, fat, fiber, sugar, sodium, cholesterol } = {
+        ...getManualElements(),
+        protein: document.getElementById('protein'),
+        carbs: document.getElementById('carbs'),
+        fat: document.getElementById('fat'),
+        fiber: document.getElementById('fiber'),
+        sugar: document.getElementById('sugar'),
+        sodium: document.getElementById('sodium'),
+        cholesterol: document.getElementById('cholesterol')
+      };
+      if (!foodName.value.trim() || !servingAmount.value.trim() || Number(calories.value) <= 0 || !servingUnit.value.trim()) {
+        showToast('Please complete the required fields');
+        return;
+      }
+
+      const savedMeal = {
+        id: 'manual-' + Date.now(),
+        name: foodName.value.trim(),
+        servingAmount: servingAmount.value.trim(),
+        servingUnit: servingUnit.value.trim(),
+        kcal: Number(calories.value) || 0,
+        protein: Number(protein.value) || 0,
+        carbs: Number(carbs.value) || 0,
+        fat: Number(fat.value) || 0,
+        fiber: Number(fiber.value) || 0,
+        sugar: Number(sugar.value) || 0,
+        sodium: Number(sodium.value) || 0,
+        cholesterol: Number(cholesterol.value) || 0,
+        image: manualPhotoData || '',
+        createdAt: Date.now()
+      };
+
+      sessionStorage.setItem('strivio_manual_food_created', JSON.stringify(savedMeal));
+      try {
+        const existing = JSON.parse(localStorage.getItem('strivio_custom_meals') || '[]');
+        const next = Array.isArray(existing) ? existing : [];
+        next.unshift(savedMeal);
+        localStorage.setItem('strivio_custom_meals', JSON.stringify(next));
+      } catch (error) {}
+      navigateTo('add-food-home');
+    }
+
     function showToast(message) {
+      const existingToast = document.querySelector('.manual-toast');
+      if (existingToast) existingToast.remove();
+
       const toast = document.createElement('div');
       toast.className = 'manual-toast';
       toast.textContent = message;
       document.body.appendChild(toast);
-      
+
       requestAnimationFrame(() => {
         toast.classList.add('show');
       });
-      
+
       setTimeout(() => {
         toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
-      }, 2500);
+        setTimeout(() => toast.remove(), 220);
+      }, 2200);
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const { cameraInput, foodName, servingAmount, calories, servingUnit } = getManualElements();
+
+      toggleMicronutrients(false);
+      updateSaveButtonState();
+
+      [foodName, servingAmount, calories].forEach(input => {
+        input.addEventListener('input', updateSaveButtonState);
+      });
+
+      cameraInput.addEventListener('change', event => {
+        updateManualPhoto(event.target.files && event.target.files[0]);
+      });
+    });
   </script>
 
   <style>
     .screen-manual-entry {
-      background: #F5F6FA;
+      position: relative;
       display: flex;
       flex-direction: column;
       height: 100%;
+      overflow: hidden;
+      background: var(--color-background);
+      color: var(--color-text-primary);
     }
-    
-    .manual-header {
+
+    .manual-status-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 20px;
-      background: white;
-      border-bottom: 1px solid #F4F4F4;
+      height: 44px;
+      padding: 0 30px;
+      flex-shrink: 0;
+      color: var(--color-text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: normal;
     }
-    
-    .back-btn {
-      width: 40px;
-      height: 40px;
-      background: none;
-      border: none;
+
+    .manual-status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .manual-entry-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 24px 16px;
+      flex-shrink: 0;
+    }
+
+    .manual-close-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: 0;
+      border-radius: var(--radius-r16);
+      background: transparent;
+      color: var(--color-text-primary);
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .manual-close-icon {
+      background-color: currentColor;
+    }
+
+    .manual-entry-title {
+      margin: 0;
+      color: var(--color-text-primary);
+      font-family: var(--typography-headline-small-font-family);
+      font-size: var(--typography-headline-small-font-size);
+      font-style: var(--typography-headline-small-font-style);
+      font-weight: var(--typography-headline-small-font-weight);
+      line-height: var(--typography-headline-small-line-height);
+      letter-spacing: var(--typography-headline-small-letter-spacing);
+    }
+
+    .manual-entry-scroll {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: 0 24px;
+      scrollbar-width: none;
+    }
+
+    .manual-entry-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .manual-entry-content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      padding-bottom: 8px;
+    }
+
+    .manual-photo-card {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 10px;
-      margin-left: -8px;
-    }
-    
-    .manual-title {
-      font-family: 'Nunito', sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      color: #0f172a;
-      margin: 0;
-    }
-    
-    .header-spacer {
-      width: 40px;
-    }
-    
-    .manual-scroll {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
-    }
-    
-    .manual-form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    
-    .form-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      color: #64748b;
-    }
-    
-    .required {
-      color: #EF4444;
-    }
-    
-    .form-input {
-      height: 52px;
-      background: white;
-      border: 1px solid #E5E7EB;
+      width: 100%;
+      height: 236px;
+      padding: 0;
+      overflow: hidden;
+      border: 0;
       border-radius: 14px;
-      padding: 0 16px;
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      color: #0f172a;
+      background: var(--color-primary-container);
+      cursor: pointer;
+      box-shadow: 0 0 38px rgba(0, 0, 0, 0.06) inset;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .manual-photo-preview {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .manual-photo-icon {
+      position: absolute;
+      background-color: var(--color-primary);
+    }
+
+    .screen-manual-entry.has-photo .manual-photo-icon {
+      display: none;
+    }
+
+    .manual-form-section,
+    .manual-section {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .manual-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .manual-serving-row {
+      display: grid;
+      grid-template-columns: 88px minmax(0, 1fr);
+      gap: 14px;
+      width: 100%;
+    }
+
+    .manual-label,
+    .manual-label-hidden {
+      color: var(--color-text-primary);
+      font-family: var(--typography-label-medium-font-family);
+      font-size: var(--typography-label-medium-font-size);
+      font-style: var(--typography-label-medium-font-style);
+      font-weight: var(--typography-label-medium-font-weight);
+      line-height: var(--typography-label-medium-line-height);
+      letter-spacing: var(--typography-label-medium-letter-spacing);
+    }
+
+    .manual-label-hidden {
+      visibility: hidden;
+    }
+
+    .manual-text-input,
+    .manual-select {
+      width: 100%;
+      height: 48px;
+      padding: 14px 16px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-r10);
+      background: var(--color-surface);
+      color: var(--color-text-primary);
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: 600;
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
       outline: none;
-      transition: border-color 0.2s;
+      box-sizing: border-box;
     }
-    
-    .form-input:focus {
-      border-color: #0056D8;
+
+    .manual-text-input::placeholder {
+      color: var(--color-text-muted);
+      font-weight: var(--typography-body-medium-font-weight);
     }
-    
-    .form-input::placeholder {
-      color: #9CA3AF;
+
+    .manual-text-input:focus,
+    .manual-select:focus {
+      border-color: var(--color-primary);
     }
-    
-    .input-with-unit {
+
+    .manual-select-wrap {
       position: relative;
     }
-    
-    .input-with-unit .form-input {
-      padding-right: 90px;
+
+    .manual-select-trigger {
+      display: flex;
+      align-items: center;
+      text-align: left;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
-    
-    .input-unit {
+
+    .manual-select {
+      appearance: none;
+      -webkit-appearance: none;
+      padding-right: 44px;
+      cursor: pointer;
+    }
+
+    .manual-select-icon {
       position: absolute;
-      right: 16px;
       top: 50%;
+      right: 14px;
       transform: translateY(-50%);
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      color: #9CA3AF;
+      background-color: var(--color-text-tertiary);
+      pointer-events: none;
     }
-    
-    .optional-toggle {
+
+    .manual-section-title {
+      margin: 0;
+      color: var(--color-text-primary);
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-style: var(--typography-title-medium-font-style);
+      font-weight: var(--typography-title-medium-font-weight);
+      line-height: var(--typography-title-medium-line-height);
+      letter-spacing: var(--typography-title-medium-letter-spacing);
+    }
+
+    .manual-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      padding: 16px;
+      border-radius: var(--radius-r16);
+      background: var(--color-primary-container);
+    }
+
+    .manual-nutrient-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      cursor: text;
+    }
+
+    .manual-nutrient-name {
+      flex: 1 1 auto;
+      min-width: 0;
+      color: #111827;
+      font-family: var(--typography-title-small-font-family);
+      font-size: var(--typography-title-small-font-size);
+      font-style: var(--typography-title-small-font-style);
+      font-weight: var(--typography-title-small-font-weight);
+      line-height: var(--typography-title-small-line-height);
+      letter-spacing: var(--typography-title-small-letter-spacing);
+    }
+
+    .manual-nutrient-input {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: 126px;
+      height: 48px;
+      padding: 14px 16px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-r10);
+      background: var(--color-surface);
+      box-sizing: border-box;
+    }
+
+    .manual-nutrient-input input {
+      width: 100%;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--color-text-primary);
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: 600;
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+      outline: none;
+    }
+
+    .manual-nutrient-input input::placeholder {
+      color: var(--color-text-muted);
+      font-weight: var(--typography-body-medium-font-weight);
+    }
+
+    .manual-nutrient-input span {
+      color: var(--color-text-tertiary);
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: var(--typography-body-medium-font-weight);
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
+      white-space: nowrap;
+    }
+
+    .manual-accordion-section {
+      gap: 0;
+    }
+
+    .manual-accordion-toggle {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: none;
-      border: none;
-      padding: 12px 0;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #0056D8;
+      gap: 8px;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: transparent;
       cursor: pointer;
-      margin-top: 8px;
+      text-align: left;
+      -webkit-tap-highlight-color: transparent;
     }
-    
-    .optional-toggle svg {
-      transition: transform 0.2s;
+
+    .manual-accordion-icon {
+      flex-shrink: 0;
+      background-color: var(--color-text-tertiary);
+      transition: transform 180ms ease;
     }
-    
-    .optional-fields {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+
+    .manual-accordion-toggle[aria-expanded="true"] .manual-accordion-icon {
+      transform: rotate(180deg);
+    }
+
+    .manual-accordion-panel {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease-out;
+      opacity: 0;
+      transition: max-height 220ms ease, opacity 160ms ease, margin-top 220ms ease;
     }
-    
-    .optional-fields.expanded {
-      max-height: 300px;
+
+    .manual-accordion-panel.expanded {
+      max-height: 420px;
+      margin-top: 14px;
+      opacity: 1;
     }
-    
-    .save-food-btn {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      right: 20px;
-      height: 56px;
-      background: #0056D8;
-      border: none;
-      border-radius: 9999px;
-      color: white;
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
+
+    .manual-entry-footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 12px 24px 16px;
+      background: var(--color-surface);
+      box-shadow: 0 0 19px rgba(0, 0, 0, 0.06);
+    }
+
+    .manual-save-btn {
+      width: 100%;
+      min-height: 56px;
+      padding: 16px;
+      border: 0;
+      border-radius: var(--radius-rFull);
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-style: var(--typography-title-medium-font-style);
+      font-weight: var(--typography-title-medium-font-weight);
+      line-height: var(--typography-title-medium-line-height);
+      letter-spacing: var(--typography-title-medium-letter-spacing);
       cursor: pointer;
-      transition: all 0.2s;
-      z-index: 100;
+      transition: transform 150ms ease, background 150ms ease, opacity 150ms ease;
     }
-    
-    .save-food-btn:active {
-      transform: scale(0.98);
-      background: #3B82F6;
+
+    .manual-save-btn:disabled {
+      background: var(--color-primary-container);
+      color: var(--color-text-tertiary);
+      opacity: 0.8;
+      cursor: not-allowed;
     }
-    
-    .bottom-spacer {
-      height: 80px;
+
+    .manual-save-btn:not(:disabled):active {
+      transform: scale(0.985);
     }
-    
+
+    .manual-entry-spacer {
+      height: 92px;
+      flex-shrink: 0;
+    }
+
+    .manual-serving-sheet-content {
+      padding: 8px 0 20px;
+      border-radius: 24px 24px 0 0;
+      background: var(--color-surface);
+    }
+
+    .manual-serving-sheet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 20px 16px;
+    }
+
+    .manual-serving-sheet-header h2 {
+      margin: 0;
+      color: var(--color-text-primary);
+      font-family: var(--typography-title-large-font-family);
+      font-size: var(--typography-title-large-font-size);
+      font-style: var(--typography-title-large-font-style);
+      font-weight: var(--typography-title-large-font-weight);
+      line-height: var(--typography-title-large-line-height);
+      letter-spacing: var(--typography-title-large-letter-spacing);
+    }
+
+    .manual-serving-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: 0;
+      border-radius: var(--radius-r16);
+      background: transparent;
+      color: var(--color-text-tertiary);
+      cursor: pointer;
+    }
+
+    .manual-serving-close .icon {
+      background-color: currentColor;
+    }
+
+    .manual-serving-options {
+      display: flex;
+      flex-direction: column;
+      padding: 0 12px;
+    }
+
+    .manual-serving-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      min-height: 56px;
+      padding: 16px 12px;
+      border: 0;
+      border-bottom: 1px solid var(--color-divider);
+      background: transparent;
+      color: var(--color-text-primary);
+      font-family: var(--typography-title-medium-font-family);
+      font-size: var(--typography-title-medium-font-size);
+      font-style: var(--typography-title-medium-font-style);
+      font-weight: var(--typography-title-medium-font-weight);
+      line-height: var(--typography-title-medium-line-height);
+      letter-spacing: var(--typography-title-medium-letter-spacing);
+      text-align: left;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .manual-serving-option:last-child {
+      border-bottom: 0;
+    }
+
+    .manual-serving-option-check {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: var(--radius-r12);
+      background: var(--color-success);
+      opacity: 0;
+      transition: opacity 140ms ease;
+    }
+
+    .manual-serving-option.is-selected .manual-serving-option-check {
+      opacity: 1;
+    }
+
+    .manual-serving-option-check .icon {
+      background-color: var(--color-on-primary);
+    }
+
     .manual-toast {
       position: fixed;
-      bottom: 90px;
       left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: #0F172A;
-      color: white;
-      padding: 14px 20px;
-      border-radius: 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
+      bottom: 108px;
+      z-index: 1600;
+      padding: 12px 16px;
+      border-radius: var(--radius-r12);
+      background: var(--color-text-primary);
+      color: var(--color-on-primary);
+      font-family: var(--typography-body-medium-font-family);
+      font-size: var(--typography-body-medium-font-size);
+      font-style: var(--typography-body-medium-font-style);
+      font-weight: 600;
+      line-height: var(--typography-body-medium-line-height);
+      letter-spacing: var(--typography-body-medium-letter-spacing);
       opacity: 0;
-      transition: all 0.3s;
-      z-index: 1000;
+      transform: translateX(-50%) translateY(12px);
+      transition: opacity 180ms ease, transform 180ms ease;
+      white-space: nowrap;
     }
-    
+
     .manual-toast.show {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
+    }
+
+    .manual-text-input::-webkit-outer-spin-button,
+    .manual-text-input::-webkit-inner-spin-button,
+    .manual-nutrient-input input::-webkit-outer-spin-button,
+    .manual-nutrient-input input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .manual-text-input[type=number],
+    .manual-nutrient-input input[type=number] {
+      -moz-appearance: textfield;
     }
   </style>
 </body>
