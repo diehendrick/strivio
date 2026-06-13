@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../styles.css?v=13">
+  <link rel="stylesheet" href="../../styles.css?v=14">
 </head>
 
 <body>
@@ -98,6 +98,29 @@
                 </div>
               </div>
             </section>
+
+            <button class="logbook-card lb-water-card" type="button" id="lbWaterCard" aria-label="Open water intake">
+              <span class="lb-water-head">
+                <span class="lb-water-title">
+                  <span class="icon lb-water-icon" style="--icon-url: url('../../assets/svg_icons/glass-water-droplet.svg'); width: 18px; height: 18px;" aria-hidden="true"></span>
+                  <strong>Water</strong>
+                </span>
+                <span class="lb-water-action">
+                  <span class="icon lb-water-action-icon" style="--icon-url: url('../../assets/svg_icons/add.svg'); width: 18px; height: 18px;" aria-hidden="true"></span>
+                  <span>Add Water</span>
+                </span>
+              </span>
+              <span class="lb-water-summary">
+                <strong id="lbWaterAmount">1,250</strong>
+                <em id="lbWaterGoal">/ 2,000 ml</em>
+              </span>
+              <span class="lb-water-progress-row">
+                <span class="lb-water-progress-track">
+                  <span class="lb-water-progress-fill" id="lbWaterProgress"></span>
+                </span>
+                <strong id="lbWaterPercent">55%</strong>
+              </span>
+            </button>
 
             <h2 class="lb-section-title">Meals</h2>
             <section class="logbook-card lb-meals-card" id="lbMealsCard"></section>
@@ -238,38 +261,160 @@
             </div>
           </div>
 
-          <div class="bottom-sheet lb-quick-edit-sheet" id="lbQuickEditSheet" aria-hidden="true">
-            <div class="sheet-backdrop" data-close-quick-edit></div>
+          <div class="bottom-sheet" id="sheetWater">
+            <div class="sheet-backdrop" data-close="sheetWater"></div>
             <div class="sheet-content">
-              <div class="sheet-handle"></div>
-              <div class="lb-quick-edit-header">
-                <h3>Quick Edit</h3>
-                <button class="lb-quick-edit-close" type="button" data-close-quick-edit aria-label="Close quick edit">
-                  <span class="icon lb-quick-edit-close-icon" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;" aria-hidden="true"></span>
-                </button>
-              </div>
-              <div class="lb-quick-edit-body">
-                <div class="lb-quick-edit-item" id="lbQuickEditItem"></div>
-                <div class="lb-quick-edit-serving">
-                  <div class="lb-quick-edit-serving-copy">
-                    <strong>Serving</strong>
-                    <span id="lbQuickEditServingMeta">0 kcal per serving</span>
-                  </div>
-                  <div class="lb-quick-edit-counter">
-                    <button type="button" id="lbQuickEditMinus" aria-label="Decrease serving">−</button>
-                    <span id="lbQuickEditServingValue">1</span>
-                    <button type="button" id="lbQuickEditPlus" aria-label="Increase serving">+</button>
+              <div class="water-main-view" id="waterMainView">
+                <div class="sheet-handle"></div>
+                <div class="sheet-header">
+                  <h3 class="sheet-title">Water Intake</h3>
+                  <div class="water-header-actions">
+                    <button class="water-settings-gear" id="waterSettingsGear">
+                      <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/settings.svg'); width: 24px; height: 24px;"></span>
+                    </button>
+                    <button class="sheet-close" data-close="sheetWater">
+                      <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;"></span>
+                    </button>
                   </div>
                 </div>
-                <div class="lb-quick-edit-actions">
-                  <button class="lb-quick-edit-save" type="button" id="lbQuickEditSaveBtn">Save Changes</button>
-                  <button class="lb-quick-edit-delete" type="button" id="lbQuickEditDeleteBtn" aria-label="Delete food">
-                    <span class="icon lb-quick-edit-delete-icon" style="--icon-url: url('../../assets/svg_icons/trash.svg'); width: 24px; height: 24px;" aria-hidden="true"></span>
+                <div class="sheet-body">
+                  <div class="water-visual">
+                    <div class="water-ring">
+                      <svg viewBox="0 0 100 100" class="water-ring-svg">
+                        <circle cx="50" cy="50" r="42" class="ring-track" />
+                        <circle cx="50" cy="50" r="42" class="ring-progress water-ring-fill" stroke-dasharray="263.89"
+                          stroke-dashoffset="98.96" />
+                      </svg>
+                      <div class="water-ring-center">
+                        <span class="water-ring-value">1,250</span>
+                        <span class="water-ring-label">/ 2,000 ml</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="water-quick-actions">
+                    <button class="water-action-btn minus">
+                      <img src="../../assets/svg_icons/minus.svg" width="16" alt="">
+                      <span>-125 ml</span>
+                    </button>
+                    <button class="water-action-btn plus">
+                      <img src="../../assets/svg_icons/add.svg" width="16" alt="">
+                      <span>+250 ml</span>
+                    </button>
+                  </div>
+                  <div class="water-log-list" id="waterLogList">
+                    <div class="water-log-item">
+                      <span class="icon icon-blue" style="--icon-url: url('../../assets/svg_icons/glass-water-droplet.svg'); width: 18px; height: 18px;"></span>
+                      <span class="water-log-amount">250 ml</span>
+                      <span class="water-log-time">8:30 AM</span>
+                    </div>
+                    <div class="water-log-item">
+                      <span class="icon icon-blue" style="--icon-url: url('../../assets/svg_icons/glass-water-droplet.svg'); width: 18px; height: 18px;"></span>
+                      <span class="water-log-amount">500 ml</span>
+                      <span class="water-log-time">12:15 PM</span>
+                    </div>
+                    <div class="water-log-item">
+                      <span class="icon icon-blue" style="--icon-url: url('../../assets/svg_icons/glass-water-droplet.svg'); width: 18px; height: 18px;"></span>
+                      <span class="water-log-amount">500 ml</span>
+                      <span class="water-log-time">3:45 PM</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="water-settings-view" id="waterSettingsView">
+                <div class="sheet-handle"></div>
+                <div class="sheet-header">
+                  <button class="water-back-btn" id="waterSettingsBack">
+                    <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/back.svg'); width: 24px; height: 24px;"></span>
+                  </button>
+                  <h3 class="sheet-title">Settings</h3>
+                  <button class="sheet-close" data-close="sheetWater">
+                    <span class="icon icon-default" style="--icon-url: url('../../assets/svg_icons/circle-x.svg'); width: 24px; height: 24px;"></span>
                   </button>
                 </div>
-                <p class="lb-quick-edit-note">*Add this food again with the same serving.</p>
+                <div class="sheet-body">
+                  <div class="water-settings">
+                    <div class="water-settings-section">
+                      <span class="water-settings-title">Daily Goal</span>
+                      <div class="water-presets water-presets-equal" id="waterGoalPresets">
+                        <button class="water-preset-btn" data-goal="1500">1,500 ml</button>
+                        <button class="water-preset-btn active" data-goal="2000">2,000 ml</button>
+                        <button class="water-preset-btn" data-goal="2500">2,500 ml</button>
+                        <button class="water-preset-btn" data-goal="3000">3,000 ml</button>
+                      </div>
+                      <div class="water-custom-field">
+                        <input type="number" id="waterCustomGoal" placeholder="0" min="500" max="5000" step="100">
+                        <span class="water-custom-unit">ml</span>
+                      </div>
+                    </div>
+                    <div class="water-settings-section">
+                      <span class="water-settings-title">Per Tap Amount</span>
+                      <div class="water-presets water-presets-equal" id="waterStepPresets">
+                        <button class="water-preset-btn" data-step="150">150 ml</button>
+                        <button class="water-preset-btn active" data-step="250">250 ml</button>
+                        <button class="water-preset-btn" data-step="500">500 ml</button>
+                      </div>
+                    </div>
+                    <button class="water-settings-save" id="waterSettingsSave">Save Settings</button>
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
+
+          <div class="meal-edit-sheet" id="lbQuickEditSheet" aria-hidden="true" hidden>
+            <button class="meal-edit-overlay" type="button" data-close-quick-edit aria-label="Close quick edit"></button>
+            <section class="meal-edit-panel" role="dialog" aria-modal="true" aria-labelledby="lbQuickEditTitle">
+              <div class="meal-edit-handle"></div>
+              <header class="meal-edit-header">
+                <h2 id="lbQuickEditTitle">Quick Edit</h2>
+                <button class="meal-edit-close" type="button" data-close-quick-edit aria-label="Close quick edit">
+                  <span class="icon" style="--icon-url: url('../../assets/svg_icons/cross-x.svg'); width: 14px; height: 14px;" aria-hidden="true"></span>
+                </button>
+              </header>
+              <div class="meal-edit-body">
+                <article class="meal-edit-food-card">
+                  <img class="meal-edit-food-image" id="lbQuickEditImage" src="../../assets/img/meal-banana.svg" alt="Food image">
+                  <div class="meal-edit-food-copy">
+                    <strong id="lbQuickEditName">Oatmeal (1 bowl)</strong>
+                    <span id="lbQuickEditMeta">P 12g · C 55g · F 8g</span>
+                    <b id="lbQuickEditCalories">350 kcal</b>
+                  </div>
+                </article>
+
+                <section class="meal-edit-serving">
+                  <div class="meal-edit-serving-copy">
+                    <h3>Serving</h3>
+                    <p id="lbQuickEditServingMeta">100 g = 350 Kcal</p>
+                  </div>
+                  <div class="meal-edit-counter" aria-label="Serving amount">
+                    <button type="button" id="lbQuickEditMinus" aria-label="Decrease serving">−</button>
+                    <strong id="lbQuickEditServingValue">100 g</strong>
+                    <button type="button" id="lbQuickEditPlus" aria-label="Increase serving">+</button>
+                  </div>
+                </section>
+
+                <div class="meal-edit-actions">
+                  <button class="meal-edit-primary" type="button" id="lbQuickEditSaveBtn">Change Amount</button>
+                  <div class="meal-edit-secondary-row">
+                    <div class="meal-edit-secondary">
+                      <button class="meal-edit-secondary-btn" type="button" id="lbQuickEditLogAgain">
+                        <span class="icon" style="--icon-url: url('../../assets/svg_icons/rotate-left.svg'); width: 18px; height: 18px;" aria-hidden="true"></span>
+                        <span>Log Again</span>
+                      </button>
+                      <p>Add another serving</p>
+                    </div>
+                    <div class="meal-edit-secondary">
+                      <button class="meal-edit-secondary-btn meal-edit-secondary-btn-danger" type="button" id="lbQuickEditDeleteBtn">
+                        <span class="icon" style="--icon-url: url('../../assets/svg_icons/trash.svg'); width: 18px; height: 18px;" aria-hidden="true"></span>
+                        <span>Delete</span>
+                      </button>
+                      <p>Remove this entry</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
 
           <div class="toast-container" id="toastContainer"></div>
@@ -286,8 +431,12 @@
       const content = document.getElementById('logbookContent');
       const isPremium = window.__strivio_state?.isPremium || false;
       const mealsCard = document.getElementById('lbMealsCard');
+      const waterCard = document.getElementById('lbWaterCard');
       const quickEditSheet = document.getElementById('lbQuickEditSheet');
-      const quickEditItemEl = document.getElementById('lbQuickEditItem');
+      const quickEditImageEl = document.getElementById('lbQuickEditImage');
+      const quickEditNameEl = document.getElementById('lbQuickEditName');
+      const quickEditMetaEl = document.getElementById('lbQuickEditMeta');
+      const quickEditCaloriesEl = document.getElementById('lbQuickEditCalories');
       const quickEditServingMetaEl = document.getElementById('lbQuickEditServingMeta');
       const quickEditServingValueEl = document.getElementById('lbQuickEditServingValue');
       let touchStartX = 0;
@@ -367,6 +516,30 @@
 
       function cloneData(data) {
         return JSON.parse(JSON.stringify(data));
+      }
+
+      function getWaterState() {
+        const amount = typeof waterAmount === 'number'
+          ? waterAmount
+          : parseInt(document.querySelector('.water-ring-value')?.textContent?.replace(/,/g, ''), 10) || 1250;
+        const goal = typeof waterGoal === 'number'
+          ? waterGoal
+          : parseInt(localStorage.getItem('strivio_waterGoal') || '2000', 10) || 2000;
+        return { amount, goal };
+      }
+
+      function renderWaterCard() {
+        if (!waterCard) return;
+        const state = getWaterState();
+        const amountEl = document.getElementById('lbWaterAmount');
+        const goalEl = document.getElementById('lbWaterGoal');
+        const progressEl = document.getElementById('lbWaterProgress');
+        const percentEl = document.getElementById('lbWaterPercent');
+        const percent = Math.min(100, Math.round((state.amount / state.goal) * 100));
+        if (amountEl) amountEl.textContent = state.amount.toLocaleString();
+        if (goalEl) goalEl.textContent = '/ ' + state.goal.toLocaleString() + ' ml';
+        if (progressEl) progressEl.style.width = percent + '%';
+        if (percentEl) percentEl.textContent = percent + '%';
       }
 
       function getFoodMacros(food, servings) {
@@ -506,22 +679,19 @@
 
       function syncQuickEditSheet() {
         const food = getQuickEditFood();
-        if (!food || !quickEditItemEl || !quickEditServingMetaEl || !quickEditServingValueEl) return;
+        if (!food || !quickEditServingMetaEl || !quickEditServingValueEl || !quickEditImageEl || !quickEditNameEl || !quickEditMetaEl || !quickEditCaloriesEl) return;
 
-        quickEditItemEl.innerHTML = '' +
-          `<div class="lb-quick-edit-food-card">` +
-            `<span class="lb-food-thumb lb-quick-edit-thumb"><img src="${food.image}" alt="${escapeHtml(food.name)}"></span>` +
-            `<div class="lb-quick-edit-copy">` +
-              `<strong>${escapeHtml(food.name)}</strong>` +
-              `<em>${escapeHtml(formatMacrosLine(getFoodMacros(food, 1)))}</em>` +
-              `<b>${food.perServingKcal} kcal</b>` +
-            `</div>` +
-            `<button class="lb-quick-edit-log-again" type="button" id="lbQuickEditLogAgain">Log Again</button>` +
-          `</div>`;
-
-        quickEditServingMetaEl.textContent = `${food.perServingKcal} kcal per serving`;
-        quickEditServingValueEl.textContent = String(quickEditState.servings);
-        quickEditItemEl.querySelector('#lbQuickEditLogAgain')?.addEventListener('click', logAgainQuickEditFood);
+        quickEditImageEl.src = food.image;
+        quickEditImageEl.alt = food.name;
+        quickEditImageEl.onerror = function() {
+          this.onerror = null;
+          this.src = '../../assets/img/meal-banana.svg';
+        };
+        quickEditNameEl.textContent = food.name;
+        quickEditMetaEl.textContent = formatMacrosLine(getFoodMacros(food, 1));
+        quickEditCaloriesEl.textContent = food.perServingKcal + ' kcal';
+        quickEditServingMetaEl.textContent = '100 g = ' + food.perServingKcal + ' Kcal';
+        quickEditServingValueEl.textContent = (quickEditState.servings * 100) + ' g';
       }
 
       function openQuickEdit(mealKey, foodId) {
@@ -534,20 +704,18 @@
         };
         syncQuickEditSheet();
         quickEditSheet?.setAttribute('aria-hidden', 'false');
-        if (typeof openSheet === 'function') {
-          openSheet('lbQuickEditSheet');
-        } else {
-          quickEditSheet?.classList.add('open');
+        if (quickEditSheet) {
+          quickEditSheet.hidden = false;
+          requestAnimationFrame(() => quickEditSheet.classList.add('open'));
         }
       }
 
       function closeQuickEdit(skipReset) {
         quickEditSheet?.setAttribute('aria-hidden', 'true');
-        if (typeof closeSheet === 'function') {
-          closeSheet('lbQuickEditSheet');
-        } else {
-          quickEditSheet?.classList.remove('open');
-        }
+        quickEditSheet?.classList.remove('open');
+        setTimeout(() => {
+          if (quickEditSheet && !quickEditSheet.classList.contains('open')) quickEditSheet.hidden = true;
+        }, 220);
         if (!skipReset) {
           quickEditState = null;
         }
@@ -852,7 +1020,11 @@
         syncQuickEditSheet();
       });
       document.getElementById('lbQuickEditSaveBtn')?.addEventListener('click', saveQuickEditChanges);
+      document.getElementById('lbQuickEditLogAgain')?.addEventListener('click', logAgainQuickEditFood);
       document.getElementById('lbQuickEditDeleteBtn')?.addEventListener('click', deleteQuickEditFood);
+      waterCard?.addEventListener('click', () => {
+        if (typeof openSheet === 'function') openSheet('sheetWater');
+      });
       document.getElementById('macroOverviewCard')?.addEventListener('click', () => showToast('Macro overview shown'));
       document.getElementById('copyPrevBtn')?.addEventListener('click', () => navigateTo('copy-previous-day'));
       document.getElementById('nutrientsCard')?.addEventListener('click', () => navigateTo(isPremium ? 'nutrients-full' : 'nutrients-locked'));
@@ -860,6 +1032,16 @@
       document.getElementById('manualEntryBtn')?.addEventListener('click', () => navigateTo('manual-entry'));
       document.getElementById('myMealsBtn')?.addEventListener('click', () => navigateTo('custom-meals-list'));
       document.getElementById('addFoodBtn')?.addEventListener('click', () => navigateTo('add-food-home'));
+
+      if (typeof updateWaterUI === 'function') {
+        const originalUpdateWaterUI = updateWaterUI;
+        updateWaterUI = function() {
+          originalUpdateWaterUI.apply(this, arguments);
+          renderWaterCard();
+        };
+      }
+
+      renderWaterCard();
     })();
   </script>
 </body>

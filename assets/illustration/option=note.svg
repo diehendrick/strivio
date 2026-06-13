@@ -9,8 +9,8 @@
 <path d="M11.4297 37.748H37.1469" stroke="#0F172A" stroke-width="3.30859" stroke-miterlimit="22.9256" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M11.4297 51.2832H26.0926" stroke="#0F172A" stroke-width="3.30859" stroke-miterlimit="22.9256" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M11.4297 58.0508H21.2051" stroke="#0F172A" stroke-width="3.30859" stroke-miterlimit="22.9256" stroke-linecap="round" stroke-linejoin="round"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M46.602 59.088L74.5937 31.0962L68.7449 25.2476L40.7533 53.2393L38.0129 61.8284L46.602 59.088Z" stroke="#7F7CF0" stroke-width="3.30859" stroke-miterlimit="22.9256" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M44.78 50.3228L49.5185 55.0611" stroke="#7F7CF0" stroke-width="3.30859" stroke-miterlimit="22.9256" stroke-linecap="round" stroke-linejoin="round"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M46.602 59.088L74.5937 31.0962L68.7449 25.2476L40.7533 53.2393L38.0129 61.8284L46.602 59.088Z" stroke="#0056D8" stroke-width="3.30859" stroke-miterlimit="22.9256" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M44.78 50.3228L49.5185 55.0611" stroke="#0056D8" stroke-width="3.30859" stroke-miterlimit="22.9256" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 <defs>
 <clipPath id="clip0_953_6381">

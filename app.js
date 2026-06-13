@@ -587,7 +587,7 @@ function startLoadingAnimation() {
     // Mark next as active
     steps[currentStep].classList.remove('pending');
     steps[currentStep].classList.add('active');
-    steps[currentStep].querySelector('.step-icon').innerHTML = '<span class="spinner"></span>';
+    steps[currentStep].querySelector('.step-icon').innerHTML = '&#x2713;';
 
     currentStep++;
     setTimeout(advanceStep, 1500);
@@ -601,7 +601,7 @@ function startLoadingAnimation() {
       step.querySelector('.step-icon').innerHTML = '&#x2713;';
     } else if (i === 2) {
       step.classList.add('active');
-      step.querySelector('.step-icon').innerHTML = '<span class="spinner"></span>';
+      step.querySelector('.step-icon').innerHTML = '&#x2713;';
     } else {
       step.classList.add('pending');
       step.querySelector('.step-icon').innerHTML = '&#x25CB;';
@@ -666,7 +666,7 @@ function populateReveal() {
   if (fatEl) fatEl.textContent = `${fat}g`;
 
   // Workout meta
-  const locationLabel = state.location === 'gym' ? 'Gym workouts' : state.location === 'home' ? 'Home workouts' : 'Gym & Home';
+  const locationLabel = state.location === 'gym' ? 'Gym' : state.location === 'home' ? 'Home' : 'Gym & Home';
   const metaEl = document.getElementById('revealWorkoutMeta');
   if (metaEl) metaEl.textContent = `${state.frequency} days/week · ${locationLabel}`;
 
@@ -4577,8 +4577,9 @@ function createWorkoutExecution(startIndex) {
     currentSet: 1,
     startTime: Date.now(),
     exerciseStartTime: Date.now(),
-    exerciseDuration: 20,
+    exerciseDuration: 60,
     preparationDuration: 60,
+    restDuration: 30,
     isPaused: false,
     pausedAt: null,
     warmupDuration: 20,
@@ -5559,28 +5560,63 @@ window.saveEditChanges = function saveEditChanges() {
 };
 
 // ======================================================================
-// WORKOUT EXECUTION FLOW (Figma-aligned)
+// WORKOUT EXECUTION FLOW (post-warmup: pre-workout → running → 30s rest → next)
 // ======================================================================
 function initWorkoutExec() {
-  var exec = normalizeWarmupTiming(state.currentExecution || createWorkoutExecution(0));
-  if (!exec.warmupComplete) {
+  var exec = state.currentExecution || createWorkoutExecution(0);
+  exec.exerciseDuration = exec.exerciseDuration || 60;
+  exec.preparationDuration = exec.preparationDuration || 60;
+  exec.restDuration = exec.restDuration || 30;
+  exec.activeRestDuration = exec.activeRestDuration || exec.restDuration;
+  exec.nextRestDuration = exec.nextRestDuration || exec.restDuration;
+  exec.skipUpcomingRest = !!exec.skipUpcomingRest;
+  exec.warmupPhase = false;
+  exec.warmupComplete = true;
+  exec.setLogs = exec.setLogs || [];
+  exec.currentSet = exec.currentSet || 1;
+  if (!exec.phase) {
+    exec.phase = 'precountdown';
     exec.exerciseStartTime = Date.now();
   }
-  exec.exerciseDuration = exec.exerciseDuration || 20;
-  exec.setLogs = exec.setLogs || [];
-  exec.trackData = exec.trackData || buildDefaultTrackData(exec);
-  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
-
+  if (!exec.exerciseStartTime) exec.exerciseStartTime = Date.now();
+  if (!exec.trackData) exec.trackData = buildDefaultTrackData(exec);
+  persistExecState();
   renderExecExercise();
   closeTrackProgress();
+  startExecTimer();
+}
+
+function persistExecState() {
+  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+}
+
+function stopExecTimer() {
+  if (window._execInterval) {
+    clearInterval(window._execInterval);
+    window._execInterval = null;
+  }
+  if (state.currentExecution) state.currentExecution._timerInterval = null;
+}
+
+function startExecTimer() {
+  var exec = state.currentExecution;
+  if (!exec || exec.isPaused) return;
+  stopExecTimer();
+  window._execInterval = setInterval(updateExecTimer, 1000);
+  exec._timerInterval = window._execInterval;
+}
+
+function getDisplayedExecExercise(exec) {
+  if (!exec || !exec.exercises || !exec.exercises.length) return { name: 'Exercise', sets: 4, reps: 8 };
+  return exec.exercises[exec.currentExIndex || 0] || exec.exercises[0];
 }
 
 function buildDefaultTrackData(exec) {
-  var ex = getCurrentLiveExercise(exec);
+  var ex = getDisplayedExecExercise(exec);
   var sets = ex.sets || 4;
   var data = { targetSets: sets, targetReps: ex.reps || 8, sets: [] };
   for (var i = 0; i < sets; i++) {
-    data.sets.push({ reps: parseInt(ex.reps) || 8, time: 40, weight: i === 0 ? 25 : (i === 1 ? 20 : (i === 2 ? 18 : 15)), logged: false });
+    data.sets.push({ reps: parseInt(ex.reps, 10) || 8, time: 40, weight: i === 0 ? 25 : (i === 1 ? 20 : (i === 2 ? 18 : 15)), logged: false });
   }
   return data;
 }
@@ -5589,59 +5625,71 @@ function renderExecExercise() {
   var exec = state.currentExecution;
   if (!exec || !exec.exercises || !exec.exercises.length) return;
 
-  var ex = getCurrentLiveExercise(exec);
+  var ex = getDisplayedExecExercise(exec);
   var live = getExecOverallProgress(exec);
-
-  var progress = document.getElementById('wkExecProgress');
-  var segments = document.getElementById('wkExecProgressSegments');
   var nameEl = document.getElementById('wkExecExerciseName');
   var captionEl = document.getElementById('wkExecCaption');
-  var timerEl = document.getElementById('wkExecTimer');
+  var progress = document.getElementById('wkExecProgress');
+  var segments = document.getElementById('wkExecProgressSegments');
   var repInfoText = document.getElementById('wkRepInfoText');
-  var progressFill = document.getElementById('wkExecProgressFill');
+  var prePhase = document.getElementById('wkExecPrePhase');
+  var runningPhase = document.getElementById('wkExecRunningPhase');
+  var restPhase = document.getElementById('wkExecRestPhase');
 
-  exec.isPaused = false;
-  exec.pausedAt = null;
   if (nameEl) nameEl.textContent = ex.name || 'Exercise';
   if (captionEl) captionEl.textContent = ((exec.currentExIndex || 0) + 1) + ' of ' + (exec.exercises.length || 1) + ' Exercises';
+  if (repInfoText) repInfoText.textContent = '1/' + (ex.sets || 1) + ' Sets \u2022 ' + (parseInt(ex.reps, 10) || 8) + ' Reps';
   if (progress) progress.innerHTML = formatWorkoutTime(live.sessionRemaining) + ' &bull; ' + live.percent + '%';
   renderLiveSegmentsEx(segments, live.percent, live.segmentCount);
-  if (timerEl) timerEl.textContent = formatWorkoutTime(live.remaining);
-  if (repInfoText) repInfoText.textContent = (exec.currentSet || 1) + '/' + (ex.sets || 1) + ' Sets \u2022 ' + (parseInt(ex.reps) || 8) + ' Reps';
+
+  if (prePhase) prePhase.style.display = exec.phase === 'precountdown' ? '' : 'none';
+  if (runningPhase) runningPhase.style.display = exec.phase === 'running' ? '' : 'none';
+  if (restPhase) restPhase.style.display = exec.phase === 'rest' ? '' : 'none';
+
+  if (exec.phase === 'rest') updateFloatingRestCard(ex, exec);
 
   renderWorkoutPauseState();
   updateExecTimer();
-  if (window._execInterval) clearInterval(window._execInterval);
-  window._execInterval = setInterval(updateExecTimer, 1000);
-  exec._timerInterval = window._execInterval;
 }
 
 function getCurrentLiveExercise(exec) {
-  if (exec && exec.warmupPhase) {
-    var warmups = exec.warmupExercises || [];
-    return warmups[exec.warmupIndex || 0] || warmups[0] || { name: 'Warmup', sets: 1, reps: '20 sec' };
-  }
-  return exec.exercises[exec.currentExIndex] || exec.exercises[0];
+  return getDisplayedExecExercise(exec);
+}
+
+function getCurrentDuration(exec) {
+  if (!exec) return 0;
+  if (exec.phase === 'precountdown') return exec.preparationDuration || 60;
+  if (exec.phase === 'rest') return exec.activeRestDuration || exec.restDuration || 30;
+  return exec.exerciseDuration || 60;
 }
 
 function getExecOverallProgress(exec) {
-  if (!exec || !exec.exercises || !exec.exercises.length) return { elapsed: 0, percent: 0, remaining: 0, exercisePercent: 0, segmentCount: 1, sessionRemaining: 0 };
-  var duration = exec.warmupPhase ? (exec.warmupDuration || 20) : (exec.exerciseDuration || 20);
-  var elapsedExercise = Math.min(duration, Math.floor((Date.now() - (exec.exerciseStartTime || Date.now())) / 1000));
-  var warmupCount = exec.includeWarmupProgress ? (exec.warmupExercises || []).length : 0;
-  var warmupDuration = exec.warmupDuration || 20;
-  var exerciseDuration = exec.exerciseDuration || 20;
-  var overallElapsed = exec.warmupPhase
-    ? ((exec.warmupIndex || 0) * warmupDuration) + elapsedExercise
-    : (warmupCount * warmupDuration) + ((exec.currentExIndex || 0) * exerciseDuration) + elapsedExercise;
-  var totalDuration = exec.sessionDuration || 160;
+  if (!exec || !exec.exercises || !exec.exercises.length) {
+    return { elapsed: 0, percent: 0, remaining: 0, exercisePercent: 0, segmentCount: 1, sessionRemaining: 0 };
+  }
+  var duration = getCurrentDuration(exec);
+  var elapsedPhase = Math.min(duration, Math.floor((Date.now() - (exec.exerciseStartTime || Date.now())) / 1000));
+  var exerciseCount = exec.exercises.length || 1;
+  var prepDuration = exec.preparationDuration || 60;
+  var exerciseDuration = exec.exerciseDuration || 60;
+  var restDuration = exec.restDuration || 30;
+  var currentIndex = exec.currentExIndex || 0;
+  var completedExercises = exec.phase === 'precountdown' ? 0 : currentIndex;
+  var completedRests = exec.phase === 'running' ? currentIndex : Math.max(0, currentIndex - 1);
+  var overallElapsed = prepDuration * (exec.phase === 'precountdown' ? 0 : 1);
+  var totalDuration = prepDuration + (exerciseCount * exerciseDuration) + (Math.max(0, exerciseCount - 1) * restDuration);
+
+  overallElapsed += (completedExercises * exerciseDuration) + (completedRests * restDuration);
+  if (exec.phase === 'precountdown') overallElapsed = elapsedPhase;
+  if (exec.phase === 'running' || exec.phase === 'rest') overallElapsed += elapsedPhase;
+
   var percent = totalDuration ? Math.min(100, Math.round((overallElapsed / totalDuration) * 100)) : 0;
   return {
     elapsed: overallElapsed,
     percent: percent,
-    remaining: Math.max(0, duration - elapsedExercise),
-    exercisePercent: Math.min(100, Math.round((elapsedExercise / duration) * 100)),
-    segmentCount: Math.max(1, exec.exercises.length || 1),
+    remaining: Math.max(0, duration - elapsedPhase),
+    exercisePercent: duration ? Math.min(100, Math.round((elapsedPhase / duration) * 100)) : 0,
+    segmentCount: Math.max(1, exerciseCount),
     sessionRemaining: Math.max(0, totalDuration - overallElapsed)
   };
 }
@@ -5656,22 +5704,92 @@ function syncExecProgressUI() {
   var live = getExecOverallProgress(exec);
   var progress = document.getElementById('wkExecProgress');
   var segments = document.getElementById('wkExecProgressSegments');
-  var timerEl = document.getElementById('wkExecTimer');
+  var preTimer = document.getElementById('wkExecPreTimer');
+  var runTimer = document.getElementById('wkExecGaugeTimer');
+  var restTimer = document.getElementById('wkExecRestTimer');
+  var gaugeBars = document.getElementById('wkExecGaugeBars');
   var progressFill = document.getElementById('wkExecProgressFill');
+  var formatted = formatWorkoutTime(live.remaining);
 
   if (progress) progress.innerHTML = formatWorkoutTime(live.sessionRemaining) + ' &bull; ' + live.percent + '%';
-  if (timerEl) timerEl.textContent = formatWorkoutTime(live.remaining);
-  if (progressFill) progressFill.style.width = live.exercisePercent + '%';
   renderLiveSegmentsEx(segments, live.percent, live.segmentCount);
+  if (preTimer) preTimer.textContent = formatted;
+  if (runTimer) runTimer.textContent = formatted;
+  if (restTimer) restTimer.textContent = formatted;
+  if (gaugeBars && exec.phase === 'running') renderGaugeBars(gaugeBars, live.exercisePercent);
+  if (progressFill) progressFill.style.width = exec.phase === 'running' ? (live.exercisePercent + '%') : '0%';
 
   if (live.remaining <= 0 && window._execInterval) {
-    clearInterval(window._execInterval);
-    window._execInterval = null;
-    exec._timerInterval = null;
+    stopExecTimer();
     setTimeout(function() {
-      if (state.currentExecution && !state.currentExecution.isPaused) completeSet();
+      if (state.currentExecution && !state.currentExecution.isPaused) advancePhase();
     }, 250);
   }
+}
+
+function logExerciseSets(exec, exercise) {
+  if (!exec || !exercise) return;
+  for (var setNumber = 1; setNumber <= (exercise.sets || 4); setNumber++) {
+    exec.setLogs.push({
+      exercise: exercise.name,
+      set: setNumber,
+      weight: 0,
+      reps: parseInt(exercise.reps, 10) || 8
+    });
+  }
+}
+
+function moveToRunningPhase(exec) {
+  if (!exec) return;
+  exec.phase = 'running';
+  exec.currentSet = 1;
+  exec.exerciseStartTime = Date.now();
+  exec.isPaused = false;
+  exec.pausedAt = null;
+  exec.skipUpcomingRest = false;
+  exec.nextRestDuration = exec.restDuration || 30;
+  exec.trackData = buildDefaultTrackData(exec);
+}
+
+function advancePhase() {
+  var exec = state.currentExecution;
+  if (!exec) return;
+
+  if (exec.phase === 'precountdown') {
+    moveToRunningPhase(exec);
+  } else if (exec.phase === 'running') {
+    var finishedExercise = getDisplayedExecExercise(exec);
+    logExerciseSets(exec, finishedExercise);
+    if ((exec.currentExIndex || 0) >= exec.exercises.length - 1) {
+      finishWorkout();
+      return;
+    }
+    exec.currentExIndex++;
+    exec.currentSet = 1;
+    exec.trackData = buildDefaultTrackData(exec);
+    if (exec.skipUpcomingRest || (exec.nextRestDuration || 0) <= 0) {
+      exec.phase = 'running';
+      exec.exerciseStartTime = Date.now();
+      exec.isPaused = false;
+      exec.pausedAt = null;
+      exec.skipUpcomingRest = false;
+      exec.nextRestDuration = exec.restDuration || 30;
+    } else {
+      exec.phase = 'rest';
+      exec.activeRestDuration = exec.nextRestDuration || exec.restDuration || 30;
+      exec.exerciseStartTime = Date.now();
+      exec.isPaused = false;
+      exec.pausedAt = null;
+      exec.skipUpcomingRest = false;
+      exec.nextRestDuration = exec.restDuration || 30;
+    }
+  } else if (exec.phase === 'rest') {
+    moveToRunningPhase(exec);
+  }
+
+  persistExecState();
+  renderExecExercise();
+  startExecTimer();
 }
 
 function renderLiveSegmentsEx(container, percent, segmentCount) {
@@ -5694,23 +5812,88 @@ function updateExecTimer() {
   syncExecProgressUI();
 }
 
+function updateFloatingRestCard(ex, exec) {
+  var numEl = document.getElementById('exFgFloatingNum');
+  var nameEl = document.getElementById('exFgFloatingName');
+  var metaEl = document.getElementById('exFgFloatingMeta');
+  if (numEl) numEl.textContent = String((exec.currentExIndex || 0) + 1);
+  if (nameEl) nameEl.textContent = ex.name || 'Exercise';
+  if (metaEl) metaEl.textContent = (ex.sets || 4) + ' sets \u00B7 ' + (parseInt(ex.reps, 10) || 8) + ' reps';
+}
+
 function renderWorkoutPauseState() {
   var exec = state.currentExecution;
-  var screen = document.querySelector('.screen-exercise-figma');
   var button = document.getElementById('wkPauseButton');
   if (!exec || !button) return;
-
   button.classList.toggle('is-play', !!exec.isPaused);
   button.setAttribute('aria-label', exec.isPaused ? 'Resume timer' : 'Pause video');
 }
 
 window.skipExercise = function skipExercise() {
-  completeSet();
+  var exec = state.currentExecution;
+  if (!exec) return;
+  stopExecTimer();
+  if (exec.phase === 'running') {
+    if ((exec.currentExIndex || 0) >= exec.exercises.length - 1) {
+      finishWorkout();
+      return;
+    }
+    exec.currentExIndex++;
+    moveToRunningPhase(exec);
+  } else if (exec.phase === 'rest') {
+    if ((exec.currentExIndex || 0) >= exec.exercises.length - 1) {
+      finishWorkout();
+      return;
+    }
+    exec.currentExIndex++;
+    moveToRunningPhase(exec);
+  } else if (exec.phase === 'precountdown') {
+    if ((exec.currentExIndex || 0) >= exec.exercises.length - 1) {
+      finishWorkout();
+      return;
+    }
+    exec.currentExIndex++;
+    moveToRunningPhase(exec);
+  }
+  persistExecState();
+  renderExecExercise();
+  startExecTimer();
+};
+
+window.addTwentySeconds = function addTwentySeconds() {
+  var exec = state.currentExecution;
+  if (!exec) return;
+  if (exec.phase === 'rest') {
+    exec.activeRestDuration = (exec.activeRestDuration || exec.restDuration || 30) + 20;
+  } else {
+    exec.nextRestDuration = (exec.nextRestDuration || exec.restDuration || 30) + 20;
+    exec.skipUpcomingRest = false;
+    if (typeof showSnackbar === 'function') showSnackbar('Next rest set to ' + formatWorkoutTime(exec.nextRestDuration));
+  }
+  persistExecState();
+  updateExecTimer();
+};
+
+window.skipRestNow = function skipRestNow() {
+  var exec = state.currentExecution;
+  if (!exec) return;
+  if (exec.phase === 'rest') {
+    stopExecTimer();
+    moveToRunningPhase(exec);
+    persistExecState();
+    renderExecExercise();
+    startExecTimer();
+    return;
+  }
+  exec.skipUpcomingRest = true;
+  exec.nextRestDuration = 0;
+  persistExecState();
+  if (typeof showSnackbar === 'function') showSnackbar('Next rest skipped');
 };
 
 window.toggleExerciseVideo = function toggleExerciseVideo() {
   var exec = state.currentExecution;
-  if (!exec || exec.warmupComplete) return;
+  if (!exec) return;
   if (exec.isPaused) {
     resumeWorkoutTimer();
   } else {
@@ -5723,12 +5906,8 @@ function pauseWorkoutTimer() {
   if (!exec || exec.isPaused) return;
   exec.isPaused = true;
   exec.pausedAt = Date.now();
-  if (window._execInterval) {
-    clearInterval(window._execInterval);
-    window._execInterval = null;
-  }
-  exec._timerInterval = null;
-  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  stopExecTimer();
+  persistExecState();
   renderWorkoutPauseState();
 }
 
@@ -5739,166 +5918,84 @@ function resumeWorkoutTimer() {
   exec.exerciseStartTime = (exec.exerciseStartTime || Date.now()) + pausedFor;
   exec.isPaused = false;
   exec.pausedAt = null;
-  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  persistExecState();
   renderWorkoutPauseState();
   updateExecTimer();
-  if (window._execInterval) clearInterval(window._execInterval);
-  window._execInterval = setInterval(updateExecTimer, 1000);
-  exec._timerInterval = window._execInterval;
+  startExecTimer();
 }
 
-// Complete a set
-window.completeSet = function completeSet() {
-  var exec = state.currentExecution;
-  if (!exec) return;
-  var ex = getCurrentLiveExercise(exec);
-
-  if (exec.warmupPhase) {
-    exec.setLogs.push({
-      exercise: ex.name,
-      set: 1,
-      weight: 0,
-      reps: parseInt(ex.reps) || 20
-    });
-
-    if ((exec.warmupIndex || 0) < (exec.warmupExercises || []).length - 1) {
-      exec.warmupIndex = (exec.warmupIndex || 0) + 1;
-      exec.exerciseStartTime = Date.now();
-      exec.isPaused = false;
-      exec.pausedAt = null;
-      try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
-      renderExecExercise();
-    } else {
-      exec.warmupComplete = true;
-      exec.warmupPhase = false;
-      exec.warmupIndex = 0;
-      exec.currentSet = 1;
-      exec.exerciseStartTime = null;
-      exec.isPaused = false;
-      exec.pausedAt = null;
-      try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
-      renderExecExercise();
-    }
-    return;
-  }
-
-  exec.setLogs.push({
-    exercise: ex.name,
-    set: exec.currentSet,
-    weight: 0,
-    reps: parseInt(ex.reps)
-  });
-
-  if (exec.currentSet < ex.sets) {
-    exec.currentSet++;
-    exec.exerciseStartTime = Date.now();
-    exec.isPaused = false;
-    exec.pausedAt = null;
-    try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
-    navigateTo('workout-rest');
-  } else {
-    advanceToNextExercise();
-  }
-};
-
-// Rest timer
-function initWorkoutRest() {
-  var numEl = document.getElementById('wkRestNum');
-  var ringEl = document.getElementById('wkRestRing');
-  var hintEl = document.getElementById('wkRestHint');
-  if (!numEl || !ringEl) return;
-
-  var duration = state.workoutSettings ? state.workoutSettings.restDuration : 90;
-  var remaining = duration;
-  var circumference = 439.82;
-
-  numEl.textContent = remaining;
-  ringEl.setAttribute('stroke-dasharray', circumference);
-  ringEl.setAttribute('stroke-dashoffset', '0');
-
-  if (hintEl) hintEl.textContent = 'Next: ' + (state.currentExecution.exercises[state.currentExecution.currentExIndex] ? state.currentExecution.exercises[state.currentExecution.currentExIndex].name : '');
-
-  window._restInterval = setInterval(function() {
-    remaining--;
-    numEl.textContent = remaining;
-    var offset = circumference * ((duration - remaining) / duration);
-    ringEl.setAttribute('stroke-dashoffset', offset);
-
-    if (remaining <= 0) {
-      clearInterval(window._restInterval);
-      window._restInterval = null;
-      navigateTo('workout-exercise');
-    }
-  }, 1000);
-}
-
-window.skipRest = function skipRest() {
-  if (window._restInterval) {
-    clearInterval(window._restInterval);
-    window._restInterval = null;
-  }
-  navigateTo('workout-exercise');
-};
-
-// Next exercise
 window.advanceToNextExercise = function advanceToNextExercise() {
   var exec = state.currentExecution;
   if (!exec) return;
-  exec.currentSet = 1;
-  if (exec.currentExIndex < exec.exercises.length - 1) {
+  stopExecTimer();
+  if (exec.phase === 'rest') {
+    moveToRunningPhase(exec);
+  } else if ((exec.currentExIndex || 0) < exec.exercises.length - 1) {
     exec.currentExIndex++;
-    exec.exerciseStartTime = Date.now();
-    exec.isPaused = false;
-    exec.pausedAt = null;
-    try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
-    renderExecExercise();
+    moveToRunningPhase(exec);
   } else {
     finishWorkout();
+    return;
   }
+  persistExecState();
+  renderExecExercise();
+  startExecTimer();
 };
 
 window.goToPreviousExercise = function goToPreviousExercise() {
   var exec = state.currentExecution;
   if (!exec || exec.currentExIndex === 0) return;
+  stopExecTimer();
   exec.currentExIndex--;
-  exec.currentSet = 1;
-  exec.exerciseStartTime = Date.now();
-  exec.isPaused = false;
-  exec.pausedAt = null;
-  try { localStorage.setItem('strivio_state', JSON.stringify(state)); } catch(e) {}
+  moveToRunningPhase(exec);
+  persistExecState();
   renderExecExercise();
+  startExecTimer();
 };
 
 window.exitWorkout = function exitWorkout() {
   var exec = state.currentExecution;
-  if (window._execInterval) {
-    clearInterval(window._execInterval);
-    window._execInterval = null;
-  }
-  if (exec && exec._timerInterval) {
-    clearInterval(exec._timerInterval);
-    exec._timerInterval = null;
-  }
+  stopExecTimer();
   if (window._restInterval) {
     clearInterval(window._restInterval);
     window._restInterval = null;
   }
-  if (exec && exec.setLogs.length > 0) {
-    saveToHistory(exec, false);
-  }
+  if (exec && exec.setLogs.length > 0) saveToHistory(exec, false);
   state.currentExecution = null;
   navigateTo('workout');
+};
+
+function initWorkoutRest() {
+  var exec = state.currentExecution;
+  if (!exec) return;
+  exec.phase = 'rest';
+  exec.activeRestDuration = exec.restDuration || 30;
+  exec.exerciseStartTime = Date.now();
+  exec.isPaused = false;
+  exec.pausedAt = null;
+  persistExecState();
+  navigateTo('workout-exercise');
+}
+
+window.skipRest = function skipRest() {
+  var exec = state.currentExecution;
+  if (!exec) return;
+  moveToRunningPhase(exec);
+  persistExecState();
+  navigateTo('workout-exercise');
 };
 
 function finishWorkout() {
   var exec = state.currentExecution;
   if (!exec) return;
-
   if (exec._timerInterval) {
     clearInterval(exec._timerInterval);
     exec._timerInterval = null;
   }
-
+  if (window._execInterval) {
+    clearInterval(window._execInterval);
+    window._execInterval = null;
+  }
   exec.totalTime = Math.floor((Date.now() - exec.startTime) / 1000);
   saveToHistory(exec, true);
   state.currentExecution = null;

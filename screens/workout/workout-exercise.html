@@ -18,15 +18,7 @@
         <!-- ===== WORKOUT TAB: Exercise Execution ===== -->
         <div class="screen screen-exercise-figma active" data-screen="workout-exercise">
 
-          <!-- Status Bar -->
-          <div class="ex-fg-status-bar">
-            <span class="status-time">9:41</span>
-            <div class="status-icons">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="10" width="3" height="5" rx="0.5" fill="#0f172a"/><rect x="6" y="7" width="3" height="8" rx="0.5" fill="#0f172a"/><rect x="11" y="3" width="3" height="12" rx="0.5" fill="#0f172a"/></svg>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3c-1.66 0-3.08.69-4.12 1.78l.7.72A4.97 4.97 0 018 4c1.38 0 2.63.56 3.54 1.46l.7-.71A5.97 5.97 0 008 3z" fill="#0f172a"/><path d="M10.83 7.17A3.98 3.98 0 008 6c-1.1 0-2.08.45-2.83 1.17l.71.71A2.99 2.99 0 018 7c.83 0 1.58.34 2.12.88l.71-.71z" fill="#0f172a"/><circle cx="8" cy="11" r="2" fill="#0f172a"/></svg>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="5" width="2" height="6" rx="0.5" fill="#0f172a"/><rect x="5" y="3" width="2" height="8" rx="0.5" fill="#0f172a"/><rect x="9" y="1" width="2" height="10" rx="0.5" fill="#0f172a"/><rect x="13" y="6" width="1.5" height="4" rx="0.5" fill="#0f172a"/></svg>
-            </div>
-          </div>
+
 
           <!-- Snackbar -->
           <div class="wk-snackbar" id="wkSnackbar">
@@ -62,11 +54,42 @@
               <div class="ex-fg-segments" id="wkExecProgressSegments" aria-hidden="true"></div>
             </section>
 
-            <!-- Timer -->
-            <div class="ex-fg-timer">
-              <strong id="wkExecTimer">0:60</strong>
-              <p>Pre-Workout Countdown</p>
-            </div>
+            <section class="ex-fg-phase ex-fg-phase-pre" id="wkExecPrePhase">
+              <div class="ex-fg-timer">
+                <strong id="wkExecPreTimer">0:60</strong>
+                <p>Pre-Workout Countdown</p>
+              </div>
+            </section>
+
+            <section class="ex-fg-phase ex-fg-phase-running" id="wkExecRunningPhase" style="display:none;">
+              <div class="wk-gauge-wrap ex-fg-running-gauge">
+                <div class="wk-gauge-bars" id="wkExecGaugeBars"></div>
+                <strong id="wkExecGaugeTimer">0:12</strong>
+              </div>
+              <div class="ex-fg-action-btns">
+                <button class="ex-fg-action-btn" onclick="addTwentySeconds()" type="button">+20s Rest</button>
+                <button class="ex-fg-action-btn" onclick="skipRestNow()" type="button">Skip Rest</button>
+              </div>
+            </section>
+
+            <section class="ex-fg-phase ex-fg-phase-rest" id="wkExecRestPhase" style="display:none;">
+              <div class="ex-fg-floating-card" id="exFgFloatingCard">
+                <div class="ex-fg-floating-left">
+                  <div class="ex-fg-floating-circle" id="exFgFloatingNum">2</div>
+                  <div class="ex-fg-floating-info">
+                    <strong id="exFgFloatingName">Barbell Row</strong>
+                    <span id="exFgFloatingMeta">4 sets &middot; 8 reps</span>
+                  </div>
+                </div>
+                <button class="ex-fg-floating-more-btn" onclick="advanceToNextExercise()" type="button" aria-label="Continue to exercise">
+                  <span class="ex-fg-floating-ring" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="ex-fg-timer ex-fg-timer-rest">
+                <strong id="wkExecRestTimer">0:30</strong>
+                <p>Rest</p>
+              </div>
+            </section>
 
             <!-- Bottom section: rep info + track progress + video -->
             <div class="ex-fg-bottom">
@@ -99,7 +122,7 @@
 
           <!-- Full-Screen Exercise Info Popup -->
           <div class="ex-fg-info-popup-overlay" id="exerciseInfoOverlay"></div>
-          <div class="ex-fg-info-popup" id="exerciseInfoPopup">
+          <div class="ex-fg-info-popup screen-exercise-detail-figma" id="exerciseInfoPopup">
             <!-- Top Nav -->
             <div class="wk-nav-header">
               <button onclick="closeExerciseInfoPopup()" aria-label="Close">
