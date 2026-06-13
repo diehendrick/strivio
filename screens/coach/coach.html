@@ -1865,9 +1865,13 @@
       justify-content: center;
     }
 
+    .coach-activity-day-item.done .coach-activity-day-check {
+      background: transparent;
+    }
+
     .coach-activity-day-item.today .coach-activity-day-check {
-      border: 1.5px solid var(--color-primary);
-      background: var(--color-primary-container);
+      border: 2px solid var(--color-primary);
+      background: transparent;
     }
 
     .coach-activity-day-check img {
@@ -2086,13 +2090,34 @@
       padding: 14px 6px 1px;
       border-bottom: 1px dashed #cbd5e1;
       box-sizing: border-box;
+      position: relative;
+    }
+
+    .coach-activity-bar-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100%;
+      gap: 4px;
+      z-index: 2;
+    }
+
+    .coach-activity-bar-value {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--color-text-tertiary);
+      text-align: center;
+      line-height: 12px;
+      margin-bottom: 2px;
     }
 
     .coach-activity-bar {
-      flex: 1;
+      width: 100%;
       min-width: 0;
-      border-radius: 4px 4px 9999px 9999px;
-      background: var(--color-default);
+      border-radius: 12px 12px 0 0;
+      background: #64748b;
     }
 
     .coach-activity-bar.accent {
@@ -2105,6 +2130,39 @@
 
     .coach-activity-bar.faint {
       background: var(--color-primary-container);
+    }
+
+    .coach-activity-goal-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 70px;
+      border-top: 1px dashed #cbd5e1;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .coach-activity-goal-label {
+      position: absolute;
+      right: 0;
+      bottom: -11px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .coach-activity-goal-label strong {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      line-height: 13px;
+    }
+
+    .coach-activity-goal-label span {
+      font-size: 10px;
+      color: var(--color-text-tertiary);
+      line-height: 11px;
     }
 
     .coach-activity-day-labels {
@@ -2935,18 +2993,24 @@
                     <div class="coach-activity-day-tracker">
                       <div class="coach-activity-day-item done">
                         <span class="day-label">Sun</span>
-                        <div class="coach-activity-day-check"><img src="../../assets/svg_icons/checkmark.svg" alt=""
-                            style="width:14px;height:14px;"></div>
+                        <div class="coach-activity-day-check">
+                          <span class="icon icon-green"
+                            style="--icon-url: url('../../assets/svg_icons/checkmark.svg'); width: 24px; height: 24px;"></span>
+                        </div>
                       </div>
                       <div class="coach-activity-day-item done">
                         <span class="day-label">Mon</span>
-                        <div class="coach-activity-day-check"><img src="../../assets/svg_icons/checkmark.svg" alt=""
-                            style="width:14px;height:14px;"></div>
+                        <div class="coach-activity-day-check">
+                          <span class="icon icon-green"
+                            style="--icon-url: url('../../assets/svg_icons/checkmark.svg'); width: 24px; height: 24px;"></span>
+                        </div>
                       </div>
                       <div class="coach-activity-day-item done">
                         <span class="day-label">Tue</span>
-                        <div class="coach-activity-day-check"><img src="../../assets/svg_icons/checkmark.svg" alt=""
-                            style="width:14px;height:14px;"></div>
+                        <div class="coach-activity-day-check">
+                          <span class="icon icon-green"
+                            style="--icon-url: url('../../assets/svg_icons/checkmark.svg'); width: 24px; height: 24px;"></span>
+                        </div>
                       </div>
                       <div class="coach-activity-day-item today">
                         <span class="day-label">Wed</span>
@@ -3033,14 +3097,38 @@
                   </div>
                 </div>
                 <div class="coach-activity-bar-chart">
-                  <div class="coach-activity-bar" style="height:45px;"></div>
-                  <div class="coach-activity-bar" style="height:64px;"></div>
-                  <div class="coach-activity-bar" style="height:14px;"></div>
-                  <div class="coach-activity-bar success" style="height:64px;"></div>
-                  <div class="coach-activity-bar accent" style="height:14px;flex:33;"></div>
-                  <div class="coach-activity-bar faint" style="height:1px;flex:33;"></div>
-                  <div class="coach-activity-bar faint" style="height:1px;flex:33;"></div>
-                  <div class="coach-activity-bar faint" style="height:1px;flex:33;"></div>
+                  <!-- Goal Line -->
+                  <div class="coach-activity-goal-line">
+                    <div class="coach-activity-goal-label">
+                      <strong>10k</strong>
+                      <span>Goal</span>
+                    </div>
+                  </div>
+                  
+                  <div class="coach-activity-bar-wrapper">
+                    <span class="coach-activity-bar-value">7.1k</span>
+                    <div class="coach-activity-bar" style="height:52px;"></div>
+                  </div>
+                  <div class="coach-activity-bar-wrapper">
+                    <span class="coach-activity-bar-value">12.3k</span>
+                    <div class="coach-activity-bar success" style="height:86px;"></div>
+                  </div>
+                  <div class="coach-activity-bar-wrapper">
+                    <span class="coach-activity-bar-value">1.3k</span>
+                    <div class="coach-activity-bar accent" style="height:16px;"></div>
+                  </div>
+                  <div class="coach-activity-bar-wrapper">
+                    <div class="coach-activity-bar faint" style="height:0px;"></div>
+                  </div>
+                  <div class="coach-activity-bar-wrapper">
+                    <div class="coach-activity-bar faint" style="height:0px;"></div>
+                  </div>
+                  <div class="coach-activity-bar-wrapper">
+                    <div class="coach-activity-bar faint" style="height:0px;"></div>
+                  </div>
+                  <div class="coach-activity-bar-wrapper">
+                    <div class="coach-activity-bar faint" style="height:0px;"></div>
+                  </div>
                 </div>
                 <div class="coach-activity-day-labels">
                   <span class="coach-activity-day-label">M</span>
@@ -3077,7 +3165,7 @@
                     <span class="coach-activity-badge">This Week</span>
                     <div class="coach-activity-stat" style="gap:10px;">
                       <span class="icon"
-                        style="--icon-url:url('../../assets/svg_icons/flame.svg');width:24px;height:24px;background-color:var(--color-secondary);"></span>
+                        style="--icon-url:url('../../assets/svg_icons/endurance.svg');width:24px;height:24px;background-color:var(--color-tertiary);"></span>
                       <div class="coach-activity-stat-text">
                         <strong>346 kcal</strong>
                         <span>Daily Avg</span>
@@ -3086,14 +3174,30 @@
                   </div>
                 </div>
                 <div class="coach-activity-bar-chart">
-                  <div class="coach-activity-bar" style="height:45px;"></div>
-                  <div class="coach-activity-bar" style="height:64px;"></div>
-                  <div class="coach-activity-bar" style="height:14px;"></div>
-                  <div class="coach-activity-bar success" style="height:64px;"></div>
-                  <div class="coach-activity-bar accent" style="height:14px;flex:33;"></div>
-                  <div class="coach-activity-bar faint" style="height:1px;flex:33;"></div>
-                  <div class="coach-activity-bar faint" style="height:1px;flex:33;"></div>
-                  <div class="coach-activity-bar faint" style="height:1px;flex:33;"></div>
+                  <div class="coach-activity-bar-wrapper">
+                    <span class="coach-activity-bar-value">7.1k</span>
+                    <div class="coach-activity-bar" style="height:52px;"></div>
+                  </div>
+                  <div class="coach-activity-bar-wrapper">
+                    <span class="coach-activity-bar-value">12.3k</span>
+                    <div class="coach-activity-bar" style="height:86px;"></div>
+                  </div>
+                  <div class="coach-activity-bar-wrapper">
+                    <span class="coach-activity-bar-value">1.3k</span>
+                    <div class="coach-activity-bar accent" style="height:16px;"></div>
+                  </div>
+                  <div class="coach-activity-bar-wrapper">
+                    <div class="coach-activity-bar faint" style="height:0px;"></div>
+                  </div>
+                  <div class="coach-activity-bar-wrapper">
+                    <div class="coach-activity-bar faint" style="height:0px;"></div>
+                  </div>
+                  <div class="coach-activity-bar-wrapper">
+                    <div class="coach-activity-bar faint" style="height:0px;"></div>
+                  </div>
+                  <div class="coach-activity-bar-wrapper">
+                    <div class="coach-activity-bar faint" style="height:0px;"></div>
+                  </div>
                 </div>
                 <div class="coach-activity-day-labels">
                   <span class="coach-activity-day-label">M</span>
