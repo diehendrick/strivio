@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Strivio — Your Personalized Plan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,43 +20,81 @@
       <div class="phone-notch"></div>
       <div class="screens-wrapper" id="screensWrapper">
 
-        <!-- SCREEN 3: Q2 — Primary Goals (Multi-Select) -->
+        <!-- SCREEN 3: Q2 — Primary Goals (Weight + Fitness) -->
         <div class="screen active" data-screen="q2">
           <div class="progress-section">
             <div class="progress-bar">
-              <div class="progress-fill" style="width:13.33%"></div>
+              <div class="progress-fill" style="width:12.5%"></div>
             </div>
-            <span class="progress-label">Question 2 of 15</span>
+            <span class="progress-label">Question 2 of 16</span>
           </div>
           <div class="question-content scrollable">
             <div class="question-icon">
               <img src="../../assets/illustration/option=goal.svg" alt="">
             </div>
             <h2 class="question-title">What are your primary goals?</h2>
-            <div class="helper-row">
-              <p class="question-helper">Select up to 2</p>
-              <span class="select-counter" id="goalsCounter">0/2</span>
+            <p class="question-subtitle">Choose one goal from each section.</p>
+
+            <!-- Section 1: Weight Goal -->
+            <div class="goal-section" id="weightGoalSection">
+              <div class="section-header-wrapper">
+                <div class="section-header">Weight goal</div>
+                <p class="section-subtitle">Choose 1</p>
+              </div>
+              <div class="list-card" data-value="lose_weight">
+                <span class="icon card-icon"
+                  style="--icon-url: url('../../assets/svg_icons/weight.svg'); width: 22px; height: 22px; background-color: var(--color-primary);"
+                  aria-hidden="true"></span>
+                <span class="card-label">Lose weight</span>
+                <span class="radio-indicator"></span>
+              </div>
+              <div class="list-card" data-value="gain_weight">
+                <span class="icon card-icon"
+                  style="--icon-url: url('../../assets/svg_icons/body.svg'); width: 22px; height: 22px; background-color: var(--color-tertiary);"
+                  aria-hidden="true"></span>
+                <span class="card-label">Gain Weight</span>
+                <span class="radio-indicator"></span>
+              </div>
+              <div class="list-card" data-value="maintain_weight">
+                <span class="icon card-icon"
+                  style="--icon-url: url('../../assets/svg_icons/bullseye-arrow.svg'); width: 22px; height: 22px; background-color: var(--color-warning);"
+                  aria-hidden="true"></span>
+                <span class="card-label">Maintain Weight</span>
+                <span class="radio-indicator"></span>
+              </div>
             </div>
-            <div class="option-cards multi-select" data-max="2" data-key="goals" id="goalsOptions">
-              <div class="option-card" data-value="lose_weight"><span class="icon icon-navy"
-                  style="--icon-url: url('../../assets/svg_icons/weight.svg'); width: 22px; height: 22px;" aria-hidden="true"></span><span class="option-label">Lose weight</span><span
-                  class="option-check"></span></div>
-              <div class="option-card" data-value="build_muscle"><span class="icon icon-red"
-                  style="--icon-url: url('../../assets/svg_icons/muscle.svg'); width: 22px; height: 22px;" aria-hidden="true"></span><span class="option-label">Build muscle</span><span
-                  class="option-check"></span></div>
-              <div class="option-card" data-value="endurance"><span class="icon icon-blue"
-                  style="--icon-url: url('../../assets/svg_icons/endurance.svg'); width: 22px; height: 22px;" aria-hidden="true"></span><span class="option-label">Improve endurance</span><span
-                  class="option-check"></span></div>
-              <div class="option-card" data-value="flexibility"><span class="icon icon-teal"
-                  style="--icon-url: url('../../assets/svg_icons/running.svg'); width: 22px; height: 22px;" aria-hidden="true"></span><span class="option-label">Increase flexibility</span><span
-                  class="option-check"></span></div>
-              <div class="option-card" data-value="stronger"><span class="icon icon-amber"
-                  style="--icon-url: url('../../assets/svg_icons/gym.svg'); width: 22px; height: 22px;" aria-hidden="true"></span><span class="option-label">General fitness</span><span
-                  class="option-check"></span></div>
+
+            <!-- Section 2: Fitness Goal -->
+            <div class="goal-section" id="fitnessGoalSection">
+              <div class="section-header-wrapper">
+                <div class="section-header">Fitness goal</div>
+                <p class="section-subtitle">Choose 1</p>
+              </div>
+              <div class="list-card" data-value="build_muscle">
+                <span class="icon card-icon"
+                  style="--icon-url: url('../../assets/svg_icons/muscle.svg'); width: 22px; height: 22px; background-color: var(--color-primary);"
+                  aria-hidden="true"></span>
+                <span class="card-label">Build Muscle</span>
+                <span class="radio-indicator"></span>
+              </div>
+              <div class="list-card" data-value="stay_fit">
+                <span class="icon card-icon"
+                  style="--icon-url: url('../../assets/svg_icons/hearth-rate.svg'); width: 22px; height: 22px; background-color: var(--color-warning);"
+                  aria-hidden="true"></span>
+                <span class="card-label">Stay Fit</span>
+                <span class="radio-indicator"></span>
+              </div>
+              <div class="list-card" data-value="get_stronger">
+                <span class="icon card-icon"
+                  style="--icon-url: url('../../assets/svg_icons/dumbbell-ray.svg'); width: 22px; height: 22px; background-color: var(--color-error);"
+                  aria-hidden="true"></span>
+                <span class="card-label">Get Stronger</span>
+                <span class="radio-indicator"></span>
+              </div>
             </div>
           </div>
           <div class="cta-section">
-            <button class="btn-primary" id="btnQ2" disabled onclick="saveAndNext('q2','goals','q3')">Continue</button>
+            <button class="btn-primary" id="btnQ2" disabled onclick="saveAndNext('q2',null,'q3')">Continue</button>
           </div>
         </div>
 

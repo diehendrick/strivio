@@ -254,6 +254,7 @@ body::before {
   display: flex;
   flex-direction: column;
   padding-bottom: 16px;
+  padding-top: var(--spacing-s48);
 }
 
 .question-content.scrollable {
@@ -293,11 +294,11 @@ body::before {
 .question-title {
   font-family: var(--font-display);
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 800;
   font-optical-sizing: auto;
   line-height: 32px;
   color: #0f172a;
-  margin-bottom: 16px;
+  margin-bottom: 4px;
   letter-spacing: -0.01em;
   text-align: center;
 }
@@ -429,6 +430,7 @@ body::before {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-top: var(--spacing-s24);
 }
 
 .option-card {
@@ -500,7 +502,7 @@ body::before {
 .option-label {
   font-family: var(--font-display);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   color: #0f172a;
   line-height: 20px;
   flex: 1;
@@ -562,6 +564,106 @@ body::before {
   border-left: 2px solid white;
   border-bottom: 2px solid white;
   transform: rotate(-45deg) translateY(-1px);
+}
+
+/* ===== GOAL SECTIONS (Q2 Two-Section Layout) ===== */
+.question-subtitle {
+  font-family: var(--font-body);
+  font-size: var(--typography-body-large-font-size);
+  font-weight: var(--typography-body-large-font-weight);
+  line-height: var(--typography-body-large-line-height);
+  letter-spacing: var(--typography-body-large-letter-spacing);
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.goal-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s8);
+  margin-bottom: var(--spacing-s24);
+}
+
+.section-header-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s2);
+}
+
+.section-header {
+  font-family: var(--typography-title-small-font-family);
+  font-size: var(--typography-title-small-font-size);
+  font-weight: var(--typography-title-small-font-weight);
+  line-height: var(--typography-title-small-line-height);
+  letter-spacing: var(--typography-title-small-letter-spacing);
+  color: var(--color-text-primary);
+}
+
+.section-subtitle {
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-weight: var(--typography-body-small-font-weight);
+  line-height: var(--typography-body-small-line-height);
+  letter-spacing: var(--typography-body-small-letter-spacing);
+  color: var(--color-text-tertiary);
+}
+
+/* List Card (radio-style selection card) */
+.list-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: var(--spacing-s14) var(--spacing-s16);
+  border-radius: var(--radius-r12);
+  background: var(--color-background);
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  transition: border-color 200ms ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.list-card:active {
+  transform: scale(0.99);
+}
+
+.list-card .card-icon {
+  flex-shrink: 0;
+  background-color: var(--color-primary);
+}
+
+.list-card .card-label {
+  flex: 1;
+  font-family: var(--typography-label-large-font-family);
+  font-size: var(--typography-label-large-font-size);
+  font-weight: var(--typography-label-large-font-weight);
+  line-height: var(--typography-label-large-line-height);
+  letter-spacing: var(--typography-label-large-letter-spacing);
+  color: var(--color-text-primary);
+}
+
+.list-card .radio-indicator {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--color-progress-track);
+  flex-shrink: 0;
+  transition: all 200ms ease-out;
+}
+
+.list-card.selected {
+  border-color: var(--color-primary);
+}
+
+.list-card.selected .radio-indicator {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  box-shadow: inset 0 0 0 3px var(--color-background);
+}
+
+/* Progress fill override for q2 — uses tertiary color */
+.screen[data-screen="q2"] .progress-fill {
+  background: var(--color-primary);
 }
 
 /* ===== INPUT FIELDS ===== */
@@ -757,19 +859,95 @@ body::before {
   margin-top: 2px;
 }
 
-.pace-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--navy);
-  text-align: center;
-  margin-top: 16px;
+/* Weeks Slider Labels (q10) */
+.weeks-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 0 2px;
 }
 
-.pace-timeline {
-  font-size: 14px;
-  color: var(--text-secondary);
+.slider-label-left,
+.slider-label-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.slider-label-right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.slider-min-label,
+.slider-max-label {
+  font-family: var(--typography-title-small-font-family);
+  font-size: var(--typography-title-small-font-size);
+  font-weight: var(--typography-title-small-font-weight);
+  line-height: var(--typography-title-small-line-height);
+  letter-spacing: var(--typography-title-small-letter-spacing);
+  color: var(--color-text-primary);
+}
+
+.slider-min-sub,
+.slider-max-sub {
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-weight: var(--typography-body-small-font-weight);
+  line-height: var(--typography-body-small-line-height);
+  color: var(--color-text-tertiary);
+}
+
+/* Pace Display (q10) */
+.pace-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 24px;
+}
+
+.pace-selected {
+  font-family: var(--typography-body-large-font-family);
+  font-size: var(--typography-body-large-font-size);
+  font-weight: var(--typography-body-large-font-weight);
+  line-height: var(--typography-body-large-line-height);
+  letter-spacing: var(--typography-body-large-letter-spacing);
+  color: var(--color-primary);
   text-align: center;
-  margin-top: 4px;
+}
+
+.pace-estimate {
+  font-family: var(--typography-body-medium-font-family);
+  font-size: var(--typography-body-medium-font-size);
+  font-weight: var(--typography-body-medium-font-weight);
+  line-height: var(--typography-body-medium-line-height);
+  letter-spacing: var(--typography-body-medium-letter-spacing);
+  color: var(--color-text-tertiary);
+  text-align: center;
+}
+
+/* Recommendation Row (q10) */
+.recommendation-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-s4);
+  margin-top: var(--spacing-s16);
+}
+
+.recommendation-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.recommendation-text {
+  font-family: var(--typography-body-small-font-family);
+  font-size: var(--typography-body-small-font-size);
+  font-weight: var(--typography-body-small-font-weight);
+  line-height: var(--typography-body-small-line-height);
+  color: var(--color-text-tertiary);
 }
 
 /* ===== DAY CHIPS ===== */
@@ -2307,7 +2485,7 @@ body::before {
   height: 52px;
   border: none;
   border-radius: var(--radius-full);
-  background: var(--navy);
+  background: var(--color-primary);
   color: white;
   font-family: var(--font-body);
   font-size: 16px;
@@ -2321,16 +2499,22 @@ body::before {
   -webkit-tap-highlight-color: transparent;
 }
 
+.btn-primary:hover {
+  filter: brightness(1.15);
+}
+
 .btn-primary:active {
-  background: var(--navy-light);
+  filter: brightness(0.85);
   transform: scale(0.98);
 }
 
 .btn-primary:disabled {
-  background: var(--navy-muted);
-  color: #64748b;
+  background: var(--color-primary-container);
+  color: var(--color-text-tertiary);
+  opacity: 0.5;
   cursor: default;
   transform: none;
+  filter: none;
 }
 
 .btn-welcome {
@@ -2484,6 +2668,8 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: var(--spacing-s48);
+
 }
 
 .illustration-circle {
@@ -2506,7 +2692,7 @@ body::before {
 .welcome-title {
   font-family: var(--font-display);
   font-size: 28px;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 36px;
   color: #0f172a;
   letter-spacing: -0.02em;
@@ -2796,7 +2982,7 @@ body::before {
   z-index: 2;
   left: 24px;
   right: 24px;
-  top: 515px;
+  top: 64%;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -2808,6 +2994,7 @@ body::before {
   flex-direction: column;
   gap: 12px;
   width: 100%;
+  height: 140px;
   color: #fff;
 }
 
@@ -2826,7 +3013,7 @@ body::before {
 
 .onboarding-body {
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 20px;
   color: #fff;
@@ -26194,6 +26381,7 @@ body::before {
 }
 
 @keyframes barcodeScanLine {
+
   0%,
   100% {
     transform: translateY(0);

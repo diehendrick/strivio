@@ -22,6 +22,8 @@ const BASE_PATH = getBasePath();
 const state = window.__strivio_state = {
   name: 'Mike Michel',
   goals: [],
+  weightGoal: '',
+  fitnessGoal: '',
   motivations: [],
   gender: '',
   activity: '',
@@ -30,6 +32,7 @@ const state = window.__strivio_state = {
   weight: null,
   targetWeight: null,
   pace: 0.5,
+  weeks: null,
   diet: '',
   location: '',
   fitness: '',
@@ -72,7 +75,6 @@ const state = window.__strivio_state = {
   }
 };
 
-const paceValues = [0.25, 0.5, 1.0, 1.5];
 const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 let currentScreen = 'splash';
@@ -105,6 +107,7 @@ const screenPaths = {
   'q13': BASE_PATH + '/screens/onboarding/q13.html',
   'q14': BASE_PATH + '/screens/onboarding/q14.html',
   'q15': BASE_PATH + '/screens/onboarding/q15.html',
+  'q16': BASE_PATH + '/screens/onboarding/q16.html',
   'conflicts': BASE_PATH + '/screens/onboarding/conflicts.html',
   'coach': BASE_PATH + '/screens/onboarding/coach.html',
   'coach-main': BASE_PATH + '/screens/coach/coach.html',
@@ -212,7 +215,7 @@ function saveAndNext(screenId, key, nextScreen) {
   // Save data from the current screen
   switch(screenId) {
     case 'q1': state.name = document.getElementById('inputName')?.value.trim() || ''; break;
-    case 'q2': state.goals = getSelectedValues('goalsOptions'); break;
+    case 'q2': state.weightGoal = getGoalSelection('weightGoalSection'); state.fitnessGoal = getGoalSelection('fitnessGoalSection'); state.goals = [state.weightGoal, state.fitnessGoal].filter(Boolean); break;
     case 'q3': state.motivations = getSelectedValues('motivOptions'); break;
     case 'q4': state.gender = getSelectedValue('genderOptions'); break;
     case 'q5': state.activity = getSelectedValue('activityOptions'); break;
@@ -220,11 +223,12 @@ function saveAndNext(screenId, key, nextScreen) {
     case 'q7': state.height = parseInt(document.getElementById('inputHeight')?.value || 0) || null; break;
     case 'q8': state.weight = parseFloat(document.getElementById('inputWeight')?.value || 0) || null; break;
     case 'q9': state.targetWeight = parseFloat(document.getElementById('inputTargetWeight')?.value || 0) || null; break;
-    case 'q10': state.pace = paceValues[parseInt(document.getElementById('paceSlider')?.value || 1)]; break;
+    case 'q10': state.weeks = parseInt(document.getElementById('weeksSlider')?.value || 16); state.pace = state.weight && state.targetWeight ? Math.abs(state.targetWeight - state.weight) / state.weeks : 0.5; break;
     case 'q11': state.diet = getSelectedValue('dietOptions'); break;
     case 'q12': state.fitness = getSelectedValue('fitnessOptions'); break;
     case 'q13': state.location = getSelectedValue('locationOptions'); break;
     case 'q14': state.frequency = parseInt(document.getElementById('freqSlider')?.value || 4); break;
+    case 'q15': state.workoutDuration = getGoalSelection('workoutDurationSection'); break;
   }
 
   navigateTo(nextScreen);
@@ -243,6 +247,12 @@ function getSelectedValues(containerId) {
   if (!container) return [];
   const selected = container.querySelectorAll('.option-card.selected');
   return Array.from(selected).map(el => el.dataset.value);
+}
+function getGoalSelection(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return '';
+  const selected = container.querySelector('.list-card.selected');
+  return selected ? selected.dataset.value : '';
 }
 
 // ===== INIT OPTION CARDS =====
@@ -301,6 +311,34 @@ function initOptionCards() {
       });
     });
   });
+}
+
+// ===== INIT GOAL SECTIONS (Q2 — two-section single-select) =====
+function initGoalSections() {
+  document.querySelectorAll('.goal-section').forEach(section => {
+    section.querySelectorAll('.list-card').forEach(card => {
+      card.addEventListener('click', () => {
+        // Deselect all within this section
+        section.querySelectorAll('.list-card').forEach(c => c.classList.remove('selected'));
+        // Select the clicked card
+        card.classList.add('selected');
+        // Enable CTA when all sections have a selection
+        const screen = section.closest('.screen');
+        updateGoalSectionsButton(screen);
+      });
+    });
+  });
+}
+
+function updateGoalSectionsButton(screen) {
+  if (!screen) return;
+  const sections = screen.querySelectorAll('.goal-section');
+  const btn = screen.querySelector('.btn-primary');
+  if (!btn) return;
+  const allSelected = Array.from(sections).every(
+    s => s.querySelector('.list-card.selected')
+  );
+  btn.disabled = !allSelected;
 }
 
 // ===== INIT TEXT INPUT =====
@@ -368,79 +406,74 @@ function updateWeightRef() {
   diffEl.className = 'weight-ref-line weight-diff ' + (diff < 0 ? 'loss' : diff > 0 ? 'gain' : '');
 }
 
-// ===== SLIDERS =====
-function initSliders() {
-  const paceSlider = document.getElementById('paceSlider');
-  const freqSlider = document.getElementById('freqSlider');
+// ===== INIT Q10 — Weeks-based weight timeline slider =====
+function initQ10() {
+  const slider = document.getElementById('weeksSlider');
+  if (!slider) return;
 
-  if (paceSlider) {
-    paceSlider.addEventListener('input', () => {
-      const val = paceValues[parseInt(paceSlider.value)];
-      state.pace = val;
-      document.getElementById('paceValue').textContent = `Selected: ${val} kg/week`;
-      updatePaceTimeline();
-      const warning = document.getElementById('paceWarning');
-      if (warning) warning.style.display = 'none';
-    });
-  }
+  const currentWeight = state.weight;
+  const targetWeight = state.targetWeight;
 
-  if (freqSlider) {
-    freqSlider.addEventListener('input', () => {
-      state.frequency = parseInt(freqSlider.value);
-      document.getElementById('freqValue').textContent = `Selected: ${state.frequency} days/week`;
-    });
-  }
-}
-
-function updatePaceTimeline() {
-  const el = document.getElementById('paceTimeline');
-  if (!el) return;
-  if (!state.weight || !state.targetWeight || !state.pace) {
-    el.textContent = 'At this pace, you\'ll reach your goal soon';
+  // Edge case: missing weight data — redirect
+  if (!currentWeight || !targetWeight) {
+    alert('Please enter your current and target weight first.');
+    navigateTo('q8');
     return;
   }
-  const diff = Math.abs(state.targetWeight - state.weight);
-  if (diff === 0) {
-    el.textContent = 'You\'re already at your target weight!';
-    return;
-  }
-  const weeks = Math.round(diff / state.pace);
-  el.textContent = `At this pace, you'll reach your goal in ~${weeks} weeks`;
-}
 
-function validatePace() {
-  state.pace = paceValues[parseInt(document.getElementById('paceSlider')?.value || 1)];
-
-  if (!state.weight || !state.targetWeight) {
+  // Edge case: maintain weight or same weight — skip this screen
+  if (state.weightGoal === 'maintain_weight' || currentWeight === targetWeight) {
     navigateTo('q11');
     return;
   }
 
-  const diff = Math.abs(state.targetWeight - state.weight);
-  const weeks = diff / state.pace;
-
-  if (state.pace >= 1.0 && diff > 10) {
-    const warning = document.getElementById('paceWarning');
-    if (warning) warning.style.display = 'flex';
+  // Edge case: validation for lose/gain weight
+  if (state.weightGoal === 'lose_weight' && targetWeight >= currentWeight) {
+    alert('Your target weight should be lower than your current weight for weight loss.');
+    navigateTo('q9');
+    return;
+  }
+  if (state.weightGoal === 'gain_weight' && targetWeight <= currentWeight) {
+    alert('Your target weight should be higher than your current weight for weight gain.');
+    navigateTo('q9');
     return;
   }
 
-  navigateTo('q11');
+  const goalKg = Math.abs(currentWeight - targetWeight);
+  const fastestSafePace = 1.5;
+  const slowestPace = 0.1;
+  const recommendedPace = 0.5;
+
+  const minWeeks = Math.max(1, Math.ceil(goalKg / fastestSafePace));
+  const maxWeeks = Math.max(minWeeks, Math.ceil(goalKg / slowestPace));
+  const recommendedWeeks = Math.min(maxWeeks, Math.max(minWeeks, Math.ceil(goalKg / recommendedPace)));
+
+  slider.min = minWeeks;
+  slider.max = maxWeeks;
+  slider.value = recommendedWeeks;
+
+  document.getElementById('minWeeksLabel').textContent = minWeeks + ' Weeks';
+  document.getElementById('maxWeeksLabel').textContent = maxWeeks + ' Weeks';
+  document.getElementById('selectedWeeks').textContent = 'Selected: ' + recommendedWeeks + ' weeks';
+  document.getElementById('estimatedPace').textContent = 'Estimated pace: ' + (goalKg / recommendedWeeks).toFixed(1) + ' kg/week';
+
+  slider.addEventListener('input', () => {
+    const selectedWeeks = parseInt(slider.value);
+    const weeklyPace = goalKg / selectedWeeks;
+    document.getElementById('selectedWeeks').textContent = 'Selected: ' + selectedWeeks + ' weeks';
+    document.getElementById('estimatedPace').textContent = 'Estimated pace: ' + weeklyPace.toFixed(1) + ' kg/week';
+  });
 }
 
-function adjustPace() {
-  const slider = document.getElementById('paceSlider');
-  if (slider) slider.value = 1; // 0.5 kg/week
-  state.pace = 0.5;
-  document.getElementById('paceValue').textContent = 'Selected: 0.5 kg/week';
-  updatePaceTimeline();
-  document.getElementById('paceWarning').style.display = 'none';
-}
-
-function dismissPaceWarning() {
-  const warning = document.getElementById('paceWarning');
-  if (warning) warning.style.display = 'none';
-  navigateTo('q11');
+// ===== SLIDERS (q14 freq slider) =====
+function initSliders() {
+  const freqSlider = document.getElementById('freqSlider');
+  if (freqSlider) {
+    freqSlider.addEventListener('input', () => {
+      state.frequency = parseInt(freqSlider.value);
+      document.getElementById('freqValue').textContent = 'Selected: ' + state.frequency + ' days/week';
+    });
+  }
 }
 
 // ===== DAY CHIPS =====
@@ -7717,9 +7750,11 @@ if (typeof document !== 'undefined') {
     }
 
     initOptionCards();
+    initGoalSections();
     initTextInputs();
     initNumericInputs();
     initSliders();
+    initQ10();
     initDayChips();
     initCoachCards();
     initPasswordToggles();
