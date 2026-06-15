@@ -1,5 +1,8 @@
 /* ===== STRIVIO — Onboarding App Logic ===== */
 
+// Increment this on each deploy to force cache refresh across all clients
+const APP_VERSION = '1';
+
 // Dynamic base path detection - works regardless of deployment location
 const getBasePath = () => {
   const script = document.currentScript || document.querySelector('script[src*="app.js"]');
